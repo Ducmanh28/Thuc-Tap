@@ -23,7 +23,7 @@ Tạo điều kiện giao tiếp giữa các ứng dụng trên các hệ thốn
 - Dịch vụ thư
 ### 1.4 Nguyên tắc của các ứng dụng mạng:
 Cốt lõi của phát triển ứng dụng mạng là viết các chương trình chạy trên các hệ thống đầu cuối khác nhau và sử dụng mạng để liên lạc
-![Alt text](image1.png)
+![Alt text](/Anh/image1.png)
 Mạng máy tính được chia ra làm các mô hình mạng khác nhau như: mạng ngang hàng(Peer to Peer), mạng khách - chủ(Client - Server) và mạng theo mô hình lai(Hybrid)
 + Mô hình ngang hàng(**Peer to peer**): 
     + Tất cả các máy đều là máy chủ, đồng thời cũng là máy khách
@@ -46,7 +46,7 @@ Tầng Ứng dụng được phát triển với 2 lớp con
 - VD: Truyền tệp, truy cập cơ sở dữ liệu từ xa, thông tin quản lý ứng dụng và xử lý giao dịch
 ## 3. Các giao thức phổ biến
 ### 3.1. Giao thức FTP
-![Alt text](image.png)
+![Alt text](/Anh/image.png)
 #### 3.1.1 Giao thức FTP là gì?
 - Giao thức **FTP**(File Transfer Protocol) là một giao thức truyền tải tập tin từ máy này sang máy khác thông qua mạng. 
 - Người sử dụng có thể truyền tải dữ liệu như hình ảnh, văn bản, các tập tin nhạc, video,... từ máy tính cá nhân lên máy chủ đặt ở 1 nơi khác 1 cách dễ dàng.
