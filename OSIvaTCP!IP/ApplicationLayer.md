@@ -55,11 +55,131 @@ Tầng Ứng dụng được phát triển với 2 lớp con
 - Đảm bảo việc chia sẻ tập tin trên môi trường mạng
 - Truyền dữ liệu hiệu quả và đáng tin cậy
 #### 3.1.3 Cách FTP hoạt động
+![Alt text](/Anh/image2.png)
 Dựa trên 2 tiến trình cơ bản, xảy ra giữa `Client FTP - Server FTP`
 - Control connection: Được hiểu là kiểm soát kết nối. Tiến trình này cho phép thực hiện công việc giám sát dữ liệu khi đi qua và trong suốt quá trình trao đổi
 - Data connection: Thực hiện kết nối dữ liệu qua lại giữa máy chủ và máy khách(chỉ dừng lại khi nhiệm vụ hoàn tất)
+
+Đầu tiên, user agent thiết lập 1 kết nối điều kiển trên cổng 21 tới FTP server. Sau khi đã thỏa thuận các tham số truyền/nhận, 2 bên sẽ thiết lập 1 kênh dữ liệu chạy trên cổng 20. Dữ liệu của các tập tin được trao đổi qua lại giữa user agent và server sẽ chạy trên kênh dữ liệu này. Kênh dữ liệu là kênh hoạt động theo phương thức 2 chiều và không nhất thiết phải luôn tồn tại
 #### 3.1.4 Các phương thức truyền
 
-|Vai trò|Ý nghĩa |
+|Phương Thức|Ý nghĩa |
 |-------|--------| 
-|ahahdahd|àlasjfkjf|
+|Stream mode| Truyền tập tin không có cấu trúc dạng header. Dựa vào tính tin cậy trong việc truyền dữ liệu và thông qua kết nối TCP tới phía nhận nên chỉ cần ngắt kết nối là dữ liệu cũng kết thúc|
+|Block mode|Các dữ liệu truyền được chia làm nhiều đoạn nhỏ sau đó được đóng gói lại thành các "FPT blocks", mỗi gói đều chứa thông tin dữ liệu và điều này sẽ giúp việc truyền dữ liệu an toàn, đúng chuẩn hơn |
+|Compressed mode|Cơ chế này sẽ được áp dụng nếu như tệp tin cần chuyển đi/ tải về có dung lượng quá lớn. Thay vì truyền tải theo cách thông thường, cơ chế này sẽ giúp chúng ta nén các tệp tin lớn lại r chuyển đi một cách đơn giản hơn nhiều|
+#### 3.1.5 Chế độ hoạt động:
+- Trước tiên ta cần phải hiểu Port Number là gì?
+    
+    + Hai máy tính bất kỳ khi làm việc với nhau thì chúng phải khởi tạo 1 connection, đồng nghĩa với việc mỗi máy tính phải mở 1 port nào đó để truyền tin cho nhau
+    + Trên 1 máy tính có thể mở 65535 Port để chạy dịch vụ
+        + Port từ 1-1023 là các Port đặc biệt được dùng mặc định cho các dịch vụ được IANA quy định. VD: Port22 cho SSH, 25/SMTP, 60/HTTP, 443/SSL,... Tuy nhiên ta vẫn có thể thay đổi theo ý muốn
+        + Port từ 1024-65535 là những Port cao được dùng cho các dịch vụ của cá nhân, tổ chức nào đó như 3306/MySQL, 3389/Remote Desktop,...
+- FPT Active Mode:
+![Alt text](/Anh/image3.png)
+    Client sẽ mở 1 port bất kỳ kết nối với port 21 của server và gửi 1 gói tin SYN. Server đồng ý và gửi lại gói tin SYN/ACK từ Port21 về Client.Client sẽ gửi lại gói tin ACK đến Port 21 trên Client để đồng ý tạo kết nối=> Kết nối được khởi tạo xong.
+    Tiếp đó Client sử dụng Connection Control đã tạo ở trên để gửi command Port yêu cầu Server dùng ACtive Mode để truyền file. Đồng thời thông báo cho Server rằng Client sẽ mở Port mới để chờ tạo Connection Data. Server sau khi nhận được yêu cầu sẽ tiến hành đàm phán bắt tay 3 bước với Client. Sau đó việc gửi Data sẽ được bát đầu
+- FTP Passive Mode:
+![Alt text](/Anh/image4.png)
+    Qúa trình tạo Connection Control giống hệt so với Active Mode. Ở phần tạo connection data, FPT Client sẽ chủ động gửi command `PASV`. Server nhận được yêu cầu -> Mở 1 Port mới và trả lời cho Client biết rằng sẽ dùng Port đó để tạo Connection Data. Lúc này, Client cũng sẽ tạo 1 Port mới và tiến hành đàm phán 3 bước với Server. Sau đó quá trình truyền nhận dữ liệu sẽ bắt đầu
+#### 3.1.6 Một số lệnh cơ bản:
+|Lệnh|Tham số|Ý nghĩa|
+|---|---|----|
+|FTP|host-name|Nối kết FTP đến serveer có địa chỉ host-name|
+|User|user-name|Cung cấp tên người dùng cho FTP server|
+|ASCII||Chỉ định kiểu dữ liệu truyền nhận là ký tự|
+|BINARY||Chỉ định kiểu dữ liệu truyền nhận là nhị phân|
+|LS||Xem nội dung thư mục từ xa|
+|CD|remote-dir|Chuyển đến thư mục khác trong hệ thống tập tin từ xa|
+|GET|remote-file local-file|Tải tập tin remote-file trên FTP server về hệ thống|
+|PUT|local-file remote-file|Tải tập tin remote-file từ hệ thống lên FTP server|
+|MKDIR|dir-name|Tạo 1 thư mục có tên dir-name trên hệ thống tập|
+|RMDIR|dir-name|Xóa thư mục có tên dir-name trên hệ thống tập|
+|QUIT||THOÁT|
+### 3.2 Giao thức **SMTP**
+#### 3.2.1 Định nghĩa
+- **SMTP**(Simple Mail Transfer Protocol) là giao thức chuẩn TCP/IP dể truyền tải thư điện tử(e-mail) trên mạng internet
+- POP3(Post Office Protocol version 3) được sử dụng để kết nối tới server email và tải email xuống máy tính cá nhân thông qua 1 ứng dụng email
+- IMAP(Internet Message Access Protocol) được dùng để kéo email về email clients, tuy nhiên nó chỉ kéo email headers về còn nội dung vẫn còn trên server. Đây là kênh liên lạc 2 chiều, thay đổi trên mail client sẽ được chuyển tới server. 
+#### 3.2.2 Cách làm việc?
+![Alt text](/Anh/image5.png)
+- Sau khi tạo email và gửi, ứng dụng email sẽ dùng SMTP để gửi thư từ ứng dụng đến email server
+- Tiếp đó, máy chủ email sẽ sử dụng SMTP để gửi email đến server người nhận
+- Sau khi nhận thành công, ứng dụng email khách của người nhận sẽ tìm nạp thư bằng IMAP/POP3 và đặt nó vào hộp thư đến để người nhận truy cập
+### 3.3 DNS
+#### 3.3.1 DNS là gì?
+- DNS(Domain Name Sýteam) là 1 hệ thống giúp con người và máy tính giao tiếp dễ hơn. DNS giúp biên dịch tên website hay hostname thành ngôn ngữ mà máy tính có thể hiểu được
+- Cơ bản thì DNS là 1 hệ thống biến đổi tên website thành địa chỉ IP. Thông tin của từng tên miền ứng với địa chỉ IP nào thì được ghi lại trong 1 "thư viện danh bạ", và thư viện này được lưu trên các server tên miền
+- Miền phân cấp:: DNS cài đặt không gian tên phân cấp dùng cho các đối tượng trên Internet. Các tên DNS được xử lý từ trái sang phải, sử dụng dấu chấm để ngăn cách. Mỗi quốc gia có 1 tên miền, ngoài ra còn có 6 tên miền lớn gồm: edu, com, gov, org và net. 6 miền lớn này nằm ở Mỹ. Những tên miền không chỉ ra tên nước một cách tường minh thì mặc nhiên nằm ở Mỹ
+#### 3.3.2 Các loại Server tham gia vào hệ thống DNSS
+##### 3.3.2.1 DNS Recursor
+Đóng vai trò liên lạc với các server khác để thay nó làm nhiệm vụ phản hồi cho client. Nó như 1 nhân viên nhận nhiệm vụ lấy và trả thông tin cho client để tìm đúng thông tin chúng ta cần. Để tìm được thông tin, **DNS recursor** sẽ cần gọi đến **Root DNS Server**
+##### 3.3.2.2 Local Nameserver
+Dùng ể chứa thông tin để truy xuất và tìm kiếm máy chủ tên miền. Và thường được duy trì và phát triển bởi các doanh nghiệp hay các nhà cung cấp dịch vụ Internet
+##### 3.3.2.3 Root Nameserver
+Cũng thường được gọi là nameserver, là server quan trong nhất trong hệ thống cấp bậc của DNS. Nó không có tên cụ thể, bạn có thể hiểu nó là 1 thưc việc để định hướng tìm kiếm
+
+Trên thực tế, **DNS recursive resolver** sẽ chuyển yêu cầu tới **Root Nameserver**, sau đó server sẽ phản hồi rằng nó cần tìm trong các *top-level domain name servers*(**TLD nameserver**) cụ thể nào.
+##### 3.3.2.4 TLD Nameserver
+Khi muốn truy cập Google hay Facebook, thường phần mở rộng sẽ là `.com`. Đây ,à 1 trong các *top-level domain*. Nó sẽ chịu trách nhiệm quản lý toàn bộ thông tin của 1 phần mở rộng tên miền chung
+Ví dụ khi gõ `www.google.com` trên trình duyệt, TLD.**com** sẽ phản hồi từ 1 **DNS resolver** để giới thiệu cho nó 1 nơi chính thức chứa nguồn dữ liệu của tên miền(**Authoritative DNS server**)
+##### 3.3.2.5 Authiritative Nameserver
+Khi 1 DNS resolver tìm thấy 1 authoritative nameserver, đây là việc phân giải tên miền diễn ra. AN có chứa thông tin tên miền gắn với địa chỉ nào. Nó sẽ đưa cho recursive resolver địa chỉ IP cần thiết tìm thấy trong danh mục các bản ghi của nó
+#### 3.3.3 Hoạt động của DNS
+- B1: Ví dụ Người dùng nhập `example.com` vào trình duyệt web và được nhận bởi DNS Recursive Resolver
+- B2: Resolver sau đó truy vấn 1 Root nameserver
+- B3: Sau đó, Root Nameserver phản hồi Resolver bằng địa chỉ của top-level DNS, nơi lưu trữ thông tin cho các tên miền của nó. --> Khi tìm kiếm `example.com`, yêu cầu đàu tiên là hướng tới `TLD.com`
+- B4: Resolver sau đó thực hiện 1 yêu cầu tới `TLD.com`
+- B5: Sau đó, máy chủ TLD phản hồi với địa chỉ IP nameserver của domain `example.com`
+- B6: Cuối cùng, recursive resolver gửi 1 truy vấn đến nameserver của tên miền
+- B7" Địa chỉ IP cho `example.com` được trả về từ nameserver
+- B8: DNS Resolver sau đó trả lời trình duyệt web = địa chỉ IP của tên miền được yêu cầu ban đầu
+- B9: Khi bước 8 tra cứu DNS đã trả về địa chỉ IP cho `example.com`--> Trình duyệt đưa ra yêu cầu cho trang web, trình duyệt tạo 1 yêu cầu HTTP đến địa chỉ IP
+- B10: Máy chủ tại IP đó trả về trang web sẽ được hiện thị trong trình duyệt 
+#### 3.3.4 DNS Caching
+Lưu trữ lại kết quả truy xuất nhằm tránh mất thời gian phải truy xuất nhiều lần cho 1 tên miền
+- Bộ nhớ đệm DNS, một tính năng quan trọng của hệ thống DNS
+- Các phản hồi được lưu vào bộ nhớ đệm
+- DNS servers sẽ loại bỏ thông tin được lưu trong bộ nhớ cache sau 1 khoảng thời gian(thường sẽ là 2 ngày)
+- Các loại DNS Caching
+    + CNAME Record: tên miền chính muốn đặt hoặc nhiều tên khác thì chỉ cần có bản ghi này
+    + A Record: Bản ghi này được sử dụng phổ biến dể trỏ tên Websiete tới một địa chỉ IP cụ thể. Đât là  bản ghi DNS  đơn giản nhastas, cho phép thêm Time to Live(thời gian tái động lại bản ghi), 1 tên mới và Points To (Trỏ tới IP nào)
+    + MX Record: Với bản ghi này, có thể trỏ Domain đến Mail Server, đặt TTL, mức độ uy tiên(Proority). MX Record chỉ định Server nào quản lý các dịch vụ Email đầu tiên của tên miền đó
+    + AAA Record: Để trỏ tên miền đến một địa chỉ IPv6 Address, bạn cần sử dụng AAA Record. No cho phép thêm Host mới, TTL, IPv6
+    + TxT Record: Bạn cũng có thể thêm giá trị Txt, Host mới, Points To, TTL. Để chứa các thông tin định dạng vwan bản của Domain, bạn sẽ cần đến bản ghi này
+    + SRV Record: Là bản ghi dùng để xác định chính xác dịch vụ nào chạy Port nào. Đât là Record đặc biệt trong DNS. Thông qua nó, có thể thêm Name, Priority, Port, Weight, Points TO, TTL
+    + NS Record: Với bản ghi này, bạn có thể chỉ định Nameserver cho từng Domain phụ. Bạn có thể tạo Nameserver, Host mới, TTL
+#### 3.3.5 Cấu trúc gói tin của DNS
+- Thông tin truy vấn bao gồm 1 `header` và `question record`
+- Thông tin trả lời bao gồm một `header`, `question record` và `answer record`, các bản ghi có thẩm quyền và các bản ghi bổ sung
+#### 3.3.6 Các loại truy vấn DNS
+- Recursive query: DNS client gửi 1  yêu cầu máy của DNS(thường là recursive DNS resolver). Máy chủ sẽ trả lời máy khách bằng bản ghi tài nguyên được yêu cầu. Hoặc thông báo lỗi nếu resolver không thể tìm thấy bản ghi
+- Iterative query: Client sẽ cho phép máy chủ trả về câu trả lời tốt nhất có thể. Nếu máy chủ được truy vấn không có keeys quả trùng khớp với tên truy vấn, nó sẽ trả về 1 giới thiệu đến máy chủ có thẩm quyền cho mức thấp hơn. Client sau đó sẽ thực hiện một truy vấn đến địa chỉ được giới thiệu. Qúa trình nay tiếp tục với các máy chủ DNS bổ sung cho đến khi xảy ra lỗi hoặc hết thời gian
+- Non-recursive query: Xảy ra khi DNS resolver client truy vấn máy chủ DNS một record mà server có quyền truy cập bản ghi tồn tại bên trong bộ đệm của server. Thông thường, 1 máy chủ DNS sẽ lưu các bản ghi DNS để ngăn chặn việc tiêu thụ thêm bằng thông và giảm tải cho các DNS khác
+#### 3.3.7 Nếu DNS bị lỗi
+Nếu DNS bị ngừng hoạt động, 1 số người dùng có thể gặp sự chậm trễ do lượng yêu cầu được xử lý bởi các server dự phòng. Nhưng mất 1 lượng lớn DNS sẽ khiến 1 phần đáng kể Internet không khả dụng
+### 3.4 Giao thức **SNMP**
+![Alt text](/Anh/image6.png)
+#### 3.4.1 SNMP là gì
+- SNMP(Simple Network Management Protocol) là 1 giao thức tiêu chuẩn được sử dụng dể quản lý và giám sát các thiết bị mạng.
+- Với SNMP, người quản trị mạng có thể thu thập thông tin từ các thiết bị mạng như máy tính, máy chủ, router, switch, và điều khiển chúng từ 1 trung tâm quản lý duy nhất
+- SNMP là 1 giao thức ứng dụng trong mô hình TCP/IP, được sử dụng để quản lý các thiết bị mạng từ xa, cho phép người quản trị mạng giám sát, điều khiển và thu thập thông tin từ các thiết bị mạng thông qua các gói tin SNMP
+#### 3.4.2 Các thành phần 
+Có 3 thành phần:
+- Agent: là 1 phần mềm chạy trên các thiết bị mạng, chịu trách nhiệm thu nhập và cung cấp thông tin về trạng thái và hoạt động của thiết bị đó cho NMS qua giao thức SNMP
+- NMS(Network Management System) là hệ thống quản lý mạng được sử dụng để giám sát và điều khiển cá thiết bị mạng. NMS sử dụng giao thức SNMO để liên lạc với các thiết bị mạng và thu thập dữ liệu từ chúng
+- MIB(Management Information Base) là 1 cơ sở dữ liệu chứa thông tin về quản lý các thiết bị mạng. Nó định nghĩa các đối tượng mà người quản trị mạng có thể giám sát và điều khiển qua SNMP
+#### 3.4.3 Cách SNMP hoạt động
+- Theo mô hình client-server. Trong mô hình này, các thiết bị mạng được cài đặt agent và đóng vai trò như là máy chủ, còn máy tính của người quản trị mạng được cài dặt NMS hoặc phần mềm quả lý mạng khác và đóng vai trò máy khách
+- Khi người quản trị mạng muốn lấy thông tin --> NMS sẽ gửi các yêu cầu SNMP đến các agent. Agent sẽ trả lời các yêu cầu này = cách truy xuất vào MIB để lấy thông tin hoặc thực hiện các yêu cầu điều khiển. Agent sẽ gửi những thông tin hoặc kết quả điều khiển về cho NMS bằng cách sử dụng các gói tin SNMP. NMS sẽ nhận được các thông tin này và hiển thị chúng cho người quản trị mạng
+## 4. Link tài liệu tham khảo:
+[BKhost](https://bkhost.vn/blog/application-layer/#:~:text=Trong%20Application%20Layer%20c%C3%B3%20hai%20lo%E1%BA%A1i%20ph%E1%BA%A7n%20m%E1%BB%81m,V%C3%AD%20d%E1%BB%A5%3A%20truy%E1%BB%81n%20file%20ho%E1%BA%B7c%20b%E1%BB%99%20%C4%91%E1%BB%87m%20in.)
+
+[Suncloud](https://suncloud.vn/application-layer)
+
+[Wiki](https://vi.wikipedia.org/wiki/T%E1%BA%A7ng_%E1%BB%A9ng_d%E1%BB%A5ng)
+
+[Anh Quang](https://github.com/thanhquang99/thuctap2023/blob/main/thuctap/OSIvaTCPIP/osivatcpipnew.md)
+
+[Tài liệu Docs](https://docs.google.com/document/d/1M_0S8qls3P9Ftte_Ny7gutCyMw6WMf6PowTUs-F3ZkY/edit)
+
