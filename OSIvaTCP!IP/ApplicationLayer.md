@@ -1,4 +1,43 @@
 # Tầng Ứng Dụng
+MỤC LỤC
+- [1. Tổng quan về tầng ứng dụng](#1-tổng-quan-về-tầng-ứng-dụng)
+    - [1.1 Định nghĩa, vai trò](#11-định-nghĩa-vai-trò)
+    - [1.2 Chức năng](#12-chức-năng)
+    - [1.3 Dịch vụ](#13-dịch-vụ) 
+    - [1.4 Nguyên tắc của các ứng dụng mạng](#14-nguyên-tắc-của-các-ứng-dụng-mạng)
+- [2. Các lớp con](#2-các-lớp-con)
+    - [2.1 Common Application Server Element(CASE)](#21-common-application-server-element-case)
+    - [2.2 Specific Application Server Element(SASE)](#22-specific-application-server-element-sase)
+- [3. Các giao thức phổ biến](#3-các-giao-thức-phổ-biến)
+    - [3.1 FTP](#31-giao-thức-ftp)
+        - [3.1.1 FTP là gì](#311-giao-thức-ftp-là-gì)
+        - [3.1.2 Chức năng](#312-chức-năng)
+        - [3.1.3 Cách FTP hoạt động](#313-cách-ftp-hoạt-động)
+        - [3.1.4 Các phương thức truyền](#314-các-phương-thức-truyền)
+        - [3.1.5 Chế độ hoạt động của Server](#315-chế-độ-hoạt-động)
+        - [3.1.6 Một số lệnh cơ bản](#316-một-số-lệnh-cơ-bản)
+    - [3.2 SMTP](#32-giao-thức-smtp)
+        - [3.2.1 SMTP là gì](#321-định-nghĩa)
+        - [3.2.2 Cách làm việc](#322-cách-làm-việc)
+        - [3.2.3 Phân biệt IMAP/POP3](#323-phân-biệt-imappop3)
+    - [3.3 DNS](#33-dns)
+        - [3.3.1 DNS là gì](#331-dns-là-gì)
+        - [3.3.2 Các Server tham gia vào hệ thống DNS](#332-các-loại-server-tham-gia-vào-hệ-thống-dnss)
+            - [3.3.2.1 DNS Recursor](#3321-dns-recursor)
+            - [3.3.2.2 Local Nameserver](#3322-local-nameserver)
+            - [3.3.2.3 Root Nameserver](#3323-root-nameserver)
+            - [3.3.2.4 TLD Nameserver](#3324-tld-nameserver)
+            - [3.3.2.5 Authiritative Nameserver](#3325-authiritative-nameserver)
+        - [3.3.3 Hoạt động của DNS](#333-hoạt-động-của-dns)
+        - [3.3.4 DNS Caching](#334-dns-caching)
+        - [3.3.5 Cấu trúc gói tin](#335-cấu-trúc-gói-tin-của-dns)
+        - [3.3.6 Các loại truy vấn](#336-các-loại-truy-vấn-dns)
+        - [3.3.7 Nếu DNS bị lỗi](#337-nếu-dns-bị-lỗi)
+    - [3.4 SNMP](#34-giao-thức-snmp)
+        - [3.4.1 SNMP là gì](#341-snmp-là-gì)
+        - [3.4.2 Các thành phần](#342-các-thành-phần)
+        - [3.4.3 Cách SNMP hoạt động](#343-cách-snmp-hoạt-động)
+- [4. Link tài liệu tham khảo](#4-link-tài-liệu-tham-khảo) 
 ## 1. Tổng quan về tầng ứng dụng
 ### 1.1. Định nghĩa, vai trò
 - Tầng Ứng dụng là tầng thứ bảy trong mô hình OSI
@@ -17,10 +56,10 @@ Tạo điều kiện giao tiếp giữa các ứng dụng trên các hệ thốn
     + Ứng dụng nhận biết mạng: email, ...
     + Các dịch vụ cung cấp ứng dụng: truyền file hoặc bộ đệm in
 ### 1.3 Dịch vụ
-- Cho phép người dùng đăng nhập từ xa
-- Truy cập, quản lý tệp bên trong thiết bị
-- Xác định địa chỉ
-- Dịch vụ thư
+- Cho phép người dùng đăng nhập từ xa (sử dụng giao thức Telnet)
+- Truy cập, quản lý tệp bên trong thiết bị (sử dụng giao thức FTAM"File Transfer, Acess, and Management")
+- Xác định địa chỉ (sử dụng giao thức DNS để xác định địa chỉ trang web)
+- Dịch vụ thư (sử dụng giao thức SMTP)
 ### 1.4 Nguyên tắc của các ứng dụng mạng:
 Cốt lõi của phát triển ứng dụng mạng là viết các chương trình chạy trên các hệ thống đầu cuối khác nhau và sử dụng mạng để liên lạc
 ![Alt text](/Anh/image1.png)
@@ -106,6 +145,11 @@ Dựa trên 2 tiến trình cơ bản, xảy ra giữa `Client FTP - Server FTP`
 - Sau khi tạo email và gửi, ứng dụng email sẽ dùng SMTP để gửi thư từ ứng dụng đến email server
 - Tiếp đó, máy chủ email sẽ sử dụng SMTP để gửi email đến server người nhận
 - Sau khi nhận thành công, ứng dụng email khách của người nhận sẽ tìm nạp thư bằng IMAP/POP3 và đặt nó vào hộp thư đến để người nhận truy cập
+#### 3.2.3 Phân biệt IMAP/POP3
+- POP3 thực hiện lấy toàn bộ nội dung của email cũng như header về máy và xóa khỏi Server 
+- IMAP thực hiện lưu nội dung thư trên server. Khi người dùng lấy thư về tức là lấy 1 bản copy nội dung của bức thư đó kèm theo header
+
+==> IMAP sẽ an toàn hơn về mặt bảo đảm an toàn dữ liệu. Vậy nên đa số chúng ta sử dụng giao thức IMAP
 ### 3.3 DNS
 #### 3.3.1 DNS là gì?
 - DNS(Domain Name Sýteam) là 1 hệ thống giúp con người và máy tính giao tiếp dễ hơn. DNS giúp biên dịch tên website hay hostname thành ngôn ngữ mà máy tính có thể hiểu được
