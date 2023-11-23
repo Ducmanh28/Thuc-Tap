@@ -21,6 +21,8 @@ MỤC LỤC
 - Phát hành những yêu cầu dịch vụ với **tầng Session**
 - Chịu trách nhiệm phân phát và định dạng dữ liệu cho **tầng Application**
 
+VD đơn giản: Tầng app đưa ra 1 thông tin "example" --> tầng Pre sẽ phân tích và dịch dư liệu ấy thành 1 ngôn ngữ chung để máy tính hiểu được
+
 ## 2. Các chức năng
 - Dịch: Tầng này nhận dữ liệu từ lớp Ứng dụng, Presentation sẽ chuyển định dạng từ chữ và số sang dạng nhị phân mà máy tính hiểu được
 - Nén: Trước khi dữ liệu được truyền, tầng dịch giúp giảm số lượng bit được dùng để biểu diễn dữ liệu gốc. 
@@ -40,9 +42,9 @@ MỤC LỤC
 
 ## 5. Một số giao thức trong tầng trình diễn:
 ### 5.1 SSL (Secure Sockets Layer): 
-Là 1 tiêu chuẩn công nghệ bảo mật mã hóa thông tin liên lạc giữa máy chủ web và trình duyệt. Tiêu chuẩn này hoạt động và đảm bảo rằng dữ liệu được truyền giữa máy chủ và trình duyệt của người dùng là riêng tư và đầy đủ.
+Là 1 tiêu chuẩn công nghệ bảo mật mã hóa thông tin liên lạc giữa máy chủ web và trình duyệt. Tiêu chuẩn này hoạt động và đảm bảo rằng dữ liệu được truyền giữa máy chủ và trình duyệt của người dùng là riêng tư và đầy đủ. SSL sử dụng cổng port 443
 ### 5.2 TLS (Transport Layer Security): 
-Đây là thế hệ sau của SSL, một giao thức mật mã được thiết kế để cung cấp thông tin liên lạc an toàn qua mạng máy tính
+Đây là thế hệ sau của SSL, một giao thức mật mã được thiết kế để cung cấp thông tin liên lạc an toàn qua mạng máy tính. TLS sử dụng cổng port 443
 ### 5.3 XML (eXtensible Markup Language):
 Giao thức sử dụng để lưu trữ và truyền tải dữ liệu dưới dạng văn bản, cho phép các ứng dụng khác nhau dễ dàng trao đổi thông tin qua mạng
 ### 5.4 MIDI (Musical Instrument Digital Interface): 

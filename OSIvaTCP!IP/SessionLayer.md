@@ -5,6 +5,17 @@ MỤC LỤC
 - [3. Chức năng](#3-chức-năng)
 - [4. Cách lớp phiên hoạt động](#4-cách-lớp-phiên-hoạt-động)
 - [5. Một số giao thức dùng trong lớp phiên](#5-một-số-giao-thức-sử-dụng-trong-lớp-session)
+    - [5.1 RTCP](#51-rtcpreal-time-transport-control-protocol)
+        - [5.1.1 Định nghĩa](#511-định-nghĩa)
+        - [5.1.2 Cách hoạt động](#512-cách-hoạt-động)
+    - [5.2 PPTP ](#52-pptp-point-to-point-tunneling-protocol)
+        - [5.2.1 Định nghĩa](#521-định-nghĩa)
+        - [5.2.2 Các tính năng chính](#522-các-tính-năng-chính)
+        - [5.2.3 Cách hoạt động](#523-cách-hoạt-động)
+        - [5.2.4 Ưu điểm và nhược điểm](#524-ưu-và-nhược-điểm-của-pptp)
+    - [5.3 PAP ](#53-pappassword-authentication-protocol)
+    i
+
 ## 1. Tầng phiên là gì
 - Là phân lớp thứ 5 trong mô hình OSI
 - Là 1 trong 3 phân lớp nhỏ của Tầng Application trong mô hình TCP/IP

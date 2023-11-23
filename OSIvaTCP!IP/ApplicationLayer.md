@@ -58,7 +58,7 @@ Tạo điều kiện giao tiếp giữa các ứng dụng trên các hệ thốn
 ### 1.3 Dịch vụ
 - Cho phép người dùng đăng nhập từ xa (sử dụng giao thức Telnet)
 - Truy cập, quản lý tệp bên trong thiết bị (sử dụng giao thức FTAM"File Transfer, Acess, and Management")
-- Xác định địa chỉ (sử dụng giao thức DNS để xác định địa chỉ trang web)
+- Xác định địa chỉ (sử dụng giao thức DNS để xác định địa chỉ IP của trang web)
 - Dịch vụ thư (sử dụng giao thức SMTP)
 ### 1.4 Nguyên tắc của các ứng dụng mạng:
 Cốt lõi của phát triển ứng dụng mạng là viết các chương trình chạy trên các hệ thống đầu cuối khác nhau và sử dụng mạng để liên lạc
@@ -154,7 +154,7 @@ Dựa trên 2 tiến trình cơ bản, xảy ra giữa `Client FTP - Server FTP`
 #### 3.3.1 DNS là gì?
 - DNS(Domain Name Sýteam) là 1 hệ thống giúp con người và máy tính giao tiếp dễ hơn. DNS giúp biên dịch tên website hay hostname thành ngôn ngữ mà máy tính có thể hiểu được
 - Cơ bản thì DNS là 1 hệ thống biến đổi tên website thành địa chỉ IP. Thông tin của từng tên miền ứng với địa chỉ IP nào thì được ghi lại trong 1 "thư viện danh bạ", và thư viện này được lưu trên các server tên miền
-- Miền phân cấp:: DNS cài đặt không gian tên phân cấp dùng cho các đối tượng trên Internet. Các tên DNS được xử lý từ trái sang phải, sử dụng dấu chấm để ngăn cách. Mỗi quốc gia có 1 tên miền, ngoài ra còn có 6 tên miền lớn gồm: edu, com, gov, org và net. 6 miền lớn này nằm ở Mỹ. Những tên miền không chỉ ra tên nước một cách tường minh thì mặc nhiên nằm ở Mỹ
+- Miền phân cấp: DNS cài đặt không gian tên phân cấp dùng cho các đối tượng trên Internet. Các tên DNS được xử lý từ trái sang phải, sử dụng dấu chấm để ngăn cách. Mỗi quốc gia có 1 tên miền, ngoài ra còn có 6 tên miền lớn gồm: edu, com, gov, org và net. 6 miền lớn này nằm ở Mỹ. Những tên miền không chỉ ra tên nước một cách tường minh thì mặc nhiên nằm ở Mỹ
 #### 3.3.2 Các loại Server tham gia vào hệ thống DNSS
 ##### 3.3.2.1 DNS Recursor
 Đóng vai trò liên lạc với các server khác để thay nó làm nhiệm vụ phản hồi cho client. Nó như 1 nhân viên nhận nhiệm vụ lấy và trả thông tin cho client để tìm đúng thông tin chúng ta cần. Để tìm được thông tin, **DNS recursor** sẽ cần gọi đến **Root DNS Server**
@@ -189,7 +189,7 @@ Lưu trữ lại kết quả truy xuất nhằm tránh mất thời gian phải 
     + CNAME Record: tên miền chính muốn đặt hoặc nhiều tên khác thì chỉ cần có bản ghi này
     + A Record: Bản ghi này được sử dụng phổ biến dể trỏ tên Websiete tới một địa chỉ IP cụ thể. Đây là  bản ghi DNS  đơn giản nhất , cho phép thêm Time to Live(thời gian tái động lại bản ghi), 1 tên mới và Points To (Trỏ tới IP nào)
     + MX Record: Với bản ghi này, có thể trỏ Domain đến Mail Server, đặt TTL, mức độ uy tiên(Proority). MX Record chỉ định Server nào quản lý các dịch vụ Email đầu tiên của tên miền đó
-    + AAA Record: Để trỏ tên miền đến một địa chỉ IPv6 Address, bạn cần sử dụng AAA Record. No cho phép thêm Host mới, TTL, IPv6
+    + AAA Record: Để trỏ tên miền đến một địa chỉ IPv6 Address, bạn cần sử dụng AAA Record. Nó cho phép thêm Host mới, TTL, IPv6
     + TxT Record: Bạn cũng có thể thêm giá trị Txt, Host mới, Points To, TTL. Để chứa các thông tin định dạng vwan bản của Domain, bạn sẽ cần đến bản ghi này
     + SRV Record: Là bản ghi dùng để xác định chính xác dịch vụ nào chạy Port nào. Đât là Record đặc biệt trong DNS. Thông qua nó, có thể thêm Name, Priority, Port, Weight, Points TO, TTL
     + NS Record: Với bản ghi này, bạn có thể chỉ định Nameserver cho từng Domain phụ. Bạn có thể tạo Nameserver, Host mới, TTL
@@ -208,6 +208,7 @@ Nếu DNS bị ngừng hoạt động, 1 số người dùng có thể gặp s�
 - SNMP(Simple Network Management Protocol) là 1 giao thức tiêu chuẩn được sử dụng dể quản lý và giám sát các thiết bị mạng.
 - Với SNMP, người quản trị mạng có thể thu thập thông tin từ các thiết bị mạng như máy tính, máy chủ, router, switch, và điều khiển chúng từ 1 trung tâm quản lý duy nhất
 - SNMP là 1 giao thức ứng dụng trong mô hình TCP/IP, được sử dụng để quản lý các thiết bị mạng từ xa, cho phép người quản trị mạng giám sát, điều khiển và thu thập thông tin từ các thiết bị mạng thông qua các gói tin SNMP
+- SNMP sử dụng cổng Port mặc định là 161
 #### 3.4.2 Các thành phần 
 Có 3 thành phần:
 - Agent: là 1 phần mềm chạy trên các thiết bị mạng, chịu trách nhiệm thu nhập và cung cấp thông tin về trạng thái và hoạt động của thiết bị đó cho NMS qua giao thức SNMP
