@@ -5,6 +5,16 @@ MỤC LỤC
 - [3. Dịch vụ](#3-dịch-vụ)
 - [4. Cách mà tầng trình diễn hoạt động](#4-cách-mà-tầng-trình-diễn-hoạt-động)
 - [5.Một số giao thức](#5-một-số-giao-thức-trong-tầng-trình-diễn)
+    - [5.1 SSL](#51-ssl-secure-sockets-layer)
+    - [5.2 TLS](#52-tls-transport-layer-security)
+    - [5.3 XML](#53-xml-extensible-markup-language)
+    - [5.4 MIDI](#54-midi-musical-instrument-digital-interface)
+    - [5.5 ASCII](#55-ascii-american-standard-code-for-information-interchange)
+    - [5.6 EBCDIC ](#56ebcdic-extended-binary-coded-decimal-interchange-code)
+    - [5.7 MIME](#57-mime-multipurpose-internet-mail-extensions)
+- [6. Một số định dạng video](#6-một-số-định-dạng-video)
+- [7. Một số định dạng audio](#7-các-định-dạng-audio)
+- [8. Một số định dạng ảnh](#8-các-định-dạng-ảnh)
 ## 1. Tầng trình diễn là gì?
 - Là tầng thứ 6 trong mô hình OSI
 - Đáp ứng nhu cầu dịch vụ mà **tầng Application** đòi hỏi
