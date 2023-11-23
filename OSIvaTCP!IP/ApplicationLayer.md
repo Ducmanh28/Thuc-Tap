@@ -165,7 +165,7 @@ Cũng thường được gọi là nameserver, là server quan trong nhất tron
 
 Trên thực tế, **DNS recursive resolver** sẽ chuyển yêu cầu tới **Root Nameserver**, sau đó server sẽ phản hồi rằng nó cần tìm trong các *top-level domain name servers*(**TLD nameserver**) cụ thể nào.
 ##### 3.3.2.4 TLD Nameserver
-Khi muốn truy cập Google hay Facebook, thường phần mở rộng sẽ là `.com`. Đây ,à 1 trong các *top-level domain*. Nó sẽ chịu trách nhiệm quản lý toàn bộ thông tin của 1 phần mở rộng tên miền chung
+Khi muốn truy cập Google hay Facebook, thường phần mở rộng sẽ là `.com`. Đây ,là 1 trong các *top-level domain*. Nó sẽ chịu trách nhiệm quản lý toàn bộ thông tin của 1 phần mở rộng tên miền chung
 Ví dụ khi gõ `www.google.com` trên trình duyệt, TLD.**com** sẽ phản hồi từ 1 **DNS resolver** để giới thiệu cho nó 1 nơi chính thức chứa nguồn dữ liệu của tên miền(**Authoritative DNS server**)
 ##### 3.3.2.5 Authiritative Nameserver
 Khi 1 DNS resolver tìm thấy 1 authoritative nameserver, đây là việc phân giải tên miền diễn ra. AN có chứa thông tin tên miền gắn với địa chỉ nào. Nó sẽ đưa cho recursive resolver địa chỉ IP cần thiết tìm thấy trong danh mục các bản ghi của nó
@@ -187,7 +187,7 @@ Lưu trữ lại kết quả truy xuất nhằm tránh mất thời gian phải 
 - DNS servers sẽ loại bỏ thông tin được lưu trong bộ nhớ cache sau 1 khoảng thời gian(thường sẽ là 2 ngày)
 - Các loại DNS Caching
     + CNAME Record: tên miền chính muốn đặt hoặc nhiều tên khác thì chỉ cần có bản ghi này
-    + A Record: Bản ghi này được sử dụng phổ biến dể trỏ tên Websiete tới một địa chỉ IP cụ thể. Đât là  bản ghi DNS  đơn giản nhastas, cho phép thêm Time to Live(thời gian tái động lại bản ghi), 1 tên mới và Points To (Trỏ tới IP nào)
+    + A Record: Bản ghi này được sử dụng phổ biến dể trỏ tên Websiete tới một địa chỉ IP cụ thể. Đây là  bản ghi DNS  đơn giản nhất , cho phép thêm Time to Live(thời gian tái động lại bản ghi), 1 tên mới và Points To (Trỏ tới IP nào)
     + MX Record: Với bản ghi này, có thể trỏ Domain đến Mail Server, đặt TTL, mức độ uy tiên(Proority). MX Record chỉ định Server nào quản lý các dịch vụ Email đầu tiên của tên miền đó
     + AAA Record: Để trỏ tên miền đến một địa chỉ IPv6 Address, bạn cần sử dụng AAA Record. No cho phép thêm Host mới, TTL, IPv6
     + TxT Record: Bạn cũng có thể thêm giá trị Txt, Host mới, Points To, TTL. Để chứa các thông tin định dạng vwan bản của Domain, bạn sẽ cần đến bản ghi này
