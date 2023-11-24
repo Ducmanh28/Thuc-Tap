@@ -115,3 +115,17 @@ Từ tác dụng chọn lọc --> Port có khả năng để chống lại nhữ
 - Truy vấn DNS: DNS sử dụng UDP để truy vấn các máy chủ DNS. Khi chúng ta cần phân giải 1 tên miền thành địa chỉ IP, DNS sẽ dùng giao thức UDP để tăng tốc độ và hiệu quả.
 - Games Online: Cũng được sử dụng rộng rãi trong việc truyền tải dữ liệu cho các trò chơi trực tuyến
 
+## 5.2 TCP(Transmission Control Protocol)
+### 5.2.1 Định nghĩa
+- Là giao thức hướng nối - tức là sẽ thực hiện thiết lập kết nối trước rồi sau đó mới thực hiện truyền tải dữ liệu
+- Là một giao thức điều khiển truyền vận
+- Đảm bảo chuyển giao dữ liệu tới đích 1 cách đáng tin cậy và đúng thứ tự.
+- Hoạt động trên các thiết bị đầu cuối, chữ không phải trên các thiết bị trung gian
+### 5.2.2 Tác dụng của TCP
+- Đảm bảo tính toàn vẹn dữ liệu: đảm bảo các gói tin được gửi từ nguồn tới đích mà không có sự mất mát
+- Đảm bảo trình tự dữ liệu: Đảm bảo các gói tin được nhận theo đúng thứ tự mà nó đã gửi đi
+- Kiểm soát luồng dữ liệu: Cung cấp cơ chế kiểm soát luồng để ngăn việc quá tải dữ liệu
+- Kiểm soát tắc nghẽn: Sử dụng các thuật toán như AIMD, Slow Start, FastRecovery, FastAvoid,... 
+- Phân biệt dữ liệu của nhiều ứng dụng: Cung cấp cơ chế phân biệt dữ liệu của nhiều ứng dụng đồng thời chạy trên cùng 1 máy chủ
+==> Những điều này giúp TCP trở thành 1 trong những giao thức quan trọng nhất trong việc truyền tải dữ liệu qua mạng
+
