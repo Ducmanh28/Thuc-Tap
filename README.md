@@ -6,4 +6,4 @@ Mục Lục
     - [Tầng Application](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP!IP/ApplicationLayer.md)
     - [Tầng Presentation](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP!IP/PresentationLayer.md)
     - [Tầng Session](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP!IP/SessionLayer.md)
-    
+    - [Tầng Transport](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP!IP/TransportLayer.md)
