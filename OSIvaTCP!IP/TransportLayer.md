@@ -21,6 +21,11 @@ MỤC LỤC
         - [5.1.5 Ưu điểm của UDP](#515-ưu-điểm-của-udp)
         - [5.1.6 Nhược điểm của UDP](#516-nhược-điểm-của-udp)
         - [5.1.7 Ứng dụng của UDP trong thực tế](#517-ứng-dụng-của-udp-trong-thực-tế)
+    - [5.2 TCP](#52-tcptransmission-control-protocol)
+        - [5.2.1 TCP là gì?](#521-định-nghĩa)
+        - [5.2.2 Tác dụng của TCP](#522-tác-dụng-của-tcp)
+        - [5.2.3 Cách TCP hoạt động](#523-cách-mà-tcp-hoạt-động)
+        - [5.2.4 Cấu trúc của một gói tin TCP](#524-cấu-trúc-của-một-gói-tin-tcp-segment)
 
 # 1. Tầng giao vận là gì?
 - Là tầng thứ 4 trong mô hình OSI, đứng sau và nhận yêu cầu của **tầng Session**, đứng trước và gửi các yêu cầu cho **tầng Network**
@@ -119,8 +124,10 @@ Từ tác dụng chọn lọc --> Port có khả năng để chống lại nhữ
 ### 5.2.1 Định nghĩa
 - Là giao thức hướng nối - tức là sẽ thực hiện thiết lập kết nối trước rồi sau đó mới thực hiện truyền tải dữ liệu
 - Là một giao thức điều khiển truyền vận
+- Thuộc loại liên kết(điểm-điểm) giữa duy nhất 1 tiến trình gửi và 1 nhận
 - Đảm bảo chuyển giao dữ liệu tới đích 1 cách đáng tin cậy và đúng thứ tự.
 - Hoạt động trên các thiết bị đầu cuối, chữ không phải trên các thiết bị trung gian
+- Cung cấp đường truyền dữ liệu hai hướng (song công - full duplex)
 ### 5.2.2 Tác dụng của TCP
 - Đảm bảo tính toàn vẹn dữ liệu: đảm bảo các gói tin được gửi từ nguồn tới đích mà không có sự mất mát
 - Đảm bảo trình tự dữ liệu: Đảm bảo các gói tin được nhận theo đúng thứ tự mà nó đã gửi đi
@@ -128,4 +135,16 @@ Từ tác dụng chọn lọc --> Port có khả năng để chống lại nhữ
 - Kiểm soát tắc nghẽn: Sử dụng các thuật toán như AIMD, Slow Start, FastRecovery, FastAvoid,... 
 - Phân biệt dữ liệu của nhiều ứng dụng: Cung cấp cơ chế phân biệt dữ liệu của nhiều ứng dụng đồng thời chạy trên cùng 1 máy chủ
 ==> Những điều này giúp TCP trở thành 1 trong những giao thức quan trọng nhất trong việc truyền tải dữ liệu qua mạng
+### 5.2.3 Cách mà TCP hoạt động
+TCP hoạt động theo 3 giai đoạn chính: Thiết lập liên kết --> Truyền dữ liệu --> Đóng liên. Và quá trình đó được mô tả như sau:
+- Quá trình kết nối: TCP sử dụng quy trình bắt tay 3 bước(three way handshake) để thiết lập 1 đường truyền kết nối giữa 2 máy. Quy trình bắt tay 3 bước bao gồm:
+    + Máy khách gửi 1 SYN segment tới máy chủ
+    + Khi máy chủ nhận được SYN segment, máy chủ sẽ bố trí bộ nhớ cho "*TCP buffer*" và các biến trạng thái cho liên kết TCP. Sau đó, sẽ thực hiện gửi một SYNACK segment trả lời. Số báo nhận(ACK Number) = Sequence của SYN segment +1 (trong đó số SYN sequence được chọn ngẫu nhiên).  
+    + Khi nhận được SYNACK segment, máy khách cũng sẽ thiết lập bộ nhớ đệm và các biến trạng thái cho TCP, và thực hiện gửi lại cho máy chủ một segment, trong đó, số ACK = số thứ tự sequence của server + 1, SYN = 0, trường số sequence tăng 1 đơn vị
+    ![Alt text](/Anh/image14.png)
 
+- Quá trình truyền dữ liệu: Sau khi thực hiện kết nối hoàn tất giữa 2 máy, TCP bắt đầu thực hiện việc truyền dữ liệu. Dữ liệu được chia thành các "*segment*" , mỗi segment được đóng gói thành các gói tin và được gửi đến máy chủ. Lúc này, máy chủ cũng sẽ gửi lại 1 gói tin ACK để thông báo rằng đã nhận được gói dữ liệu
+- Quá trình đóng liên kết: Khi hoàn thành việc truyền dữ liệu, TCP sẽ gửi 1 gói tin `FIN` đến máy chủ để đóng liên kết. Sau khi máy chủ nhận được gói tin `FIN`, nó sẽ gửi lại 1 gói tin `FIN-ACK` để đóng liên kết
+
+
+### 5.2.4 Cấu trúc của một gói tin TCP Segment
