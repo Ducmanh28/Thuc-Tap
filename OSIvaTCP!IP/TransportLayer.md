@@ -100,6 +100,7 @@ Từ tác dụng chọn lọc --> Port có khả năng để chống lại nhữ
 - Gói segment sau khi được tạo ra sẽ được chuyển tới tầng mạng. Tầng mạng sẽ chịu trách nhiệm gửi gói dữ liệu này tới máy nhận. Nếu segment tới đích, UDP sử dụng số hiệu cổng và địa chỉ IP của máy nhận để truyền dữ liệu trong segment tới đúng máy nhận
 
 ### 5.1.4 Cấu trúc header của UDP
+Do không yêu cầu về mặt tin cậy nên cấu trúc UDP Segment rất đơn giản
 - Chứa 1 tập hợp các tham số gọi là các trường. Có 4 trường, mỗi trường bằng 2 byte:
 + Source Port Number: số hiệu cổng của máy gửi
 + Destination Port Number: số hiệu cổng của máy nhận
@@ -148,3 +149,86 @@ TCP hoạt động theo 3 giai đoạn chính: Thiết lập liên kết --> Tru
 
 
 ### 5.2.4 Cấu trúc của một gói tin TCP Segment
+- Do là giao thức tin cậy nên cấu trúc gói tin của TCP rất phức tạp
+![Alt text](/Anh/image15.png)
+Trong đó:
++ **Source port** và **destination port** đều có độ dài 16 bit được sử dụng để định danh cổng nguồn và cổng đích
++ Sequence number và Acknowledgment number(Số thứ tự và số biên nhận đều dài 32 bit): Số thứ tự sử dụng để đánh số thứ tự các gói tin được truyền đi, từ số này ta có thể tính được có bao nhiêu byte đã được truyền đi. Số biên nhận dùng để báo đã nhận được gói tin nào và mong nhận được byte mang số thứ tự nào tiếp theo
++ Header length(4 bit): cho biết toàn bộ header dài bao nhiêu word(1 word = 4 byte)
++ các bit reserverd: dùng để dự phòng, dành cho việc mở rộng trong tương lai. Hiện tại, giá trị của nó luôn = 0 và không có tác dụng gì
++ Flags(9 bits): được sử dụng để thiết lập kết nối, gửi dữ liệu và đóng kết nối
+    - URG: Ưu tiên 1 dữ liệu
+    - ACK: Được sử dụng để xác nhận 
+    - PSH: Segment yêu cầu chức năng push(khi bit này được bật nghĩa là yêu cầu bên nhận phải chuyển dữ liệu lên trên ngay lập tức)
+    - RST: Thiết lập lại kết nối
+    - SYN: Để đặt số thứ tự ban đầu
+    - FIN: Kết thúc kết nối TCP
++ Window size: 16 bit được sử dụng để kiểm soát lưu lượng, là số lượng byte tối đa mà máy nhận có thể nhận được
++ TCP Checksum: 16 bit kiểm tra lỗi của toàn bộ TCP segment
++ Urgent pointer: 16 bit Sử dụng trong trường hợp cần ưu tiên dữ liệu
++ Options: tối đa 32 bit, cho phép thêm vào TCP những tính năng khác
++ Data: Dữ liệu của lớp trên
+
+### 5.2.5 Ưu điểm của TCP:
+- Là giao thức đáng tin cậy
+- Có cơ chế kiểm tra lỗi và phục hồi
+- Kiểm soát dòng lưu lượng
+- Đảm bảo dữ liệu gửi đến đúng đích theo đúng thứ tự được gửi
+- Là giao thức mở và không thuộc quyền sở hữu của bất cứ tổ chức hay cá nhân
+- TCP gắn một địa chỉ IP cho mỗi máy tính trên Internet và 1 tên miền cho từng trang --> mỗi trang đều được phân biệt cụ thể trong Internet 
+### 5.2.6 Nhược điểm của TCP:
+- Bắt đầu chậm
+- Tốc độ chậm: do sử dụng cơ chế "kiểm soát tắc nghẽn"- nơi mà nó giảm tốc độ truyền khi phát hiện tắc nghẽn. 
+- Bắt tay chậm: Qúa trình kết nối của TCP có thể mất thời gian, đặc biệt là khi có nhiều kết nối đồng thời --> Làm giảm hiệu suất mạng
+- Tối ưu hóa mạng: Không được tối ưu hóa cho các loại mạng có băng thông thấp, hoặc độ trễ cao, việc sử dụng TCP có thể không hiệu quả
+
+### 5.2.7 Ứng dụng của TCP trong thực tế:
+- Truy cập trang web: Khi bạn truy cập trang web bằng trình duyệt, trình duyệt sẽ sử dụng TCP để kết nối với máy chủ web
+- Gửi và nhận email: Khi 1 bạn gửi và nhận được được 1 email thì ứng dụng email sẽ sử dụng giao thức TCP cho việc truyền/ tải xuống email đó
+- Chia sẻ tệp: Khi tải tệp lên mạng hoặc tải tệp xuống máy tính cá nhân, giao thức TCP được sử dụng
+- Truy cập từ xa: Khi truy cập vào 1 máy tính từ xa thông qua SSH, TCP được sử dụng để thiết lập một kết nối an toàn.
+- Ứng dụng ngang hàng: Nhiều các ứng dụng ngang hàng như các ứng dụng dùng để chia sẻ tệp sử dụng TCP để thiết lập đường truyền
+==> Những ứng dụng này sử dụng khả năng đáng tin cậy và theo thứ tự của TCP để đảm bảo rằng dữ liệu được truyền tải 1 cách chính xác và toàn vẹn
+
+## 5.3 So sánh giữa 2 mô hình TCP và UDP
+|Tiêu chí|TCP|UDP|
+|--------|---|---|
+|Tốc độ|Chậm hơn UDP|Nhanh hơn TCP|
+|Dung lượng gói tin|Có dung lượng nặng|Có dung lượng nhẹ|
+|Hướng liên kết|Có|Không|
+|Sử dụng phiên|Có|Không |
+|Độ tin cậy|Có|Không|
+|Xác thực|Có|Không|
+|Đánh số thứ tự|Có|Không|
+|Điều khiển luồng|Có|Không|
+|Bảo mật|nhiều hơn UDP|ít hơn TCP|
+
+- So với UDP, TCP có nhiều ưu điểm hơn: TCP cung cấp dịch vụ truyền dữ liệu tin cậy trong khi UDP không làm được. Tuy nhiên trong thực tế, nhiều ứng dụng lại sử dụng UDP vì:
+    + Không có giai đoạn thiết lập kết nối: UDP không phải chịu thời gian để thiết lập đường truyền
+    + Không duy trì trạng thái kết nối: UDP không phải lưu trữ những thông tin về trạng thái kết nối --> nếu phía server sử dụng UDP thì có khả năng phục vụ đồng thời nhiều client hơn
+    + Tiêu đề gói dữ liệu nhỏ: Tiêu đề của TCP là 20byte trong khi UDP chỉ có 8byte
+    + Không kiểm soát tốc độ gửi: Tốc độ truyền dữ liệu của UDP chỉ bị giới hạn bởi tốc độ sinh dữ liệu của ứng dụng, khẳ năng của máy tính nguồn và tốc độ truy cập mạng. 
+- ==> Ta có thể thấy việc truyền dữ liệu tin cậy không phải tiêu chí quan trọng nhất đánh giá sự thành công của ứng dụng
+- Nhưng đối với việc lựa chọn TCP hay UDP thì chúng ta cần tùy thuộc vào mục đích sử dụng của bản thân
+    + Đối với việc truyền tải dữ liệu cần nhanh và đảm bảo tốc độ truyền thì việc lựa chọn UDP là phù hợp
+    + TCP lại là một lựa chọn tốt nhất để truyền dữ liệu và thông tin phải đầy đủ và đảm bảo được về tính toàn vẹn dữ liệu trong quá trình truyền
+
+|Ứng dụng|Giao thức tầng ứng dụng|Giao thức tầng giao vận|Port|
+|--------|-----------------------|-----------------------|----|
+|Thư điện tử|SMTP|TCP|25|
+|Truy cập từ xa|Telnet|TCP|23|
+|Web|HTTP, HTTPS|TCP|80, 443|
+|Truyền File|FTP|TCP|20, 21|
+|File Server|NFS|thường là UDP|2049|
+|Đa phương tiện|Tùy hãng sản xuất|thường là UDP||
+|Call online|Tùy hãng sản xuất|thường là UDP||
+|Quản lý mạng|SNMP|thường là UDP|161|
+|Đinh tuyến|RIP|thường là UDP|520|
+|Tên miền|DNS|thường là UDP|53|
+
+# 6. Link tài liệu tham khảo:
+- [Ho Dac Phuong - Giao trinh mang co ban]()
+- [Suncloud](https://suncloud.vn/transport-layer-trong-mo-hinh-osi#21-don-kenh)
+- [CloudZ](https://cloud.z.com/vn/news/udp/)
+- [Anh Quang](https://github.com/thanhquang99/thuctap2023/blob/main/thuctap/OSIvaTCPIP/osivatcpipnew.md)
+- [DOCS - Tài liệu mẫu](https://docs.google.com/document/d/1Eejm3qP3YKksWkq1G45MXC0WVZKtUqbgtnjXVlr3JAo/edit#heading=h.bnbvuddgzhi0)
