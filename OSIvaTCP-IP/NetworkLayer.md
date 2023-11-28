@@ -1,0 +1,176 @@
+# Tầng Mạng
+MỤC LỤC
+
+## 1. Tầng mạng là gì?
+- Là tầng thứ 3 trong 7 tầng trong mô hình OSI
+- Tầng này cung cấp đường truyền giữa 2 máy tính của tầng mạng. Cụ thể hơn là chuyển gói tin (segment) của tầng transport từ máy tính này đến máy tính khác
+- Nhận yêu cầu từ tầng giao vận và đưa ra các yêu cầu cho tầng liên kết dữ liệu
+- Chúng ta sẽ thẩy rằng tầng mạng gồm có nhiều máy tính và các router trung gian chứ không như tầng giao vận. Vì thế các giao thức của tầng mạng sẽ rất phức tạp
+- Đơn vị dữ liệu: Packets
+## 2. Các chức năng chính?
+IP datagram packets từ mạng nguồn phải được gửi tới thiết bị nhận đặt tại mạng đích. Vì vậy, các chức năng tầng Network bao gồm:
++ Addressing: Xác định địa chỉ IP đích đến
++ Định tuyến(Routing) - Xác định đường đi: Xác định các tuyến đường dẫn tốt nhất để vận chuyển gói tin
++ Chuyển tiếp(Forwarding): Khi gói tin đến đầu vào router, router phải quyết định gửi gói tin tới đầu ra thích hợp nào. 
++ Encapsulation: Nhận dữ liệu từ giao thức tầng trên, thêm IP Header vào quá trình truyền từ nguồn tới đích
++ De-capsulation: Nhận và mở gói nhận được từ tầng data link
++ Đảm bảo chất lượng dịch vụ(QoS): Có cơ chế kiểm soát lưu lượng và đảm bảo hiệu suất truyền gói tin
++ Sử dụng dịch vụ chuyển mạch gói
+## 3. Cách tầng mạng hoạt động:
+- Tầng Mạng nhận gói dữ liệu (segment) từ tầng giao vận, và thêm vào các tiêu đề (header) của nó. Phần tiêu đề này chứa thông tin cần thiết cho việc định tuyến và chuyển tiếp
+- Định tuyến: Xác định đường đi tốt nhất để truyền các gói dữ liệu từ nguồn đến đích.
+- Chuyển tiếp: Sau khi xác định đường dẫn, tầng mạng chuyển tiếp các gói dữ liệu đến tầng datalink. 
+- Xử lý lỗi và tắc nghẽn: Cũng chịu trách nhiệm trong việc xử lý các vấn đề như tắc nghẽn mạng và lỗi truyền dẫn. Nếu có lỗi, thử lại việc truyền dữ liệu
+
+Các quá trình này sẽ lặp lại cho tới khi truyền hết dữ liệu 
+
+## 4. Dịch vụ chuyển mạch gói (datagram) và chuyển mạch ảo (virtual circuit)
+## 4.1 Tổng quan
+- Để chuyển gói tin của tầng giao vận, tầng mạng thường đưa ra dịch vụ chuyển mạch ảo hoặc chuyển mạch gói nhưng không bao giờ cung cấp cả 2 dịch vụ này
+- Hiểu đơn giản thì:
+    + Chuyển mạch gói: các gói tin khác nhau có thể đi theo các tuyến đường khác nhau
+    + Chuyển mạch ảo: 
+- VD: Dịch vụ của mạng ATM là VC trong khi mạng Internet cung cấp dịch vụ chuyển mạch gói 
+## 4.2 Dịch vụ chuyển mạch gói
+Trong mạng chuyển mahc gói, khi muốn gửi 1 gói tin đi, thiết bị đầu cuối đặt vào gói tin địa chỉ của thiết bị nhận, sau đó chuyển gói tin vào mạng
+![Alt text](/Anh/image17.png)
+Nó không có giai đoạn thiết lập VC. Những thiết bị trung chuyển trong chuyển mạch gói (gọi là bộ định tuyến - router) không duy trì bất kì trạng thái nào về VC. Những thiết bị này sẽ xác định địa chỉ đích --> tìm kiếm trên bảng định tuyến --> chuyển tiếp gói tin theo hướng đến đích(ta có thể thấy nó giống việc chuyển thư bình thường trong bưu điện).
+
+Vì bảng định tuyến có thể được cập nhật liên tục --> các gói tin được gửi từ các thiết bị đầu cuối này tới thiết bị khác có thể đi bằng nhiều đường khác nhau, không theo thứ tự
+
+Mạng Internet ngày nay sử dụng dịch vụ chuyển mạch gói
+## 4.3 Dịch vụ chuyển mạch ảo
+- Về 1 khía cạnh nào đó, mạch ảo tương tự mạng điện thoại truyền thống (mặc dù mạng điện thoại sử dụng mạch thực). Có 3 giai đoạn:
+    + Thiết lập mạch ảo: Phía gửi thông báo địa chỉ , yêu cầu thiết lập **VC**. Tầng mạng lúc này chấp nhận sẽ xác định đường đi, thiết bị sử dụng mà các gói dữ liệu sẽ đi qua 
+    + Truyền dữ liệu: Sau khi việc thiết lập kết nối thành công, dữ liệu sẽ được truyền trong **VC**
+    + Giải phóng mạch ảo: Bắt đầu khi phía gửi (hoặc nhận)  báo cho tầng mạng yêu cầu đóng **VC**. Tầng mạng sẽ thông báo cho các thiết bị đầu cuối cũng như các thiết bị chuyển mạch trên VC để cập nhật lại bảng định tuyến, giải phóng tài nguyên.
+    
+![Alt text](/Anh/image16.png)
+
+- Thông điệp trao đổi giữa các thiết bị đầu cuối yêu cầu khởi tạo hay kết thúc mạch ảo, hay thông điệp trao đổi giữa các thiết bị chuyển mạch ảo được gọi là thông điệp báo hiệu (signaling message). Và giao thức được dùng ở đầy là giao thức báo hiệu (signaling protocol)
+
+# 5. Các giao thức ở tầng mạng
+![Alt text](/Anh/image23.png)
+- Định tuyến: RIP, OSPF, BGP,...
+- IP(!)(Internet Protocol)
+- ICMP(Internet Control Message Protocol)
+# 6. Định tuyến
+## 6.1 Tổng quan:
+- Để truyền gói dữ liệu từ máy tính gửi đến máy tính nhận, tầng mạng phải quyết định đường đi, các router mà gói dữ liệu sẽ đi qua. 
+- Dù là mạng chuyển mạch gói hay là mạng ảo thì tầng mạng đều phải xác định đường đi cho gói tin. Đây chính là công việc của các giao thức định tuyến ở tầng mạng
+
+- Quan trọng nhất ở giao thức định tuyến chính là các thuật toán xác định đường đi cho gói tin - thuật toán định tuyến. Các thuật toán này có thể được phân theo 
+    - tính chất tĩnh/động:
+        + Thuật toán tĩnh: Tuyến đường rất ít thay đổi theo thời gian(do con người tác động)
+        + Thuật toán động: Cho phép thay đổi đường đi khi lưu lượng, kiến trúc mạng bị thay đổi
+    - Theo mục đích:
+        + Thuật toán định tuyến toàn cục(global link state): xác định đường đi ngắn nhất giữa nguồn và đích bằng cách sử dụng thông tin về topology mạng. VD: Chúng ta nhìn vào bản đồ để xác định được quãng đường cần đi
+        ![Topo](/Anh/image18.png)
+
+        + Thuật toán định tuyến phân tán(distance vector): xác định đường đi ngắn nhất được thực hiện dần dần qua từng router theo cách thức phân tán. Nghĩa là các nút sẽ dần dần biết thông tin về nút liền kề sẽ dần dần xác định được đường đi ngắn nhất. VD: Thực hiện tìm đường đi mà không có bản đồ
+
+## 6.2 Thuật toán Link State(LS)
+- Trong thuật toán LS, cấu trúc mạng và đường đi của tất cả các liên kết đều phải được xác định từ trước
+- Điều này được thực hiện bằng cách mỗi nút sẽ gửi thông báo về định danh của mình và các liên kết trực tiếp của nút đó tới tất cả các router khác trên mạng
+- Mỗi nút đều có thể chạy thuật toán LS
+- Giao thức sử dụng thuật toán này:
+    + IS-IS(Intermediate System to Intermediate System) là một giao thức định tuyến chuẩn. Có cơ chế định vị địa chỉ rộng lớn, có cơ chế định vị cấu trúc, hiệu quả, cho phép hội tụ nhanh và có chi phí tổn thất thấp.
+    + OSPF(Open Shortest Path First) là một giao thức định tuyến nội, được sử dụng trong 1 hệ thống mạng, hoặc là 1 khu vực xác định. Mỗi router đều thực hiện chạy giải thuật Dijkstra --- Dựa vào cái cây để tìm ra đường đi ngắn nhất
+
+## 6.3 Thuật toán Distance vector(DV)
+- Là thuật toán lặp, tự kết thúc và phân tán
+    - Là thuật toán phân tán:
+        + Mỗi nút chỉ thông báo đến các nút liền kề khi cập nhật thông tin định tuyến
+        + Các nút lân cận sẽ gửi thông tin đến các lân cận khác(nếu cần)
+    - Tính lặp và tự kết thúc:
+        + Qúa trình cập nhật thông tin định tuyến sẽ lặp lại đến khi không còn thông tin trao đổi giữa các cặp nút liền kề
+- Giao thức sử dụng thuật toán này:
+    + RIP(Routing Information Protocol): Là giao thức định tuyến động, có khả năng tương thích với sự thay đổi của hệ thống mạng. VD có 2 đường để đi nhưng 1 đường bị hỏng thì RIP sẽ xóa đường đi tới cái hỏng
+
+# 7. Encapsulation và Decapsulation
+## 7.1 Encapsulation(Đóng gói)
+- Lớp mạng nhận dữ liệu từ lớp trên - Giao vận và thực hiện đóng gói dữ liệu này trong Header lớp mạng và sau đó được chuyển xuống lớp dưới của nó là lớp liên kết dữ liệu
+![Alt text](/Anh/image21.png)
+
+## 7.2 Decapsulation(Giải mã)
+- Máy nhận mở header của lớp Internet, sử dụng giá trị IP Header để xử lý dữ liệu
+- Sau khi gỡ bỏ các Header của mình, thực hiện chuyển gói dữ liệu lên lớp Transport
+![Alt text](/Anh/image22.png) 
+
+# 8. IP(Internet Protocol)
+## 8.1 Tổng quan:
+- Là một giao thức liên mạng tức là kết nối giữa nhiều mạng máy tính với nhau
+- Định nghĩa cấu trúc của gói dữ liệu mạng, là một đơn vị cơ sở cho việc truyền tin
+- Thực hiện nhiệm vụ truyền dữ liệu giữa tầng giao vận và tầng mạng
+- Thực hiện gán địa chỉ cho các thiết bị tham gia vào mạng(địa chỉ IP)
+## 8.2 Cấu trúc IP Header
+![Alt text](/Anh/image24.png)
+- Version: Là phiên bản IP mà chúng ta sử dụng (v4/v6)
+- Header Length: Toàn bộ phần header có độ dài bao nhiêu byte(nếu không có option, sẽ dài 20 byte)
+- Type of service: Kiểu dịch vụ. Dùng để xác định độ ưu tiên của gói tin khi truyền đi trên mạng
+- Datagram length: Độ dài cả data và header
+- 16-bit Indentifier: Được dùng để xác định xem phân mảnh thuộc gói tin IP nào(Khi 1 gói tin được phân mảnh, mỗi phân mảnh sẽ sử dụng cùng 1 số nhận dạng)
+- Flags(!!!): Có 3 bit được sử dụng cho việc phân mảnh, bit đầu tiên luôn được đặt là 0
+- 13-bit Fragmentation offset: Xác định thứ tự của các fragment trong frame.
+- Time to live: phụ thuộc vào hệ điều hành máy đích. vd: linux: 64, windows: 128. Cứ qua 1 nốt mạng, giảm đi 1. Là số nốt mà gói tin đã đi qua. Khi TTL = 0, tức là đi qua 128 nốt mạng thì gói tin không còn đủ sự tin cậy nữa và sẽ bị hủy
+VD: Ping 2 máy kết nối trực tiếp
+![Alt text](/Anh/image25.png)
+- Uper-layer Protocol: Giao thức tầng transport(TCP/UDP)
+- Header checksum: kiểm tra tính đúng đắn của dữ liệu
+- 32-bit Source IP address: Địa chỉ IP máy gửi
+- 32-bit Destination IP address: Địa chỉ IP máy nhận
+- Options(if any): Các cài đặt thêm cho các nhà lập trình
+- Data: Gói dữ liệu
+## 8.3 Đặc điểm cơ bản:
+3 đặc điểm: Connectionless, Best Effort, Media Independent
+
+### 8.3.1 Connectionless(Không hướng kết nối)
+- Không có kết nối end-to-end chuyên dụng nào được tạo bởi IP trước khi dữ liệu được gửi đi
+- Tương tự như việc gửi 1 bức thư cho ai đó mà không báo trước
+
+==> Các thiết bị gửi sẽ không biết thiết bị nhận có tồn tại hay không. Không biết khi nào gửi tin tới nơi. Không biết được thiết bị nhận liệu có đọc được packet của thiết bị gửi
+
+### 8.3.2 Best Effort
+- Nỗ lực tốt nhất - nó sẽ tìm cách đẩy bản tin đi càng nhanh càng tốt, cứ nhận được là sẽ đẩy đi
+- Không tin cậy: Không có cơ chế phục hồi nếu như có lỗi xảy ra --> cần có sự hỗ trợ từ tầng Transport để đảm bảo độ tin cậy(TCP)
+### 8.3.3 Media Independent
+- Không phụ thuộc vào môi trường truyền dẫn
+- Cùng 1 gói tin IP có thể được đẩy qua mạng cáp đồng, cáp quang hoặc Wireless mà không cần phải thay đổi giao thức
+# 9. ICMP(Internet Control Message Protocol)
+## 9.1 Định nghĩa
+- Là 1 giao thức của gói Internet Protocol
+- Được các thiết bị mạng như router sử dụng để gửi đi các thông báo lỗi chỉ ra 1 dịch vụ có tồn tại hay không
+## 9.2 Tác dụng
+- Dùng để báo cáo lỗi kịp thời
+- Chuẩn đoán các sự cố mạng
+
+## 9.3 Cách hoạt động:
+- Khi không kết nối được tới đích
+- Router sẽ tạo và gửi 1 gói tin ICMP tới máy gửi để báo lỗi 
+- Máy tính nhận được thống báo lỗi sẽ chuyển mã lỗi tới cho TCP đang cố gắng kết nối tới máy tính đích
+- TCP sẽ báo lại lỗi cho ứng dụng
+![Alt text](/Anh/image26.png)
+## 9.4 Cấu trúc gói tin
+- Mỗi message ICMP đều có dạng riêng nhưng đều bắt đầu bằng 3 trường sau:
+    + TYPE(8 bit): là 1 số nguyên 8 bit xác định thông điệp
+    + CODE(8 bit): cung cấp thêm thông tin về kiểu thông điệp
+    + CHECKSUM(16 bit): sử dụng thuật giải checksum như IP, nhưng ICMP checksum chỉ tính đến thông điệp ICMP
+
+
+
+# 10. Link tài liệu tham khảo:
+
+- [Freetuts](https://freetuts.net/thu-thuat/network-protocol-1205t.html)
+
+- [Anh Quang](https://github.com/thanhquang99/thuctap2023/blob/main/thuctap/OSIvaTCPIP/osivatcpipnew.md)
+
+- [Suncloud](https://suncloud.vn/mo-hinh-mang-osi#1-tong-quan)
+
+- [Wiki](https://en.wikipedia.org/wiki/Network_layer)
+
+
+
+
+
+
+
