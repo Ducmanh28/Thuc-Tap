@@ -115,7 +115,11 @@ Mạng Internet ngày nay sử dụng dịch vụ chuyển mạch gói
 - Giao thức sử dụng thuật toán này:
     + RIP(Routing Information Protocol): Là giao thức định tuyến động, có khả năng tương thích với sự thay đổi của hệ thống mạng. VD có 2 đường để đi nhưng 1 đường bị hỏng thì RIP sẽ xóa đường đi tới cái hỏng
 ### 6.4 Các giao thức định tuyến sử dụng nhiều trong đời sống
-
+Một số giao thức định tuyến phổ biến hiện nay như: RIP, OSPF, IGRP, EIGRP và trong đó 2 giao thức chuẩn quốc tế là RIP và OSPF
+#### 6.4.1 OSPF
+- OSPF hay còn gọi là Open Short Path First: dịch sang tiếng Việt nó mang nghĩa là "Mở Đường Dẫn Ngắn Trước" là một giao thức định tuyến nội, hoạt động dựa trên thuật toán Link State và được sử dụng trong một hệ thống mạng hay một khu vực nhất định
+- Giao thức này được sử dụng rộng rãi trong các mạng doanh nghiệp do có khẳ năng lưu trữ thông tin nhanh vào cơ sở dữ liệu
+- 
 
 ## 7. Encapsulation và Decapsulation
 ### 7.1 Encapsulation(Đóng gói)

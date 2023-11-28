@@ -112,12 +112,15 @@ Dựa trên 2 tiến trình cơ bản, xảy ra giữa `Client FTP - Server FTP`
     
     + Hai máy tính bất kỳ khi làm việc với nhau thì chúng phải khởi tạo 1 connection, đồng nghĩa với việc mỗi máy tính phải mở 1 port nào đó để truyền tin cho nhau
     + Trên 1 máy tính có thể mở 65535 Port để chạy dịch vụ
-        + Port từ 1-1023 là các Port đặc biệt được dùng mặc định cho các dịch vụ được IANA quy định. VD: Port22 cho SSH, 25/SMTP, 60/HTTP, 443/SSL,... Tuy nhiên ta vẫn có thể thay đổi theo ý muốn
+        + Port từ 1-1023 là các Port đặc biệt được dùng mặc định cho các dịch vụ được IANA quy định. VD: Port22 cho SSH, 25/SMTP, 80/HTTP, 443/SSL,HTTPS,... Tuy nhiên ta vẫn có thể thay đổi theo ý muốn
         + Port từ 1024-65535 là những Port cao được dùng cho các dịch vụ của cá nhân, tổ chức nào đó như 3306/MySQL, 3389/Remote Desktop,...
 - FPT Active Mode:
+
 ![Alt text](/Anh/image3.png)
-    Client sẽ mở 1 port bất kỳ kết nối với port 21 của server và gửi 1 gói tin SYN. Server đồng ý và gửi lại gói tin SYN/ACK từ Port21 về Client.Client sẽ gửi lại gói tin ACK đến Port 21 trên Client để đồng ý tạo kết nối=> Kết nối được khởi tạo xong.
-    Tiếp đó Client sử dụng Connection Control đã tạo ở trên để gửi command Port yêu cầu Server dùng ACtive Mode để truyền file. Đồng thời thông báo cho Server rằng Client sẽ mở Port mới để chờ tạo Connection Data. Server sau khi nhận được yêu cầu sẽ tiến hành đàm phán bắt tay 3 bước với Client. Sau đó việc gửi Data sẽ được bát đầu
+
+Client sẽ mở 1 port bất kỳ kết nối với port 21 của server và gửi 1 gói tin SYN. Server đồng ý và gửi lại gói tin SYN/ACK từ Port21 về Client.Client sẽ gửi lại gói tin ACK đến Port 21 trên Client để đồng ý tạo kết nối=> Kết nối được khởi tạo xong.
+
+Tiếp đó Client sử dụng Connection Control đã tạo ở trên để gửi command Port yêu cầu Server dùng ACtive Mode để truyền file. Đồng thời thông báo cho Server rằng Client sẽ mở Port mới để chờ tạo Connection Data. Server sau khi nhận được yêu cầu sẽ tiến hành đàm phán bắt tay 3 bước với Client. Sau đó việc gửi Data sẽ được bát đầu
 - FTP Passive Mode:
 ![Alt text](/Anh/image4.png)
     Qúa trình tạo Connection Control giống hệt so với Active Mode. Ở phần tạo connection data, FPT Client sẽ chủ động gửi command `PASV`. Server nhận được yêu cầu -> Mở 1 Port mới và trả lời cho Client biết rằng sẽ dùng Port đó để tạo Connection Data. Lúc này, Client cũng sẽ tạo 1 Port mới và tiến hành đàm phán 3 bước với Server. Sau đó quá trình truyền nhận dữ liệu sẽ bắt đầu
