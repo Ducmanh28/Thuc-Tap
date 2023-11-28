@@ -1,5 +1,33 @@
 # Tầng Mạng
 MỤC LỤC
+- [1. Tầng mạng là gì](#1-tầng-mạng-là-gì)
+- [2. Các chức năng chính](#2-các-chức-năng-chính)
+- [3. Cách tầng mạng hoạt động](#3-cách-tầng-mạng-hoạt-động)
+- [4. Dịch vụ chuyển mạch](#4-dịch-vụ-chuyển-mạch-gói-datagram-và-chuyển-mạch-ảo-virtual-circuit)
+    - [4.1 Tổng quan](#41-tổng-quan)
+    - [4.2 Dịch vụ chuyển mạch gói](#42-dịch-vụ-chuyển-mạch-gói)
+    - [4.3 Dịch vụ chuyển mạch ảo](#43-dịch-vụ-chuyển-mạch-ảo)
+- [5. Các giao thức ở tầng mạng](#5-các-giao-thức-ở-tầng-mạng)
+- [6. Định tuyến](#6-định-tuyến)
+    - [6.1 Tổng quan](#61-tổng-quan)
+    - [6.2 Thuật toán link state](#62-thuật-toán-link-statels)
+    - [6.3 Thuật toán Distance vector](#63-thuật-toán-distance-vectordv)
+- [7. Encapsulation và Decapsulation](#7-encapsulation-và-decapsulation)
+    - [7.1 Encapsulation](#71-encapsulationđóng-gói)
+    - [7.2 Decapsulation](#72-decapsulationgiải-mã)
+- [8. IP(Internet Protocol)](#8-ipinternet-protocol)
+    - [8.1 Tổng quan](#81-tổng-quan)
+    - [8.2 Cấu trúc IP Header](#82-cấu-trúc-ip-header)
+    - [8.3 Đặc điểm cơ bản](#83-đặc-điểm-cơ-bản)
+        - [8.3.1 Connectionless](#831-connectionlesskhông-hướng-kết-nối)
+        - [8.3.2 Best Effort](#832-best-effort)
+        - [8.3.3 Media Independent](#833-media-independent)
+- [9. ICMP(Internet Control Message Protocol)](#9-icmpinternet-control-message-protocol)
+    - [9.1 Định nghĩa](#91-định-nghĩa)
+    - [9.2 Tác dụng](#92-tác-dụng)
+    - [9.3 Cách hoạt động](#93-cách-hoạt-động)
+    - [9.4 Cấu trúc gói tin](#94-cấu-trúc-gói-tin)
+- [10. Tài liệu tham khảo](#10-link-tài-liệu-tham-khảo)
 
 ## 1. Tầng mạng là gì?
 - Là tầng thứ 3 trong 7 tầng trong mô hình OSI
@@ -155,8 +183,7 @@ VD: Ping 2 máy kết nối trực tiếp
     + TYPE(8 bit): là 1 số nguyên 8 bit xác định thông điệp
     + CODE(8 bit): cung cấp thêm thông tin về kiểu thông điệp
     + CHECKSUM(16 bit): sử dụng thuật giải checksum như IP, nhưng ICMP checksum chỉ tính đến thông điệp ICMP
-
-
+    ![Alt text](/Anh/image27.png)
 
 # 10. Link tài liệu tham khảo:
 
