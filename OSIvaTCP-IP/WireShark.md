@@ -110,9 +110,9 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
         - `Close`: Đóng tệp bắt hiện tại. Nếu bạn chưa lưu tệp bắt, bạn sẽ được yêu cầu lưu nó trước
         - `Reload`: Tải lại tệp bắt hiện tại
         - `Find Packet…`: Tìm một gói tin dựa trên các tiêu chí khác nhau
-        - `Go Back`: Nhảy về phía sau trong lịch sử gói tin1.
-        - `Go Forward`: Nhảy về phía trước trong lịch sử gói tin1.
-        - `Go to Packet…`: Đi đến một gói tin cụ thể1.
+        - `Go Back`: Nhảy về phía sau trong lịch sử gói tin
+        - `Go Forward`: Nhảy về phía trước trong lịch sử gói tin
+        - `Go to Packet…`: Đi đến một gói tin cụ thể
         - `Go To First Packet`: Nhảy đến gói tin đầu tiên của tệp bắt
         - `Go To Last Packet`: Nhảy đến gói tin cuối cùng của tệp bắt
         - `Auto Scroll in Live Capture`: Tự động cuộn danh sách gói tin trong khi thực hiện bắt trực tiếp
@@ -131,8 +131,70 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
         + Toán từ `&&` để tìm kiếm đồng thời 2 trường
         + Và còn rất nhiều câu lệnh khác mà bạn có thể tự khám phá chỉ cần nhập mẫu 1 thứ gì đó bạn muốn tìm kiếm, **WireShark** sẽ gợi ý cho bạn
     - Ô màu đỏ: Hiển thị danh sách các gói tin bắt được
-    - Ô mà xanh lá: Hiển thị thông tin chi tiết của 1 gói tin
-    - 
+    - Ô màu xanh lá: Hiển thị thông tin chi tiết của 1 gói tin
+    - Ô màu xanh dương: Hiển thị thông tin khi đã được chuyển đổi sang hệ **Hex** sau đó thực hiện mã hóa
+    - Ô cuối cùng hiển thị 1 vài thông tin về gói tin đã chọn
+
+## 7. Coloring Rule mặc định của WireShark
+
+|Màu|Giải thích|
+|---|----------|
+|Tím nhạt|Giao thức TCP|
+|Xanh nhạt|Giao thức UDP|
+|Đen|Các gói tin có lỗi|
+|Xanh lá nhạt|Lưu lượng HTTP|
+|Vàng nhạt|Dành riêng cho Windows, bao gồm khối tin nhắn máy chủ(SMB) và NetBIOS|
+|Vàng đậm|Lộ trình|
+|Xám đen|Cờ SYN, FIN, ACK,...|
+|Đỏ|Các gói tin có vấn đề tiềm ẩn|
+## 8. Thực hành bắt và phân tích gói tin của 1 vài giao thức:
+### 8.1 UDP
+- Tiến hành nhập `udp` vào ô chọn lọc để thực hiện tìm các gói tin sử dụng giao thức udp
+- ![Alt text](image.png)
+
+- Bảng thông tin hiện ra với các cột cụ thể như sau:
+- ![Alt text](image-1.png)
+    - No: Số thứ tự
+    - Time: Thời điểm
+    - Source: IP máy gửi
+    - Destination: IP máy nhận
+    - Protocol: Giao thức
+    - Length: Chiều dài gói tin
+    - Info: Thông tin về gói tin
+- Bảng thông tin chi tiết:
+- ![Alt text](image-2.png)
+- Ở đây, có 3 trường mà chúng ta cần quan tâm:
+    + Ethernet Header: 
+    + ![Alt text](image-3.png)
+        + Loại công nghệ mạng: Ethernet II
+        + Destination: Địa chỉ MAC bên nhận là 40:5b:d8:47:c2:67
+        + Source: Đỉa chỉ MAC bên gửi là ff:ff:ff:ff:ff:ff
+        + Type: Loại IP: IPv4
+    + IPv4 Header: 
+    + ![Alt text](image-4.png)
+        + 0100...: Sử dụng IP version 4
+        + Header Length: Chiều dài header: 20 bytes
+        + Flags: Cờ 
+        + Time To Live: số lần đi qua nút mạng còn lại
+        + Protocol: Giao thức sử dụng: UDP
+        + Header Checksum: Check lỗi
+        + Source Address: địa chỉ IP nguồn: 192.168.68.101
+        + Destination Address: địa chỉ IP đích đến: 255.255.255.255
+    + UDP header:
+    + ![Alt text](image-5.png)
+        + Source Port: Cổng Port từ máy gửi: 53056
+        + Destination Port: Cổng Port máy nhận: 8899
+        + Length: Chiều dài gói tin: 36
+        + Checksum: Kiểm tra lỗi
+        + UDP Payload: gói dữ liệu vận chuyển
+    
+- ![Alt text](image-6.png)
+- Theo bảng trên ta có thể thấy, UDP không hề thiết lập một quá trình kết nối nào trước tiên mà thực hiện truyền dữ liệu ngay khi có.
+
+
+
+
+
 
 
 
