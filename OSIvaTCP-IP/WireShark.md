@@ -224,6 +224,9 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
     + Sau khi máy nguồn đã nhận được gói tin, nó thực hiện gửi lại 1 gói tin mang cờ `ACK` tới Server để xác nhận thiết lập kết nối. Lúc này số SEQ = 1, số ACK = 1
     + ![Alt text](image-12.png)
 
+### 8.3 DHCP
+
+
 
 
 
