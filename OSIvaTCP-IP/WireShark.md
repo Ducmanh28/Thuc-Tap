@@ -167,8 +167,8 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
     + Ethernet Header: 
     + ![Alt text](image-3.png)
         + Loại công nghệ mạng: Ethernet II
-        + Destination: Địa chỉ MAC bên nhận là 40:5b:d8:47:c2:67
-        + Source: Đỉa chỉ MAC bên gửi là ff:ff:ff:ff:ff:ff
+        + Destination: Địa chỉ MAC bên nhận là ff:ff:ff:ff:ff:ff
+        + Source: Đỉa chỉ MAC bên gửi là 40:5b:d8:47:c2:67
         + Type: Loại IP: IPv4
     + IPv4 Header: 
     + ![Alt text](image-4.png)
@@ -188,8 +188,14 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
         + Checksum: Kiểm tra lỗi
         + UDP Payload: gói dữ liệu vận chuyển
     
-- ![Alt text](image-6.png)
+- ![Alt text](image-7.png)
 - Theo bảng trên ta có thể thấy, UDP không hề thiết lập một quá trình kết nối nào trước tiên mà thực hiện truyền dữ liệu ngay khi có.
+
+### 8.2 TCP
+- IP máy tính: `192.168.68.78`
+- Tiến hành nhập fiter: `tcp && ip.addr == 192.168.68.78`, bảng thông tin các gói tin sử dụng giao thức TCP được gửi từ và gửi đến IP: 192.168.68.78 hiện ra:
+
+
 
 
 
