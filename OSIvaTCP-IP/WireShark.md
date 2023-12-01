@@ -193,7 +193,39 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
 
 ### 8.2 TCP
 - IP máy tính: `192.168.68.78`
-- Tiến hành nhập fiter: `tcp && ip.addr == 192.168.68.78`, bảng thông tin các gói tin sử dụng giao thức TCP được gửi từ và gửi đến IP: 192.168.68.78 hiện ra:
+- Tiến hành nhập fiter: `tcp && ip.addr == 192.168.68.78`, chọn dòng đầu tiên(no. 42), bảng thông tin các gói tin sử dụng giao thức TCP được gửi từ và gửi đến IP: 192.168.68.78 hiện ra:
+- ![Alt text](image-6.png)
+- Tiến hành phân tích gói tin TCP:
+    + Ethernet Header: 
+    + ![Alt text](image-8.png)
+        + Sử dụng công nghệ mạng: Ethernet II
+        + Source MAC: 74:d8:3e:06:85:9c
+        + Destination MAC: 74:4d:28:a8:fb:57
+        + Loại IP: IPv4
+    + IPv4 Header:
+    + ![Alt text](image-9.png)
+        + Source IP: 192.168.68.78
+        + Destination IP: 8.8.4.4
+        + Time to live: 128
+    + TCP Header:
+    + ![Alt text](image-10.png)
+        + Source Port: 56219
+        + Destination Port: 443(HTTPS)
+        + Sequence Number: 0 [Next Sequence Number = 1]
+        + Acknowledgment number: 0
+        + Flags: SYN
+    
+    ==> Đây là gói tin đầu tiên của giao thức TCP khi bắt đầu gửi 1 gói tin SYN tới máy chủ để khởi động quy trình bắt tay 3 bước(Three ways handshake)
+- Quy trình bắt tay 3 bước:
+- ![Alt text](image-11.png)
+- Ta có thể nhìn rõ quy trình bắt tay 3 bước thông qua WireShark:
+    + Đầu tiên, máy nguồn với IP: 192.168.68.78 gửi 1 gói tin với cờ `SYN` tới Server với IP: 8.8.4.4. Từ Port 56219 ở máy nguồn tới Port 443(HTTPS) của Server. Gói tin này có số SEQ = 0 và chiều dài = 0
+    + Tiếp theo đó Server trả lời lại bằng 1 gói tin `SYN/ACK` với số SEQ = 0 và số ACK = 1
+    + Sau khi máy nguồn đã nhận được gói tin, nó thực hiện gửi lại 1 gói tin mang cờ `ACK` tới Server để xác nhận thiết lập kết nối. Lúc này số SEQ = 1, số ACK = 1
+    + ![Alt text](image-12.png)
+
+
+
 
 
 
