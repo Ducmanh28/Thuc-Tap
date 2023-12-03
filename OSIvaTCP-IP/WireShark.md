@@ -161,7 +161,7 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
 ## 8. Thực hành bắt và phân tích gói tin của 1 vài giao thức:
 ### 8.1 UDP
 - Tiến hành nhập `udp` vào ô chọn lọc để thực hiện tìm các gói tin sử dụng giao thức udp
-- ![Alt text](/Anh/image.png)
+- ![Alt text](/Anh/image36.png)
 
 - Bảng thông tin hiện ra với các cột cụ thể như sau:
 - ![Alt text](/Anh/image-1.png)
