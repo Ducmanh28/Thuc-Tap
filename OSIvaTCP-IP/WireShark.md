@@ -1,5 +1,16 @@
 # Ứng dụng WireShark
-
+MỤC LỤC
+- [1. WireShark là gì](#1-wireshark-là-gì)
+- [2. WireShark dùng để làm gì](#2-wireshark-dùng-để-làm-gì)
+- [3. Một vài tính năng nổi bật](#3-một-vài-tính-năng-nổi-bật)
+- [4. Cách mà WireShark hoạt động](#4-cách-mà-wireshark-hoạt-động)
+- [5. Cách tải và cài đặt WireShark](#5-cách-tải-và-cài-đặt-wireshark)
+- [6. Các thao tác cơ bản với WireShark](#6-các-thao-tác-cơ-bản-với-wireshark)
+- [7. Luật màu của WireShark](#7-coloring-rule-mặc-định-của-wireshark)
+- [8. ](#8-thực-hành-bắt-và-phân-tích-gói-tin-của-1-vài-giao-thức)
+    - [8.1 Gói tin UDP](#81-udp)
+    - [8.2 Gói tin TCP](#82-tcp)
+    - [8.3 DHCP](#83-dhcp)
 ## 1. WireShark là gì?
 ![Alt text](/Anh/image28.png)
 
@@ -225,6 +236,19 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
     + ![Alt text](image-12.png)
 
 ### 8.3 DHCP
+- IP hiện tại: 192.168.1.93
+- Để có thể thấy rõ được cách DHCP hoạt động, ta vào cmd và thực hiện lệnh `ipconfig/release` và tiến hành bắt lại wifi
+- Ta có thể thấy ban đầu khi tìm kiếm `DHCP` hiện tại chưa có gì:
+- ![Alt text](image-13.png)
+- Thực hiện release wifi hiện tại:
+- ![Alt text](image-14.png)
+- Màn hình WireShark bây giờ đã hiện rõ cách DHCP hoạt động:
+- ![Alt text](image-15.png)
+- Ta cùng phân tích cách DHCP hoạt động:
+    + Ban đầu, máy cá nhân mang IP: 192.168.1.93 gửi tới GateWay mang IP:192.168.1.1 yêu cầu release địa chỉ ip hiện tại
+    + Tiếp đó máy tính sẽ gửi broadcast với IP:255.255.255.255 để hỏi xem server là ai và yêu cầu cấp 1 địa chỉ IP kèm , trong gói tin sẽ có đính kèm MAC của máy
+    + ![Alt text](image-16.png)
+
 
 
 
