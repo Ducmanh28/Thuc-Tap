@@ -252,7 +252,7 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
     + DHCP Offer: Với địa chỉ MAC là: `74:d8:3e:06:85:9c` thì DHCP server sẽ thực hiện cấp cho máy cá nhân 1 địa chỉ IP là: `192.168.1.93`
     + ![Alt text](/Anh/image-18.png)
     + DHCP Request: Máy tính cá nhân gửi gói tin chấp nhận địa chỉ IP mà DHCP server cấp
-    + DHCP ACK: Server sẽ xác nhận rằng máy tính cá nhân sẽ nhận địa chỉ IP: `192.168.1.93` và thực hiện cấp địa chỉ. Lúc này, máy cá nhân đã có địa chỉ IP
+    + DHCP ACK: Server sẽ xác nhận rằng máy tính cá nhân sẽ nhận địa chỉ IP: `192.168.1.93` và thực hiện cấp địa chỉ. Lúc này, máy cá nhân đã có địa chỉ IP 
 
 
 
