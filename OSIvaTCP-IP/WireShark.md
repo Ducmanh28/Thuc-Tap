@@ -161,10 +161,10 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
 ## 8. Thực hành bắt và phân tích gói tin của 1 vài giao thức:
 ### 8.1 UDP
 - Tiến hành nhập `udp` vào ô chọn lọc để thực hiện tìm các gói tin sử dụng giao thức udp
-- ![Alt text](image.png)
+- ![Alt text](/Anh/image.png)
 
 - Bảng thông tin hiện ra với các cột cụ thể như sau:
-- ![Alt text](image-1.png)
+- ![Alt text](/Anh/image-1.png)
     - No: Số thứ tự
     - Time: Thời điểm
     - Source: IP máy gửi
@@ -173,16 +173,16 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
     - Length: Chiều dài gói tin
     - Info: Thông tin về gói tin
 - Bảng thông tin chi tiết:
-- ![Alt text](image-2.png)
+- ![Alt text](/Anh/image-2.png)
 - Ở đây, có 3 trường mà chúng ta cần quan tâm:
     + Ethernet Header: 
-    + ![Alt text](image-3.png)
+    + ![Alt text](/Anh/image-3.png)
         + Loại công nghệ mạng: Ethernet II
         + Destination: Địa chỉ MAC bên nhận là ff:ff:ff:ff:ff:ff
         + Source: Đỉa chỉ MAC bên gửi là 40:5b:d8:47:c2:67
         + Type: Loại IP: IPv4
     + IPv4 Header: 
-    + ![Alt text](image-4.png)
+    + ![Alt text](/Anh/image-4.png)
         + 0100...: Sử dụng IP version 4
         + Header Length: Chiều dài header: 20 bytes
         + Flags: Cờ 
@@ -192,34 +192,34 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
         + Source Address: địa chỉ IP nguồn: 192.168.68.101
         + Destination Address: địa chỉ IP đích đến: 255.255.255.255
     + UDP header:
-    + ![Alt text](image-5.png)
+    + ![Alt text](/Anh/image-5.png)
         + Source Port: Cổng Port từ máy gửi: 53056
         + Destination Port: Cổng Port máy nhận: 8899
         + Length: Chiều dài gói tin: 36
         + Checksum: Kiểm tra lỗi
         + UDP Payload: gói dữ liệu vận chuyển
     
-- ![Alt text](image-7.png)
+- ![Alt text](/Anh/image-7.png)
 - Theo bảng trên ta có thể thấy, UDP không hề thiết lập một quá trình kết nối nào trước tiên mà thực hiện truyền dữ liệu ngay khi có.
 
 ### 8.2 TCP
 - IP máy tính: `192.168.68.78`
 - Tiến hành nhập fiter: `tcp && ip.addr == 192.168.68.78`, chọn dòng đầu tiên(no. 42), bảng thông tin các gói tin sử dụng giao thức TCP được gửi từ và gửi đến IP: 192.168.68.78 hiện ra:
-- ![Alt text](image-6.png)
+- ![Alt text](/Anh/image-6.png)
 - Tiến hành phân tích gói tin TCP:
     + Ethernet Header: 
-    + ![Alt text](image-8.png)
+    + ![Alt text](/Anh/image-8.png)
         + Sử dụng công nghệ mạng: Ethernet II
         + Source MAC: 74:d8:3e:06:85:9c
         + Destination MAC: 74:4d:28:a8:fb:57
         + Loại IP: IPv4
     + IPv4 Header:
-    + ![Alt text](image-9.png)
+    + ![Alt text](/Anh/image-9.png)
         + Source IP: 192.168.68.78
         + Destination IP: 8.8.4.4
         + Time to live: 128
     + TCP Header:
-    + ![Alt text](image-10.png)
+    + ![Alt text](/Anh/image-10.png)
         + Source Port: 56219
         + Destination Port: 443(HTTPS)
         + Sequence Number: 0 [Next Sequence Number = 1]
@@ -228,7 +228,7 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
     
     ==> Đây là gói tin đầu tiên của giao thức TCP khi bắt đầu gửi 1 gói tin SYN tới máy chủ để khởi động quy trình bắt tay 3 bước(Three ways handshake)
 - Quy trình bắt tay 3 bước:
-- ![Alt text](image-11.png)
+- ![Alt text](/Anh/image-11.png)
 - Ta có thể nhìn rõ quy trình bắt tay 3 bước thông qua WireShark:
     + Đầu tiên, máy nguồn với IP: 192.168.68.78 gửi 1 gói tin với cờ `SYN` tới Server với IP: 8.8.4.4. Từ Port 56219 ở máy nguồn tới Port 443(HTTPS) của Server. Gói tin này có số SEQ = 0 và chiều dài = 0
     + Tiếp theo đó Server trả lời lại bằng 1 gói tin `SYN/ACK` với số SEQ = 0 và số ACK = 1
@@ -236,18 +236,25 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
     + ![Alt text](image-12.png)
 
 ### 8.3 DHCP
-- IP hiện tại: 192.168.1.93
+- IP hiện tại: `192.168.1.93`
 - Để có thể thấy rõ được cách DHCP hoạt động, ta vào cmd và thực hiện lệnh `ipconfig/release` và tiến hành bắt lại wifi
 - Ta có thể thấy ban đầu khi tìm kiếm `DHCP` hiện tại chưa có gì:
-- ![Alt text](image-13.png)
+- ![Alt text](/Anh/image-13.png)
 - Thực hiện release wifi hiện tại:
-- ![Alt text](image-14.png)
+- ![Alt text](/Anh/image-14.png)
 - Màn hình WireShark bây giờ đã hiện rõ cách DHCP hoạt động:
-- ![Alt text](image-15.png)
+- ![Alt text](/Anh/image-15.png)
 - Ta cùng phân tích cách DHCP hoạt động:
-    + Ban đầu, máy cá nhân mang IP: 192.168.1.93 gửi tới GateWay mang IP:192.168.1.1 yêu cầu release địa chỉ ip hiện tại
-    + Tiếp đó máy tính sẽ gửi broadcast với IP:255.255.255.255 để hỏi xem server là ai và yêu cầu cấp 1 địa chỉ IP kèm , trong gói tin sẽ có đính kèm MAC của máy
-    + ![Alt text](image-16.png)
+    + DHCP Release: Ban đầu, máy cá nhân mang IP: `192.168.1.93` gửi tới GateWay mang IP:`192.168.1.1` yêu cầu release địa chỉ ip hiện tại
+    + ![Alt text](/Anh/image-17.png)
+    + DHCP Discover: Tiếp đó máy tính sẽ gửi broadcast với IP:`255.255.255.255` để yêu cầu cấp 1 địa chỉ IP kèm , trong gói tin sẽ có đính kèm MAC của máy
+    + ![Alt text](/Anh/image-16.png)
+    + DHCP Offer: Với địa chỉ MAC là: `74:d8:3e:06:85:9c` thì DHCP server sẽ thực hiện cấp cho máy cá nhân 1 địa chỉ IP là: `192.168.1.93`
+    + ![Alt text](/Anh/image-18.png)
+    + DHCP Request: Máy tính cá nhân gửi gói tin chấp nhận địa chỉ IP mà DHCP server cấp
+    + DHCP ACK: Server sẽ xác nhận rằng máy tính cá nhân sẽ nhận địa chỉ IP: `192.168.1.93` và thực hiện cấp địa chỉ. Lúc này, máy cá nhân đã có địa chỉ IP
+
+
 
 
 
