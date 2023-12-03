@@ -233,7 +233,7 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
     + Đầu tiên, máy nguồn với IP: 192.168.68.78 gửi 1 gói tin với cờ `SYN` tới Server với IP: 8.8.4.4. Từ Port 56219 ở máy nguồn tới Port 443(HTTPS) của Server. Gói tin này có số SEQ = 0 và chiều dài = 0
     + Tiếp theo đó Server trả lời lại bằng 1 gói tin `SYN/ACK` với số SEQ = 0 và số ACK = 1
     + Sau khi máy nguồn đã nhận được gói tin, nó thực hiện gửi lại 1 gói tin mang cờ `ACK` tới Server để xác nhận thiết lập kết nối. Lúc này số SEQ = 1, số ACK = 1
-    + ![Alt text](image-12.png)
+    + ![Alt text](/Anh/image-12.png)
 
 ### 8.3 DHCP
 - IP hiện tại: `192.168.1.93`
