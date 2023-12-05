@@ -22,7 +22,7 @@ MỤC LỤC
 
 ==> Thông qua WireShark, quản trị viên có thể 
 - hiểu hơn về Network Packets đang chạy trên hệ thống
-- xác định lỗi và nguyên nhân gây ra lỗi một cách dễ dàng hơn
+- hỗ trợ xác định lỗi và nguyên nhân gây ra lỗi một cách dễ dàng hơn
 
 ## 2. WireShark dùng để làm gì
 - Để khắc phục sự cố mạng
