@@ -11,6 +11,6 @@ Mục Lục
     - [Tầng DataLink](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/2.%20DataLinkLayer.md)
     - [Tầng Physical](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/1.%20PhysicalLayer.md)
     - [WireShark](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/WireShark.md)
-    
+    - [InternetProtocol](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/InternetProtocolAddress.md)
     
     
