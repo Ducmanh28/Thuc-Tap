@@ -75,14 +75,111 @@ Là địa chỉ IP được các nhà cung cấp dịch vụ internet như
   - 10.0.0.0 đến 10.255.255.255
   - 172.16.0.0 đến 172.31.255.255
   - 192.168.0.0 đến 192.168.255.255
+### 2.5 IP Private và IP Public
+- Đễ dễ hiểu
+  - IP Private dùng để giao tiếp giữa các máy trong 1 mạng nội bộ
+  - IP Public sử dụng để giao tiếp trong môi trường Internet 
+- Một IP Public có thể được sử dụng cho nhiều IP Private
+- VD trong 1 công ty gồm rất nhiều máy tính cá nhân, mỗi máy tính này đều có cùng 1 dải IP Private: 192.168.68.0 và có IP Private của mỗi máy là khác nhau, miễn là trong cùng 1 dải mạng. Tất cả các máy này sẽ đều có chung 1 IP Public để truy cập ra Internet. IP Public này sẽ chính là IP của Router. Vậy việc giao tiếp giữa máy A ở công ty A và máy B ở công ty B trong môi trường Internet sẽ là sự giao tiếp giữa 2 Router A và Router B
+- Để có IP Public, bạn sẽ phải đi thuê và nó sẽ được các công ty cung cấp dịch vụ Internet cấp cho bạn.
+- Tôi đã mô tả đơn giản quá trình qua sơ đồ như sau:
+- ![](/Anh/Screenshot_51.png)
 ## 3. Internet Protocol version 4(IPv4)
 - Giao thức Internet phiên bản thứ 4, là phiên bản thứ 4 trong quá trình phát triển của IP. Đây là phiên bản đầu tiên của IP được sử dụng rộng rãi. Đến nay, IPv4 vẫn đang được sử dụng rất nhiều
 ### 3.1 Cấu trúc địa chỉ IP
-Được chia thành 2 phần: 
+Được chia thành 2 phần:
+- ![](/Anh/Screenshot_52.png)
 - Phần Network: là địa chỉ mạng, dùng để xác định mạng mà thiết bị kết nối vào. Dùng để phần biệt mạng này với mạng khác
 - Phần Host: dùng để định danh các thiết bị trong từng vùng mạng. Hiểu đơn giản, trong 1 mạng LAN có rất nhiều thiết bị kết nối vào cùng 1 mạng thì phần Host này sẽ được dùng để phân biệt các thiết bị đó với nhau
 - Gồm có 32 bit nhị phân và được chia làm 4 cụm bằng nhau, mỗi cụm được gọi là 1 octet, mỗi octet có 8 bit. Và có tổng cộng 2^32 ~~ 4,29 tỷ địa chỉ IP
 - Để cho dễ nhớ thì cứ 8 bit nhị phân sẽ được chuyển thành 1 số thập phân và từ đó IPv4 ra đời 
 VD: `192.168.68.78` là: `11000000.10101000.01000100.01001110`
 - Một số quy tắc khi đặt địa chỉ IP:
-  -  
+  -  Các bit phần mạng không được đặt đồng thời bằng 0
+     -  VD: Địa chỉ `0.0.0.1` với phần mạng là `0.0.0` và phần HOST là 1 sẽ không hợp lệ
+  - Các bit phần HOST đồng thời bằng 0 thì đấy sẽ là địa chỉ mạng
+    - VD: `192.168.68.0` là 1 địa chỉ mạng và không thể gán cho HOST
+    - Địa chỉ mạng là địa chỉ đại diện cho 1 dải mạng
+  - Nếu các bit phần HOST đồng thời bằng 1 thì ta được 1 địa chỉ broadcast
+    - VD: Ta có IP: `192.168.68.255` hay chính là `1100000.10101000.01000100.11111111` là một địa chỉ Broadcast
+## 3.2 Các lớp địa chỉ IP
+- Địa chỉ IP được chia thành 5 lớp: A, B, C, D, E. Nhưng đa số chúng ta chỉ tiếp xúc với 3 lớp đầu tiên. Lớp D dùng cho mục đích Multicast, Lớp E sinh ra để dự phòng và hầu như không được dùng đến.
+- Người ta phân ra 3 lớp địa chỉ A, B, C nhằm phục vụ cho mục đích để người dùng chọn địa chỉ IP theo quy mô hệ thống mạng mà họ sử dụng. Mạng nhỏ thì dùng lớp C, dần dần to lên thì sẽ dùng đến B và đến A. Trong lớp mạng A có nhiều địa chỉ IP nhất
+- Ta cùng đi phân tích các lớp địa chỉ IP
+- Trước tiên, ta cần nhớ để phân biệt giữa 3 lớp A, B, C người ta dựa vào Octet đầu tiên
+### 3.2.1 Lớp A
+- ![](/Anh/Screenshot_54.png)
+- Theo quy ước, lớp A có 8 bits đầu tiên là Network ID 
+- Bit đầu tiên của lớp A luôn bằng 0: `0xxxxxxx.X.X.X`
+- Để dễ nhớ hơn, người ta quy ước, octet đầu của các địa chỉ IP lớp A sẽ chạy trong khoảng từ 1-127(chính là từ 00000001-01111111)
+- Các địa chỉ mạng của lớp A: 1.0.0.0, 2.0.0.0,....,127.0.0.0
+  - Tuy nhiên, mạng 127.0.0.0 được sử dụng làm mạng *loopback* nên địa chỉ mạng ở lớp A chỉ gồm: 1.0.0.0,....,126.0.0.0 (tổng cộng 126 mạng)
+  - Địa chỉ 127.0.0.1 là 1 địa chỉ *loopback*
+  - Loopback là một địa chỉ IP đặc biệt được sử dụng để kiểm tra những lỗi đường truyền trong hệ thống mạng.
+  - VD: Để kiểm tra chồng giao thức TCP/IP có được cài đặt đúng hay không, ta ping 127.0.0.1, nếu kết quả ping thành công thì chồng giao thức TCP/IP đã được cài đặt đúng
+  - Còn 24 bits còn lại là địa chỉ Host ID vậy nên lớp A có tổng cộng 2^24-2 địa chỉ IP = 16777214 địa chỉ
+- VD: 10.0.0.1, 1.1.1.1, 2.3.4.5, .... là các địa chỉ lớp A
+- 
+### 3.2.2 Lớp B
+- ![](/Anh/Screenshot_56.png)
+- Theo quy ước, lớp B có 16 bits đầu tiên là NetWork ID 
+- Hai bit đầu của lớp B luôn bằng 10: `10xxxxxx.X.X.X`
+- Octet đầu của các địa chỉ IP lớp B sẽ chạy trong khoảng từ 128-191(chính là từ 10000000-10111111)
+- Các địa chỉ mạng lớp B bao gồm: 128.0.0.0 - 191.255.0.0, có tất cả 2^14 mạng trong lớp B
+- Còn 16 bits còn lại là Host ID, vậy nên lớp B có tổng cộng 2^16-2 địa chỉ IP = 65534 địa chỉ
+- VD: 191.1.2.3, 191.168.12.56, 128.28.28.28 là các địa chỉ lớp B
+
+### 3.2.3 Lớp C
+- ![](/Anh/Screenshot_57.png)
+-  Theo quy ước, lớp B có 24 bits đầu tiên là NetWork ID 
+-  Ba bit đầu của lớp C luôn luôn bằng 110: `110x.X.X.X`
+-  Octet đầu của các địa chỉ IP lớp C sẽ chạy trong khoảng từ 192-223(chính là từ 1100000-11011111)
+-  Các địa chỉ mạng lớp C bao gồm: 192.0.0.0 - 223.255.255.0, có tất cả 2^21 = 2097152 mạng trong lớp C
+-  Còn 8 bits còn lại là Host ID, vậy nên lớp C có tổng cộng 2^8-2 địa chỉ IP = 254 địa chỉ
+-  VD: 192.168.68.78, 220.220.220.2, 223.9.0.5,.. là các địa chỉ IP lớp C
+
+### 3.2.4 Lớp D
+- 4 bit đầu tiên của D luôn bằng 1110
+- Gồm các địa chỉ thuộc dải: 224.0.0.0 --> 239.255.255.255
+- Được dùng làm các địa chỉ Multicast. 
+- VD: 224.0.0.5 dùng cho OSPF, 224.0.0.9 dùng cho RIPv2,...
+### 3.2.5 Lớp E
+- Từ 240.0.0.0 trở đi
+- Được dùng cho mục đích dự phòng
+
+## 3.4 Địa chỉ Broadcast
+- Gồm có 2 loại Broadcast:
+  - VD: IP của bạn 192.168.78.78
+  - Direct: 192.168.68.255, Chỉ các thiết bị trong dải mạng 192.168.68.0 nhận được
+  - Local: 255.255.255.255, Chỉ các thiết bị trong dải mạng của bạn nhận được tức(192.168.78.0)
+
+## 3.5 SubnetMask
+- Là 1 dải 32 bits nhị phân đi kèm với 1 địa chỉ IP, được các Host sử dụng để xác định địa chỉ mạng của địa chỉ IP này. Để làm được điều đó, Host sẽ đem địa chỉ IP thực hiện phép tính AND từng bit một với subnetmask của nó
+- Phép toán AND: 0 AND 0 = 0; 1 AND 1 = 1; 0 AND 1 = 0; 1 AND 0 = 0
+- VD: Xét địa chỉ IP: 192.168.68.78
+
+|  |Dạng thập phân|Dạng nhị phân|
+|--|--------------|-------------|
+|Địa chỉ IP|192.168.68.78 |11000000.10101000.01000100.01001110|
+|Subnet Mask|255.255.255.0|11111111.11111111.11111111.00000000|
+|Địa chỉ mạng|192.168.68.0|11000000.10101000.01000100.00000000|
+
+- Phần mạng chạy đến đâu, bit 1 của subnet mask chạy đến đó
+- Ứng với các bit phần host, các bit của subnet mask được thiết lập giá trị 0
+- Một số SubnetMask chuẩn:
+    - Lớp A: 255.0.0.0
+    - Lớp B: 255.255.0.0
+    - Lớp C: 255.255.255.0
+- Subnet Mask là 1 phần quan trọng trong hệ thống mạng
+- Nếu không có SubnetMask mạng sẽ gặp phải nhiều vấn đề:
+    - Giảm khả năng kiểm soát lưu lượng mạng
+    - Việc kết nối từ xa trở nên khó khăn hơn
+    - Việc mở rộng mạng sẽ trở nên phức tạp và khó khăn hơn
+## 3.6 Prefix
+- Để mô tả một địa chỉ IP, người ta dùng 1 đại lượng gọi là số Prefix 
+- Hiểu đơn giản thì số Prefix miêu tả số bit mạng trong một địa chỉ IP, được viết ngay sau địa chỉ IP, và được ngăn cách bởi dấu "/"
+- VD: 192.168.68.78/24 : 24 bits đầu là NetworkID, 8 bits còn lại là Host ID
+- Có tác dụng quan trọng trong việc phân chia mạng, giúp xác định kích thước của mạng, giúp các router xác định đường đi cho các gói tin
+- Nếu không có số prefix, hệ thống mạng sẽ không thể hoạt động một cách hiệu quả
+    - Các router sẽ không thể xác định đường đi cho các gói tin
+    - Việc phân chia, quản lý mạng cũng sẽ trở nên khó khăn
