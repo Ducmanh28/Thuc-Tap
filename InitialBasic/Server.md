@@ -53,3 +53,24 @@
 - Lắp RAM theo hướng dẫn của nhà sản xuất, lắp các thanh ưu tiên hoặc lắp cho 1/2 CPU, nếu lắp sai có thể xảy ra trường hợp các thanh RAM hoạt động không hết công suất hoặc không hoạt động
 - Lắp CPU chú ý chiều để lắp
 - Lắp sử dụng lực vừa đủ, cẩn thận, không cần quá nhanh 
+
+# 8. Tiến hành cài win trên server Vật Lý
+Hôm nay, tôi thực hiện cài thử Window 10 trên Server vật lý, sử dụng USB
+Ban đầu, màn hình Server hiển thị đang được bật như sau:
+- ![](../Anh/10.jpg)
+
+Chờ khi màn hình hiển thị các nút để vào BIOS, tiến hành bấm `F11` để truy cập vào Boot Manager
+- Tiến hành chọn `One-shot UEFI Boot Menu` khi Server đã có sẵn 1 hệ điều hành và ta muốn cài 1 hệ điều hành mới
+- ![](../Anh/Screenshot_61.png)
+- Tiến hành chọn USB có lưu trữ hệ điều hành cần cài:
+- ![](../Anh/Screenshot_62.png)
+- Sau đó, tiến hành cài Window như trên máy tính cá nhân.
+Một số lưu ý khi cài:
+- Chọn mục này nếu như bạn không có Key Windows bản quyền:
+- ![](../Anh/Screenshot_63.png)
+- Khi chọn phiên bản, nên chọn phiên bản Desktop để có đồ họa. Phiên bản Server sẽ chỉ có các câu lệnh
+- ![](../Anh/Screenshot_63.png)
+- Thực hiện phân vùng ổ cứng, nếu như không có dữ liệu quan trọng ở hệ điều hành cũ, thực hiện xóa hết các ổ cứng và phân vùng lại. Sau đó, chọn ổ để cài hệ điều hành:
+- ![](../Anh/Screenshot_65.png)
+- Sau đó, quá trình cài đặt dường như đã hoàn tất, màn hình sẽ hiện thị Windows:
+- 
