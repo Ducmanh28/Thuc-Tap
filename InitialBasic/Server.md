@@ -1,9 +1,14 @@
 # Tổng quan về Server vật lý
-
-- Mô hình Server thực tế
--  ![](/Anh/Screenshot_42.png)
--  Mô hình Server tổng quát:
--  ![](/Anh/Screenshot_43.png)
+MỤC LỤC
+- [Tổng quan về Server vật lý](#tổng-quan-về-server-vật-lý)
+  - [1. CPU](#1-cpu)
+  - [2. RAM](#2-ram)
+  - [3. Ổ cứng](#3-ổ-cứng)
+  - [4. Raid](#4-raid)
+  - [5. Card Mạng](#5-card-mạng)
+  - [6. Nguồn](#6-nguồn)
+  - [7. Một số lưu ý khi lắp server](#7-một-số-lưu-ý-khi-lắp-server)
+  - [8. Tiến hành cài win trên server Vật Lý](#8-tiến-hành-cài-win-trên-server-vật-lý)
 
 ## 1. CPU
 - ![](/Anh/Screenshot_45.png)
@@ -54,7 +59,7 @@
 - Lắp CPU chú ý chiều để lắp
 - Lắp sử dụng lực vừa đủ, cẩn thận, không cần quá nhanh 
 
-# 8. Tiến hành cài win trên server Vật Lý
+## 8. Tiến hành cài win trên server Vật Lý
 Hôm nay, tôi thực hiện cài thử Window 10 trên Server vật lý, sử dụng USB
 Ban đầu, màn hình Server hiển thị đang được bật như sau:
 - ![](../Anh/10.jpg)
@@ -72,5 +77,18 @@ Một số lưu ý khi cài:
 - ![](../Anh/Screenshot_63.png)
 - Thực hiện phân vùng ổ cứng, nếu như không có dữ liệu quan trọng ở hệ điều hành cũ, thực hiện xóa hết các ổ cứng và phân vùng lại. Sau đó, chọn ổ để cài hệ điều hành:
 - ![](../Anh/Screenshot_65.png)
-- Sau đó, quá trình cài đặt dường như đã hoàn tất, màn hình sẽ hiện thị Windows:
-- 
+-Sau đó, quá trình cài đặt dường như đã hoàn tất, màn hình sẽ hiện thị Windows:
+- ![](../Anh/8.jpg)
+Tiến hành cài User cho Server:
+- ![](../Anh/7.jpg)
+Sau khi bấm `Finish`, quá trình cài đặt đã hoàn tất. Ta tiến đến màn hình đăng nhập:
+- ![](../Anh/5.jpg)
+
+Sau khi đăng nhập xong, giao diện của Window Server sẽ hiển thị như sau:
+- ![](/Anh/Screenshot_66.png)
+- Tiến hành kiểm tra dung lượng ổ cứng:
+- ![](/Anh/Screenshot_67.png)
+- Tiến hành cài IP tĩnh cho server:
+- ![](/Anh/6.jpg)
+- Tiến hành test Ping thử sang một máy khác cùng kết nối cổng Ethernet:
+- ![](/Anh/3.jpg)
