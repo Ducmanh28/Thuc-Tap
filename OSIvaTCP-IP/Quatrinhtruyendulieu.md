@@ -1,0 +1,3 @@
+# Điều gì xảy ra ở máy tính khi chúng ta tìm kiếm "Google.com" trên trình duyệt và ấn Enter ?
+
+Khi muốn tìm kiếm một điều gì đó, ví dụ như **Facebook**, **Youtube**, **Wiki**,... chúng ta chỉ đơn giản truy cập vào các trình duyệt, ấn vào ô tìm kiếm trong trình duyệt nội dung mà mình muốn hướng tới, sau đó bấm *Enter* và dường như chỉ vài tíc tắc sau, trang Web mà chúng ta cần đã được hiện ra trên màn hình hiển thị. Nhưng thật ra, trong 1 vài tíc tắc ấy, có nhiều thứ đã xảy ra. Có rất nhiều giao thức được sử dụng, các kết nối được thiết lập,.... Và hôm nay, chúng ta cùng đi tìm hiểu về những gì xảy ra trong vài tíc tắc ấy. 

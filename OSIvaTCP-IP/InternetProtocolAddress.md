@@ -261,7 +261,7 @@ Sau khi biết thêm về địa chỉ IP Public và Private, tôi đã mô 
 ![](/Anh/Screenshot_50.png)
 - Ở đây, mỗi PC thuộc Router 1 đều có các IP Private riêng thuộc dải mạng `192.168.68.0/24` và tất cả các máy này sẽ đều dùng chung 1 IP Public là `14.177.64.37`- đây chính là địa chỉ mà công ty 1 đã thuê từ Một bên cung cấp dịch vụ Internet. Tương tự công ty 2 có IP Public là `ipPu2` và mỗi máy trong công ty 2 có các IP Private là `ipPr2/24`. Các máy trong 1 công ty được kết nối với nhau thông qua Switch và mỗi công ty có 1 router là Router 1 và Router 2
   - Ta cùng đi phân tích:
-    - Gỉa sử PC A muốn gửi 1 gói tin cho PC E/
+    - Giả sử PC A muốn gửi 1 gói tin cho PC E
     - Quá trình này sẽ diễn ra như sau: 
       - Từ PC A, sẽ thực hiện thiết lập kết nối tới Router 1 mang IP:`192.168.68.1`, quá trình này bao gồm các giao thức như ARP, TCP, UDP,..., sau đó sẽ thực hiện gửi tói tin cần gửi tới Router 1.
       - Tại Router 1, cơ chế NAT sẽ được thực hiện ở đây. Router 1 sẽ biến đổi từ địa chỉ IP Private sang IP Public để có thể kết nối ra Internet.
