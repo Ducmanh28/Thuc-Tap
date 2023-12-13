@@ -1,5 +1,29 @@
 # Tìm hiểu về InternetProtocol
 MỤC LỤC
+- [Tìm hiểu về InternetProtocol](#tìm-hiểu-về-internetprotocol)
+  - [1. IP là gì?](#1-ip-là-gì)
+  - [2. Các loại địa chỉ IP](#2-các-loại-địa-chỉ-ip)
+    - [2.1 Static IP(IP tĩnh)](#21-static-ipip-tĩnh)
+    - [2.2 Dynamic IP(IP động)](#22-dynamic-ipip-động)
+    - [2.3 IP Public(IP công cộng)](#23-ip-publicip-công-cộng)
+    - [2.4 IP Private(IP riêng tư)](#24-ip-privateip-riêng-tư)
+    - [2.5 IP Private và IP Public](#25-ip-private-và-ip-public)
+  - [3. Internet Protocol version 4(IPv4)](#3-internet-protocol-version-4ipv4)
+    - [3.1 Cấu trúc địa chỉ IP](#31-cấu-trúc-địa-chỉ-ip)
+  - [3.2 Các lớp địa chỉ IP](#32-các-lớp-địa-chỉ-ip)
+    - [3.2.1 Lớp A](#321-lớp-a)
+    - [3.2.2 Lớp B](#322-lớp-b)
+    - [3.2.3 Lớp C](#323-lớp-c)
+    - [3.2.4 Lớp D](#324-lớp-d)
+    - [3.2.5 Lớp E](#325-lớp-e)
+  - [3.3 Địa chỉ Broadcast](#33-địa-chỉ-broadcast)
+  - [3.4 SubnetMask](#34-subnetmask)
+  - [3.5 Prefix](#35-prefix)
+  - [3.6 Nguyên lý cơ bản của chia Subnet:](#36-nguyên-lý-cơ-bản-của-chia-subnet)
+  - [3.7 Ưu điểm của IPv4](#37-ưu-điểm-của-ipv4)
+  - [3.8 Nhược điểm của IPv4:](#38-nhược-điểm-của-ipv4)
+- [4. Quá trình truyền tin qua Internet:](#4-quá-trình-truyền-tin-qua-internet)
+
 
 ## 1. IP là gì?
 - Là địa chỉ Logic, được sử dụng trong giao thức lớp IP của lớp Internet - mô hình TCP/IP(và ở lớp Network của mô hình OSI)
@@ -147,13 +171,13 @@ VD: `192.168.68.78` là: `11000000.10101000.01000100.01001110`
 - Từ 240.0.0.0 trở đi
 - Được dùng cho mục đích dự phòng
 
-## 3.4 Địa chỉ Broadcast
+## 3.3 Địa chỉ Broadcast
 - Gồm có 2 loại Broadcast:
   - VD: IP của bạn 192.168.78.78
   - Direct: 192.168.68.255, Chỉ các thiết bị trong dải mạng 192.168.68.0 nhận được
   - Local: 255.255.255.255, Chỉ các thiết bị trong dải mạng của bạn nhận được tức(192.168.78.0)
 
-## 3.5 SubnetMask
+## 3.4 SubnetMask
 - Là 1 dải 32 bits nhị phân đi kèm với 1 địa chỉ IP, được các Host sử dụng để xác định địa chỉ mạng của địa chỉ IP này. Để làm được điều đó, Host sẽ đem địa chỉ IP thực hiện phép tính AND từng bit một với subnetmask của nó
 - Phép toán AND: 0 AND 0 = 0; 1 AND 1 = 1; 0 AND 1 = 0; 1 AND 0 = 0
 - VD: Xét địa chỉ IP: 192.168.68.78
@@ -175,7 +199,7 @@ VD: `192.168.68.78` là: `11000000.10101000.01000100.01001110`
     - Giảm khả năng kiểm soát lưu lượng mạng
     - Việc kết nối từ xa trở nên khó khăn hơn
     - Việc mở rộng mạng sẽ trở nên phức tạp và khó khăn hơn
-## 3.6 Prefix
+## 3.5 Prefix
 - Để mô tả một địa chỉ IP, người ta dùng 1 đại lượng gọi là số Prefix 
 - Hiểu đơn giản thì số Prefix miêu tả số bit mạng trong một địa chỉ IP, được viết ngay sau địa chỉ IP, và được ngăn cách bởi dấu "/"
 - VD: 192.168.68.78/24 : 24 bits đầu là NetworkID, 8 bits còn lại là Host ID
@@ -183,3 +207,62 @@ VD: `192.168.68.78` là: `11000000.10101000.01000100.01001110`
 - Nếu không có số prefix, hệ thống mạng sẽ không thể hoạt động một cách hiệu quả
     - Các router sẽ không thể xác định đường đi cho các gói tin
     - Việc phân chia, quản lý mạng cũng sẽ trở nên khó khăn
+## 3.6 Nguyên lý cơ bản của chia Subnet:
+Vấn đề thực tế: Một công ty có 2 chi nhánh. Để 2 máy chủ ở 2 chi nhánh này có thể giao tiếp với nhau, chúng ta cần thiết lập đường truyền kết nối thông qua nhà cung cấp dịch vụ mạng và phải đặt IP cho 2 chi nhánh này. Tuy nhiên, công ty chỉ có 1 IP Public duy nhất là một NetID được thuê từ nhà cung cấp
+
+Lúc này, ta cần chia NetID này thành nhiều NetID con hay còn gọi là SubnetID cho 2 chi nhánh của công ty
+
+Vậy, để có thể chia từ một mạng lớn thành nhiều mạng con bằng nhau, người ta mượn thêm một số bit bên phần Host để làm phần Network. Các bit mượn này gọi là các *bit Subnet*. Tùy thuộc vào số *bit Subnet* mà ta có số lượng mạng con khác nhau với các kích cỡ khác nhau:
+- Bảng chia Subnet:
+- ![](/Anh/Screenshot_68.png)
+  - Từ lớp mạng /24 , ta có thể chia thành 2 lớp mạng con /25, 4 lớp mạng con /26, 8 lớp mạng con /27, 16 lớp mạng con /28,....
+  - Mỗi lớp mạng con có kích cỡ khác nhau:/24 có 256IP, /25 có 128IP, /26 có 64IP. Đơn giản thì số IP của mỗi lớp mạng con được tính bằng 2^(số bit còn lại của phần Host)
+- Phân chia mạng lớn `192.168.68.0/24` thành 4 mạng con `/26`
+  - Để dễ hình dung, ta thực hiện đưa Octet cuối về dạng nhị phân, vậy `/26` tức là mượn 2 bit ở octet cuối ==> 2 số đầu của octet cuối sẽ có sự thay đổi 00,01,10,11
+  - ![](/Anh/Screenshot_71.png)
+  - ==> Có 2^2 mạng con và mỗi mạng con có 2^6 địa chỉ IP
+  - 4 địa chỉ mạng tương ứng:  
+  - ![](/Anh/Screenshot_69.png)
+  - Có 2 cách để viết các địa chỉ mạng này
+    - Phân chia octet mượn bit thành dạng nhị phân, ta biết địa chỉ mạng là khi tất cả các bit phần Host đều bằng 0, thực hiện đổi ngược lại từ nhị phân sang thập phân
+    - ![](/Anh/Screenshot_72.png)
+    - Sử dụng phương pháp bước nhảy chính là số IP/ 1 Subnet
+    - vd 0 --> 64 --> 128 --> 192
+- Bảng quy hoạch IP cho hệ thống mạng:
+- ![](/Anh/Screenshot_73.png)
+- Thực hành quy hoạch IP cho hệ thống mạng của công ty:
+- ![](/Anh/Screenshot_74.png)
+  - Ta có IP nguồn: `192.168.68.0/24`
+  - Ta tiến hành phân chia IP như sau :
+- ![](/Anh/Screenshot_76.png)
+  - Tầng 1 có nhu cầu sử dụng mạng nhiều nhất, ta chia `192.168.68.0/24` thành 2 lớp mạng con là `192.168.68.0/25` và `192.168.68.128/25` với mỗi lớp mạng có 128 địa chỉ IP và có 126 địa chỉ IP dùng được(đủ đáp ứng yêu cầu tầng 1 là 120 máy). Ta sử dụng lớp mạng `192.168.68.128/25` cho tầng 1
+  - Tầng 2 có nhu cầu sử dụng mạng trung bình, ta thực hiện chia lớp mạng `192.168.68.0/25` thành 2 lớp mạng con `192.168.68.0/26` và `192.168.68.64/26` với mỗi lớp mạng có 64 địa chỉ IP và 62 địa chỉ IP có thể sử dụng(đủ đáp ứng nhu cầu ở tầng 2 là 60 máy). Ta sử dụng lớp mạng `192.168.68.64/26` cho tầng 2
+  - Ở tầng 3 và 4, có nhu cầu sử dụng mạng khá ít, ta chia lớp mạng `192.168.68.0/26` còn lại thành 2 lớp mạng con `192.168.68.0/27` và `192.168.68.32/27` với mỗi lớp mạng có 32 địa chỉ IP và 30 địa chỉ IP có thể dùng được(vừa đủ với nhu cầu tầng 3 và thừa so với tầng 4). Ta gán lớp `192.168.68.0/27` cho tầng 3 và `192.168.68.32/27` cho tầng 4
+  - Qúa trình phân chia mạng cho công ty hoàn tất. Phân chia mạng thành các mạng con giúp tối ưu hóa địa chỉ IP, giảm thiểu khả năng lãng phí và khiến việc quản lý mạng trở nên dễ dàng hơn
+## 3.7 Ưu điểm của IPv4
+- IPv4 là một giao thức không hướng nối
+- Định tuyến IPv4 có thể được xử lý dễ dàng bởi tất cả các hệ thống.
+- Dễ dàng ghi nhớ
+- Trên một mạng lớn, IPv4 có thể kết nối nhiều thiết bị khác nhau và cùng với kết nối, việc xác minh cũng có thể được thực hiện. Điều này được thực hiện mà không cần sử dụng NAT
+- Quyền riêng tư và bảo mật được duy trì trong IPv4 vì dữ liệu được mã hóa trong các gói.
+## 3.8 Nhược điểm của IPv4:
+- Với tốc độ phát triển Internet hiện nay, tài nguyên địa chỉ IPv4 đang dần cạn kiệt
+- Vì IPv4 đã được thiết lập từ lâu, nên việc triển khai ngày nay có thể gặp các mối đe dọa mới
+- Để khắc phục những điều này, IPv6 đã được cho ra đời
+# 4. Quá trình truyền tin qua Internet:
+Sau khi biết thêm về địa chỉ IP Public và Private, tôi đã mô tả lại quá trình truyền tin qua Internet như sau:
+
+![](/Anh/Screenshot_50.png)
+- Ở đây, mỗi PC thuộc Router 1 đều có các IP Private riêng thuộc dải mạng `192.168.68.0/24` và tất cả các máy này sẽ đều dùng chung 1 IP Public là `14.177.64.37`- đây chính là địa chỉ mà công ty 1 đã thuê từ Một bên cung cấp dịch vụ Internet. Tương tự công ty 2 có IP Public là `ipPu2` và mỗi máy trong công ty 2 có các IP Private là `ipPr2/24`. Các máy trong 1 công ty được kết nối với nhau thông qua Switch và mỗi công ty có 1 router là Router 1 và Router 2
+  - Ta cùng đi phân tích:
+    - Gỉa sử PC A muốn gửi 1 gói tin cho PC E/
+    - Quá trình này sẽ diễn ra như sau: 
+      - Từ PC A, sẽ thực hiện thiết lập kết nối tới Router 1 mang IP:`192.168.68.1`, quá trình này bao gồm các giao thức như ARP, TCP, UDP,..., sau đó sẽ thực hiện gửi tói tin cần gửi tới Router 1.
+      - Tại Router 1, cơ chế NAT sẽ được thực hiện ở đây. Router 1 sẽ biến đổi từ địa chỉ IP Private sang IP Public để có thể kết nối ra Internet.
+      - Ở Router 1 quá trình gửi gói tin tới Router 2 qua internet cũng có các quy trình như thiết lập kết nối, sau đó mới thực hiện gửi gói tin tới Router 2 nhưng ở đây 2 địa chỉ IP là 2 địa chỉ Public. Và gói tin sẽ được gửi thông qua bên công ty dịch vụ cung cấp các dịch vụ mạng rồi mới được chuyển tới Router 2.
+      - Router 2 nhận gói tin PC A từ Router 1 sẽ thực hiện thiết lập kết nối tới PC E, sau đó gửi gói tin mà PC A đã gửi tới PC E.
+  - Thật ra trong thực tế, gói tin sẽ phải đi qua nhiều nút mạng, sau đó mới có thể tới đích.
+  - VD: Khi ta truy cập google:
+    - ![](/Anh/Screenshot_77.png)
+    - Gói tin phải đi qua nhiều nơi, sau đó mới đến Server của Google.
+    - Ở đây, tôi thực hiện dùng lệnh `tracert google.com` để xem quá trình gói tin đi từ máy cá nhân tới Server của **Google.com**
