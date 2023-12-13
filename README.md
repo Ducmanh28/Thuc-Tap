@@ -12,6 +12,7 @@ Mục Lục
     - [Tầng Physical](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/1.%20PhysicalLayer.md)
     - [WireShark](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/WireShark.md)
     - [InternetProtocol](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/InternetProtocolAddress.md)
+    - [Quá trình truyền dữ liệu qua Internet](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/Quatrinhtruyendulieu.md)
 - [InitialBasic](https://github.com/Ducmanh28/Thuc-Tap/tree/main/InitialBasic)  
   - [Server Vật Lý](https://github.com/Ducmanh28/Thuc-Tap/tree/main/InitialBasic/Server.md)
     
