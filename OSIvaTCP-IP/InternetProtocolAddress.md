@@ -22,7 +22,8 @@ MỤC LỤC
   - [3.6 Nguyên lý cơ bản của chia Subnet:](#36-nguyên-lý-cơ-bản-của-chia-subnet)
   - [3.7 Ưu điểm của IPv4](#37-ưu-điểm-của-ipv4)
   - [3.8 Nhược điểm của IPv4:](#38-nhược-điểm-của-ipv4)
-- [4. Quá trình truyền tin qua Internet:](#4-quá-trình-truyền-tin-qua-internet)
+- [4. Các kiểu định tuyến:](#4-các-kiểu-định-tuyến)
+- [5. Quá trình truyền tin qua Internet:](#5-quá-trình-truyền-tin-qua-internet)
 
 
 ## 1. IP là gì?
@@ -155,7 +156,7 @@ VD: `192.168.68.78` là: `11000000.10101000.01000100.01001110`
 
 ### 3.2.3 Lớp C
 - ![](/Anh/Screenshot_57.png)
--  Theo quy ước, lớp B có 24 bits đầu tiên là NetWork ID 
+-  Theo quy ước, lớp C có 24 bits đầu tiên là NetWork ID 
 -  Ba bit đầu của lớp C luôn luôn bằng 110: `110x.X.X.X`
 -  Octet đầu của các địa chỉ IP lớp C sẽ chạy trong khoảng từ 192-223(chính là từ 1100000-11011111)
 -  Các địa chỉ mạng lớp C bao gồm: 192.0.0.0 - 223.255.255.0, có tất cả 2^21 = 2097152 mạng trong lớp C
@@ -249,7 +250,12 @@ Vậy, để có thể chia từ một mạng lớn thành nhiều mạ
 - Với tốc độ phát triển Internet hiện nay, tài nguyên địa chỉ IPv4 đang dần cạn kiệt
 - Vì IPv4 đã được thiết lập từ lâu, nên việc triển khai ngày nay có thể gặp các mối đe dọa mới
 - Để khắc phục những điều này, IPv6 đã được cho ra đời
-# 4. Quá trình truyền tin qua Internet:
+# 4. Các kiểu định tuyến:
+- Broadcast: Một gói tin broadcast sẽ được chuyển tới tất cả các thiết bị bên trong 1 dải mạng, không quy định rõ ràng máy nào nhận. Nhưng broadcast chỉ giới hạn trong 1 mạng cục bộ và bị chặn bởi Router
+- Anycast: Là kiểu truyền từ nguồn tới một nút mạng gần với nó nhất. 
+- Multicast: Là kiểu truyền từ nguồn tới nhiều điểm khác(một nhóm các thiết bị trong mạng)
+- Unicast: Là kiểu truyền dữ liệu phổ biến nhất trong Internet. Lưu lượng dữ liệu đi từ một nguồn tới một đích duy nhất. Đây chính là kiểu truyền dữ liệu **one-to-one** giữa bên gửi và bên nhận
+# 5. Quá trình truyền tin qua Internet:
 Sau khi biết thêm về địa chỉ IP Public và Private, tôi đã mô tả lại quá trình truyền tin qua Internet như sau:
 
 ![](/Anh/Screenshot_50.png)
