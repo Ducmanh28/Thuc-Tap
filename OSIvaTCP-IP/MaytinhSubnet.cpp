@@ -80,7 +80,7 @@ int main() {
     int prefix, borrowedBits;
     cout << "IP: ";
     cin >> ip;
-    cout << "prefix numbers: ";
+    cout << "Prefix numbers: ";
     cin >> prefix;
     cout << "Numbers of bits: ";
     cin >> borrowedBits;

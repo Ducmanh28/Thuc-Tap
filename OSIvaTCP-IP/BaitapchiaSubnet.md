@@ -35,7 +35,7 @@ MỤC LỤC
 - Đề bài: Có dải địa chỉ `14.20.32.0/19` mượn 2 bits 
 - Giải: 
   - Số Subnet: 4
-  - Số Host/Subnet: 2048
+  - Số Host/Subnet: 2046
   - Bước nhảy: 8
   - Liệt kê các dải mạng:
     - `14.20.32.0/21`
