@@ -80,10 +80,6 @@ int main() {
     cin >> prefix;
     cout << "Numbers of bits: ";
     cin >> borrowedBits;
-    string ips = ipToBinary(ip);
-    cout<<ips<<endl;
-    string ipss = binaryToIp(ips);
-    cout<<ipss;
     calculateSubnets(ip, prefix, borrowedBits);
     system("pause");
     return 0;
