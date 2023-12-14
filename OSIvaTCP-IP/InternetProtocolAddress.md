@@ -204,10 +204,16 @@ VD: `192.168.68.78` là: `11000000.10101000.01000100.01001110`
 - Để mô tả một địa chỉ IP, người ta dùng 1 đại lượng gọi là số Prefix 
 - Hiểu đơn giản thì số Prefix miêu tả số bit mạng trong một địa chỉ IP, được viết ngay sau địa chỉ IP, và được ngăn cách bởi dấu "/"
 - VD: 192.168.68.78/24 : 24 bits đầu là NetworkID, 8 bits còn lại là Host ID
-- Có tác dụng quan trọng trong việc phân chia mạng, giúp xác định kích thước của mạng, giúp các router xác định đường đi cho các gói tin
+- Có tác dụng quan trọng trong việc phân chia mạng, giúp xác 
+- định kích thước của mạng, giúp các router xác định đường đi cho các gói tin
 - Nếu không có số prefix, hệ thống mạng sẽ không thể hoạt động một cách hiệu quả
     - Các router sẽ không thể xác định đường đi cho các gói tin
     - Việc phân chia, quản lý mạng cũng sẽ trở nên khó khăn
+- Thực tế, số prefix của các IP Private được chia như sau:
+- ![](/Anh/Screenshot_80.png)
+- Nhằm tối ưu số địa chỉ IP Private
+- Ta có thể thấy rõ ở bảng sau, số địa chỉ IP đã được tăng lên đáng kể ở lớp B và lớp C:
+- ![](/Anh/Screenshot_81.png)
 ## 3.6 Nguyên lý cơ bản của chia Subnet:
 Vấn đề thực tế: Một công ty có 2 chi nhánh. Để 2 máy chủ ở 2 chi nhánh này có thể giao tiếp với nhau, chúng ta cần thiết lập đường truyền kết nối thông qua nhà cung cấp dịch vụ mạng và phải đặt IP cho 2 chi nhánh này. Tuy nhiên, công ty chỉ có 1 IP Public duy nhất là một NetID được thuê từ nhà cung cấp
 
@@ -231,6 +237,8 @@ Vậy, để có thể chia từ một mạng lớn thành nhiều mạ
     - vd 0 --> 64 --> 128 --> 192
 - Bảng quy hoạch IP cho hệ thống mạng:
 - ![](/Anh/Screenshot_73.png)
+- Ví dụ về chia Subnet:
+- ![](/Anh/Screenshot_82.png)
 - Thực hành quy hoạch IP cho hệ thống mạng của công ty:
 - ![](/Anh/Screenshot_74.png)
   - Ta có IP nguồn: `192.168.68.0/24`
