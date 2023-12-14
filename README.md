@@ -13,6 +13,7 @@ Mục Lục
     - [WireShark](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/WireShark.md)
     - [InternetProtocol](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/InternetProtocolAddress.md)
       - [Bài tập chia Subnet](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/BaitapchiaSubnet.md)
+      - [Máy tính Subnet](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/MaytinhSubnet.cpp)
     - [Quá trình truyền dữ liệu qua Internet](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/Quatrinhtruyendulieu.md)
 - [InitialBasic](https://github.com/Ducmanh28/Thuc-Tap/tree/main/InitialBasic)  
   - [Server Vật Lý](https://github.com/Ducmanh28/Thuc-Tap/tree/main/InitialBasic/Server.md)
