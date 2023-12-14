@@ -53,6 +53,10 @@ void calculateSubnets(const string& ip, int prefix, int borrowedBits) {
     int subnetCount = pow(2,borrowedBits);
     // In ra số Subnet đã tính được
     cout << "Subnets: " << subnetCount << endl;
+    // In ra số Host/Subnet đã tính được
+    cout << "Host/Subnet: "<< pow(2, 32 - prefix - borrowedBits) - 2 << endl;
+    // In ra Bước nhảy
+    cout << "Jump: " << pow(2,(32 - prefix - borrowedBits)%8) << endl;
     //Khởi tạo vòng lặp để tính toán và in ra các Subnet
     for (int i = 0; i < subnetCount; ++i) {
         // Tạo subnet nhị phân bằng cách nối phần tiền tố của địa chỉ IP với phần nhị phân của i
@@ -80,6 +84,7 @@ int main() {
     cin >> prefix;
     cout << "Numbers of bits: ";
     cin >> borrowedBits;
+    cout << "-------------------------------------------------------------------------" << endl;
     calculateSubnets(ip, prefix, borrowedBits);
     system("pause");
     return 0;
