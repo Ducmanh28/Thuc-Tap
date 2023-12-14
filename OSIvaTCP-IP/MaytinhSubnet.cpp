@@ -90,6 +90,7 @@ int main() {
     return 0;
 }
 /*
+Thông tin về hàm calculateSubnets
 - for (int i = 0; i < subnetCount; ++i): Vòng lặp này chạy qua tất cả các subnet có thể có. Số lượng subnet được tính bằng cách lấy 2 mũ borrowedBits.
 
 - string subnetBinary = binaryIp.substr(0, prefix);: Tạo chuỗi nhị phân cho subnet bằng cách lấy phần tiền tố của địa chỉ IP gốc.
