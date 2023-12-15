@@ -59,7 +59,7 @@ void calculateSubnets(const string& ip, int prefix, int borrowedBits) {
     cout << "Jump: " << pow(2,(32 - prefix - borrowedBits)%8) << endl;
     //Khởi tạo vòng lặp để tính toán và in ra các Subnet
     for (int i = 0; i < subnetCount; ++i) {
-        // Tạo subnet nhị phân bằng cách nối phần tiền tố của địa chỉ IP với phần nhị phân của i
+        // Tạo subnet nhị phân bằng cách nối phần trước của địa chỉ IP với phần nhị phân của i
         string subnetBinary = binaryIp.substr(0, prefix);
 
         // Chuyển i sang dạng nhị phân và thêm vào subnetBinary
