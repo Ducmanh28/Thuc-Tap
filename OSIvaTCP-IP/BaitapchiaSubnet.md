@@ -6,6 +6,7 @@ MỤC LỤC
     - [Tiến hành làm bài](#tiến-hành-làm-bài)
       - [Bài 1](#bài-1)
       - [Bài 2](#bài-2)
+    - [Bài 3](#bài-3)
 
 ## Dạng 1: Dạng xuôi
 ### Một số lưu ý trước khi thực hành làm bài tập
@@ -20,16 +21,13 @@ MỤC LỤC
   - ![](/Anh/Screenshot_83.png)
 ### Tiến hành làm bài
 #### Bài 1
-- Đề bài: Có dải địa chỉ `192.168.68.0/24`, mượn 2 bits
+- Đề bài: Có dải địa chỉ `14.20.32.0/19`, mượn 1 bits
 - Giải:
-  - Số Subnet: 4
-  - Số Host/Subnet: 62
-  - Bước nhảy: 64
-  - Liệt kê các dải mạng:
-    - `192.168.68.0/26`
-    - `192.168.68.64/26`
-    - `192.168.68.128/26`
-    - `192.168.68.192/26`  
+  - Subnets: 2
+  - Host/Subnet: 4094
+  - Jump: 16
+  - Subnet 1: `14.10.32.0/20`
+  - Subnet 2: `14.10.48.0/20`
 
 #### Bài 2
 - Đề bài: Có dải địa chỉ `14.20.32.0/19` mượn 2 bits 
@@ -42,4 +40,12 @@ MỤC LỤC
     - `14.20.40.0/21`
     - `14.20.48.0/21`
     - `14.20.56.0/21` 
+
+### Bài 3
+- Đề bài: Có dải địa chỉ `14.20.32.0/19` mượn 3 bits 
+- Giải:
+  - Số Subnet: 4
+  - Số Host/Subnet: 2046
+  - Bước nhảy: 8
+  - Liệt kê các dải mạng:
 

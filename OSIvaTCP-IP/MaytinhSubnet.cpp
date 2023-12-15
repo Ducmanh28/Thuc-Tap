@@ -78,14 +78,22 @@ void calculateSubnets(const string& ip, int prefix, int borrowedBits) {
 int main() {
     string ip;
     int prefix, borrowedBits;
-    cout << "IP: ";
-    cin >> ip;
-    cout << "Prefix numbers: ";
-    cin >> prefix;
-    cout << "Numbers of bits: ";
-    cin >> borrowedBits;
-    cout << "-------------------------------------------------------------------------" << endl;
-    calculateSubnets(ip, prefix, borrowedBits);
+    int choice;
+    cout << "Choice ? ";
+    cin>>choice;
+    // Vòng lặp cho phép chạy lại chương trình
+    while (choice != 0){
+        cout << "IP: ";
+        cin >> ip;
+        cout << "Prefix numbers: ";
+        cin >> prefix;
+        cout << "Numbers of bits: ";
+        cin >> borrowedBits;
+        cout << "-------------------------------------------------------------------------" << endl;
+        calculateSubnets(ip, prefix, borrowedBits);
+        cout << "Choice ? ";
+        cin >> choice;
+    }
     system("pause");
     return 0;
 }
