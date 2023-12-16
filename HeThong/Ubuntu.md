@@ -1,0 +1,120 @@
+# Tìm hiểu về hệ điều hành Linux
+## Ubuntu là gì ?
+- Là một hệ điều hành mã nguồn mở
+- Được phát triển dựa trên Linux/Debian GNU
+- Là phiên bản tùy biến Linux phổ biến nhất
+
+## Sự khác biệt giữa Ubuntu Server và Desktop
+- Ubuntu Server không có GUI
+- Các máy chủ thường được quản lý từ xa bằng SSH
+- Các gói Ubuntu Server tập trung vào việc cho phép kết nối với máy khách cũng như bảo mật
+- Trong khi các ứng dụng Ubuntu Desktop tập trung vào việc sử dụng trên máy chủ
+
+## Tiến hành cài đặt Ubuntu Server
+- Tiến hành chọn phiên bản Ubuntu Server tại trang chủ của [Ubuntu](https://ubuntu.com/download/server)
+- Sẽ có 3 tùy chọn: 
+- ![](/Anh/Screenshot_84.png)
+  - Option 1: Cài đặt máy chủ thủ công - Phương pháp truyền thống, cho phép kiểm soát toàn bộ quá trình cài đặt
+  - Option 2: VMs Ubuntu tức thì - Tùy chọn này cho phép triển khai các máy ảo một cách nhanh chóng
+  - Option 3: Cung cấp máy chủ tự động - Cho phép cài đặt và cấu hình Ubuntu Server trên một số lượng lớn máy chủ
+- Ở đây, tôi sẽ lựa chọn cài đặt theo Option 1 
+- Tiến hành download file hệ thống.
+- Tiến hành cài đặt trên **VMWareWorkstation 16 Pro**
+- Vào VMWare, tại màn hình chính của ứng dụng, tiến hành bấm tổ hợp phím `Ctrl + N` để thiết lập một máy chủ mới.
+- ![](/Anh/Screenshot_85.png)
+  - Có 2 option trong mục này:
+    - Typical: Cài đặt theo các bước đơn giản, ngắn gọn
+    - Custom: Tạo máy chủ với các yêu cầu nâng cao hơn
+    - Tôi sẽ cài đặt theo các bước đơn giản 
+- ![](/Anh/Screenshot_86.png)
+  - Tiến hành chọn file hệ hiều hành để cài cho máy ảo
+  - Chọn **Browse** để tìm nơi lưu file Ubuntu Server mà bạn vừa tải
+  - ![](/Anh/Screenshot_87.png)
+  - Sau khi chọn xong đường dẫn, chọn **Open** để mở file hệ điều hành
+  - Sau đó, chọn **Next** để tiếp tục quá trình cài đặt
+- ![](/Anh/Screenshot_88.png)
+  - Tiến hành đặt tên cho máy ảo
+  - Sau đó, chọn đường dẫn lưu máy ảo. Lưu ý, nên xếp vào các Folder cho gọn gàng
+  - Sau đó, bấm **Next** để tiếp tục tiến trình
+- ![](/Anh/Screenshot_89.png)
+  - Tiến hành thiết lập dung lượng ổ đĩa cứng cho máy ảo. Nên để mặc định theo hướng dẫn
+  - Có 2 Option về phân chia ổ cứng
+    - Lưu tất cả trên 1 File
+    - Chia ra làm các ổ nhỏ. Nên chọn cái này để dễ quản lý
+    - Sau đó bấm **Next** để tiếp tục
+- ![](/Anh/Screenshot_90.png)
+  - Tiến hành kiểm tra lại về những lựa chọn mà bạn đã chọn cho máy ảo như:
+    - Tên
+    - Vị trí lưu
+    - Hệ điều hành
+    - Ổ cứng
+    - RAM
+    - Chế độ mạng
+  - Nếu bạn chưa ưng ý ở chỗ nào, muốn chỉnh sửa thêm, hãy chọn **Customize Hardware** 
+    - ![](/Anh/Screenshot_91.png)
+    - Gồm 2 bảng chính
+      - Bảng thứ nhất sẽ chọn các danh mục mà bạn muốn sửa như:
+        - RAM
+        - Số nhân CPU
+        - Ổ đĩa
+        - Cơ chế mạng,...
+      - Bảng còn lại sẽ hiện thông tin của danh mục bạn đã chọn ở bên trái
+    - Sau khi ưng ý, chọn Close để đóng bảng
+  - Bấm **Finish** để hoàn thành tiến trình tạo máy ảo
+- ![](/Anh/Screenshot_92.png)
+  - Có 3 danh mục cài đặt để bạn chọn
+    - Tiến hành cài đặt hệ điều hành
+    - Cài đặt với HWE Kernel
+    - Thử RAM
+- ![](/Anh/Screenshot_93.png)
+  - Chọn ngôn ngữ mà bạn muốn
+  - Tôi sẽ dùng *English*
+- ![](/Anh/Screenshot_94.png)
+  - Lựa chọn xem bạn có muốn cài phiên bản mới nhất hay không
+  - Tôi chọn Tiếp tục nhưng không cập nhật
+- ![](/Anh/Screenshot_95.png)
+  - Chọn ngôn ngữ bàn phím
+  - Tôi sẽ dùng *English*
+- ![](/Anh/Screenshot_96.png)
+  - Chọn kiểu cài đặt mà bạn muốn
+    - Cài Ubuntu Server
+    - Cài Ubuntu Server nhưng là một phiên bản nhỏ
+    - Cài theo một ứng dụng bên thứ 3
+  - Tôi chọn cài Ubuntu Server theo phiên bản cơ bản
+- ![](/Anh/Screenshot_97.png)
+  - Tiến hành chọn thiết lập mạng
+  - Ban đầu, hãy để theo mặc định thiết lập với DHCP được bật
+- ![](/Anh/Screenshot_98.png)
+  - Ubuntu Server sẽ tiến hành test thử mạng bằng cách gửi các gói tin đi
+  - Nếu có sự phản hồi như trong ảnh nghĩa là thành công và lúc này, bạn có thể bấm **Done** để tiếp tục
+- ![](/Anh/Screenshot_99.png)
+    - Một vài vấn đề liên quan đến phân vùng ổ cứng
+    - Bạn hãy để mặc định theo Ubuntu là lựa chọn tối ưu nhất
+    - Hoặc bạn cũng có thể tự thiết lập theo ý thích cá nhân
+- ![](/Anh/Screenshot_100.png)
+  - Tiến hành kiểm tra lại mọi thứ
+  - Nếu bạn thấy đã ổn, hãy bấm **Done** để tiếp tục
+- ![](/Anh/Screenshot_101.png)
+  - Tiến hành thiết lập thông tin cá nhân, thông tin đăng nhập
+- Đối với các mục còn lại, bạn chỉ cần bấm **Done** liên tục 
+- ![](/Anh/Screenshot_102.png)
+  - Màn hình bắt đầu quá trình cài đặt và thiết lập
+  - Sau khi mọi thứ đã hoàn thành màn hình sẽ hiện thị
+  - ![](/Anh/Screenshot_103.png)
+  - Chọn **Reboot now** để khởi động lại
+  - ![](/Anh/Screenshot_102.png)
+- ![](/Anh/Screenshot_104.png)
+  - Lúc này, tiến hành đăng nhập
+  - Lưu ý: Mật khẩu sẽ không được hiển thị
+
+- Đến đây, quá trình cài đặt Ubuntu Server đã hoàn tất.
+
+## Tiến hành cài IP tĩnh
+### Sử dụng lệnh
+- Tiến hành nhập lệnh `ip addr show` hoặc `ip a` để xem địa chỉ IP hiện tại 
+- ![](/Anh/Screenshot_106.png)
+  - Với DHCP đang được bật, IP hiện tại của tôi đang là `192.168.142.138/24`, thuộc dải mạng `192.168.142.0/24`
+  - Nhưng tôi đang sử dụng chế độ mạng NAT nên mạng này sẽ không cùng với dải mạng máy chính
+  - ![](/Anh/Screenshot_107.png)
+  - IP máy chính hiện tại đang là `192.168.1.96`
+  - Ta sẽ thực hiện cài IP tĩnh theo dải mạng của dải NAT
