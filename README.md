@@ -18,3 +18,6 @@ Mục Lục
 - [InitialBasic](https://github.com/Ducmanh28/Thuc-Tap/tree/main/InitialBasic)  
   - [Server Vật Lý](https://github.com/Ducmanh28/Thuc-Tap/tree/main/InitialBasic/Server.md)
     
+- [Hệ thống](https://github.com/Ducmanh28/Thuc-Tap/tree/main/HeThong)
+  - [Ubuntu](https://github.com/Ducmanh28/Thuc-Tap/blob/main/HeThong/Ubuntu.md)
+  - [Centos 7](https://github.com/Ducmanh28/Thuc-Tap/blob/main/HeThong/Centos7.md)
