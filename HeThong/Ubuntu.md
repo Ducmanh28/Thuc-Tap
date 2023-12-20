@@ -110,11 +110,91 @@
 - Đến đây, quá trình cài đặt Ubuntu Server đã hoàn tất.
 
 ## Tiến hành cài IP tĩnh
-### Sử dụng lệnh
-- Tiến hành nhập lệnh `ip addr show` hoặc `ip a` để xem địa chỉ IP hiện tại 
-- ![](/Anh/Screenshot_106.png)
+### Một số lưu ý trước khi tiến hành cài IP
+- Nhập `sudo su` để tiến hành chỉnh sửa file với quyền ROOT
+- VI và NANO: Là 2 trình soạn thảo văn bản dòng lệnh phổ biến trong Linux
+  - NANO: Là trình soạn thảo đơn giản, dễ dùng. Là một trình soạn thảo không chế độ - tức là không cần vào chế độ để chỉnh sửa
+  - VI: Là trình soạn thảo mạnh mẽ hợn, phức tạp hơn. Là một trình soạn thảo dựa trên chế độ. Ở đây, muốn vào chế độ chỉnh sửa file, ta sử dụng phím I. Muốn thoát ấn `ESC` và muốn lưu + thoát bấm `:x` 
+### Sử dụng cách sửa file
+  - Tiến hành nhập lệnh `ip addr show` hoặc `ip a` để xem địa chỉ IP hiện tại 
+  - ![](/Anh/Screenshot_106.png)
   - Với DHCP đang được bật, IP hiện tại của tôi đang là `192.168.142.138/24`, thuộc dải mạng `192.168.142.0/24`
   - Nhưng tôi đang sử dụng chế độ mạng NAT nên mạng này sẽ không cùng với dải mạng máy chính
-  - ![](/Anh/Screenshot_107.png)
-  - IP máy chính hiện tại đang là `192.168.1.96`
+  - ![](/Anh/Screenshot_110.png)
+  - IP máy chính hiện tại đang là `192.168.68.74/24`
   - Ta sẽ thực hiện cài IP tĩnh theo dải mạng của dải NAT
+  - Để đặt được IP tĩnh, ta tiến hành chỉnh sửa file mạng trong Ubuntu Server. Cụ thể file cần chỉnh sửa ở đây là file `00-installer-config.yaml`
+  - Ta tiến hành chỉnh sửa với quyền Root bằng cách nhập lệnh `sudo su`
+  - ![](/Anh/Screenshot_112.png)
+  - Ta tiến hành vào `vi` để chỉnh sửa file.
+  - Đưa đường dẫn đi tới file. File sẽ nằm trong `netplan`
+  - Câu lệnh hoàn chỉnh sẽ là `sudo vi /etc/netplan/00-installer-config.yaml`
+  - Sau khi tiến hành nhập lệnh, Ubuntu Server sẽ tiến hành hỏi bạn mật khẩu
+  - ![](/Anh/Screenshot_111.png)
+  - Và rồi sau khi vào file ở trình soạn thảo VI, ta sẽ tiến hành bấm phím `I` để tiến vào chế độ chỉnh sửa và thực hiện chỉnh sửa file như sau:
+  - ``` 
+      #This is the network config written by 'subiquity'
+      network:
+        ethernets:
+          ens33:
+                dhcp4: no
+                addresses: [192.168.142.113/24]
+                nameservers:
+                      addresses: [8.8.8.8, 8.8.4.4]
+                routes:
+                - to: default
+                  via: 192.168.142.2
+        version: 2
+    ```
+- 
+- Sau khi tiến hành nhập xong, ta bấm `ESC` để thoát chế độ **Insert** và tiến hành bấm `:x` để thoát và lưu file
+- Dòng lệnh như sau hiện ra nghĩa là đã lưu thành công
+- ![](/Anh/Screenshot_113.png)
+- Nhập `netplan apply` để tiến hành lưu những chỉnh sửa vừa rồi
+- Nhập `ip a` để xem IP:
+- ![](/Anh/Screenshot_115.png)
+- IP lúc này đã được chuyển thành `192.168.142.113/24`
+- Tiến hành ping thử ra Internet:
+- ![](/Anh/Screenshot_116.png)
+- Ta thấy, quá trình Ping ra `google.com` đã thành công. Vậy ta đã đặt xong IP tĩnh cho Ubuntu Server bằng cách chỉnh file netplan
+
+### Sử dụng NetworkManager
+- Nhập lệnh `nmcli device status` để xem các kết nối trong **NetworkManager**
+- Nếu hiện lỗi không có kết nối nào như sau:
+- ![](/Anh/Screenshot_117.png)
+- Thì do Ubuntu Server ưu tiên **netplan** hơn **NetworkManager** nên ta phải cấp quyền ưu tiên cho **NetworkManager** bằng cách chỉnh sửa trong File **netplan/00-installer-config.yaml** như sau:
+- ```
+  network:
+    version: 2
+    renderer: NetworkManager
+  ```
+- Sau khi chỉnh sửa xong, nhập lệnh `netplan apply` để cập nhật nội dung file vừa chỉnh sửa. Sau đó `reboot` để khởi động lại
+- Nhập `ip a` để xem IP hiện tại:
+- ![](/Anh/Screenshot_118.png)
+- IP hiện tại đang là `192.168.142.112/24`
+- Ta sẽ tiến hành đổi IP thành `192.168.142.125/24`
+  - Lưu ý đổi tên Connection:
+    - `nmcli con mod [tên cũ] connection.id [tên mới]`
+- Ta sẽ đổi tên từ "Wire Connection 1" thành "ens33"
+  - Nhập lệnh: `nmcli con mod "Wire Connection 1" connection.id ens33`
+- Bây giờ ta tiến hành set IP tĩnh:
+  - Thực chất nó là viết tắt của nmcli connection modify
+  - SetIP: `nmcli con mod ens33 ipv4.addr 192.168.142.125/24`
+  - SetGateWay: `nmcli con mod ens33 ipv4.gateway 192.168.142.2`
+  - SetDNS: `nmcli con mod ens33 ipv4.dns 8.8.8.8`
+  - Chuyển IP sang chế độ thủ công: `nmcli con mod ens33 ipv4.method manual`
+  - Bật chế độ kết nối tự động: `nmcli con mod ens33 connection.autoconnect yes`
+- Để có thể lưu cấu hình này, ta tiến hành reset lại mạng hoặc reboot:
+  - `systemctl restart NetworkManager`
+  - `reboot`
+- Tiến hành nhập `ip addr show` để xem IP:
+  - ![](/Anh/Screenshot_119.png)
+  - Ta có thể thấy IP lúc này đã được đổi thành `192.168.142.125/24`
+  - Tiến hành Ping thử ra Internet:
+  - ![](/Anh/Screenshot_120.png)
+  - Qúa trình ping thành công nghĩa là việc set IP tĩnh đã hoàn thành.
+
+## Link tham khảo:
+- [Anh Quang](https://github.com/thanhquang99/thuctap2023/blob/main/thuctap/linux/iptinh.md)
+- [Ubuntu Network Manager](https://www.configserverfirewall.com/ubuntu-linux/ubuntu-network-manager/)
+- [Ubuntu Server](https://linuxize.com/post/how-to-configure-static-ip-address-on-ubuntu-20-04/)
