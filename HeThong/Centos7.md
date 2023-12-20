@@ -5,6 +5,7 @@ MỤC LỤC:
   - [2. Tiến hành cài đặt hệ điều hành CentOS 7](#2-tiến-hành-cài-đặt-hệ-điều-hành-centos-7)
   - [3. Tiến hành Set Static IP cho CentOS 7](#3-tiến-hành-set-static-ip-cho-centos-7)
     - [3.1 Cài bằng cách chỉnh sửa File:](#31-cài-bằng-cách-chỉnh-sửa-file)
+    - [3.2 Cài bằng cách dùng lệnh:](#32-cài-bằng-cách-dùng-lệnh)
 
 ## 1. Centos là gì ?
 - Là một hệ điều hành mã nguồn mở và miễn phí ở cấp danh nghiệp
@@ -103,4 +104,13 @@ MỤC LỤC:
   - ![](/Anh/Screenshot_137.png)
   - IP lúc này đã được đổi thành `192.168.142.145/24`
   - Việc ping ra Internet cũng đã hoàn thành. Vây chúng ta đã thiết lập IP tĩnh thành công
-  - 
+
+### 3.2 Cài bằng cách dùng lệnh:
+- Đầu tiên, ta thực hiện kiểm tra trạng thái kết nối bằng lệnh: `nmcli device status`
+- ![](/Anh/Screenshot_138.png)
+- Ở đây, ta thấy kết nối ens33 trong trạng thái hoạt động
+- Tiến hành đặt cấu hình IP bằng các câu lệnh sau:
+  - SetIP: nmcli con mod ens33 ipv4.addr 192.168.142.210/24
+  - SetGateway: nmcli con mod ens33 ipv4.gateway 192.168.142.2
+  - SetDNS1: nmcli con mod ens33 ipv4.dns1 8.8.8.8
+  - SetDNS2: nmcli con mod ens33 ipv4.dns2 8.8.4.4
