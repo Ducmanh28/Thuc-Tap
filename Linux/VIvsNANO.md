@@ -42,3 +42,17 @@ Không giống như các trình soạn thảo văn bản trên DeskTop, ở 
 
 Bảng **Help** sẽ hiện ra với rất nhiều tổ hợp phím tắt cùng với định nghĩa:
 ![](/Anh/Screenshot_151.png)
+
+Một số lưu ý:
+- Ở đây:
+  - Cột đầu tiên sẽ hiển thị tổ hợp phím:
+    - `^G` nghĩa là bấm `Ctrl G`
+    - `M-\` nghĩa là bấm `Alt \`
+  - Cột thứ 2 sẽ hiển thị các phím tắt hoặc tổ hợp khác có thể dùng
+  - Cột cuối cùng sẽ hiển thị định nghĩa các tổ hợp phím hay phím tắt đấy dùng để làm gì.
+  
+Tiến hành dùng thử :
+
+##### Ctrl O
+- Dùng để lưu file hiện tại vừa chỉnh sửa mà không thoát khỏi NANO
+- Hoặc dùng để ghi đè nội dung file hiện tại lên một file khác 
