@@ -12,6 +12,14 @@ MỤC LỤC:
 - Là một trong những bản phân phối Linux được phát hành dựa trên RHEL(Red Hat Enterprise Linux)
 - Cấu trúc:
 - ![](/Anh/Screenshot_121.png)
+- Tính bảo trì:
+  - CentOS 7 có khả năng vận hành tốt, mượt mà trên các mainframe
+  - CentOS 7 cung cấp các công cụ tiên tiến và hướng dẫn để giúp người dùng thực hiện các nhiệm vụ cụ thể như loại bỏ các dấu vết hoạt động của người dùng trong hệ thống
+  - Ngoài ra, CentOS 7 còn hỗ trợ việc khắc phục sự cố liên quan đến quá trình khởi động và hệ thống tập tin
+- Khả năng dễ sử dụng:
+  - CentOS 7 tạo ra một môi trường giống như trên desktop, rất đơn giản
+  - Nó cung cấp rất nhiều tính năng hỗ trợ được phát triển và xây dựng từ chính cộng đồng đã tạo ra nó
+  - Do có tính tương đồng với RHEL nên CentOS 7 là một môi trường rất tốt để lập trình
 ## 2. Tiến hành cài đặt hệ điều hành CentOS 7
 - Truy cập vào [CentOS](http://isoredirect.centos.org/centos/7/isos/x86_64/) để chọn phiên bản cài đặt cho máy tính cá nhân của bạn
 - Bạn có 3 đường dẫn để chọn nơi tải:
@@ -114,3 +122,10 @@ MỤC LỤC:
   - SetGateway: nmcli con mod ens33 ipv4.gateway 192.168.142.2
   - SetDNS1: nmcli con mod ens33 ipv4.dns1 8.8.8.8
   - SetDNS2: nmcli con mod ens33 ipv4.dns2 8.8.4.4
+  - Chuyển IP qua chế độ thủ công: nmcli con mod ens33 ipv4.method manual
+  - Bật chế độ tự động kết nối: nmcli con mod ens33 connection.autoconnect yes
+- Sau khi cấu hình địa chỉ IP xong, ta thực hiện restart lại mạng bằng 2 câu lệnh `ifdown [tên kết nối]` và `ifup [tên kết nối]`
+- ![](/Anh/Screenshot_139.png)
+- Sau khi khởi động lại, ta tiến hành kiểm tra lại IP bằng lệnh `ip a` và tiến hành Ping thử ra Internet:
+- ![](/Anh/Screenshot_140.png)
+- Ta đã thấy, IP của tôi đã chuyển thành `192.168.142.210/24` Và quá trình ping ra internet đã thông.
