@@ -56,3 +56,22 @@ Tiến hành dùng thử :
 ##### Ctrl O
 - Dùng để lưu file hiện tại vừa chỉnh sửa mà không thoát khỏi NANO
 - Hoặc dùng để ghi đè nội dung file hiện tại lên một file khác 
+- VD:
+- Tôi có 1 file txt có tên "new_file.txt" với nội dung như sau. Tôi đã sử dụng lệnh `cat new_file.txt` để thực hiện việc đọc nội dung file:
+- ![](/Anh/Screenshot_153.png)
+- Bây giờ tôi sẽ dùng NANO để thực hiện chỉnh sửa file và `Ctrl O` để lưu file thử
+- Truy cập vào file bằng NANO sử dụng câu lệnh: `nano new_file.txt`
+- Thực hiện nhập vào 1 dòng như sau:
+- ![](/Anh/Screenshot_154.png)
+- Sau khi bấm `Ctrl O`, khung thông báo và các tùy chọn sẽ được hiện ra:
+- ![](/Anh/Screenshot_155.png)
+- Sẽ có 2 trường hợp xảy ra:
+  - Bạn muốn lưu file: Chỉ cần viết đúng tên file hiện tại(Để nguyên mặc định và bấm `Enter`)
+  - Bạn muốn ghi đè lên 1 file khác: Nhập tên file bạn muốn ghi đè
+  - VD: Tôi* sẽ ghi đè lên file *new_file.txt~*
+    - File *new_file.txt~* đang có nội dung như sau:  
+    - ![](/Anh/Screenshot_152.png)
+    - Sau khi thực hiện ghi đè:
+    - ![](/Anh/Screenshot_156.png)
+    - Sử dụng lệnh `cat new_file.txt~` và nội dung file đã thay đổi 
+    - ![](/Anh/Screenshot_157.png)
