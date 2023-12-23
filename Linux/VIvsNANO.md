@@ -15,6 +15,8 @@ MỤC LỤC:
         - [1.5.7 Thao tác Select All](#157-thao-tác-select-all)
   - [2. VIM/VI](#2-vimvi)
     - [2.1 Tổng quát:](#21-tổng-quát)
+    - [2.2 Kiểm tra phiên bản và cài đặt VIM](#22-kiểm-tra-phiên-bản-và-cài-đặt-vim)
+    - [2.3 Cách sử dụng VI/VIM](#23-cách-sử-dụng-vivim)
 
 # Trình soạn thảo văn bản trong Linux
 
@@ -154,5 +156,19 @@ Hai tổ hợp phím này chỉ đơn giản dùng cho việc di chuyển
 
 ## 2. VIM/VI
 ### 2.1 Tổng quát:
+- Vi là một trình chỉnh sửa dành cho Linux, Unix và các hệ điều hành giống Unix khác. Vi là viết tắt của visual instrument. 
+- Nó là một trình soạn thảo văn bản mặc định được sử dụng rộng rãi cho các hệ thống dựa trên Unix và đi kèm với tất cả các phiên bản Unix. 
+- Nó chỉ sử dụng bàn phím và cung cấp một giao diện rất hiệu quả để chỉnh sửa những chương trình và script.
+- So với một chương trình xử lý text chung chung, VI được điều chỉnh cho phù hợp với một cấu hình cụ thể hơn về cách sử dụng và người dùng - những người lập trình của các hệ thống dựa trên UNIX.
+-  VI không cung cấp bất kỳ khả năng định dạng nào.
+-  VIM là phiên bản nâng cấp của VI(VI Improved)
+### 2.2 Kiểm tra phiên bản và cài đặt VIM
+- VI đã được tích hợp sẵn trong CentOS7 hoặc Ubuntu
+- Để cài đặt VIM, bạn nhập:
+  - `sudo yum install vim` trên CentOS 7
+  - `sudo apt-get vim` trên Ubuntu
+- Để kiểm tra version, giống như với NANO, bạn nhập: `vim --version`
 
-
+### 2.3 Cách sử dụng VI/VIM
+- Do VIM là phiên bản nâng cấp của VI nên các chức năng hay các phím tắt cũng gần như tương tự nhau
+- 
