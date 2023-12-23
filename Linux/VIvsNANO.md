@@ -13,7 +13,8 @@ MỤC LỤC:
         - [1.5.5 Ctrl C](#155-ctrl-c)
         - [1.5.6 Ctrl W](#156-ctrl-w)
         - [1.5.7 Thao tác Select All](#157-thao-tác-select-all)
-  - [VIM/VI](#vimvi)
+  - [2. VIM/VI](#2-vimvi)
+    - [2.1 Tổng quát:](#21-tổng-quát)
 
 # Trình soạn thảo văn bản trong Linux
 
@@ -151,4 +152,7 @@ Hai tổ hợp phím này chỉ đơn giản dùng cho việc di chuyển
 - Với 3 bước đơn giản này, bạn đã hoàn thành việc Select All dữ liệu
 - Khi này, bạn có thể chọn xóa nhanh bằng cách bấm `Ctrl K` hoặc Copy bằng cách bấm `Alt ^`...
 
-## VIM/VI
+## 2. VIM/VI
+### 2.1 Tổng quát:
+
+
