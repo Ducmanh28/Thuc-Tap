@@ -1,4 +1,15 @@
 # Tìm hiểu về hệ điều hành Linux
+MỤC LỤC:
+- [Tìm hiểu về hệ điều hành Linux](#tìm-hiểu-về-hệ-điều-hành-linux)
+  - [Ubuntu là gì ?](#ubuntu-là-gì-)
+  - [Sự khác biệt giữa Ubuntu Server và Desktop](#sự-khác-biệt-giữa-ubuntu-server-và-desktop)
+  - [Tiến hành cài đặt Ubuntu Server](#tiến-hành-cài-đặt-ubuntu-server)
+  - [Tiến hành cài IP tĩnh](#tiến-hành-cài-ip-tĩnh)
+    - [Một số lưu ý trước khi tiến hành cài IP](#một-số-lưu-ý-trước-khi-tiến-hành-cài-ip)
+    - [Sử dụng cách sửa file](#sử-dụng-cách-sửa-file)
+    - [Sử dụng NetworkManager](#sử-dụng-networkmanager)
+  - [Link tham khảo:](#link-tham-khảo)
+
 ## Ubuntu là gì ?
 - Là một hệ điều hành mã nguồn mở
 - Được phát triển dựa trên Linux/Debian GNU
