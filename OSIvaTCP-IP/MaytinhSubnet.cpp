@@ -4,6 +4,20 @@
 #include <math.h>
 using namespace std;
 
+// Hàm kiểm tra địa chỉ IP hợp lệ
+bool CheckIP(const string& ip) {
+    stringstream ss(ip);
+    string token;
+    int count = 0;
+    while (getline(ss, token, '.')) {
+        int octet = stoi(token);
+        if (octet < 1 || octet > 255) {
+            return false;
+        }
+        count++;
+    }
+    return count == 4;
+}
 // Hàm chuyển đổi địa chỉ IP thành dạng nhị phân
 string ipToBinary(const string& ip) {
     // Tạo một đối tượng stringstream từ chuỗi địa chỉ IP
@@ -74,7 +88,6 @@ void calculateSubnets(const string& ip, int prefix, int borrowedBits) {
     }
 }
 
-
 int main() {
     string ip;
     int prefix, borrowedBits;
@@ -83,8 +96,13 @@ int main() {
     cin>>choice;
     // Vòng lặp cho phép chạy lại chương trình
     while (choice != 0){
-        cout << "IP: ";
-        cin >> ip;
+        do {
+            cout << "IP: ";
+            cin >> ip;
+            if (!CheckIP(ip)) {
+                cout << "Wrong IP!!!. In one Octet must be 1 - 255, Please insert again!!!" << endl;
+            }
+        } while (!CheckIP(ip));
         cout << "Prefix numbers: ";
         cin >> prefix;
         cout << "Numbers of bits: ";
