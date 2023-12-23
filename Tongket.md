@@ -3,6 +3,8 @@
 ## Nội dung làm việc 2023 
 ### Từ 19/12 - 23/12 
 - Hoàn thành tìm hiểu IP và chia Subnet
+  - Làm các bài tập phần chia Subnet
+  - Tạo ra ứng dụng chia Subnet
 - Bắt đầu tìm hiểu sang phần hệ điều hành Linux:
   - Ubuntu:
     - Thực hiện cài đặt Ubuntu Server trên VMWare
@@ -26,6 +28,7 @@
       - Các chức năng khi kết hợp nhiều tổ hợp phím
     - VIM/VI:
       - Tổng quát
+      - 
   - Thực hiện làm việc với Server Vật Lý (Dell EMC)
     - Lắp đặt 1 số linh kiện cho Server
     - Cài OS cho Server bằng USB
