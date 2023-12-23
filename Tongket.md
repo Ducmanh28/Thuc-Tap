@@ -3,6 +3,7 @@
 ## Nội dung làm việc 2023 
 ### Từ 19/12 - 23/12 
 - Hoàn thành tìm hiểu IP và chia Subnet
+  - Hiểu Subnet dùng để làm gì
   - Làm các bài tập phần chia Subnet
   - Tạo ra ứng dụng chia Subnet
 - Bắt đầu tìm hiểu sang phần hệ điều hành Linux:
