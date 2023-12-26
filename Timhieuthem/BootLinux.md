@@ -11,7 +11,7 @@
 - Bước 6 và 7: **Run .target Files and Startup Scripts** - Các file .target và script khởi đầu như /etc/profile và ~/.bashrc được chạy để thiết lập môi trường người dùng.
 - Bước 8: **Users Can Login Now** - Quá trình khởi động hoàn tất và người dùng có thể đăng nhập vào hệ thống.
 
-## Giải thích những chỗ vướng mắc:
+## Giải thích chi tiết hơn từng thành phần trong từng quá trình:
 ### BIOS/UEFI là gì?
 #### Tìm hiểu về BIOS
 - BIOS hay Basic Input/Output System: là một loại firmware được lưu trữ trên một chip trên bo mạch chủ của máy tính
