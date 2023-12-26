@@ -21,6 +21,8 @@ MỤC LỤC:
       - [2.4.1 Insert mode](#241-insert-mode)
       - [2.4.2 Normal mode](#242-normal-mode)
       - [2.4.3 Visual Mode](#243-visual-mode)
+      - [2.4.4 Command Mode](#244-command-mode)
+  - [Tham khảo thêm:](#tham-khảo-thêm)
 
 # Trình soạn thảo văn bản trong Linux
 
@@ -232,6 +234,23 @@ Hai tổ hợp phím này chỉ đơn giản dùng cho việc di chuyển
   - Lặp lại lệnh trước đó bằng cách sử dụng `.` 
   - Hoàn tác sử dụng `u` và thực hiện lại chúng sử dụng `Ctrl U`
   - Và còn nhiều thao tác khác nữa...
+  - Sử dụng `:/` để tìm 1 từ và `n` để tiến tới từ đó tiếp theo, `N` để tiến tời từ sau
 #### 2.4.3 Visual Mode
 - Chế độ này cho phép ta chọn một đoạn trong cả văn bản để có thể thực hiện các thao tác như cắt, sao chép, dán,...
   - Có thể bấm `Ctrl V` để vào chế độ khối trực quan
+
+#### 2.4.4 Command Mode
+- Chế độ này cho phép nhập các lệnh để điều khiển ứng dụng VIM
+- Một số lệnh cơ bản:
+  - `:w` lưu các thay đổi vào tệp
+  - `:wq` lưu và thoát
+  - `:saveas` lưu tệp dưới định dạng khác
+  - `:q` thoát VIM
+  - `:q!` thoát và loại bỏ các thay đổi
+  - `:e` mở File để chỉnh sửa
+  - `:help` mở trợ giúp
+
+
+## Tham khảo thêm:
+- [NANO cheat](https://www.nano-editor.org/dist/latest/cheatsheet.html)
+- [VIM/VI cheat](read://https_www.makeuseof.com/?url=https%3A%2F%2Fwww.makeuseof.com%2Ftag%2Fvim-shortcuts-cheat-sheet%2F)
