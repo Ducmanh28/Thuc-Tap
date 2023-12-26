@@ -1,6 +1,10 @@
 # Ghi chép thực tập 2023
 
 Mục Lục
+
+[Tổng kết nội dung hàng tuần](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Tongket.md)
+
+
 - [OSI và TCP/IP](https://github.com/Ducmanh28/Thuc-Tap/tree/main/OSIvaTCP-IP)
     - [Tổng quan](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/OSIv%C3%A0TCP-IP.md)
     - [Tầng Application](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/7.%20ApplicationLayer.md)
@@ -23,4 +27,10 @@ Mục Lục
   - [Centos 7](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Centos7.md)
   - [BasicCommand](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Basiccommand.md)
   - [TextEditor](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/VIvsNANO.md)
+
+- [Tìm hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Timhieuthem)
+  - [Quá trình Boot Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/BootLinux.md)
   
+
+
+
