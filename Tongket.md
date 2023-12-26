@@ -39,4 +39,8 @@
 
 ### Từ 26/12 - 29/12
 - Hoàn thành tìm hiểu VI/VIM
+  - Các mode của VIM
+  - Các phím tắt và cách sử dụng của từng mode
+  - Sử dụng thử từng chức năng
 - Tìm hiểu quá trình Boot của 1 hệ điều hành
+  - BIOS/UEFI là gì?
