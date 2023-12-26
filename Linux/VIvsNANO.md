@@ -16,7 +16,11 @@ MỤC LỤC:
   - [2. VIM/VI](#2-vimvi)
     - [2.1 Tổng quát:](#21-tổng-quát)
     - [2.2 Kiểm tra phiên bản và cài đặt VIM](#22-kiểm-tra-phiên-bản-và-cài-đặt-vim)
-    - [2.3 Cách sử dụng VI/VIM](#23-cách-sử-dụng-vivim)
+    - [2.3 Các chế độ của VIM](#23-các-chế-độ-của-vim)
+    - [2.4 Một số thao tác cơ bản trong các chế độ:](#24-một-số-thao-tác-cơ-bản-trong-các-chế-độ)
+      - [2.4.1 Insert mode](#241-insert-mode)
+      - [2.4.2 Normal mode](#242-normal-mode)
+      - [2.4.3 Visual Mode](#243-visual-mode)
 
 # Trình soạn thảo văn bản trong Linux
 
@@ -169,6 +173,65 @@ Hai tổ hợp phím này chỉ đơn giản dùng cho việc di chuyển
   - `sudo apt-get vim` trên Ubuntu
 - Để kiểm tra version, giống như với NANO, bạn nhập: `vim --version`
 
-### 2.3 Cách sử dụng VI/VIM
-- Do VIM là phiên bản nâng cấp của VI nên các chức năng hay các phím tắt cũng gần như tương tự nhau
-- 
+### 2.3 Các chế độ của VIM
+- Khác với các trình soạn thảo văn bản Linux truyền thống, VIM tuân theo triết lí UNIX, chỉ làm một việc và làm thật tốt. VIM cung cấp các chế độ để người dùng làm việc. Bao gồm:
+  - Normal mode: Là chế độ mặc định khi bạn bắt đầu vào VIM. Trong chế độ này, có thể thực hiện các thao tác như di chuyển con trỏ, thay thế văn bản, cắt, sao chép, dán, xóa,... 
+  - Insert mode: Là chế độ cho phép bạn chèn văn bản vào trong tệp giống như hầu hết các trình soạn thảo văn bản khác. Có thể chuyển từ chế độ khác sang chế độ chèn bằng cách bấm các phím như `a,i,o` hoặc `A,I,O`
+  - Visual mode: Chế độ này cho phép chọn đoạn văn bản để thực hiện các thao tác như cắt, sao chép, dán, xóa,...Để vào được chế độ này, ta nhập `v` từ bàn phím
+  - Command mode: Chế độ này cho phép nhập vào các lệnh. Gõ `:` ở chế độ bình thường để có thể vào chế độ lệnh
+
+### 2.4 Một số thao tác cơ bản trong các chế độ:
+#### 2.4.1 Insert mode
+- Thao tác chèn văn bản vào 1 tệp là một thao tác cơ bản mà trình soạn thảo nào cũng phải có.
+- Để vào **Insert mode** từ **Normal mode**, ta thực hiện bấm phím `a,o,i` để có thể vào chế độ chèn. 
+- Để thoát chế độ chèn, quay về **Normal mode**, ta chỉ đơn giản bấm `Esc` từ bàn phím
+- Khi nào thì sử dụng `a,o,i` hoặc `A,O,I`
+  - Dùng `i`, sẽ chèn văn bản ngay tại vị trí con trỏ
+  - Dùng `o`, sẽ chèn văn bản ngay dưới dòng chứa con trỏ
+  - Dùng `a`, để nối văn bản sau con trỏ
+  - Dùng `I`, để chèn văn bản vào đầu dòng hiện tại
+  - Dùng `O`, để chèn văn bản ngay trên dòng chứa con trỏ
+  - Dùng `A`, để thêm văn bản vào cuối dòng
+
+#### 2.4.2 Normal mode
+- Đây là chế độ mặc định của VIM. Khi vào VIM, chế độ này là chế độ hiện ra đầu tiên. 
+- Đây cũng là chế độ mà ta sẽ sử dụng nhiều nhất trong VIM
+- Nhần phím `Esc` ở một chế độ mất kì để có thể trở về **Normal mode**
+- Thay vì dùng các phím mũi tên tiêu chuẩn như các trình soạn thảo văn bản khác, VIM sử dụng các phím `h,j,k,l` để thực hiện di chuyển con trỏ
+  - `h` sẽ dịch con trỏ sang bên trái
+  - `j` sẽ dịch con trỏ xuống dưới
+  - `k` sẽ dịch con trỏ lên trên
+  - `l` sẽ dịch con trỏ sang bên phải
+  - Nhưng ta cũng có thể dùng các phím mũi tên nếu không quen với thao tác này
+- Một số thao tác cơ bản trong Normal mode:
+  - `w` sẽ di chuyển con trỏ đến đầu từ tiếp theo
+  - `b` sẽ di chuyển con trỏ đến đầu từ hiện tại
+  - `e` sẽ di chuyển con trỏ đến cuối từ hiện tại
+  - `0` sẽ di chuyển con trỏ đến đầu dòng hiện tại
+  - `$` sẽ di chuyển con trỏ đến cuối dòng hiện tại
+  - `H` sẽ đưa con trỏ lên đầu văn bản
+  - `M` sẽ đưa con trỏ đến giữa văn bản
+  - `L` sẽ đưa con trỏ đến cuối cùng văn bản
+  - Có thể kéo lên, kéo xuống bằng cách bấm tổ hợp `Ctrl U` và `Ctrl D`'
+  - Bấm `gg` để di chuyển con trỏ lên trên cùng và `G` để di chuyển con trỏ xuống cuối cùng
+  - Sử dụng `x` để xóa một ký tự
+  - `s` để thay thế
+  - Xóa văn bản bằng cách sử dụng toán tử `d`
+    - `dw` sẽ xóa từ hiện tại
+    - `d$` sẽ xóa từ cuối cho đến vị trí con trỏ của dòng
+    - `d0` sẽ xóa từ đầu cho tới vị trí con trỏ
+    - `dd` để xóa toàn bộ dòng
+  - Toán tử `c` cho phép thực hiện các thay đổi mà không cần vào **Insert mode** 
+    - `cw`, VIM sẽ xóa từ hiện tại và đưa bạn vào chế độ chèn để thay thế từ đó
+    - `ciw` thực hiện thay đổi bên trong từ hiện tại
+    - `cc` để thay đổi toàn bộ dòng
+  - Sử dụng toán tử `y` để thực hiện các sao chép
+    - `yw` để sao chép từ hiện tại
+    - `yy` để sao chép toàn bộ dòng
+  - Sử dụng `p` để dán những gì có trong clipboard
+  - Lặp lại lệnh trước đó bằng cách sử dụng `.` 
+  - Hoàn tác sử dụng `u` và thực hiện lại chúng sử dụng `Ctrl U`
+  - Và còn nhiều thao tác khác nữa...
+#### 2.4.3 Visual Mode
+- Chế độ này cho phép ta chọn một đoạn trong cả văn bản để có thể thực hiện các thao tác như cắt, sao chép, dán,...
+  - Có thể bấm `Ctrl V` để vào chế độ khối trực quan

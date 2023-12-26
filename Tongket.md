@@ -36,3 +36,7 @@
     - Cài RAID cho Server
     - Cài iDRAC9 cho Server
     - Cài OS cho Server thông qua iDRAC9
+
+### Từ 26/12 - 29/12
+- Hoàn thành tìm hiểu VI/VIM
+- Tìm hiểu quá trình Boot của 1 hệ điều hành
