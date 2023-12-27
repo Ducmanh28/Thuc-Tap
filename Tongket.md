@@ -44,6 +44,11 @@
   - Sử dụng thử từng chức năng
 - Tìm hiểu quá trình Boot của 1 hệ điều hành
   - BIOS/UEFI là gì?
-  - Boot Device là gì?
+  - Boot Device là gì? Các loại Boot Device
   - GRUB Boot Loader là gì?
+    - Các loại GRUB
+    - Quá trình GRUB Boot Loader
   - Quá trình Execute systemd là gì ?
+    - Systemd là gì
+    - Cấu tạo Systemd
+  - File .target và các Startup Scripts
