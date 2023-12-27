@@ -44,3 +44,6 @@
   - Sử dụng thử từng chức năng
 - Tìm hiểu quá trình Boot của 1 hệ điều hành
   - BIOS/UEFI là gì?
+  - Boot Device là gì?
+  - GRUB Boot Loader là gì?
+  - Quá trình Execute systemd là gì ?
