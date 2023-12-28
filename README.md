@@ -25,7 +25,7 @@ Mục Lục
 - [Linux](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux)
   - [Ubuntu](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Ubuntu.md)
   - [Centos 7](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Centos7.md)
-  - [BasicCommand](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Basiccommand.md)
+  - [Use OS Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/UseLinux.md)
   - [TextEditor](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/VIvsNANO.md)
 
 - [Tìm hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Timhieuthem)
