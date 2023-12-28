@@ -111,4 +111,19 @@
     - *1* là có thể
     - *0* là không thể
   - **Size**: Dung lượng tối đa của thiết bị
-  - **RO**: 
+  - **RO**: Mục này cho biết thiết bị có phải loại chỉ cho phép đọc hay không ?
+    - *1* là phải
+    - *0* là không phải
+  - **Type**: Phân loại thiết bị
+  - **Mount Points**: Thông tin về đường dẫn thiết bị hiện tại
+- `lscpu`: Show thông tin về CPU
+- ![](/Anh/Screenshot_219.png)
+- `lstopo`: Show thông tin Topo phần cứng
+- ![](/Anh/Screenshot_220.png)
+- `free`: Show thông tin Memory
+- ![](/Anh/Screenshot_221.png)
+- `lsb_release (-a)`: Hiện thông tin phân phối
+- ![](/Anh/Screenshot_222.png)
+- Lưu ý:
+  - `Ctrl C`: Để dừng lệnh đang chạy
+  - `Which <cmdname>`: Để kiểm tra lệnh có tồn tại hay không
