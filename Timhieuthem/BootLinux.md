@@ -87,6 +87,7 @@ MỤC LỤC
 ### GRUB Boot Loader là gì
 - GRUB hay GRand Unified Bootloader là một chương trình khởi động máy tính được phát triển bởi dự án GNU
 - GRUB cung cấp cho người dùng một lựa chọn cho phép người dùng khởi động một trong nhiều hệ điều hành được cài trên một máy tính hoặc lựa chọn một cấu hình cụ thể ó sẵn trên các phân vùng của một hề điều hành cụ thể
+- Kernel là thành phần cốt lõi của một hệ điều hành. Kernel bản chất là một chương trình máy tính, được khởi chạy trong quá trình khởi động của hệ thống (sau bootloader). Nó quản lý bộ nhớ, các thiết bị ngoại vi như bàn phím, chuột … và có quyền kiểm soát mọi thứ trong hệ thống.
 - Các tính năng của GRUB:
   - Hỗ trợ nhiều hệ điều hành - bằng cách khởi động trực tiếp nhân hệ điều hành hoặc bằng cách nạp chuỗi(chain-loading)
   - Hỗ trợ nhiều hệ thống tập tin(BSD, DOS FAT16 và FAT32, Minix fs, Linux ext2fs và ext3fs, ReiserFS, JSF, XFS, và VSTa fs)
