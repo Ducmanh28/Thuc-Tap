@@ -52,3 +52,5 @@
     - Systemd là gì
     - Cấu tạo Systemd
   - File .target và các Startup Scripts
+- Bắt đầu các thao tác cơ bản với hệ điều hành Linux(Sử dụng Ubuntu Server)
+  - Các tổ hợp phím tắt cơ bản làm việc với terminal
