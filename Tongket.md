@@ -54,3 +54,8 @@
   - File .target và các Startup Scripts
 - Bắt đầu các thao tác cơ bản với hệ điều hành Linux(Sử dụng Ubuntu Server)
   - Các tổ hợp phím tắt cơ bản làm việc với terminal
+  - Các câu lệnh cơ bản
+    - Hỗ trợ hiểu biết về hệ thống
+    - Làm quen với Process
+  - Các câu lệnh làm việc
+    - Làm việc với file
