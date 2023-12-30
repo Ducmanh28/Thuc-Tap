@@ -42,6 +42,11 @@
   - Các mode của VIM
   - Các phím tắt và cách sử dụng của từng mode
   - Sử dụng thử từng chức năng
+- So sánh giữa VIM/NANO:
+  - Sử dụng VIM:
+    - Có các chế độ
+    - Các phím tắt không quá khó để sử dụng
+    - Sử dụng tối đa chức năng 1 cách đơn giản
 - Tìm hiểu quá trình Boot của 1 hệ điều hành
   - BIOS/UEFI là gì?
   - Boot Device là gì? Các loại Boot Device
