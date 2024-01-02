@@ -22,6 +22,7 @@ MỤC LỤC
         - [In text ra màn hình:](#in-text-ra-màn-hình)
         - [Tìm kiếm tệp](#tìm-kiếm-tệp)
         - [Một số thao tác thêm với file](#một-số-thao-tác-thêm-với-file)
+      - [Shell và làm việc với Shell](#shell-và-làm-việc-với-shell)
 
 
 ## Basic Shorcuts(Các phím tắt cơ bản)
@@ -157,6 +158,18 @@ MỤC LỤC
   - Available: Dung lượng có sẵn để khởi động một tiến trình
 - `lsb_release (-a)`: Hiện thông tin phân phối
 - ![](/Anh/Screenshot_222.png)
+- `uname`: Hay chính là viết tắt của unix-name
+  - Cách dùng:  `uname [Options]`
+  - ![](/Anh/Screenshot_258.png)
+  - Các options:
+    - `-a`: in ra tất cả thông tin
+    - `-s`: in ra tên kernel
+    - `-n`: in ra tên nốt mạng
+    - `-r`: in ra bản phát hành kernel
+    - `-v`: in ra phiên bản kernel
+    - `-m`: in ra tên máy móc phần cứng
+    - `-p`: in ra loại chương trình, hoặc ***unknown***
+    - `-i`: in ra nền tảng phần cứng, hoặc ***unknown***
 - Lưu ý:
   - `Ctrl C`: Để dừng lệnh đang chạy
   - `Which <cmdname>`: Để kiểm tra lệnh có tồn tại hay không
@@ -432,6 +445,8 @@ Bảng dưới đây sẽ là các options để sử dụng với `ls`
     - `-v`: Dữ liệu từ tệp được chỉ định luôn đi kèm với tên tệp
     - `-f`: Hiển thị lịch sử phát triển của file. Thường là tệp nhật ký theo thời gian thực. Tail -f sẽ hiển thị nội dung thay đổi của file theo thời gian thực(thường sẽ là 10 dòng cuối)
 - Lệnh `cat [đường dẫn tới file]`: để xem nội dung file 
+
+#### Shell và làm việc với Shell
 
   
 

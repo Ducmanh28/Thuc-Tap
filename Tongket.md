@@ -69,5 +69,6 @@
 ### Từ 2/1 - 6/1
 - Bổ sung thêm thông tin vào phần thao tác Linux cơ bản:
   - Trợ giúp trong Linux
+  - Các câu lệnh làm việc với hệ thống
 - Tiếp tục tìm hiểu các câu lệnh cơ bản của Linux
   - Các lệnh về phân quyền người dùng đối với 1 file
