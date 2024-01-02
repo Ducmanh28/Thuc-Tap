@@ -12,11 +12,16 @@ MỤC LỤC
       - [Phân tích cấu trúc 1 câu lệnh của Linux:](#phân-tích-cấu-trúc-1-câu-lệnh-của-linux)
       - [Các câu lệnh hỗ trợ hiểu biết về hệ thống:](#các-câu-lệnh-hỗ-trợ-hiểu-biết-về-hệ-thống)
       - [Các câu lệnh làm quen với chương trình:](#các-câu-lệnh-làm-quen-với-chương-trình)
+      - [Trợ giúp của Linux:](#trợ-giúp-của-linux)
     - [Các câu lệnh làm việc](#các-câu-lệnh-làm-việc)
       - [Làm việc với File](#làm-việc-với-file)
         - [Làm việc với đường dẫn File](#làm-việc-với-đường-dẫn-file)
         - [Show ra danh sách file trong 1 thư mục](#show-ra-danh-sách-file-trong-1-thư-mục)
         - [Tạo, Sao chép, Xóa File hoăc Đường dẫn](#tạo-sao-chép-xóa-file-hoăc-đường-dẫn)
+        - [Quyền tập tin/thư mục và nhóm Lệnh](#quyền-tập-tinthư-mục-và-nhóm-lệnh)
+        - [In text ra màn hình:](#in-text-ra-màn-hình)
+        - [Tìm kiếm tệp](#tìm-kiếm-tệp)
+        - [Một số thao tác thêm với file](#một-số-thao-tác-thêm-với-file)
 
 
 ## Basic Shorcuts(Các phím tắt cơ bản)
@@ -123,6 +128,9 @@ MỤC LỤC
 - `w` và `w -f`: Cho biết ai đang đăng nhập và đăng nhập ở đâu
 - ![](/Anh/Screenshot_217.png)
 - `lsblk`: Liệt kê các thiết bị lưu trữ
+- `hostname`: Show ra host name
+- `passwd`: Thay đổi mật khẩu của user hiện tại
+- `last`,`last root`, `last tb`: show last
 - ![](/Anh/Screenshot_218.png)
   - **NAME**: Tên thiết bị hoặc tên phân vùng
   - **MAJ:MIN**: Số lượng kernel được sử dụng để nhận dạng các thiết bị nội bộ
@@ -210,6 +218,38 @@ MỤC LỤC
   - `htop` và `atop` trình chiếu thông tin tương tự `top` nhưng sẽ đẹp hơn
 - `kill <pid>`: Ngắt một tiến trình sử dụng pid của tiến trình đó
 
+#### Trợ giúp của Linux:
+- `man`: trong Linux `man` sẽ hiển thị hướng dẫn sử dụng ***manual*** của bất kỳ lệnh nào mà chúng ta có thể chạy trên terminal
+  - Cung cấp cho chúng ta cái nhìn chi tiết về câu lệnh:
+    - Tên
+    - Cú pháp
+    - Mô tả
+    - Tùy chọn
+    - Trạng thái thoát
+    - Gía trị trả về
+    - Lỗi
+    - Tệp
+    - Phiên bản
+    - Ví dụ
+    - Tác giả
+    - Thông tin thêm
+  - Cú pháp câu lệnh:
+    - `man [options] <command_name>`
+  - Một số tùy chọn:
+    - No Option: Hiển thị toàn bộ thông tin
+    - Section-num: Hiển thị chỉ 1 phần cụ thể của hướng dẫn
+    - `-f` hiển thị 1 phần cụ thể
+    - `-a` hiển thị tất cả các trang liên tiếp
+    - `-k` tìm kiếm lệnh được chỉ định dưới dạng biểu thức chính quy trong tất cả các trang hướng dẫn và trả về các trang hướng dẫn cùng với số phần chứa lệnh
+    - `w` trả về vị trí mà trang hướng dẫn của lệnh được chỉ định đang nằm
+    - `I` xem xét lệnh như một chuỗi phân biệt chữ hoa chữ thường
+- `apropose`: Hiển thị tất cả các lệnh có chứa chuỗi đã nhập. Nên dùng khi không nhớ rõ lệnh
+  - `apropose <chuỗi 1 phần của 1 lệnh nào đó>`
+- `dpkg`: là một phần mềm quản lý tệp tin.
+  - Sử dụng `dpkg -l` để show ra thông tin toàn bộ các tệp
+- `whatis`: show ra thông tin về 1 lệnh xem lệnh đó dùng để làm gì
+
+
 ### Các câu lệnh làm việc   
 #### Làm việc với File
 Đối với Linux, ta sẽ làm việc với các câu lệnh và các file dữ liệu. Bất kể khi nào bạn sử dụng câu lệnh, câu lệnh đó sẽ được lấy từ một file trong hệ thống. Và đứng ở vị trí của bạn, bạn cũng đang làm việc ở trong 1 thư mục
@@ -273,3 +313,127 @@ Bảng dưới đây sẽ là các options để sử dụng với `ls`
   - ![](/Anh/Screenshot_243.png)
 - `touch <filename>`: Tạo 1 file mới
 - ![](/Anh/Screenshot_244.png)
+
+##### Quyền tập tin/thư mục và nhóm Lệnh
+- `chmod`: là viết tắt của ***change mode*** dùng để thay đổi hoặc gán quyền truy cập cho các tệp và thư mục 
+  - Sử dụng `chmod`:
+  - `chmod [options] [permissions] <file_name> `
+    - class : u,g,o - user,group,other
+    - (+) để thêm quyền, (-) để xóa quyền
+    - permissions: r,w,x- read, write, execute
+  - Ở đây, `[permissions]` có thể được viết dưới dạng kí tự số hoặc chữ:
+  - Kiểu chữ: Gồm 10 ký tự, Một ký tự dại diện cho loại file và 9 ký tự đại diện cho các quyền đọc(**r**), ghi(**w**), và thực thi(**x**) của file theo thứ tự của chủ sở hữu --> nhóm --> người khác. Nếu không được phép, biểu tượng (**-**) sẽ được sử dụng.
+    - Ví dụ: 
+    - ![](/Anh/Screenshot_246.png)
+
+    - ![](/Anh/Screenshot_247.png)
+  - Kiểu số: Mỗi chữ số trong khoảng từ 0 ~ 7 và mỗi giá trị cuả chữ số có được bằng cách tính tổng các quyền của lớp. 
+    - Quy luật như sau: 
+      - 0 là không có bất kỳ quyền gì
+      - +1 nếu có thể thực thi file
+      - +2 nếu có thể ghi file
+      - +4 nếu có thể đọc file
+    - Vậy ý nghĩa của từng con số trong khoảng 0 ~ 7 như sau:
+      - 0: Không có quyền gì
+      - 1: Thực thi file
+      - 2: Viết file
+      - 3: Viết và thực thi file
+      - 4: Đọc file
+      - 5: Đọc và thực thi file
+      - 6: Đọc và viết file
+      - 7: Đọc, ghi, thực thi file
+  - ![](/Anh/Screenshot_248.png)
+  - Khi nào dùng kiểu kí tự, khi nào dùng kiểu số:
+    - Ta nên dùng kiểu kí tự khi muốn phân từng quyền cho từng lớp. Kiểu số nên dùng khi muốn phân quyền cho tất cả các lớp cùng 1 lúc.
+  - Các Options:
+    - `-c` changes: Báo cáo khi có thay đổi
+    - `-f` silent,quiet: Không hiển thị hầu hết các thông báo lỗi
+    - `-v` verbose: Hiển thị thông tin cho mỗi tệp được xử lý
+    - `--no-preserve-root`: Không đặc biệt xử lý(sẽ có các thay đổi quyền đến thư mục mẹ và các thư mục con bên trong hệ thống)
+    - `--preserve-root`: Đặc biệt xử lý(Đặc biệt ở đây liên quan đến việc sửa đổi file, thư mục gốc-thư mục mẹ- việc thay đổi quyền truy cập của các thư mục mẹ sẽ có ảnh hưởng đến toàn bộ hệ thống-ta nên dùng thêm options này)
+    - `--reference`: Sử dụng chế độ của RFILE thay vì MODE
+      - Theo như tìm hiểu, RFILE nghĩa là tham chiếu đến 1 file khác thay vì chỉ định MODE cụ thể
+      - Cách sử dụng:
+        - Giả sử bạn có 2 file: filename1 và filename2
+        - `chmod --reference=filename1 filename2`
+        - Lệnh này sau khi được thực hiện thì file 2 sẽ có quyền như file 1
+      - `-R, --recursive`:Thay đổi quyền của một thư mục đệ quy. Để thay đổi quyền của một thư mục và mọi thứ trong thư mục đó, hãy sử dụng lệnh này
+      - `--help`: hiển thị trợ giúp và thoát
+      - `--version`: hiển thị phiên bản và thoát
+  - Cách sử dụng chi tiết:
+    - Kiểu kí tự:
+      - `chmod [options] [class(+,-)permissions] <file_name> `
+        - class : u,g,o - user,group,other
+        - (+) để thêm quyền, (-) để xóa quyền
+        - permissions: r,w,x- read, write, execute
+      - Thêm quyền r,w,x cho user đối với file: newfile.txt
+      - `chmod u+rwx newfile.txt`
+      - ![](/Anh/Screenshot_249.png)
+      - Thu hồi các quyền đó:
+      - `chmod u-rwx newfile.txt`
+      - ![](/Anh/Screenshot_250.png)
+      - Phân quyền cho cả user,group và other:
+      - `chmod ug+wx,o+x newfile.txt`
+      - ![](/Anh/Screenshot_251.png)
+    - Kiểu số:
+      - `chmod [options] [number] <file_name>`
+        - number: 3 nums for 3 classes
+      - Ví dụ:
+        - Cấp tất cả quyền cho mọi người(user, group, other)
+        - `chmod 777 newfile.txt`
+        - ![](/Anh/Screenshot_252.png)
+
+- `chown` và `chgrp`: Thay đổi quyền sở hữu của thư mục hoặc tệp tin
+  - Cách sử dụng:
+    - `chown/chgrp [Options] [Owner/Group name] [filename]` 
+
+##### In text ra màn hình:
+- Để thực hiện điều này, ta sử dụng lệnh `echo`
+- `echo "text"`
+- VD:
+  - ![](/Anh/Screenshot_253.png)
+
+##### Tìm kiếm tệp
+- Sử dụng `find`
+  - Tìm kiếm tệp theo tên: Để tìm kiếm tệp theo tên, bạn sử dụng cờ -name với lệnh find. 
+    - Ví dụ, để tìm kiếm tệp có tên là filename.txt trong thư mục /home, bạn sẽ sử dụng lệnh sau:
+    - `find /home -type f -name filename.txt`
+    - ![](/Anh/Screenshot_254.png)
+  - Tìm kiếm tệp theo phần mở rộng (extension): Để tìm kiếm tệp theo phần mở rộng, bạn sẽ sử dụng biểu thức chính quy sau với cờ -name hoặc -iname. 
+    - Ví dụ, để tìm kiếm tất cả các tệp có phần mở rộng .pdf, bạn sẽ sử dụng lệnh sau:
+    - `find /home -type f -name "*.pdf"`
+    - ![](/Anh/Screenshot_255.png)
+  - Tìm kiếm tệp theo ký tự đại diện: Bạn có thể sử dụng các ký tự đại diện shell cơ bản để mở rộng tìm kiếm của mình. 
+    - Ví dụ, dấu hoa thị (*) đại diện cho bất kỳ số hoặc ký tự nào:
+    - `find ~ -iname "foo*"`
+  - Hoặc đơn giản, bạn nhập lệnh `find`, sau đó nhấn `Tab Tab` sẽ hiển thị ra các thư mục và file
+- Sử dụng `grep`
+  - Để tìm 1 nội dung text trong 1 file hoặc 1 thư mục
+  - Ví dụ tìm trong file: `grep <text> [đường dẫn]`
+    - ![](/Anh/Screenshot_256.png)
+  - Ví dụ tìm trong thư mục: `grep -R <text> [đường dẫn]`
+    - ![](/Anh/Screenshot_257.png)
+##### Một số thao tác thêm với file
+- Lệnh `head`:
+  - Cú pháp: `head [OPTION]... [FILE]...`
+  - Mặc định, lệnh head sẽ in ra 10 dòng đầu tiên của các tệp được chỉ định.
+  - Các tùy chọn chính:
+    - `-n num`: In ra num dòng đầu tiên thay vì 10 dòng đầu.
+    - `-c num`: In ra num byte đầu tiên từ tệp được chỉ định.
+    - `-q`: Nếu có nhiều hơn 1 tệp được cung cấp, tùy chọn này sẽ không in tên tệp trước mỗi tệp1.
+    - `-v`: Dữ liệu từ tệp được chỉ định luôn đi kèm với tên tệp1.
+- Lệnh tail:
+  - Cú pháp: tail [OPTION]... [FILE]...
+  - Mặc định, lệnh tail sẽ in ra 10 dòng cuối cùng của các tệp được chỉ định.
+  - Các tùy chọn chính:
+    - `-n num`: In ra num dòng cuối cùng thay vì 10 dòng cuối5.
+    - `-c num`: In ra num byte cuối cùng từ tệp được chỉ định5.
+    - `-q`: Nếu có nhiều hơn 1 tệp được cung cấp, tùy chọn này sẽ không in tên tệp trước mỗi tệp
+    - `-v`: Dữ liệu từ tệp được chỉ định luôn đi kèm với tên tệp
+    - `-f`: Hiển thị lịch sử phát triển của file. Thường là tệp nhật ký theo thời gian thực. Tail -f sẽ hiển thị nội dung thay đổi của file theo thời gian thực(thường sẽ là 10 dòng cuối)
+- Lệnh `cat [đường dẫn tới file]`: để xem nội dung file 
+
+  
+
+
+  
