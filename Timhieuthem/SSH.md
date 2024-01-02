@@ -1,1 +1,32 @@
 # Mục này tìm hiểu về giao thức SSH, cách cài đặt và sử dụng
+
+Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ lý thuyết về SSH.
+## SSH là gì?
+- SSH là viết tắt của Secure Shell, là một giao thức mạng được sử dụng để truyền tải dữ liệu một cách bảo mật giữa 2 thiết bị
+- Giao thức SSH sử dụng mã hóa để đảm bảo rằng thông tin truyền tải được bảo mật 
+- Được sử dụng rộng rãi để kết nối với các máy chủ từ xa và quản lý các tệp tin trên đó
+- Sử dụng để đăng nhập vào các hệ thống Linux và Unix, cho phép quản trị viên máy chủ thực hiện các thao tác tác vụ quản lý hệ thống từ xa
+
+## SSH dùng để làm gì nhỉ ?
+- Cung cấp khả năng quản lý an toàn, truy cập từ xa vào tài nguyên, các bản vá phần mềm và cập nhật trong các trung tâm dữ liệu
+- Còn cho phép quản lý bộ định tuyến được bảo vệ, bảo trị phần cứng và quản trị nền ảo hóa
+- Được áp dụng trong các tình huống như sau:
+  - Kết nối với Server từ xa
+  - Sao lưu, sao chép tệp và phản chiếu tệp bằng **SFTP**
+  - Bảo mật TCP/IP và các giao thức mạng khác bằng cách ánh xạ cổng của Client với cổng của Server
+  - Chuyển dữ liệu nhạy cảm thông qua một kênh an toàn
+  - Sử dụng VPN(Virtual Private Network)
+- Khóa SSH là biện pháp để tự động hóa truy cập Server với đăng nhập không cần mật khẩu, quản lý cấu hình và sao lưu
+
+## Vậy cách mà SSH hoạt động ra sao?
+- Hiểu đơn giản quá trình này sẽ gồm 3 bước:
+  - Định danh Host: Mục này sẽ xác định xem ai đang là người muốn sử dụng SSH(phần đăng nhập)
+  - Mã hóa: Mục này sẽ thiết lập kênh truyền dữ liệu an toàn, được bảo mật
+  - Chứng thực: Xác thực xem người dùng có quyền truy cập hệ thống hay không
+- Bây giờ ta tiến hành đi tìm hiểu chi tiết hơn về từng bước này:
+### Định danh Host:
+- Việc định danh Host sẽ được thực hiện qua việc trao đổi khóa giữa client và server.
+- Mỗi máy tính có một khóa định danh duy nhất. Mỗi khóa này gồm 3 thành phần:
+  - Khóa công khai: được sử dụng khi cần trao đổi giữa các máy chủ với nhau trong phiên làm việc SSH. Chúng ta sẽ sao chép các kí tự tại khóa này và bỏ vào file `~/.ssh.authorized_keys` ở trên Server của mình
+  - Khóa riêng: ta cần lưu file này vào trong máy tính cá nhân. Dữ liệu sẽ được mã hóa bằng khóa riêng và chỉ có thể được giải mã bằng khóa công khai
+  - Keyphrase: Đây là mật khẩu mà bạn sẽ sử dụng để mở được PrivateKey. Việc sử dụng passphrase này sẽ đem lại lợi ích vì tính bảo mật của key không bao giờ được hiển thị với bất kỳ ai khác, cho dù nó được mã hóa như thế nào
