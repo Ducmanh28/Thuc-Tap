@@ -30,3 +30,6 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
   - Khóa công khai: được sử dụng khi cần trao đổi giữa các máy chủ với nhau trong phiên làm việc SSH. Chúng ta sẽ sao chép các kí tự tại khóa này và bỏ vào file `~/.ssh.authorized_keys` ở trên Server của mình
   - Khóa riêng: ta cần lưu file này vào trong máy tính cá nhân. Dữ liệu sẽ được mã hóa bằng khóa riêng và chỉ có thể được giải mã bằng khóa công khai
   - Keyphrase: Đây là mật khẩu mà bạn sẽ sử dụng để mở được PrivateKey. Việc sử dụng passphrase này sẽ đem lại lợi ích vì tính bảo mật của key không bao giờ được hiển thị với bất kỳ ai khác, cho dù nó được mã hóa như thế nào
+
+## Nguồn tham khảo 
+- [WIKI](https://vi.wikipedia.org/wiki/SSH)
