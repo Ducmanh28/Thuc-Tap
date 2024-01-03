@@ -501,7 +501,19 @@ Bảng dưới đây sẽ là các options để sử dụng với `ls`
   - ![](/Anh/Screenshot_262.png)
 
 #### Nén file với 'tar'
-
+- Các Options thường dùng:
+  - `-c`: Tạo 1 kho lưu trữ ***tar*** mới
+  - `-x`: Giải nén file trong kho lưu trữ
+  - `-t`: Liệt kê danh sách của 1 kho lưu trữ
+  - `-f`: Sử dụng tệp lưu trữ hoặc dir ARCHIVE
+  - `-v`: Liệt kê chi tiết các tệp đã được xử lý lên màn hình
+- Tùy chọn nén:
+  - `-a`: Nén tự động
+  - `-j`: Tạo kho lưu trữ dạng bzip2
+  - `-J`: Tạo kho lưu trữ dạng xz
+  - `-z`: Tạo kho lưu trữ dạng gzip
+- Cấu trúc câu lệnh:
+  - tar 
   
   
 
