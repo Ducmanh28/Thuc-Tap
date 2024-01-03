@@ -72,5 +72,6 @@
   - Các câu lệnh làm việc với hệ thống
 - Tiếp tục tìm hiểu các câu lệnh cơ bản của Linux
   - Các lệnh về phân quyền người dùng đối với 1 file
+  - Làm việc với Shell
 - Kết hợp sử dụng Linux với các giao thức 
   - SSH

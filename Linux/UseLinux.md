@@ -23,6 +23,7 @@ MỤC LỤC
         - [Tìm kiếm tệp](#tìm-kiếm-tệp)
         - [Một số thao tác thêm với file](#một-số-thao-tác-thêm-với-file)
       - [Shell và làm việc với Shell](#shell-và-làm-việc-với-shell)
+      - [Nén file với 'tar'](#nén-file-với-tar)
 
 
 ## Basic Shorcuts(Các phím tắt cơ bản)
@@ -145,9 +146,23 @@ MỤC LỤC
   - **Type**: Phân loại thiết bị
   - **Mount Points**: Thông tin về đường dẫn thiết bị hiện tại
 - `lscpu`: Show thông tin về CPU
-- ![](/Anh/Screenshot_219.png)
+  - ![](/Anh/Screenshot_219.png)
+  - Hoặc xem nội dung file `cpuinfo`
+  - `cat /proc/cpuinfo`
+  - ![](/Anh/Screenshot_270.png)
+  - Xem thông tin các chương trình đang chạy trên nhân cpu
+  - `grep -c processor /proc/cpuinfo`
+  - ![](/Anh/Screenshot_271.png)
 - `lstopo`: Show thông tin Topo phần cứng
 - ![](/Anh/Screenshot_220.png)
+- `lshw`: Show thông tin phần cứng thiết bị
+  - ![](/Anh/Screenshot_266.png)
+  - Có thể kết hợp với `grep` để lấy thông tin về phần cứng cần biết
+  - ![](/Anh/Screenshot_267.png)
+- `lspci -tv`: Xem thông tin PCI
+- `lsusb -tv`: Xem thông tin USB
+- `dmidecode -q`: Xem thôn tin BIOS:
+  - ![](/Anh/Screenshot_269.png)
 - `free`: Show thông tin Memory
 - ![](/Anh/Screenshot_221.png)
   - Total: Tổng dung lượng
@@ -170,6 +185,13 @@ MỤC LỤC
     - `-m`: in ra tên máy móc phần cứng
     - `-p`: in ra loại chương trình, hoặc ***unknown***
     - `-i`: in ra nền tảng phần cứng, hoặc ***unknown***
+- `df -h`: Kiểm tra ổ đĩa:
+  - ![](/Anh/Screenshot_263.png)
+- `du -sh *`: Kiểm tra dung lượng các file trong thư mục hiện tại 
+  - ![](/Anh/Screenshot_264.png)
+- `du -sh .[!.]* *`: Kiểm tra dung lượng các file trong thư mục hiện tại(bao gồm cả các file bị ẩn)
+  - ![](/Anh/Screenshot_265.png)
+  - Có thể thêm tính tổng bằng cách thêm options `-c`
 - Lưu ý:
   - `Ctrl C`: Để dừng lệnh đang chạy
   - `Which <cmdname>`: Để kiểm tra lệnh có tồn tại hay không
@@ -296,6 +318,7 @@ Bảng dưới đây sẽ là các options để sử dụng với `ls`
   - `=` có nghĩa là ổ cắm
   - `|` có nghĩa là ống được đặt tên 
   - `>` có nghĩa là cửa
+  - ![](/Anh/Screenshot_272.png)
 - `ls -lt`: Liệt kê các tệp theo thời gian sửa đổi. Các tệp mới được sửa sẽ được hiển thị ở trên cùng
 - `ls -lh`: Liệt kê kích thước file ở chế độ đọc được
 - ![](/Anh/Screenshot_237.png)
@@ -447,7 +470,39 @@ Bảng dưới đây sẽ là các options để sử dụng với `ls`
 - Lệnh `cat [đường dẫn tới file]`: để xem nội dung file 
 
 #### Shell và làm việc với Shell
+- Shell, còn được gọi là giao diện dòng lệnh(CLI), giống như một trung gian giữa người dùng và hệ điều hành máy tính. Khi bạn gõ một lệnh vào Shell, nó sẽ ***biên dịch*** lệnh đó và yêu cầu hệ điều hành thực hiện lệnh. 
+- Ví dụ:
+  - Khi gõ `ls` để liệt kê các tệp và thư mục, Shell sẽ yêu cầu hệ điều hành thực hiện công việc này. 
+- Shell cũng cho phép người dùng viết và chạy các tập lệnh. Đây là một cách hiệu quả để tự động hóa các tác vụ lặp đi lặp lại
+- Cách kiểm tra Shell và đổi Shell:
+  - Đa số các bản phân phối Linux hiện đại sẽ có **BASH**(**B**ourne **A**gain **SH**ell) được cài sẵn làm Shell mặc định
+  - Câu lệnh để đổi Shell sẽ là `chsh` - Change Shell
+    - Nhưng tùy mỗi hệ điều hành sẽ có tùy chọn `chsh -l` để xem. Đối với những phiên bản không hỗ trợ tùy chọn `-l`, ta có thể xem Shell bằng cách xem nội dung file có đường dẫn: `/etc/shells`
+    - ![](/Anh/Screenshot_259.png)
+    - Nhập lệnh `chsh -h` để xem các trợ giúp về lệnh này
+    - Ta có thể thấy được, `chsh -s` sẽ được dùng để đổi shell cho user
+  - Trường hợp gặp lỗi khi change shell: Khi bạn sử dụng quyền user để changes shells sau đó lại vào shells mới dùng quyền roots để changes shells tiếp sẽ khiến việc thay đổi bị lỗi và dẫn đến việc không thể đăng nhập `sudo su`. 
+  - Fix: Sử dụng `sudo` kết hợp với lệnh `chsh` để đưa shell dưới quyền root về 1 loại shell
+      - Sử dụng quyền user đưa shell về cùng loại shell với shell quyền roots
 
+- Một số tiện ích về Shell
+  - Có thể đổi biến PS1 để đổi dấu nhắc lệnh
+  - Các shortcut trong terminal vẫn được áp dụng trong shells 
+- Tạo phím tắt lệnh của riêng mình
+  - Sử dụng lệnh `alias` để tạo bí danh cho lệnh của mình
+  - Cấu trúc lệnh: `alias [bí danh]=['tên_lệnh']`
+  - VD: `alias lietke='ls -l'`
+  - ![](/Anh/Screenshot_260.png)
+- Tìm kiếm một file theo cách dễ dàng
+  - Lệnh `locate` sẽ được dùng trong trường hợp này:
+  - Cấu trúc lệnh như sau: `locate [text...]`
+  - VD: Bạn muốn tìm file `00-installer-config.yaml` nhưng bạn chỉ nhớ **installer**
+  - Nhập lệnh `locate installer` sẽ hiển thị những file có `installer`
+  - ![](/Anh/Screenshot_262.png)
+
+#### Nén file với 'tar'
+
+  
   
 
 

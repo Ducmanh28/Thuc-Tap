@@ -30,6 +30,7 @@ Mục Lục
 
 - [Tìm hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Timhieuthem)
   - [Quá trình Boot Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/BootLinux.md)
+  - [Giao thức SSH](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/SSH.md)
   
 
 
