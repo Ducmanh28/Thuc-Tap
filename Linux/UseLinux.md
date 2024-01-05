@@ -24,6 +24,9 @@ MỤC LỤC
         - [Một số thao tác thêm với file](#một-số-thao-tác-thêm-với-file)
       - [Shell và làm việc với Shell](#shell-và-làm-việc-với-shell)
       - [Nén file với 'tar'](#nén-file-với-tar)
+      - [Các câu lệnh liên quan đến Service](#các-câu-lệnh-liên-quan-đến-service)
+      - [Các câu lệnh liên quan đến người dùng](#các-câu-lệnh-liên-quan-đến-người-dùng)
+      - [LAMP](#lamp)
 
 
 ## Basic Shorcuts(Các phím tắt cơ bản)
@@ -513,9 +516,48 @@ Bảng dưới đây sẽ là các options để sử dụng với `ls`
   - `-J`: Tạo kho lưu trữ dạng xz
   - `-z`: Tạo kho lưu trữ dạng gzip
 - Cấu trúc câu lệnh:
-  - tar 
+  - `tar [options] [file_name] [folder_name]` 
+- VD: 
+  - Tạo 1 kho lưu trữ đơn giản
+  - `tar -cf archive.tar ducmanh287`
+  - Giải nén đơn giản
+  - `tar -xf archive_name.tar`
   
-  
+#### Các câu lệnh liên quan đến Service
+- Kiểm tra danh sách service:
+  - `service --status-all`
+  - ![](/Anh/Screenshot_273.png)
+    - Dấu `+` nghĩa là dịch vụ đang hoạt động
+    - Dấu `-` nghĩa là dịch vụ không hoạt động
+- Các câu lệnh làm việc với **Systemd**
+  - `systemctl`: Hiển thị danh sách các dịch vụ đang chạy
+  - ![](/Anh/Screenshot_274.png)
+  - `systemctl --failed`: Sẽ hiển thị danh sách các dịch vụ chạy thất bại
+  - ![](/Anh/Screenshot_275.png)
+  - `systemctl get-default`: Để xem file `.target` nào đang được chạy ở **Systemd**
+  - ![](/Anh/Screenshot_276.png)
+  - `systemctl set-default [name_file.target]`: Để tiến hành sử dụng 1 file .target khác khi reboot lại máy
+  - `systemctl start [tên dịch vụ]`: Để bắt đầu một dịch vụ
+  - `systemctl stop [tên dịch vụ]`: Để dừng dịch vụ
+  - `systemctl restart [tên dịch vụ]`: Để khởi động lại dịch vụ
+  - `systemctl reload [tên dịch vụ]`: Để yêu cầu dịch vụ tải lại cấu hình của nó
+  - `systemctl status [tên dịch vụ]`: Để hiển thị trạng thái hiện tại của dịch vụ
+  - `systemctl được bật [tên dịch vụ]`: Để hiển thị liệu dịch vụ có được bật khi khởi động hệ thống hay không
+  - `systemctl is-active [tên dịch vụ]`: Để cho biết liệu một dịch vụ hiện có đang hoạt động hay không (đang chạy)
+  - `systemctl Enable [tên dịch vụ]`: Để kích hoạt dịch vụ khi khởi động hệ thống
+  - `systemctl vô hiệu hóa [tên dịch vụ]`: Để vô hiệu hóa dịch vụ khi khởi động hệ thống 
+  - `systemctl Mask [tên dịch vụ]`: Để che giấu một dịch vụ (Khó khăn khi khởi động nhầm dịch vụ)
+  - `systemctl vạch mặt [tên dịch vụ]`: Để ngừng giấu một dịch vụ
+  - `systemctl daemon-reload`: Khởi động lại **Systemd**
+ 
+#### Các câu lệnh liên quan đến người dùng
+- Đổi mật khẩu: `passwd`
+- Đổi mật khẩu cho User khác: `passwd [user_name]`
+- Thêm 1 user: `useradd [user_name]`
+- Xóa 1 user: `userdel [user_name]`
+- Xóa user và xóa luôn thư mục home của user ấy: `userdel -r user_name`
+- Liệt kê danh sách mà user hiện tại đang ở và user bất kì ở: `groups` và `groups username`
 
-
-  
+#### LAMP
+- LAMP hay chính là Linux, Apache, MySQL, PHP
+- 
