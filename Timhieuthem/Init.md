@@ -11,7 +11,7 @@
   - Run level 5 (linit 5): chế độ đồ họa
   - Run level 6 (linit 6): khởi động lại máy
 - Cú pháp để sử dụng:
-  - `#init <Run_Levels>`
+  - `init <Run_Levels>`
   - Ví dụ: 
-    - `#init 0` để tắt máy
-    - `#init 6` để khởi động lại   
+    - `init 0` để tắt máy
+    - `init 6` để khởi động lại   
