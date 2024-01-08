@@ -73,6 +73,7 @@
 - Tiếp tục tìm hiểu các câu lệnh cơ bản của Linux
   - Các lệnh về phân quyền người dùng đối với 1 file
   - Làm việc với Shell
+- Kiểm tra 
 - Kết hợp sử dụng Linux với các giao thức 
   - SSH
     - Khái niệm SSH
@@ -82,5 +83,9 @@
       - Mã hóa/giải mã
       - Chứng thực
     - Các ứng dụng để sử dụng SSH
+      - Sử dụng trên Windows
+        - Putty
+        - MobaXterm
+      - Sử dụng trên Linux
     - Tiến hành sử dụng SSH
 - Tham gia vào lớp học viết tài liệu SEO
