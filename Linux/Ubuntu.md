@@ -4,6 +4,9 @@ MỤC LỤC:
   - [Ubuntu là gì ?](#ubuntu-là-gì-)
   - [Sự khác biệt giữa Ubuntu Server và Desktop](#sự-khác-biệt-giữa-ubuntu-server-và-desktop)
   - [Tiến hành cài đặt Ubuntu Server](#tiến-hành-cài-đặt-ubuntu-server)
+  - [So sánh Package và Lib](#so-sánh-package-và-lib)
+    - [Package](#package)
+    - [Library:](#library)
   - [Tiến hành cài IP tĩnh](#tiến-hành-cài-ip-tĩnh)
     - [Một số lưu ý trước khi tiến hành cài IP](#một-số-lưu-ý-trước-khi-tiến-hành-cài-ip)
     - [Sử dụng cách sửa file](#sử-dụng-cách-sửa-file)
@@ -119,7 +122,19 @@ MỤC LỤC:
   - Lưu ý: Mật khẩu sẽ không được hiển thị
 
 - Đến đây, quá trình cài đặt Ubuntu Server đã hoàn tất.
-
+## So sánh Package và Lib
+- Trong Linux, package và library (thư viện) đều là những thành phần quan trọng, nhưng chúng có những khác biệt cơ bản:
+### Package
+- Package là một tập hợp các file đã được biên dịch sẵn, thường bao gồm mã nhị phân của ứng dụng và các file liên quan khác
+- Package giúp việc cài đặt và quản lý phần mềm trở nên dễ dàng hơn
+- Các package trong Linux có thể có định dạng khác nhau tùy thuộc vào hệ thống phân phối Linux. 
+  - Ví dụ, Red Hat và CentOS sử dụng định dạng .rpm, trong khi Debian và Ubuntu sử dụng định dạng `.deb1`
+### Library:
+- Library là một tập hợp các hàm và thủ tục đã được biên dịch, giúp lập trình viên không cần phải viết lại những chức năng phổ biến2.
+- Có hai loại thư viện chính: 
+  - thư viện tĩnh (static libraries): Thư viện tĩnh được liên kết vào chương trình tại thời điểm biên dịch
+  - thư viện động (dynamic libraries): Thư viện động được liên kết vào chương trình khi chương trình đang chạy. Thư viện động giúp tiết kiệm bộ nhớ và không gian trên máy tính, và cho phép tái sử dụng mã
+- Vì vậy, mặc dù cả package và library đều chứa mã đã được biên dịch, nhưng chúng được sử dụng trong các bối cảnh khác nhau và phục vụ các mục đích khác nhau
 ## Tiến hành cài IP tĩnh
 ### Một số lưu ý trước khi tiến hành cài IP
 - Nhập `sudo su` để tiến hành chỉnh sửa file với quyền ROOT
