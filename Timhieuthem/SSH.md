@@ -31,5 +31,17 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
   - Khóa riêng: ta cần lưu file này vào trong máy tính cá nhân. Dữ liệu sẽ được mã hóa bằng khóa riêng và chỉ có thể được giải mã bằng khóa công khai
   - Keyphrase: Đây là mật khẩu mà bạn sẽ sử dụng để mở được PrivateKey. Việc sử dụng passphrase này sẽ đem lại lợi ích vì tính bảo mật của key không bao giờ được hiển thị với bất kỳ ai khác, cho dù nó được mã hóa như thế nào
 
+### Mã hóa:
+- Quá trình truyền dữ liệu diễn ra qua một bước trung gian đó là mã hóa/ giải mã
+- Dữ liệu gửi/ nhận đều được mã hóa và giải mã theo cơ chế được thỏa thuận giữa máy chủ và client
+  - Việc lựa chọn cơ chế mã hóa thường do máy khách đảm nhận
+  - Các cơ chế thường được chọn bao gồm:
+      - 3DES: Phương pháp mã hóa mặc định cho SSH
+      - IDEA: Nhanh hơn 3DES, chậm hơn Blowfish
+      - Blowfish: Nhanh và bảo mật, nhưng các phương pháp mã hóa đang được cải tiến
+- Sau khi cơ chế mã hóa được lựa chọn, máy chủ và máy khách sẽ thực hiện trao đổi khóa cho nhau
+  - Việc trao đổi mã khóa cũng sẽ được bảo mật 
+
+
 ## Nguồn tham khảo 
 - [WIKI](https://vi.wikipedia.org/wiki/SSH)
