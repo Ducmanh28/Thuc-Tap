@@ -7,6 +7,10 @@ MENU
     - [Định danh Host:](#định-danh-host)
     - [Mã hóa:](#mã-hóa)
     - [Chứng thực](#chứng-thực)
+  - [Sử dụng SSH:](#sử-dụng-ssh)
+    - [Trên Windows](#trên-windows)
+      - [Giới thiệu về Puty và MobaXterm](#giới-thiệu-về-puty-và-mobaxterm)
+    - [Trên Linux](#trên-linux)
   - [Nguồn tham khảo](#nguồn-tham-khảo)
 
 Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ lý thuyết về SSH.
@@ -32,6 +36,7 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
   - Định danh Host: Mục này sẽ xác định xem ai đang là người muốn sử dụng SSH(phần đăng nhập)
   - Mã hóa: Mục này sẽ thiết lập kênh truyền dữ liệu an toàn, được bảo mật
   - Chứng thực: Xác thực xem người dùng có quyền truy cập hệ thống hay không
+  - ![](/Anh/Screenshot_277.png)
 - Bây giờ ta tiến hành đi tìm hiểu chi tiết hơn về từng bước này:
 ### Định danh Host:
 - Việc định danh Host sẽ được thực hiện qua việc trao đổi khóa giữa client và server.
@@ -56,7 +61,26 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
 - Mỗi định danh và truy cập của người dùng có thể được cung cấp theo nhiều cách khác nhau
   - Kiểu chứng thực rhosts có thể được sử dụng, nhưng không phải mặc định
   - Chứng thực RSA, sử dụng ssh-keygen và ssh-agent để chứng thực các cặp khóa
+## Sử dụng SSH:
+### Trên Windows
+#### Giới thiệu về Puty và MobaXterm
+- [PuTTY](https://putty.org/) và [MobaXterm](https://mobaxterm.mobatek.net/) đều là các phần mềm SSH client, giúp người dùng truy cập vào máy chủ từ xa thông qua giao thức SSH. Tuy nhiên:
+  -  MobaXterm còn hỗ trợ truy cập vào sFTP, FTP, RSH, Telnet và nhiều giao thức khác nữa. MobaXterm còn có nhiều tính năng hữu ích như lưu trữ thông tin của nhiều server theo dạng profile, kết nối một server với nhiều giao thức khác nhau, hỗ trợ lưu session, không cần gõ lại mật khẩu mà chỉ cần nhập username là nó từ đó tìm session phù hợp, và nhiều tính năng khác. 
+-  PuTTY và MobaXterm đều là các công cụ tốt để truy cập vào máy chủ từ xa, tuy nhiên, MobaXterm có nhiều tính năng hơn và hỗ trợ nhiều giao thức hơn so với PuTTY
 
-
+### Trên Linux
+- Khi tạo khóa SSH trong Linux, bạn có thể sử dụng lệnh ssh-keygen được tích hợp sẵn
+  - Sử dụng lệnh:
+    - `ssh-keygen -t rsa -b 4096`
+  - Tiếp theo, bạn chọn nơi để lưu Private key
+    - `Enter file in which to save the key (/home/username/.ssh/id_rsa):`
+    - Public key sẽ được lưu trong cùng một vị trí, dưới cùng tên tệp, nhưng có phần mở rộng `.pub`. Nếu bạn không nhập gì thì sẽ sử dụng thư mục mặc định `/home/username/.ssh/id_rsa`
+  - Cuối cùng, bạn sẽ phải nhập mật khẩu. Đây sẽ là mật khẩu cần thiết để tải Private key và sử dụng nó để kết nối qua SSH sau này:
+    - `Enter passphrase (empty for no passphrase):`
+  - Toàn bộ quá trình sẽ trông như sau:
+  - ![](/Anh/Screenshot_278.png)
+  - Như vậy, chúng ta đã tạo được cả 2 keys:
+    - Một **Private key** được ghi vào `/home/{username}/.ssh/id_rsa`
+    - Một **Public key** được ghi vào `/home/{username}/.ssh/id_rsa.pub`
 ## Nguồn tham khảo 
 - [WIKI](https://vi.wikipedia.org/wiki/SSH)

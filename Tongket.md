@@ -81,5 +81,6 @@
       - Định danh host
       - Mã hóa/giải mã
       - Chứng thực
+    - Các ứng dụng để sử dụng SSH
     - Tiến hành sử dụng SSH
 - Tham gia vào lớp học viết tài liệu SEO
