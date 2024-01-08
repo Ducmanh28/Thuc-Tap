@@ -196,6 +196,8 @@ MỤC LỤC
   - ![](/Anh/Screenshot_265.png)
   - Có thể thêm tính tổng bằng cách thêm options `-c`
 - `apt list --installed | grep <package_name`: Để kiểm tra xem package nào đã được cài trên máy
+  - Ví dụ kiểm tra package về ssh:
+  - ![](/Anh/Screenshot_279.png)
 - Lưu ý:
   - `Ctrl C`: Để dừng lệnh đang chạy
   - `Which <cmdname>`: Để kiểm tra lệnh có tồn tại hay không
