@@ -92,3 +92,5 @@
     - Tiến hành sử dụng SSH
       - SSH từ máy tính cá nhân vào máy ảo
 - Tham gia vào lớp học viết tài liệu SEO
+  - SEO là gì?
+  - Cách viết tài liệu SEO
