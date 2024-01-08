@@ -88,5 +88,7 @@
         - Putty
         - MobaXterm
       - Sử dụng trên Linux
+        - Dùng lệnh
     - Tiến hành sử dụng SSH
+      - SSH từ máy tính cá nhân vào máy ảo
 - Tham gia vào lớp học viết tài liệu SEO
