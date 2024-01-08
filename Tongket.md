@@ -87,6 +87,7 @@
       - Sử dụng trên Windows
         - Putty
         - MobaXterm
+        - Sử dụng lệnh trên CMD
       - Sử dụng trên Linux
         - Dùng lệnh
     - Tiến hành sử dụng SSH
