@@ -73,7 +73,8 @@
 - Tiếp tục tìm hiểu các câu lệnh cơ bản của Linux
   - Các lệnh về phân quyền người dùng đối với 1 file
   - Làm việc với Shell
-- Kiểm tra 
+- Kiểm tra các package đã được cài trong UbuntuServer
+  - Sử dụng lệnh `apt list --installed `
 - Kết hợp sử dụng Linux với các giao thức 
   - SSH
     - Khái niệm SSH

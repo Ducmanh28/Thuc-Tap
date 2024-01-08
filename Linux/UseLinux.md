@@ -195,6 +195,7 @@ MỤC LỤC
 - `du -sh .[!.]* *`: Kiểm tra dung lượng các file trong thư mục hiện tại(bao gồm cả các file bị ẩn)
   - ![](/Anh/Screenshot_265.png)
   - Có thể thêm tính tổng bằng cách thêm options `-c`
+- `apt list --installed | grep <package_name`: Để kiểm tra xem package nào đã được cài trên máy
 - Lưu ý:
   - `Ctrl C`: Để dừng lệnh đang chạy
   - `Which <cmdname>`: Để kiểm tra lệnh có tồn tại hay không

@@ -84,3 +84,4 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
     - Một **Public key** được ghi vào `/home/{username}/.ssh/id_rsa.pub`
 ## Nguồn tham khảo 
 - [WIKI](https://vi.wikipedia.org/wiki/SSH)
+- [Topdev](https://topdev.vn/blog/giao-thuc-ssh-la-gi/#huong-dan-ket-noi-server-su-dung-ssh)
