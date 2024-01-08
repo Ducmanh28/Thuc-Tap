@@ -75,3 +75,11 @@
   - Làm việc với Shell
 - Kết hợp sử dụng Linux với các giao thức 
   - SSH
+    - Khái niệm SSH
+    - Công dụng
+    - Cách hoạt động: 
+      - Định danh host
+      - Mã hóa/giải mã
+      - Chứng thực
+    - Tiến hành sử dụng SSH
+- Tham gia vào lớp học viết tài liệu SEO

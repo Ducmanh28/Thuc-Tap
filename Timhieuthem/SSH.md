@@ -1,4 +1,13 @@
 # Mục này tìm hiểu về giao thức SSH, cách cài đặt và sử dụng
+MENU
+- [Mục này tìm hiểu về giao thức SSH, cách cài đặt và sử dụng](#mục-này-tìm-hiểu-về-giao-thức-ssh-cách-cài-đặt-và-sử-dụng)
+  - [SSH là gì?](#ssh-là-gì)
+  - [SSH dùng để làm gì nhỉ ?](#ssh-dùng-để-làm-gì-nhỉ-)
+  - [Vậy cách mà SSH hoạt động ra sao?](#vậy-cách-mà-ssh-hoạt-động-ra-sao)
+    - [Định danh Host:](#định-danh-host)
+    - [Mã hóa:](#mã-hóa)
+    - [Chứng thực](#chứng-thực)
+  - [Nguồn tham khảo](#nguồn-tham-khảo)
 
 Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ lý thuyết về SSH.
 ## SSH là gì?
@@ -41,6 +50,12 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
       - Blowfish: Nhanh và bảo mật, nhưng các phương pháp mã hóa đang được cải tiến
 - Sau khi cơ chế mã hóa được lựa chọn, máy chủ và máy khách sẽ thực hiện trao đổi khóa cho nhau
   - Việc trao đổi mã khóa cũng sẽ được bảo mật 
+
+### Chứng thực
+- Đây là bước cuối cùng và là bước đa dạng nhất
+- Mỗi định danh và truy cập của người dùng có thể được cung cấp theo nhiều cách khác nhau
+  - Kiểu chứng thực rhosts có thể được sử dụng, nhưng không phải mặc định
+  - Chứng thực RSA, sử dụng ssh-keygen và ssh-agent để chứng thực các cặp khóa
 
 
 ## Nguồn tham khảo 
