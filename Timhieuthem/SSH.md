@@ -300,3 +300,5 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
 ## Nguồn tham khảo 
 - [WIKI](https://vi.wikipedia.org/wiki/SSH)
 - [Topdev](https://topdev.vn/blog/giao-thuc-ssh-la-gi/#huong-dan-ket-noi-server-su-dung-ssh)
+- [TạoBot](https://lethach.com/tao-bot-canh-bao-truy-cap-ssh-qua-telegram/)
+- [Anh Quang](https://github.com/thanhquang99/thuctap2023/blob/main/thuctap/03-Linux/00-linux-tim-hieu-truoc/07-mobaxterm.md)
