@@ -17,6 +17,7 @@ MENU
         - [SSH từ máy A sang máy B](#ssh-từ-máy-a-sang-máy-b)
     - [Trên Linux](#trên-linux)
     - [Lưu ý tìm hiểu thêm về SSH:](#lưu-ý-tìm-hiểu-thêm-về-ssh)
+      - [File cấu hình và File Log của SSH](#file-cấu-hình-và-file-log-của-ssh)
       - [Disable quyền truy cập Root từ xa:](#disable-quyền-truy-cập-root-từ-xa)
       - [Đổi port](#đổi-port)
       - [Giám sát truy cập SSH thông qua Telegram](#giám-sát-truy-cập-ssh-thông-qua-telegram)
@@ -138,6 +139,29 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
     - Một **Public key** được ghi vào `/home/{username}/.ssh/id_rsa.pub`
 
 ### Lưu ý tìm hiểu thêm về SSH:
+#### File cấu hình và File Log của SSH
+- File cấu hình SSH sẽ nằm trong đường dẫn `/etc/ssh/ssh_config`
+  - Có thể dùng lệnh `cat` để xem file
+  - ![](/Anh/Screenshot_305.png)
+  - Dùng VIM để chỉnh sửa nội dung file(Chuyển sang quyền Roots mới có thể thực hiện chỉnh sửa và lưu file)
+- File log SSH nằm trong đường dẫn `/var/log/auth.log`
+  - Chúng ta có thể xem log SSH thông qua `journalctl`
+    - `journalctl -u ssh`: Xem ssh logs
+    - `journalctl -u ssh --sinceyesterday`: Xem logs từ ngày hôm qua
+    - `journalctl -u ssh --until"2023-01-11 07:00:00"`: Xem ssh logs từ 1 khoảng thời gian nhất định
+    - `journalctl -fu ssh`: Xem logs ssh theo thời gian thực
+  - Tìm kiếm cụ thể logs ssh:
+    - `sudo grep sshd /var/log/auth.log`
+  - Nếu muốn tạo tệp log riêng:
+    - Tạo một tệp `vim /etc/rsyslog.d/sshd.conf`
+    - Thêm code sau:
+    - ```
+      if $programname == 'sshd'
+      then /var/log/sshd.log 
+      ```
+    - Khởi động lại `rsyslog`
+      - `sudo service rsyslog restart`
+    - Để xem nhật ký SSH sử dụng lệnh `journalctl`, bạn cần thay đổi “**LogLevel**” từ **INFO** sang **VERBOSE** trong tệp `/etc/ssh/sshd_config3`. Sau đó, khởi động lại dịch vụ rsyslog với lệnh `sudo service rsyslog restart`. Sau đó, các lần đăng nhập SSH sẽ được ghi vào tệp `/var/log/auth.log`
 #### Disable quyền truy cập Root từ xa:
 - Sử dụng trình soạn thảo VIM để mở file cấu hình SSH
 - `vim /etc/ssh/sshd_config`
@@ -239,7 +263,12 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
         - `URL="https://api.telegram.org/bot$TOKEN/sendMessage"`: Đây là URL của API Telegram, được sử dụng để gửi tin nhắn từ bot.
         - `DATE_EXEC="$(date "+%d %b %Y %H:%M")"`: Đây là lệnh để lấy thời gian hiện tại của hệ thống.
         - `TMPFILE='/tmp/ipinfo.txt'`: Đây là đường dẫn tới file tạm thời, được sử dụng để lưu thông tin về địa chỉ IP.
-        - `if [ -n "$SSH_CLIENT" ]`: Đây là câu lệnh kiểm tra xem biến môi trường SSH_CLIENT có giá trị hay không. Nếu có, đoạn mã bên trong khối if sẽ được thực thi.
+        - `if [ -n "$SSH_CLIENT" ]; then`: Đây là câu lệnh kiểm tra xem biến môi trường SSH_CLIENT có giá trị hay không. Nếu có, đoạn mã bên trong khối if sẽ được thực thi.
+          - `if`: Bắt đầu vào câu điều kiện trong bash scripts
+          - `[-n "$SSH_CLIENT"]`: Là biểu thức điều kiện. Tùy chọn `-n` sẽ kiểm tra xem biến trong `" "` có độ dài khác 0 hay không.
+            - Nếu khác 0 sẽ trả về True
+            - Nếu = 0 sẽ trả về False
+          - `then`: Nếu điều kiện True sẽ khởi chạy các câu lệnh sau `then - fi`. Nếu điều kiện là False sẽ khởi chạy các câu lệnh sau `fi` mà bỏ qua các câu lệnh từ `then - fi`
         - `IP=$(echo $SSH_CLIENT | awk '{print $1}')`: Đây là lệnh để lấy địa chỉ IP của người dùng đang kết nối qua SSH.
           - `echo` để in ra giá trị
           - Tùy chọn thêm `awk '{print $1}'`: Là lấy giá trị đầu tiên của biến
@@ -268,7 +297,6 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
         - `rm $TMPFILE`: Đây là lệnh để xóa file tạm thời sau khi script thực hiện xong.
         - `fi`: Được dùng để kết thúc một khối lệnh `if`
         ``
- 
 ## Nguồn tham khảo 
 - [WIKI](https://vi.wikipedia.org/wiki/SSH)
 - [Topdev](https://topdev.vn/blog/giao-thuc-ssh-la-gi/#huong-dan-ket-noi-server-su-dung-ssh)
