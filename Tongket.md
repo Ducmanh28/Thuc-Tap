@@ -97,4 +97,8 @@
 ### Từ 9/1 - 13/1
 - Tìm hiểu chi tiết về giao thức SSH
   - Các cơ chế truy cập:
-    - 
+    - Bằng user
+    - Bằng key
+  - File log/file cấu hình SSH
+  - Quản lý truy cập SSH thông qua telegram
+  - Disable roots từ xa, đổi port

@@ -562,8 +562,49 @@ Bảng dưới đây sẽ là các options để sử dụng với `ls`
 - Liệt kê danh sách mà user hiện tại đang ở và user bất kì ở: `groups` và `groups username`
 
 #### LAMP
-- LAMP hay chính là Linux, Apache, MySQL, PHP
-  - Linux: Cung cấp OS
-  - Apache: Làm nhiệm vụ HHTP Server, giúp kết nối Client và Server
-  - MySQL: là hệ quản trị cơ sở dữ liệu, giúp truy xuất dữ liệu
-  - PHP: là ngôn ngữ kịch bản làm việc ở phía sau, như xử lý database thế nào, trình diễn ra sao
+- LAMP là một gói phần mềm mã nguồn mở phổ biến. Bao gồm:
+  - Linux - hệ điều hành
+  - Apache - máy chủ web
+  - MySQL - hệ thống quản lý cơ sở dữ liệu
+  - PHP - ngôn ngữ lập trình
+- Thường được sử dụng để phát triển ứng dụng web
+- Chi tiết về các thành phần của LAMP
+  - Linux: Là hệ điều hành mà trên đó, các thành phần khác của LAMP được chạy
+  - Apache: Là máy chủ trang web, nơi các trang web được lưu trữ và phục vụ cho người dùng
+  - MySQL: Là hệ thống quản lý cơ sở dữ liệu, nơi mà dữ liệu của trang web được lưu trữ
+  - PHP: Đây là ngôn ngữ lập trình được sử dụng để xây dựng các ứng dụng Web
+- Cách LAMP hoạt động:
+  - Khi một người dùng truy cập vào máy chủ trang web, máy chủ Apache sẽ xử lý yêu cầu và trả về trang web mà người dùng cần
+  - Trong quá trình này, Apache có thể sẽ cần truy vấn cơ sở dữ liệu MySQL để lấy dữ liệu trang web
+  - Dữ liệu trang web sau đó sẽ được xử lý bằng ngôn ngữ lập trình PHP
+- Cài đặt LAMP trên Ubuntu Server
+  - Cài đặt Apache
+    - Sử dụng câu lệnh `sudo apt install -y apache2` để cài đặt Apache trên Ubuntu Server
+      - ![](/Anh/Screenshot_310.png)
+    - Bật dịch vụ và khởi chạy apache2
+      - `systemctl start apache2`
+      - `systemctl enable apache2`
+      - ![](/Anh/Screenshot_311.png)
+    - Cho phép gói tin apache2 thông qua tường lửa:
+      - `sudo ufw allow in "Apache"`
+      - ![](/Anh/Screenshot_312.png)
+    - Kiểm tra lại xem dịch vụ đã bật hay chưa
+      - `systemctl status apache2`
+      - ![](/Anh/Screenshot_313.png)
+    - Trang web chứa địa chỉ IP của máy đã cài Apache sẽ hiển thị như sau:
+      - ![](/Anh/Screenshot_314.png)
+  - Cài đặt MySQL
+    - Sử dụng câu lệnh `sudo apt-get install mysql-server`
+      - ![](/Anh/Screenshot_315.png)
+    - Bật dịch vụ và tự khởi động:
+      - `systemctl start mysql`
+      - `systemctl enable mysql`
+      - ![](/Anh/Screenshot_316.png)
+    - Kiểm tra trạng thái:
+      - `systemctl status`
+      - ![](/Anh/Screenshot_317.png)
+    - Phân quyền hệ thống `mysql_secure_installation`
+  - Cài đặt PHP
+    - Sử dụng câu lệnh `sudo apt install php php-mysql -y` 
+    - Kiểm tra phiên bản sau khi cài đặt:
+    - ![](/Anh/Screenshot_318.png)
