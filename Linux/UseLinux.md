@@ -563,4 +563,7 @@ Bảng dưới đây sẽ là các options để sử dụng với `ls`
 
 #### LAMP
 - LAMP hay chính là Linux, Apache, MySQL, PHP
-- 
+  - Linux: Cung cấp OS
+  - Apache: Làm nhiệm vụ HHTP Server, giúp kết nối Client và Server
+  - MySQL: là hệ quản trị cơ sở dữ liệu, giúp truy xuất dữ liệu
+  - PHP: là ngôn ngữ kịch bản làm việc ở phía sau, như xử lý database thế nào, trình diễn ra sao

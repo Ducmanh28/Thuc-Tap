@@ -196,7 +196,7 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
     - Thực hiện trò chuyện với **BOTFATHER** `/start`
     - Tạo Bot mới bằng cách nhập `/newbot`
     - Quá trình tạo sẽ diễn ra như sau:
-    - ![](/Anh/Screenshot_299.png)
+    - ![](/Anh/Screenshot_308.png)
     - Tin nhắn **Done** hiện ra nghĩa là bạn đã hoàn thành việc tạo BOT. Hãy chú ý tới **Token** vì nó sẽ được dùng để điều khiển BOT của bạn
   - Tiến hành kiểm tra BOT:
     - Truy cập đường dẫn sau `https://api.telegram.org/bot<TOKEN>/getMe`
@@ -299,7 +299,7 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
         ``
 - Kiểm tra quá trình:
   - Dùng lệnh `cat /etc/profile.d/ssh-telegram.sh`
-  - ![](/Anh/Screenshot_306.png)
+  - ![](/Anh/Screenshot_309.png)
   - Test thử kết quả:
   - ![](/Anh/Screenshot_307.png)
 ## Nguồn tham khảo 
