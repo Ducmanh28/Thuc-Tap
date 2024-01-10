@@ -220,18 +220,18 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
       ```
     - Giải mã Code:
       - Giải thích các biến được sử dụng:
-        - USERID: Nhập vào ID Chat của bạn
-        - TOKEN: Nhập vào Token bot bạn đã lập
-        - TIMEOUT: Thời gian chờ tối đa
-        - URL: Đường Link đến Bot Telegram của bạn
-        - DATE_EXEC: Biến này chứa thời gian của hệ thống
-        - TMPFILE: Khởi tạo File [Temp](https://fptshop.com.vn/tin-tuc/thu-thuat/file-tmp-la-gi-cach-mo-file-tmp-tren-windows-151813)
-        - $SSH_CLIENT: Biến này chứa ip, port_number của SSH_CLIENT 
+        - **USERID**: Nhập vào ID Chat của bạn
+        - **TOKEN**: Nhập vào Token bot bạn đã lập
+        - **TIMEOUT**: Thời gian chờ tối đa
+        - **URL**: Đường Link đến Bot Telegram của bạn
+        - **DATE_EXEC**: Biến này chứa thời gian của hệ thống
+        - **TMPFILE**: Khởi tạo File [Temp](https://fptshop.com.vn/tin-tuc/thu-thuat/file-tmp-la-gi-cach-mo-file-tmp-tren-windows-151813)
+        - **$SSH_CLIENT**: Biến này chứa ip, port_number của SSH_CLIENT 
         - ![](/Anh/Screenshot_303.png)
-        - $SSH_CONNECTION: Biến này chứa IP đích, nguồn, cổng port kết nối SSH
+        - **$SSH_CONNECTION**: Biến này chứa IP đích, nguồn, cổng port kết nối SSH
         - ![](/Anh/Screenshot_304.png)
-        - $HOSTNAME: Biến này chứa tên máy chủ
-        - $TEXT: Biến này chứa nội dung cảnh báo
+        - **$HOSTNAME**: Biến này chứa tên máy chủ
+        - **$TEXT**: Biến này chứa nội dung cảnh báo
       - Giải thích từng dòng code:
         - `USERID="<target_user_id>"`: Đây là ID của người dùng Telegram mà bạn muốn gửi thông báo đến. Bạn cần thay <target_user_id> = id chat của bạn
         - `TOKEN="<bot_private_TOKEN>"`: Đây là mã token riêng của bot Telegram mà bạn đã tạo. Bạn cần thay <bot_private_TOKEN> = TOKEN bot của bạn
