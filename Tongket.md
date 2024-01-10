@@ -100,5 +100,13 @@
     - Bằng user
     - Bằng key
   - File log/file cấu hình SSH
+    - `/etc/ssh/ssh_config`
+    - `/var/log/auth.log`
   - Quản lý truy cập SSH thông qua telegram
+    - Cài `jq`(có thể không cần)
+    - Tạo Bot Telegram
+    - Viết Scripts `ssh-telegram.sh` và lưu vào `/etc/profile.d`
+    - Cho phép khởi chạy file `ssh-telegram.sh`
+    - Thực hiện SSH và kiểm tra quá trình
   - Disable roots từ xa, đổi port
+    - Đều thực hiện chỉnh sửa trong file `etc/ssh/ssh_config`
