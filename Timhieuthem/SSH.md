@@ -297,6 +297,11 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
         - `rm $TMPFILE`: Đây là lệnh để xóa file tạm thời sau khi script thực hiện xong.
         - `fi`: Được dùng để kết thúc một khối lệnh `if`
         ``
+- Kiểm tra quá trình:
+  - Dùng lệnh `cat /etc/profile.d/ssh-telegram.sh`
+  - ![](/Anh/Screenshot_306.png)
+  - Test thử kết quả:
+  - ![](/Anh/Screenshot_307.png)
 ## Nguồn tham khảo 
 - [WIKI](https://vi.wikipedia.org/wiki/SSH)
 - [Topdev](https://topdev.vn/blog/giao-thuc-ssh-la-gi/#huong-dan-ket-noi-server-su-dung-ssh)
