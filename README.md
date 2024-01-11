@@ -23,9 +23,9 @@ Mục Lục
   - [Server Vật Lý](https://github.com/Ducmanh28/Thuc-Tap/tree/main/InitialBasic/Server.md)
     
 - [Linux](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux)
-  - [Ubuntu](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Ubuntu.md)
+  - [Ubuntu](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/UBUNSERVER/Ubuntu.md)
   - [Centos 7](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Centos7.md)
-  - [Use OS Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/UseLinux.md)
+  - [Use OS Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/UBUNSERVER/UseLinux.md)
   - [TextEditor](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/VIvsNANO.md)
 
 - [Tìm hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Timhieuthem)
