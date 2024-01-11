@@ -19,18 +19,22 @@ Mục Lục
       - [Bài tập chia Subnet](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/BaitapchiaSubnet.md)
       - [Máy tính Subnet](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/MaytinhSubnet.cpp)
     - [Quá trình truyền dữ liệu qua Internet](https://github.com//Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/Quatrinhtruyendulieu.md)
-- [InitialBasic](https://github.com/Ducmanh28/Thuc-Tap/tree/main/InitialBasic)  
-  - [Server Vật Lý](https://github.com/Ducmanh28/Thuc-Tap/tree/main/InitialBasic/Server.md)
-    
-- [Linux](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux)
-  - [Ubuntu](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/UBUNSERVER/Ubuntu.md)
-  - [Centos 7](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Centos7.md)
-  - [Use OS Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/UBUNSERVER/UseLinux.md)
-  - [TextEditor](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/VIvsNANO.md)
 
-- [Tìm hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Timhieuthem)
-  - [Quá trình Boot Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/BootLinux.md)
-  - [Giao thức SSH](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/SSH.md)
+- [LINUX](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux)
+  - [Linux Fundamentals](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/LinuxFundamentals)
+    - [Introduction Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/LinuxFundamentals/GioithieuLinux.md)
+  - [LinuxvsProtocol](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/Linuxvagiaothucmang)
+    - [SSH](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Linuxvagiaothucmang/SSH.md)
+  - [Tim Hieu Them ve Linux](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/TimhieuthemLinux)
+    - [BootLinux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/TimhieuthemLinux/BootLinux.md)
+    - [Init](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/TimhieuthemLinux/Init.md)
+    - [Trình Soạn thảo văn bản](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/TimhieuthemLinux/VIvsNANO.md)
+  - [Ubuntu Server](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/UbuntuServer)
+    - [Ubuntu](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/UbuntuServer/Ubuntu.md)
+    - [LinuxNotForProfessional](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/UbuntuServer/UseLinux.md)
+- [Tìm Hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Timhieuthem)
+  - [Server Vật Lý](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/Server.md)
+  - [Content](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/hocviettailieu.md)
   
 
 
