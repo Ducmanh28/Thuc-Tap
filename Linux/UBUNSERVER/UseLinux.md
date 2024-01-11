@@ -27,6 +27,11 @@ MỤC LỤC
       - [Các câu lệnh liên quan đến Service](#các-câu-lệnh-liên-quan-đến-service)
       - [Các câu lệnh liên quan đến người dùng](#các-câu-lệnh-liên-quan-đến-người-dùng)
       - [LAMP](#lamp)
+      - [Tee command](#tee-command)
+      - [GnuPG](#gnupg)
+      - [Cấu hình mạng](#cấu-hình-mạng)
+      - [CHROOT](#chroot)
+      - [Package Managers](#package-managers)
 
 
 ## Basic Shorcuts(Các phím tắt cơ bản)
@@ -606,5 +611,117 @@ Bảng dưới đây sẽ là các options để sử dụng với `ls`
     - Phân quyền hệ thống `mysql_secure_installation`
   - Cài đặt PHP
     - Sử dụng câu lệnh `sudo apt install php php-mysql -y` 
-    - Kiểm tra phiên bản sau khi cài đặt:
+    - Kiểm tra phiên bản sau khi cài đặt: `php -v`
     - ![](/Anh/Screenshot_318.png)
+#### Tee command
+- Dùng để đọc từ stdin và ghi vào cả stdout và một hoặc nhiều tệp hơn cùng một lúc. 
+- Lệnh này chủ yếu được sử dụng kết hợp với các lệnh khác thông qua pipeline
+- Cú pháp lệnh `tee`
+  - `tee [Options] [File]`
+- Các options:
+  - `-a`: Không ghi đè lên một file mà nối thêm vào
+  - `-i`: Bỏ qua các tín hiệu ngắt
+- Ví dụ:
+  - `df -h | tee disk_usage.txt`
+    - ![](/Anh/Screenshot_319.png)
+  - `echo "New line" | tee -a /etc/file.conf`
+    - ![](/Anh/Screenshot_320.png)
+#### GnuPG
+- GnuPG là một hệ thống quản lý khóa phức tạp cho phép ký hoặc mã hóa dữ liệu một cách an toàn. GPG là công cụ dòng lệnh được sử dụng để tạo và thao tác các khóa GnuPG.
+- GnuPG được sử dụng rộng rãi nhất để có kết nối SSH (Secure Shell) mà không cần mật khẩu hoặc bất kỳ phương tiện xác thực tương tác nào, giúp cải thiện đáng kể mức độ bảo mật.
+- Tạo GPG key nhanh:
+  - `gpg --gen-key`
+  - ![](/Anh/Screenshot_321.png)
+  - `gpg --list-keys`
+  - ![](/Anh/Screenshot_322.png)
+- Mã hóa tệp: Để mã hóa một tệp, bạn có thể sử dụng lệnh sau:
+`gpg --encrypt --output file.gpg --recipient [email protected] file`
+- Trong đó, file là tên tệp bạn muốn mã hóa, file.gpg là tên tệp đầu ra sau khi mã hóa, và [email protected] là email được liên kết với khóa công khai
+
+- Giải mã tệp: Để giải mã tệp, bạn có thể sử dụng lệnh sau:
+`gpg --output file --decrypt file.gpg`
+- Trong đó, file.gpg là tên tệp bạn muốn giải mã, và file là tên tệp đầu ra sau khi giải mã
+
+#### Cấu hình mạng
+- Kiểm tra IP
+  - Có rất nhiều câu lệnh để có thể xem dược IP của bạn
+    - `ip a`
+    - `ip addr show`
+    - `ifconfig`
+    - `ip link show`
+    - ...
+- Xem và thao tác với Route:
+  - `route`: Danh sách Route
+  - `route -n`: Danh sách Route mà không phân giải tên máy chủ
+  - `ip route show`
+  - ![](/Anh/Screenshot_323.png)
+- Truy vấn trình điều khiển mạng và phần cứng
+  - `ethtool <connection>`
+  - ![](/Anh/Screenshot_324.png)
+#### CHROOT
+- Thay đổi root (chroot) là một thao tác thay đổi thư mục gốc rõ ràng cho tiến trình đang chạy hiện tại và các tiến trình con của chúng. Một chương trình chạy trong môi trường được sửa đổi như vậy không thể truy cập các tệp và lệnh bên ngoài cây thư mục môi trường đó.
+- Yêu cầu:
+    - đặc quyền root
+    - một môi trường Linux đang hoạt động khác, chẳng hạn như Live CD boot hoặc bản phân phối hiện có
+    - kết hợp kiến trúc môi trường của nguồn và đích chroot (kiểm tra kiến trúc môi trường hiện tại bằng uname -m)
+    - các mô-đun hạt nhân mà bạn có thể cần trong môi trường chroot phải được tải (ví dụ: với modprobe)
+- Thay đổi root cơ bản:
+  - Tạo môi trường hoạt động của chroot (tạo thư mục chỉ định chroot hoạt động)
+
+  ```
+  chr=/home/ducmanh287/testroot
+  mkdir -p $chr
+  ```
+  - Tạo các thư mục con để làm thư viện hỗ trợ bên trong môi trường chroot
+
+  ```
+  mkdir -p $chr/{bin,lib,lib64}
+  ```
+  - Copy các file chứa câu lệnh vào môi trường chroot
+
+  ```
+  cp -v /bin/{bash,ls} $chr/bin
+  ```
+  
+  - Các câu lệnh cũng cần có các thư viện hỗ trợ để chạy nên ta cần tìm và copy vào. Để xem các thư viện hỗ trợ cho file nào ta sẽ dùng câu lệnh `ldd`
+
+  ```
+  ldd /bin/bash
+  ldd /bin/ls
+  ```
+  ![Alt](/anh/Screenshot_325.png)
+
+  - Ta cần copy các file này vào môi trường chroot để hỗ trợ các lệnh (từ 2 hình trên ta nhận thấy chỉ cần copy 5 file là đủ)
+
+  ```
+  sudo cp -v --parents /lib/x86_64-linux-gnu/libtinfo.so.6 $chr
+  sudo cp -v --parents /lib/x86_64-linux-gnu/libdl.so.2 $chr
+  sudo cp -v --parents /lib/x86_64-linux-gnu/libc.so.6 $chr
+  sudo cp -v --parents /lib64/ld-linux-x86-64.so.2 $chr
+  sudo cp -v --parents /lib/x86_64-linux-gnu/libpcre2-8.so.0 $chr
+
+  ```
+  ![](/Anh/Screenshot_327.png)
+  kết quả :
+
+  ![](/Anh/Screenshot_328.png)
+
+  - Bây giờ ta tiến hành thử nghiệm với lệnh `chroot` . Lệnh này thiết lập thư mục gốc của môi trường chroot và chỉ định ứng dụng nào sẽ chạy dưới dạng shell
+
+  ```
+  sudo chroot $chr /bin/bash
+  ```
+  - Muốn thoát khỏi môi trường chroot ta sẻ dụng lệnh `exit`
+- Lý do nên dùng CHROOT
+  - cài đặt lại bộ nạp khởi động
+  - xây dựng lại hình ảnh initramfs
+  - nâng cấp hoặc hạ cấp gói
+  - đặt lại mật khẩu đã quên
+  - xây dựng phần mềm trong môi trường root sạch
+#### Package Managers
+- Update:
+  - `sudo apt-get update`
+- Upgrade:
+  - `sudo apt-get upgrade`
+- Dis Upgrade
+  - `sudo apt-get dist-upgrade`

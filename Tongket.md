@@ -110,3 +110,5 @@
     - Thực hiện SSH và kiểm tra quá trình
   - Disable roots từ xa, đổi port
     - Đều thực hiện chỉnh sửa trong file `etc/ssh/ssh_config`
+- Hoàn thành tìm hiểu LinuxNoteForProfessional
+- 
