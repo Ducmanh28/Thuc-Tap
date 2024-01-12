@@ -112,5 +112,6 @@ Tôi sẽ chọn 1 bản của Debian và 1 bản của Red Hat, đó là
 
 Có thể xem hướng dẫn chi tiết cách cài đặt và thao tác cơ bản với hai hệ điều hành:
 - [Ubuntu Server](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/UbuntuServer)
-- 
+- [CentOS 7](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Red%20Hat%20Enterprise/Centos7.md)
+
 
