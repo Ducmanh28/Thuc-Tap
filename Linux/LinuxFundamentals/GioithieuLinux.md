@@ -106,12 +106,10 @@ Có hàng trăm bản phân phối Linux khác nữa.
 ## Cài đặt Linux:
 Có hàng trăm bản phân phối Linux miễn phí để cho bạn có thể thoải mái lựa chọn. Tùy theo nhu cầu sử dụng của bạn để chọn cho mình một bản phân phối.
 
-Tôi sẽ chọn 1 bản của Debian và 1 bản của Red Hat, đó là
-- UbuntuServer
-- CentOSS 7
-
-Có thể xem hướng dẫn chi tiết cách cài đặt và thao tác cơ bản với hai hệ điều hành:
+Tôi sẽ chọn hai bản, một của Debian và một của Red Hat. Có thể xem hướng dẫn chi tiết cách cài đặt và thao tác cơ bản với hai hệ điều hành:
 - [Ubuntu Server](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/UbuntuServer)
 - [CentOS 7](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Red%20Hat%20Enterprise/Centos7.md)
 
-
+## Tài liệu tham khảo:
+- [Linux Fundamentals](https://www.bing.com/ck/a?!&&p=a186c80fd56fa8a8JmltdHM9MTcwNDkzMTIwMCZpZ3VpZD0yOWE3YmUyMC03NzQxLTZmMmItM2UwMi1iMTgyNzYzZTZlYzUmaW5zaWQ9NTIyNA&ptn=3&ver=2&hsh=3&fclid=29a7be20-7741-6f2b-3e02-b182763e6ec5&psq=linux+fundamentals+pdf&u=a1aHR0cHM6Ly93d3cubGVhcm5saW51eC5vcmcuemEvY291cnNlcy9idWlsZC9mdW5kYW1lbnRhbHMvZnVuZGFtZW50YWxzLnBkZg&ntb=1)
+- [Wikipedia](https://www.wikipedia.org/)
