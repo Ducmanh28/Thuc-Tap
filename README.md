@@ -32,6 +32,8 @@ Mục Lục
   - [Ubuntu Server](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/UbuntuServer)
     - [Ubuntu](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/UbuntuServer/Ubuntu.md)
     - [LinuxNotForProfessional](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/UbuntuServer/UseLinux.md)
+  - [Red Hat](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/Red%20Hat%20Enterprise)
+    - [CentOS 7](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Red%20Hat%20Enterprise/Centos7.md)
 - [Tìm Hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Timhieuthem)
   - [Server Vật Lý](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/Server.md)
   - [Content](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/hocviettailieu.md)
