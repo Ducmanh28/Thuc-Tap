@@ -1,4 +1,18 @@
 # Introduction to Linux
+MỤC LỤC
+- [Introduction to Linux](#introduction-to-linux)
+  - [Lịch sử phát triển](#lịch-sử-phát-triển)
+    - [Năm 1969](#năm-1969)
+    - [Giai đoạn 1980](#giai-đoạn-1980)
+    - [Giai đoạn 1990](#giai-đoạn-1990)
+    - [Giai đoạn từ 2015](#giai-đoạn-từ-2015)
+  - [Các bản phân phối Linux](#các-bản-phân-phối-linux)
+    - [Red Hat](#red-hat)
+    - [Ubuntu](#ubuntu)
+    - [Debian](#debian)
+    - [Một số bản phân phối khác](#một-số-bản-phân-phối-khác)
+  - [Cài đặt Linux:](#cài-đặt-linux)
+  - [Tài liệu tham khảo:](#tài-liệu-tham-khảo)
 
 ## Lịch sử phát triển
 ### Năm 1969
