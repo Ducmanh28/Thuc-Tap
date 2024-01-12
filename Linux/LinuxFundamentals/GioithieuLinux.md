@@ -69,3 +69,48 @@ Một bản phân phối nhằm mục đích cung cấp giao diện chung, quả
 [Red Hat](https://www.redhat.com/en) là một công ty Linux thương mại trị giá hàng tỷ đô la, đã nỗ lực rất nhiều trong việc phát triển Linux. Họ có hàng trăm chuyên gia Linux và được biết đến với khả năng hỗ trợ tuyệt vời.
 
 Họ tặng miễn phí các sản phẩm của mình (Red Hat Enterprise Linux và Fedora). Trong khi Red Hat Enterprise Linux (RHEL) đã được thử nghiệm kỹ lưỡng trước khi phát hành và được hỗ trợ tới bảy năm sau khi phát hành thì Fedora là một bản phân phối có các bản cập nhật nhanh hơn nhưng không được hỗ trợ.
+
+### Ubuntu
+![](/Anh/Screenshot_335.png)
+
+[Ubuntu](https://ubuntu.com/) là một hệ điều hành dựa trên Linux, được phát triển bởi cộng đồng và được tài trợ bởi công ty Canonical Ltd. 
+
+Ubuntu có nhiều phiên bản khác nhau, phù hợp với nhiều loại thiết bị và mục đích sử dụng, như máy tính để bàn, máy chủ, điện thoại thông minh và thiết bị IoT. 
+
+Ubuntu là một hệ điều hành miễn phí, mã nguồn mở và an toàn, có nhiều tính năng và ứng dụng hữu ích, từ soạn thảo văn bản, trình duyệt web, đến phần mềm lập trình và máy chủ web. 
+
+Ubuntu cũng có một cộng đồng người dùng và nhà phát triển lớn và năng động, hỗ trợ nhau trong việc sử dụng và cải tiến hệ điều hành này.
+
+### Debian
+![](/Anh/Screenshot_336.png)
+
+Không có công ty nào đứng sau Debian. Thay vào đó, có hàng ngàn các nhà phát triển tốt tổ chức bầu ra một Lãnh đạo Dự án Debian hai năm một lần. 
+
+[Debian](https://www.debian.org/) được xem là một trong những bản phân phối Linux ổn định nhất. Nó cũng là cơ sở của mọi bản phát hành của Ubuntu. 
+
+Có ba phiên bản: ổn định, thử nghiệm và không ổn định. Mỗi bản phát hành Debian được đặt tên theo một nhân vật trong phim Toy Story.
+
+### Một số bản phân phối khác
+![](/Anh/Screenshot_337.png)
+
+Các bản phân phối như CentOS, Oracle Enterprise Linux và Scientific Linux dựa trên Red Hat Enterprise Linux và chia sẻ nhiều nguyên tắc, thư mục và kỹ thuật quản trị hệ thống giống nhau. 
+
+![](/Anh/Screenshot_339.png)
+
+Linux Mint, Edubuntu và nhiều bản phân phối có tên *buntu khác dựa trên Ubuntu và do đó chia sẻ rất nhiều với Debian. 
+
+![](/Anh/Screenshot_340.png)
+
+Có hàng trăm bản phân phối Linux khác nữa.
+
+## Cài đặt Linux:
+Có hàng trăm bản phân phối Linux miễn phí để cho bạn có thể thoải mái lựa chọn. Tùy theo nhu cầu sử dụng của bạn để chọn cho mình một bản phân phối.
+
+Tôi sẽ chọn 1 bản của Debian và 1 bản của Red Hat, đó là
+- UbuntuServer
+- CentOSS 7
+
+Có thể xem hướng dẫn chi tiết cách cài đặt và thao tác cơ bản với hai hệ điều hành:
+- [Ubuntu Server](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/UbuntuServer)
+- 
+
