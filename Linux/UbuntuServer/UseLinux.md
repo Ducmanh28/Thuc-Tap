@@ -32,6 +32,7 @@ MỤC LỤC
       - [Cấu hình mạng](#cấu-hình-mạng)
       - [CHROOT](#chroot)
       - [Package Managers](#package-managers)
+      - [Lệnh cURL:](#lệnh-curl)
 
 
 ## Basic Shorcuts(Các phím tắt cơ bản)
@@ -725,3 +726,22 @@ Bảng dưới đây sẽ là các options để sử dụng với `ls`
   - `sudo apt-get upgrade`
 - Dis Upgrade
   - `sudo apt-get dist-upgrade`
+
+#### Lệnh cURL:
+Lệnh curl là một công cụ dòng lệnh và thư viện được sử dụng để truyền dữ liệu thông qua nhiều giao thức khác nhau, như HTTP, HTTPS, FTP, SCP, SFTP, và nhiều hơn nữa12. Lệnh curl có thể gửi các yêu cầu HTTP với tất cả các phương thức hiện có, như GET, POST, PUT, DELETE, và nhiều hơn nữa2.
+
+Để sử dụng lệnh curl, bạn cần biết cú pháp của nó:
+
+`curl [OPTIONS] [URL]`
+
+Bạn có thể thiết lập các tùy chọn cho lệnh curl bằng hàm curl_setopt hoặc curl_setopt_array trong PHP23. Một số tùy chọn phổ biến là:
+
+`CURLOPT_RETURNTRANSFER`: TRUE để curl_exec() trả về chuỗi chứ không xuất thẳng ra màn hình.
+`CURLOPT_CONNECTTIMEOUT`: Thời gian cho phép curl cố gắng kết nối (giây), 0 vô tận.
+`CURLOPT_USERAGENT`: Nội dung của dòng User-Agent: trong header của HTTP khi gửi yêu cầu.
+`CURLOPT_URL`: URL mà curl gửi yêu cầu.
+`CURLOPT_POST`: TRUE – Thiết lập yêu cầu gửi theo phương thức POST.
+`CURLOPT_POSTFIELDS`: Mảng dữ liệu để POST.
+Bạn có thể xem thêm danh sách đầy đủ các tùy chọn curl tại đây.
+
+Sau khi thiết lập xong các tùy chọn, bạn có thể thực thi lệnh curl bằng hàm `curl_exec` và đóng lệnh curl bằng hàm `curl_close`.
