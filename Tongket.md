@@ -113,4 +113,10 @@
 - Hoàn thành tìm hiểu LinuxNoteForProfessional
 - Bắt đầu tìm hiểu về Linux Fundamentals
   - Lịch sử phát triển Linux
-  - Các lệnh khởi đầu
+  - Các lệnh khởi đầu:
+    - Lệnh trợ giúp `man`
+    - Lệnh `pwd`
+    - Lệnh `cd`
+    - Lệnh `ls`
+    - Lệnh `mkdir`, `rmdir`
+    - Lệnh `file`, `touch`
