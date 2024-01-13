@@ -23,6 +23,7 @@ Mục Lục
 - [LINUX](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux)
   - [Linux Fundamentals](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/LinuxFundamentals)
     - [Introduction Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/LinuxFundamentals/GioithieuLinux.md)
+    - [First Step](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/LinuxFundamentals/FirstStepsOnCommandLine.md)
   - [LinuxvsProtocol](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/Linuxvagiaothucmang)
     - [SSH](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Linuxvagiaothucmang/SSH.md)
   - [Tim Hieu Them ve Linux](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/TimhieuthemLinux)
