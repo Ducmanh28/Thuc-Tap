@@ -111,4 +111,6 @@
   - Disable roots từ xa, đổi port
     - Đều thực hiện chỉnh sửa trong file `etc/ssh/ssh_config`
 - Hoàn thành tìm hiểu LinuxNoteForProfessional
-- 
+- Bắt đầu tìm hiểu về Linux Fundamentals
+  - Lịch sử phát triển Linux
+  - Các lệnh khởi đầu
