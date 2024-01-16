@@ -1,15 +1,16 @@
 # Ứng dụng WireShark
 MỤC LỤC
-- [1. WireShark là gì](#1-wireshark-là-gì)
-- [2. WireShark dùng để làm gì](#2-wireshark-dùng-để-làm-gì)
-- [3. Một vài tính năng nổi bật](#3-một-vài-tính-năng-nổi-bật)
-- [4. Cách mà WireShark hoạt động](#4-cách-mà-wireshark-hoạt-động)
-- [5. Cách tải và cài đặt WireShark](#5-cách-tải-và-cài-đặt-wireshark)
-- [6. Các thao tác cơ bản với WireShark](#6-các-thao-tác-cơ-bản-với-wireshark)
-- [7. Luật màu của WireShark](#7-coloring-rule-mặc-định-của-wireshark)
-- [8. ](#8-thực-hành-bắt-và-phân-tích-gói-tin-của-1-vài-giao-thức)
-    - [8.1 Gói tin UDP](#81-udp)
-    - [8.2 Gói tin TCP](#82-tcp)
+- [Ứng dụng WireShark](#ứng-dụng-wireshark)
+  - [1. WireShark là gì?](#1-wireshark-là-gì)
+  - [2. WireShark dùng để làm gì](#2-wireshark-dùng-để-làm-gì)
+  - [3. Một vài tính năng nổi bật](#3-một-vài-tính-năng-nổi-bật)
+  - [4. Cách mà WireShark hoạt động](#4-cách-mà-wireshark-hoạt-động)
+  - [5. Cách tải và cài đặt WireShark](#5-cách-tải-và-cài-đặt-wireshark)
+  - [6. Các thao tác cơ bản với WireShark](#6-các-thao-tác-cơ-bản-với-wireshark)
+  - [7. Coloring Rule mặc định của WireShark](#7-coloring-rule-mặc-định-của-wireshark)
+  - [8. Thực hành bắt và phân tích gói tin của 1 vài giao thức:](#8-thực-hành-bắt-và-phân-tích-gói-tin-của-1-vài-giao-thức)
+    - [8.1 UDP](#81-udp)
+    - [8.2 TCP](#82-tcp)
     - [8.3 DHCP](#83-dhcp)
 ## 1. WireShark là gì?
 ![Alt text](/Anh/image28.png)
@@ -92,7 +93,7 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
 ## 6. Các thao tác cơ bản với WireShark
 
 - Màn hình khởi đầu: 
-- ![Alt text](/Anh/image32.png)
+- ![Alt text](/Thuc-Tap/Anh/image32.png)
 - Trong đó có:
 - ![](/Anh/image34.png)
  
@@ -228,7 +229,7 @@ Sử dụng pcap để nắm bắt các gói tin từ một mạng hoặc 1 tệ
     
     ==> Đây là gói tin đầu tiên của giao thức TCP khi bắt đầu gửi 1 gói tin SYN tới máy chủ để khởi động quy trình bắt tay 3 bước(Three ways handshake)
 - Quy trình bắt tay 3 bước:
-- ![Alt text](/Anh/image-11.png)
+- ![](/Anh/image-11.png)
 - Ta có thể nhìn rõ quy trình bắt tay 3 bước thông qua WireShark:
     + Đầu tiên, máy nguồn với IP: 192.168.68.78 gửi 1 gói tin với cờ `SYN` tới Server với IP: 8.8.4.4. Từ Port 56219 ở máy nguồn tới Port 443(HTTPS) của Server. Gói tin này có số SEQ = 0 và chiều dài = 0
     + Tiếp theo đó Server trả lời lại bằng 1 gói tin `SYN/ACK` với số SEQ = 0 và số ACK = 1

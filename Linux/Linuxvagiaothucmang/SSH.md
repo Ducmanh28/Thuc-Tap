@@ -144,6 +144,37 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
   - Có thể dùng lệnh `cat` để xem file
   - ![](/Anh/Screenshot_305.png)
   - Dùng VIM để chỉnh sửa nội dung file(Chuyển sang quyền Roots mới có thể thực hiện chỉnh sửa và lưu file)
+  - Giải thích nội dung từng dòng trong đoạn mã:
+    - `Host *`: Áp dụng cấu hình cho tất cả các máy chủ
+    - `ForwardAgent no`: Không chuyển tiếp yêu cầu xác thực SSH agent
+    - `ForwardX11 no`: Không chuyển tiếp X111.
+    - `ForwardX11Trusted yes`: Cho phép chuyển tiếp X11 một cách an toàn
+    - `PasswordAuthentication yes`: Cho phép xác thực bằng mật khẩu
+    - `HostbasedAuthentication no`: Không sử dụng xác thực dựa trên máy chủ
+    - `GSSAPIAuthentication no`: Không sử dụng xác thực GSSAPI.
+    - `GSSAPIDelegateCredentials no`: Không ủy quyền thông tin xác thực GSSAPI
+    - `GSSAPIKeyExchange no`: Không sử dụng trao đổi khóa GSSAPI.
+    - `GSSAPITrustDNS no`: Không tin tưởng DNS khi sử dụng xác thực GSSAPI.
+    - `MatchMode no` Không sử dụng chế độ batch1.
+    - `CheckHostIP yes`: Kiểm tra IP của máy chủ1.
+    - `AddressFamily any`: Cho phép sử dụng bất kỳ gia đình địa - chỉ nào.
+    - `ConnectTimeout 0`: Không giới hạn thời gian chờ kết nối1.
+    - `StrictHostKeyChecking ask`: Hỏi người dùng trước khi thêm khóa máy chủ
+    - `IdentityFile ~/.ssh/id_rsa`: Đường dẫn đến tệp khóa riêng
+    - `Port 22`: Cổng mà SSH sẽ kết nối đến
+    - `Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc`: Danh sách các thuật toán mã hóa được chấp nhận
+    - `MACs hmac-md5,hmac-sha1,umac-64@openssh.com`: Danh sách các thuật toán MAC được chấp nhận
+    - `EscapeChar ~`: Ký tự thoát
+    - `Tunnel no`: Không tạo đường hầm1.
+    - `TunnelDevice any:any`: Thiết bị được sử dụng để tạo đường hầm
+    - `PermitLocalCommand no`: Không cho phép thực thi lệnh cục bộ
+    - `VisualHostKey no`: Không hiển thị khóa máy chủ dưới dạng hình ảnh
+    - `ProxyCommand ssh -q -W %h:%p gateway.example.com`: Sử dụng lệnh proxy để kết nối đến máy chủ
+    - `RekeyLimit 1G 1h`: Giới hạn thời gian và dữ liệu trao đổi khóa
+    - `UserKnownHostsFile ~/.ssh/known_hosts.d/%k`: Đường dẫn đến tệp chứa danh sách máy chủ đã biết
+    - `SendEnv LANG LC_*`: Gửi các biến môi trường cụ thể1.
+    - `HashKnownHosts yes`: Mã hóa các mục trong tệp máy chủ đã biết
+    - `GSSAPIAuthentication yes`: Sử dụng xác thực GSSAPI
 - File log SSH nằm trong đường dẫn `/var/log/auth.log`
   - Chúng ta có thể xem log SSH thông qua `journalctl`
     - `journalctl -u ssh`: Xem ssh logs
