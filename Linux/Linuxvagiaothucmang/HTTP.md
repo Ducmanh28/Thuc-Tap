@@ -156,3 +156,8 @@ HTTPS sử dụng Port 443 - đây chính là cổng hỗ trợ mã hóa
 ### Tốc độ:
 HTTPS chậm hơn HTTP nhưng nhờ sự phát triển công nghệ hiện nay, sự khác biệt đã đạt giới hạn tiệm cận bằng 0
 ## HTTP trong Linux:
+Có thể được sử dụng thông qua nhiều cách khác nhau, bao gồm việc thiết lập máy chủ Web và sử dụng công cụ để tải xuống tệp từ Internet
+
+- **Apache HTTP**: là một trong những máy chủ web phổ biến nhất trên thế giới. Bạn có thể cài đặt để tạo máy chủ web của riêng bạn. Apache cung cấp nhiều tính năng mạnh mẽ, bao gồm các module có thể tải động, hỗ trợ phương tiện truyền thông mạnh mẽ và tích hợp rộng rãi với các phần mềm phổ biến khác
+- **NGNIX**: Tương tự như Apache, NGNIX cũng là một máy chủ web phổ biến. Nó cung cấp một số tính năng khác so với Apache, nhưng cũng có thể được sử dụng để tạo máy chủ Web
+
