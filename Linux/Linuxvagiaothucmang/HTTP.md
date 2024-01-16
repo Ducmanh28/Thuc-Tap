@@ -14,6 +14,7 @@ MỤC LỤC
     - [Chứng chỉ SSL, TLS](#chứng-chỉ-ssl-tls)
     - [Port](#port)
     - [Tốc độ:](#tốc-độ)
+  - [Cách chuyển http sang https](#cách-chuyển-http-sang-https)
   - [HTTP trong Linux:](#http-trong-linux)
 
 ## Sơ lược về HTTP
@@ -155,6 +156,28 @@ HTTPS sử dụng Port 443 - đây chính là cổng hỗ trợ mã hóa
 
 ### Tốc độ:
 HTTPS chậm hơn HTTP nhưng nhờ sự phát triển công nghệ hiện nay, sự khác biệt đã đạt giới hạn tiệm cận bằng 0
+## Cách chuyển http sang https
+Thiết lập và cấu hình chứng chỉ SSL.
+
+Backup toàn bộ trang web của bạn trong trường hợp bạn cần trở lại trạng thái ban đầu
+
+Điều chỉnh các internal link trên trang của bạn từ HTTP sang HTTPS
+
+Cập nhật thư viện mã của bạn, chẳng hạn như JavaScript, Ajax và bất kỳ plugin nào của bên thứ ba
+
+Redirect tất cả các liên kết được kiểm soát bên ngoài sang HTTPS, bao gồm cả danh sách thư mục
+
+Sửa đổi các tệp cấu hình như htaccess cho các máy chủ như Apache Web Server, LiteSpeed, NGinx Config và các tính năng quản lý dịch vụ internet của bạn (ví dụ: Windows Web Server) để cho phép chuyển hướng từ HTTP sang HTTPS 
+
+Nếu bạn sử dụng Mạng phân phối nội dung (CDN), hãy cập nhật cài đặt SSL của mạng đó
+
+Triển khai chuyển hướng 301 trên mỗi trang
+
+Cập nhật mọi liên kết được sử dụng trong các công cụ tự động hóa tiếp thị của bạn
+
+Cập nhật các landing page và liên kết của paid ads
+
+Config trang web của bạn cho HTTPS trong Google Search Console và Google Analytics
 ## HTTP trong Linux:
 Có thể được sử dụng thông qua nhiều cách khác nhau, bao gồm việc thiết lập máy chủ Web và sử dụng công cụ để tải xuống tệp từ Internet
 
