@@ -16,6 +16,9 @@ MỤC LỤC
     - [Tốc độ:](#tốc-độ)
   - [Cách chuyển http sang https](#cách-chuyển-http-sang-https)
   - [HTTP trong Linux:](#http-trong-linux)
+    - [Apache HTTP](#apache-http)
+      - [Cài đặt Apache2](#cài-đặt-apache2)
+      - [Kiểm tra các file cấu hình của Apache 2](#kiểm-tra-các-file-cấu-hình-của-apache-2)
 
 ## Sơ lược về HTTP
 ### HTTP là gì?
@@ -157,30 +160,56 @@ HTTPS sử dụng Port 443 - đây chính là cổng hỗ trợ mã hóa
 ### Tốc độ:
 HTTPS chậm hơn HTTP nhưng nhờ sự phát triển công nghệ hiện nay, sự khác biệt đã đạt giới hạn tiệm cận bằng 0
 ## Cách chuyển http sang https
-Thiết lập và cấu hình chứng chỉ SSL.
+Cài đặt chứng chỉ SSL: Để sử dụng HTTPS, bạn cần cài đặt chứng chỉ SSL (Secure Sockets Layer) trên máy chủ web của mình. Chứng chỉ SSL giúp mã hóa thông tin giữa máy khách và máy chủ, đảm bảo an toàn cho dữ liệu truyền tải
 
-Backup toàn bộ trang web của bạn trong trường hợp bạn cần trở lại trạng thái ban đầu
+Cấu hình máy chủ web: Sau khi cài đặt chứng chỉ SSL, bạn cần cấu hình máy chủ web để sử dụng HTTPS. Cấu hình này có thể được thực hiện bằng cách sửa đổi tệp cấu hình máy chủ web của bạn.
 
-Điều chỉnh các internal link trên trang của bạn từ HTTP sang HTTPS
+Cập nhật liên kết: Sau khi cấu hình máy chủ web, bạn cần cập nhật liên kết trên trang web của mình để sử dụng HTTPS thay vì HTTP. Bạn cần cập nhật tất cả các liên kết trên trang web của mình để đảm bảo rằng chúng đều sử dụng HTTPS
 
-Cập nhật thư viện mã của bạn, chẳng hạn như JavaScript, Ajax và bất kỳ plugin nào của bên thứ ba
-
-Redirect tất cả các liên kết được kiểm soát bên ngoài sang HTTPS, bao gồm cả danh sách thư mục
-
-Sửa đổi các tệp cấu hình như htaccess cho các máy chủ như Apache Web Server, LiteSpeed, NGinx Config và các tính năng quản lý dịch vụ internet của bạn (ví dụ: Windows Web Server) để cho phép chuyển hướng từ HTTP sang HTTPS 
-
-Nếu bạn sử dụng Mạng phân phối nội dung (CDN), hãy cập nhật cài đặt SSL của mạng đó
-
-Triển khai chuyển hướng 301 trên mỗi trang
-
-Cập nhật mọi liên kết được sử dụng trong các công cụ tự động hóa tiếp thị của bạn
-
-Cập nhật các landing page và liên kết của paid ads
-
-Config trang web của bạn cho HTTPS trong Google Search Console và Google Analytics
+Kiểm tra và xác minh: Cuối cùng, bạn cần kiểm tra và xác minh rằng trang web của mình đang sử dụng HTTPS một cách chính xác. Bạn có thể sử dụng các công cụ trực tuyến để kiểm tra xem trang web của mình đã được cấu hình đúng cách hay chưa
 ## HTTP trong Linux:
 Có thể được sử dụng thông qua nhiều cách khác nhau, bao gồm việc thiết lập máy chủ Web và sử dụng công cụ để tải xuống tệp từ Internet
 
 - **Apache HTTP**: là một trong những máy chủ web phổ biến nhất trên thế giới. Bạn có thể cài đặt để tạo máy chủ web của riêng bạn. Apache cung cấp nhiều tính năng mạnh mẽ, bao gồm các module có thể tải động, hỗ trợ phương tiện truyền thông mạnh mẽ và tích hợp rộng rãi với các phần mềm phổ biến khác
 - **NGNIX**: Tương tự như Apache, NGNIX cũng là một máy chủ web phổ biến. Nó cung cấp một số tính năng khác so với Apache, nhưng cũng có thể được sử dụng để tạo máy chủ Web
+### Apache HTTP
+#### Cài đặt Apache2
+- Sử dụng lệnh `sudo apt install apache2 -y` để cài đặt Apache cho Ubuntu Server
+- Kiểm tra phiên bản để chắc chắn ứng dụng đã được cài bằng lệnh `apache2 -v`
+- ![](/Anh/Screenshot_372.png)
+- Thực hiện kiểm tra trạng thái xem Apache đã hoạt động hay chưa bằng một trong 2 lệnh sau:
+  - `sudo service apache2 status` 
+  - hoặc 
+  - `sudo systemctl status apache2`
+  - ![](/Anh/Screenshot_373.png)
+#### Kiểm tra các file cấu hình của Apache 2
+Các file cấu hình của Apache2 sẽ nằm trong thư mục có đường dẫn sau: `/etc/apache2`
 
+Sử dụng lệnh `ls -l` để xem các file cấu hình của apache2
+
+![](/Anh/Screenshot_374.png)
+
+- **apache2.conf**: Là file cấu hình chính của Apache2, nó chứa các chỉ thị cấu hình toàn cục cho máy chủ web như tên máy chủ, số lượng tiến trình, cách xử lý các yêu cầu,...
+- **conf-available**: Thư mục chứa các file cấu hình có sẵn nhưng không được kích hoạt. Các file này thường liên quan đến các tính năng hoặc chức năng cụ thể của Apache, như bảo mật, nén,...
+  - ![](/Anh/Screenshot_375.png)
+  - Nội dung các file
+    - **charset.conf**: Cài đặt bảng mã mặc định cho máy chủ
+    - **localized-error-page.conf**: Cho phép sử dụng trang lỗi được định rõ cho các ngôn ngữ cụ thể
+    - **other-vhosts-access-log.conf**: Cấu hình log của máy chủ khi dùng nhiều máy chủ ảo
+    - **security.conf**: Bao gồm cấu hình an ninh, có thể chứa các cài đặt như giới hạn phương thức HTTP, tắt truy xuất tệp cấu hình,...
+    - **serve-cgi-bin.conf**: Cấu hình phục vụ các tệp CGI từ mục `cgi-bin`
+  - Có thể kích hoạt hoặc vô hiệu hóa các file này bằng lệnh `a2enconf` và `a2disconf`
+- **conf-enabled**: Thư mục chứa các file cấu hình đã được kích hoạt. Các file này là liên kết tượng trưng đến các file trong thư mục **conf-available**. Các file này sẽ được đọc bởi **apache2.conf** khi khởi động máy chủ web
+  - ![](/Anh/Screenshot_376.png)
+- **envvars**: File chứa các biến môi trường cho Apache2. Các biến này sẽ được sử dụng bởi Script khởi động và dừng của Apache, như `apachectl` hoặc `service`. Các biến này bao gồm các đường dẫn tới các file quan trọng, tên người dùng và nhóm chạy Apache,...
+- **magic**: File dùng để xác định kiểu MIME của các file. Kiểu MIME là một chuỗi kí tự đung để miêu tả nội dung của một file.
+- **mod-available**: Thư mục chứa các module có sẵn nhưng không được kích hoạt. Các module là các thành phần mở rộng chức năng của Apache, cho phép nó hỗ trợ các giao thức, ngôn ngữ lập trình, hoặc các tính năng khác.
+  - Có thể dùng `a2enmod` để khởi động và `a2dismod` để vô hiệu hóa
+- **mod-enabled**: Thư mục chứa các module đã được kích hoạt. Các file này là các liên kết tượng trưng đến các file trong **mod-available**. Các file này sẽ được đọc bởi **apache2.conf** khi khởi động máy chủ web
+- **ports.conf**: File cấu hình port cho Apache, xác định port nào sẽ lắng nghe yêu cầu từ Client. Mặc định Port cho HTTP sẽ là 80 và HTTPS sẽ là 443. Chúng ta có thể thay đổi các Port này nếu muốn
+- **sites-available**: Thư mục chứa các virtual-host có sẵn nhưng không được kích hoạt. Virtual-host là một cách để Apache phục vụ nhiều trang web khác nhau trên cùng một máy chủ, bằng cách sử dụng tên miền hoặc địa chỉ IP khác nhau
+  - ![](/Anh/Screenshot_377.png)
+  - Nội dung các tệp:
+    - **000-default.conf**: Là một tệp cấu hình mặc định được tạo khi bạn cài đặt apache2
+    - **default-ssl.conf**: Tệp cấu hình SSL mặc định
+  - Để kích hoạt, sử dụng lệnh `a2ensite` và vô hiệu hóa sử dụng lệnh `a2dissite`
