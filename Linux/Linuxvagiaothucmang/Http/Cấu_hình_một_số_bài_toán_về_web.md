@@ -83,4 +83,28 @@ Kiểm tra kết quả:
 
 Như vậy là đã thành công!
 
-## 
+## Bài 3: Cấu hình 1 Webserver sử dụng 1 Domain, 1 IP, Nhiều Port
+
+Thực hiện tạo file code trang web
+- Tạo thư mục chứa: `mkdir /var/www/bai3`
+- Cấp quyền cho apache2 chạy thư mục: `chmod 777 /var/www/bai3`
+- Tạo file `.html`: `vim /var/www/bai3/bai3.html`
+- Thêm vào code như sau:
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAI3</title>
+</head>
+<body>
+    <h1>Hello, this is my simple website!</h1>
+    <p>Tao thanh cong 1 website 1 domain, 1 ip, nhieu port</p>
+    <h2>GOODBYE<h2>
+</body>
+</html>
+```
+- Lưu và thoát khỏi VIM: `:wq`
+- Kiểm tra lại: `cat /var/www/bai3/bai3.html`
+- ![](/Anh/Screenshot_393.png)
