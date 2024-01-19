@@ -108,3 +108,37 @@ Thực hiện tạo file code trang web
 - Lưu và thoát khỏi VIM: `:wq`
 - Kiểm tra lại: `cat /var/www/bai3/bai3.html`
 - ![](/Anh/Screenshot_393.png)
+
+Thực hiện thêm các port
+- Thêm port bằng cách chỉnh sửa file `ports.conf`
+  - Thêm vào dòng mới `Listen 81`
+  - ![](/Anh/Screenshot_394.png)
+
+Thực hiện tạo file cấu hình Apache2 cho trang web
+- Tạo file `.conf` bằng **VIM** dùng câu lệnh sau: `vim /etc/apache2/sites-available/bai3.conf`
+- Thực hiện thêm vào file nội dung như sau:
+```
+<VirtualHost *:80>
+    ServerAdmin luongducmanh02@gmail.com
+    ServerName bailam3.com
+    DocumentRoot /var/www/bai3
+</VirtualHost>
+
+<VirtualHost *:81>
+    ServerAdmin luongducmanh02@gmail.com
+    ServerName bailam3.com
+    DocumentRoot /var/www/bai3
+</VirtualHost>
+```
+- Thực hiện lưu file và đóng **VIM** `:wq`
+- Khởi chạy file cấu hình `a2ensite bai3.conf`
+- Khởi động lại Apache2 `systemctl restart apache2`
+
+Thực hiện tạo DNS để phân giải tên miền
+```
+192.168.142.142 bailam3.com
+```
+
+Kiểm tra kết quả:
+![](/Anh/Screenshot_396.png)
+![](/Anh/Screenshot_395.png)
