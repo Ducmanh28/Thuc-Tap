@@ -142,3 +142,8 @@ Thực hiện tạo DNS để phân giải tên miền
 Kiểm tra kết quả:
 ![](/Anh/Screenshot_396.png)
 ![](/Anh/Screenshot_395.png)
+
+
+## Bài 4: Cấu hình 2 Webserver sử dụng 1 Domain, 1 IP, 2 Port
+Thực hiện tạo file code trang web:
+- Tạo 2 thư mục
