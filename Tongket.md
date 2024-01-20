@@ -120,3 +120,21 @@
     - Lệnh `ls`
     - Lệnh `mkdir`, `rmdir`
     - Lệnh `file`, `touch`
+
+### Từ 16/1 - 20/1
+- Tập trung tìm hiểu giao thức HTTP
+  - HTTP: Khái niệm, tác dụng, cấu trúc gói tin
+  - HTTPS: Khái niệm, tác dụng, so sánh http và https, cách từ HTTP --> HTTPS
+  - Sử dụng http trên windows
+  - Sử dụng http trên Linux
+    - Apache2:
+      - khái niệm, công dụng, cách sử dụng 
+      - File log Apache
+      - File cấu hình Apache
+      - Tạo trang web đơn giẳn sử dụng apache2
+      - Một số bài toán cấu hình webserver đơn giản
+        - 1 website có 1 tên miền, 1 ip, 1 port
+        - 1 website có nhiều tên miền, 1 ip, 1 port
+        - 1 website có 1 tên miền, 1 ip, nhiều port
+        - nhiều website có 1 tên miền, 1 ip, nhiều port
+        - 
