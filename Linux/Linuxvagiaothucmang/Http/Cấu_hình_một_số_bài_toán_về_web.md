@@ -146,4 +146,38 @@ Kiểm tra kết quả:
 
 ## Bài 4: Cấu hình 2 Webserver sử dụng 1 Domain, 1 IP, 2 Port
 Thực hiện tạo file code trang web:
-- Tạo 2 thư mục
+- Tạo 2 thư mục chứa 2 file trang web
+  - `mkdir /var/www/bai4` chứa file `.html` trang web thứ nhất
+  - `mkdir /var/www/bai41` chứa file `.html` trang web thứ hai
+- Cấp quyền cho 2 thư mục:
+  - `chmod 777 bai4`
+  - `chmod 777 bai41`
+Thực hiện tạo file cấu hình:
+- File cấu hình sẽ nằm trong `/etc/apache2/sites-available`
+- Tạo file `bai4.conf`
+- Do tạo 2 trang web, sử dụng 2 Ports, ý tưởng của bài sẽ là mỗi trang web sử dụng 1 ports khác nhau nhưng có cùng 1 domain và ip, và chúng ta cần phải tạo 2 VirtualHost
+- Nội dung file:
+```
+<VirtualHost *:80>
+    ServerAdmin luongducmanh02@gmail.com
+    ServerName bailam4.com
+    DocumentRoot /var/www/bai4
+</VirtualHost>
+
+<VirtualHost *:81>
+    ServerAdmin luongducmanh02@gmail.com
+    ServerName bailam4.com
+    DocumentRoot /var/www/bai41
+</VirtualHost>
+``` 
+- Khởi động trang web: `a2ensite bai4.conf`
+- Khởi động lại Apache2: `systemctl restart apache2`
+
+Đặt DNS phân giải tên miền:
+- `192.168.142.142 bailam4.com`
+
+Kiểm tra kết quả:
+![](/Anh/Screenshot_397.png)
+![](/Anh/Screenshot_398.png)
+
+
