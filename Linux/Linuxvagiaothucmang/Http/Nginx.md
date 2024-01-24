@@ -1,4 +1,16 @@
 # Mục này tìm hiểu về Nginx trong UbuntuServer
+MỤC LỤC
+- [Mục này tìm hiểu về Nginx trong UbuntuServer](#mục-này-tìm-hiểu-về-nginx-trong-ubuntuserver)
+  - [Nginx là gì?](#nginx-là-gì)
+  - [Cách Nginx hoạt động:](#cách-nginx-hoạt-động)
+  - [Các tính năng mà Nginx có thể sử dụng:](#các-tính-năng-mà-nginx-có-thể-sử-dụng)
+  - [So sánh giữa NGINX và APACHE](#so-sánh-giữa-nginx-và-apache)
+  - [Sử dụng Nginx](#sử-dụng-nginx)
+    - [Cài đặt NGINX trên CentOS7](#cài-đặt-nginx-trên-centos7)
+    - [Kiểm tra các file Nginx:](#kiểm-tra-các-file-nginx)
+      - [Các file cấu hình:](#các-file-cấu-hình)
+      - [File log của Nginx:](#file-log-của-nginx)
+    - [Tạo trang web cơ bản sử dụng NGINX trên CentOS 7:](#tạo-trang-web-cơ-bản-sử-dụng-nginx-trên-centos-7)
 
 ## Nginx là gì?
 Là một phần mềm webServer mã nguồn mở. Ban đầu, được tạo ra nhằm phục vụ webHTTP nhưng ngày nay, nó cũng được dùng làm reverse proxy, HTTP load balancer và email proxy như IMAP, POP3 và SMTP
