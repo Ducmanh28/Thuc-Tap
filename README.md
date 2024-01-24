@@ -30,6 +30,7 @@ Mục Lục
     - [Tìm hiểu Giao thức HTTP](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/Linuxvagiaothucmang/Http)
       - [HTTP](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Linuxvagiaothucmang/Http/HTTP.md)
       - [Cấu hình WebServer](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Linuxvagiaothucmang/Http/C%C3%A2%CC%81u_hi%CC%80nh_m%C3%B4%CC%A3t_s%C3%B4%CC%81_ba%CC%80i_toa%CC%81n_v%C3%AA%CC%80_web.md)
+      - [NGINX](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Linuxvagiaothucmang/Http/Nginx.md)
   - [Tim Hieu Them ve Linux](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/TimhieuthemLinux)
     - [BootLinux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/TimhieuthemLinux/BootLinux.md)
     - [Init](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/TimhieuthemLinux/Init.md)

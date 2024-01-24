@@ -263,26 +263,25 @@ IncludeOptional sites-enabled/*.conf
 
 ```
 Giải thích từng dòng trong đoạn mã:
-- **DefaultRuntimeDir ${APACHE_RUN_DIR}**: Đặt thư mục runtime mặc định cho Apache. Biến ${APACHE_RUN_DIR} có thể được đặt trong các tệp cấu hình khác.
-- **PidFile ${APACHE_PID_FILE}**: Đặt đường dẫn đến tệp chứa Process ID của máy chủ Apache.
-- **Timeout 300**: Đặt thời gian tối đa (giây) mà một kết nối có thể mất mát mà không cần xác nhận.
-- **KeepAlive On**: Cho phép sử dụng kỹ thuật Keep-Alive để duy trì kết nối giữa máy chủ và khách hàng.
-- **MaxKeepAliveRequests 100**: Giới hạn số lượng yêu cầu mà một kết nối Keep-Alive có thể xử lý trước khi đóng.
-- **KeepAliveTimeout 5**: Thiết lập thời gian chờ (giây) cho các yêu cầu trong một kết nối Keep-Alive.
-- **User ${APACHE_RUN_USER}** và **Group ${APACHE_RUN_GROUP}**: Xác định người dùng và nhóm mà máy chủ Apache sẽ chạy dưới đó. Các giá trị này thường được đặt trong các tệp cấu hình khác.
-- **HostnameLookups Off**: Tắt chức năng chuyển đổi tên máy chủ thành địa chỉ IP.
-- **ErrorLog ${APACHE_LOG_DIR}/error.log**: Đặt đường dẫn đến tệp nhật ký lỗi.
-- **LogLevel warn**: Thiết lập mức độ log cảnh báo, chỉ log các thông báo cảnh báo hoặc cao hơn.
-- **IncludeOptional mods-enabled/*.load** và **IncludeOptional mods-enabled/*.conf**: Bao gồm tất cả các tệp cấu hình được kích hoạt trong thư mục mods-enabled, bao gồm cả các tệp được tải và các tệp cấu hình.
-- **Include ports.conf**: Bao gồm tệp cấu hình cho các cổng mạng.
-- **Options FollowSymLinks**, **AllowOverride None**, **Require all denied**: Cấu hình thư mục gốc, không cho phép sử dụng các tùy chọn symlink, không cho phép sử dụng tệp `.htaccess`, và yêu cầu từ chối tất cả.
-- **AllowOverride None**, **Require all granted**: Cấu hình thư mục /usr/share, không cho phép sử dụng tùy chọn từ tệp `.htaccess`, và yêu cầu được chấp nhận từ tất cả.
-- **Options Indexes FollowSymLinks**, **AllowOverride None**, **Require all granted**: Cấu hình thư mục `/var/www/`, cho phép xem danh sách các tệp, không cho phép sử dụng tùy chọn từ tệp `.htaccess`, và yêu cầu được chấp nhận từ tất cả.
-- **AccessFileName `.htaccess`**: Đặt tên tệp cấu hình cho quyền truy cập.
-- **<FilesMatch "^\.ht">**, **Require all denied**: Tất cả các yêu cầu truy cập các tệp có tên bắt đầu bằng .ht đều bị từ chối.
-- Các dòng tiếp theo định dạng các loại nhật ký khác nhau.
-- **IncludeOptional conf-enabled/*.conf**: Bao gồm tất cả các tệp cấu hình được kích hoạt trong thư mục **conf-enabled**.
-- **IncludeOptional sites-enabled/*.conf**: Bao gồm tất cả các tệp cấu hình được kích hoạt trong thư mục **sites-enabled**
+- `DefaultRuntimeDir ${APACHE_RUN_DIR}`: Định nghĩa thư mục mặc định cho runtime files của Apache.
+- `PidFile ${APACHE_PID_FILE}`: Xác định nơi lưu trữ tệp tin PID (Process ID) của Apache.
+- `Timeout 300`: Thiết lập thời gian tối đa mà một kết nối có thể chờ đợi response từ máy chủ.
+- `KeepAlive On`: Cho phép sử dụng Keep-Alive để giữ mở các kết nối HTTP để sử dụng lại chúng cho các yêu cầu sau.
+- `MaxKeepAliveRequests 100`: Đặt giới hạn số yêu cầu tối đa cho mỗi kết nối Keep-Alive.
+- `KeepAliveTimeout 5`: Thiết lập thời gian chờ tối đa cho mỗi yêu cầu khi sử dụng Keep-Alive.
+- `User ${APACHE_RUN_USER}`: Định nghĩa người dùng hệ thống dùng để chạy các worker processes của Apache.
+- `Group ${APACHE_RUN_GROUP}`: Xác định nhóm người dùng mà worker processes của Apache sẽ chạy dưới
+- `HostnameLookups Off`: Tắt việc thực hiện định danh máy chủ dựa trên địa chỉ IP
+- `ErrorLog ${APACHE_LOG_DIR}/error.log`: Đặt đường dẫn của tệp log lỗi.
+- `LogLevel warn`: Thiết lập cấp độ log cho các thông báo lỗi.
+- `IncludeOptional mods-enabled/*.load` và `IncludeOptional mods-enabled/*.conf`: Bao gồm các tệp tin cấu hình và modules từ thư mục mods-enabled.
+- `Include ports.conf`: Bao gồm tệp cấu hình cho cổng mạng.
+- `<Directory />`: Cấu hình quyền truy cập cho thư mục gốc.
+- `<Directory /usr/share>` và `<Directory /var/www/>`: Cấu hình quyền truy cập cho các thư mục con trong hệ thống tệp tin.
+- `AccessFileName .htaccess`: Xác định tên tệp tin cấu hình tài nguyên
+- `<FilesMatch "^\.ht">`: Cấu hình quyền truy cập cho các tệp tin có tên bắt đầu bằng ".ht".
+- `LogFormat ...`: Định dạng log cho các thông điệp log.
+- `IncludeOptional conf-enabled/*.conf` và `IncludeOptional sites-enabled/*.conf`: Bao gồm các tệp cấu hình từ thư mục conf-enabled và sites-enabled.
 
 #### Kiểm tra file Log apache2
 File log của Apache 2 nằm trong thư mục có đường dẫn sau: `/var/log/apache2/`

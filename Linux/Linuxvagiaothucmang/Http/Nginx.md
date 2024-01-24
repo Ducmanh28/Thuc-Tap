@@ -53,7 +53,7 @@ systemctl status nginx
 ```
 ![](/Anh/Screenshot_401.png)
 ### Kiểm tra các file Nginx:
-Các file cấu hình:
+#### Các file cấu hình:
 - Sử dụng `ls -l /etc/nginx` để kiểm tra các file của NGINX
 - ![](/Anh/Screenshot_400.png)
   - `conf.d` và `default.d`: Các thư mục chứa các file cấu hình phụ
@@ -143,10 +143,12 @@ http {
     - `error_page 500 502 503 504 /50x.html;`: Xác định trang lỗi cho mã lỗi 500, 502, 503, và 504.
     - `location = /50x.html { ... }`: Định nghĩa vị trí của trang lỗi 50x.
 
-File log của Nginx:
+#### File log của Nginx:
 - Nằm trong dường dẫn: `/var/log/nginx/`
-  - `access.log`:  Sẽ chứa các log đăng nhập
+  - `access.log`:  Sẽ chứa các log đăng nhập. Mỗi dòng bao gồm một địa chỉ IP, dấu thời gian, loại yêu cầu (GET), phiên bản HTTP, mã phản hồi và chuỗi user agent cho biết loại trình duyệt và hệ điều hành được sử dụng để thực hiện yêu cầu
+  - ![](/Anh/Screenshot_405.png)
   - `error.log`: sẽ chứa các lần log bị lỗi
+  - ![](/Anh/Screenshot_406.png)
 
 ### Tạo trang web cơ bản sử dụng NGINX trên CentOS 7:
 - Tạo thư mục chứa các file cấu thành trang web:
@@ -203,3 +205,7 @@ server{
     192.168.142.210 newpage2873.com
     192.168.142.210 www.newpage2873.com
     ```
+
+Kiểm tra lại thành quả:
+- ![](/Anh/Screenshot_403.png)
+- ![](/Anh/Screenshot_404.png)
