@@ -68,45 +68,28 @@ systemctl status nginx
   - Mặc định thì file cấu hình của NGINX sẽ nằm trong `etc/nginx/nginx.conf`
   - Nội dung file:
 ```
-user nginx;
-worker_processes auto;
-error_log /var/log/nginx/error.log;
-pid /run/nginx.pid;
-
-include /usr/share/nginx/modules/*.conf;
+user  nginx;
+worker_processes  auto;
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
 
 events {
-    worker_connections 1024;
+    worker_connections  1024;
 }
 
 http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
     log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '
                       '"$http_user_agent" "$http_x_forwarded_for"';
     access_log  /var/log/nginx/access.log  main;
-    sendfile            on;
-    tcp_nopush          on;
-    tcp_nodelay         on;
-    keepalive_timeout   65;
-    types_hash_max_size 4096;
-    include             /etc/nginx/mime.types;
-    default_type        application/octet-stream;
+    sendfile        on;
+    #tcp_nopush     on;
+    keepalive_timeout  65;
+    #gzip  on;
     include /etc/nginx/conf.d/*.conf;
-    server {
-        listen       80;
-        listen       [::]:80;
-        server_name  _;
-        root         /usr/share/nginx/html;
-        include /etc/nginx/default.d/*.conf;
-        error_page 404 /404.html;
-        location = /404.html {
-        }
-        error_page 500 502 503 504 /50x.html;
-        location = /50x.html {
-        }
-    }
 }
-
 ```
   - Nginx sẽ quản lý cấu hình theo **Derective** và **Block**, trong đó:
     - **Derective** là các câu lệnh cấu hình cụ thể
@@ -133,16 +116,6 @@ http {
     - `include /etc/nginx/mime.types;`: Bao gồm tệp mime.types để xác định kiểu MIME của các tệp.
     - `default_type application/octet-stream;`: Xác định kiểu MIME mặc định nếu không thể xác định được kiểu MIME thực tế.
     - `include /etc/nginx/conf.d/*.conf;`: Bao gồm tất cả các tệp cấu hình từ thư mục /etc/nginx/conf.d/.
-    - `server { ... }`: Bắt đầu khai báo cấu hình cho một server block (một trang web cụ thể).
-    - `listen 80`; và `listen [::]:80;`: Xác định cổng lắng nghe cho server block (port 80 cho IPv4 và IPv6).
-    - `server_name _;`: Xác định tên máy chủ cho server block (trong trường hợp này, đối với mọi tên máy chủ).
-    - `root /usr/share/nginx/html;`: Xác định thư mục gốc cho server block.
-    - `include /etc/nginx/default.d/*.conf;`: Bao gồm các tệp cấu hình mặc định cho server block.
-    - `error_page 404 /404.html;`: Xác định trang lỗi cho mã lỗi 404.
-    - `location = /404.html { ... }`: Định nghĩa vị trí của trang lỗi 404.
-    - `error_page 500 502 503 504 /50x.html;`: Xác định trang lỗi cho mã lỗi 500, 502, 503, và 504.
-    - `location = /50x.html { ... }`: Định nghĩa vị trí của trang lỗi 50x.
-
 #### File log của Nginx:
 - Nằm trong dường dẫn: `/var/log/nginx/`
   - `access.log`:  Sẽ chứa các log đăng nhập. Mỗi dòng bao gồm một địa chỉ IP, dấu thời gian, loại yêu cầu (GET), phiên bản HTTP, mã phản hồi và chuỗi user agent cho biết loại trình duyệt và hệ điều hành được sử dụng để thực hiện yêu cầu
