@@ -194,3 +194,19 @@ server{
 Kiểm tra lại thành quả:
 - ![](/Anh/Screenshot_403.png)
 - ![](/Anh/Screenshot_404.png)
+
+Nếu trường hợp gặp lỗi
+- Ví dụ lỗi 403: `2024/01/24 03:33:03 [error] 918#918: *3 "/home/html/index.html" is forbidden (13: Permission denied), client: 192.168.142.1, server: thanhquang.com, request: "GET / HTTP/1.1", host: "thanhquang.com`
+- Có thể có các nguyên nhân gây ra như sau:
+  - Do chưa chỉnh sửa quyền truy cập:
+    - Dùng `ls -l` để kiểm tra các quyền
+    - `chmod` và `chown` để chỉnh sửa các quyền
+  - Do SELinux: SELinux là một hệ thống kiểm soát truy cập bảo mật trong hệ điều hành Linux. Mục tiêu chính của SELinux là cung cấp một lớp bảo vệ bổ sung bằng cách thực hiện quản lý quyền truy cập dựa trên chính sách bảo mật cấp hệ điều hành
+    - Thực hiện cấp quyền SELinux: `chcon -R  --type=httpd_sys_content_t /home/html` 
+    - Hoặc thực hiện disable SELinux:
+      - Chỉnh sửa file cấu hình: `vi /etc/selinux/config`
+      - Tìm và chỉnh nội dụng: `SELINUX=disabe`
+      - Lưu và thoát: `:wq`
+      - Khởi động lại máy: `reboot`
+  - Do Firewall
+  - Kiểm tra lại file cấu hình: `nginx -t`
