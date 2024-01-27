@@ -137,4 +137,25 @@
         - 1 website có nhiều tên miền, 1 ip, 1 port
         - 1 website có 1 tên miền, 1 ip, nhiều port
         - nhiều website có 1 tên miền, 1 ip, nhiều port
-        - 
+      
+### Từ 23/1 - 27/1 
+- Tập trung vào giao thức HTTP
+  - Sử dụng http trên Linux:
+    - Nginx:
+      - khái niệm, công dụng, cách sử dụng
+      - So sánh giữa Nginx và Apache
+      - File log của Nginx
+      - File cấu hình của Nginx
+      - Tạo trang web đơn giản sử dụng Nginx
+- Viết bài về L.A.M.P
+  - LAMP là gì? Cách cài đặt LAMP trên UbuntuServer
+  - LAMP là gì? Cách cài đặt LAMP trên CentOS 7
+- Tìm hiểu cách đưa một website ra môi trường Internet
+  - Lựa chọn Nhà Cung Cấp Dịch Vụ Hosting và Đăng Ký Tên Miền
+  - Phát triển Trang Web
+  - Tạo và Cấu Hình Trang Web
+  - Tạo và Cấu Hình Trang Web
+  - Cấu Hình Cơ Sở Dữ Liệu (Nếu Cần Thiết)
+  - Kiểm Tra và Kiểm Soát Lỗi
+  - Cấu Hình DNS và Đăng Ký Tên Miền
+  - Kiểm Tra và Đưa Trang Web Lên Internet
