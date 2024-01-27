@@ -1,6 +1,6 @@
-# Mục này tìm hiểu về Nginx trong UbuntuServer
+# Mục này tìm hiểu về Nginx trong CentOS 7
 MỤC LỤC
-- [Mục này tìm hiểu về Nginx trong UbuntuServer](#mục-này-tìm-hiểu-về-nginx-trong-ubuntuserver)
+- [Mục này tìm hiểu về Nginx trong CentOS 7](#mục-này-tìm-hiểu-về-nginx-trong-centos-7)
   - [Nginx là gì?](#nginx-là-gì)
   - [Cách Nginx hoạt động:](#cách-nginx-hoạt-động)
   - [Các tính năng mà Nginx có thể sử dụng:](#các-tính-năng-mà-nginx-có-thể-sử-dụng)
