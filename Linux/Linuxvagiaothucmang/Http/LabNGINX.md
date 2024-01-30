@@ -123,6 +123,7 @@ Kiểm tra lại:
 - Khởi động lại nginx: `systemctl restart nginx`
 
 Kiểm tra kết quả:
+
 ![](/Anh/Screenshot_412.png)
 
 ![](/Anh/Screenshot_413.png)
