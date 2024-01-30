@@ -67,18 +67,18 @@ systemctl status nginx
 ### Kiểm tra các file Nginx:
 #### Các file cấu hình:
 - Sử dụng `ls -l /etc/nginx` để kiểm tra các file của NGINX
-- ![](/Anh/Screenshot_400.png)
-  - `conf.d` và `default.d`: Các thư mục chứa các file cấu hình phụ
-  - `fastcgi.conf` và `fastcgi.conf.default`: Đây là các file cấu hình cho FastCGI - một giao thức để liên kết giữa web server và các ứng dụng
-  - `koi-utf` và `koi-win`: Các file cấu hình cho việc mã hóa kí tự
-  - `mime.types` và `mime.types.defaults`: File định nghĩa các loại media như hình ảnh, văn bản, video,... dựa trên phần mở rộng của tên file
-  - `nginx.conf` và `nginx.conf.default`: Là file cấu hình chính của NGINX
-  - `scgi_params` và `scgi_params.default`: Đây là file cấu hình cho SCGI(Simple Common Gateway Interface)
-  - `uwsgi)params` và `uwsgi params.default`: Đây là file cấu hình cho uWSGI(Universal Web Server GateWay Interface) 
-  - `win-utf`: Đây là một file cấu hình khác liên quan đến mã hóa kí tự
+- ![](/Anh/Screenshot_421.png)
+  - `conf.d`: Thư mục chứa các file cấu hình phụ
+  - `fastcgi_params`: Tệp này chứa các tham số cấu hình cho FastCGI
+  - `mime.types`: Tệp này ánh xạ các loại tệp mở rộng sang các loại MIME
+  - `modules`: Đây là một liên kết tượng trưng đến thư mục `../../usr/lib64/nginx/modules`
+  - `nginx.conf`: Đây là tệp cấu hình chính của nginx
+  - `scgi_params`: Tệp này chứa các tham số cấu hình cho SCGI
+  - `uwsgi_params`; Chứa các tham số cấu hình cho uWSGI
+
 - Giải thích chi tiết file cấu hình `nginx.conf`
   - Mặc định thì file cấu hình của NGINX sẽ nằm trong `etc/nginx/nginx.conf`
-  - Nội dung file:
+  - Nội dung file cấu hình:
 ```
 user  nginx;
 worker_processes  auto;
