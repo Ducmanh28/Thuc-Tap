@@ -65,9 +65,11 @@ Kiểm tra lại:
 Tạo domain trỏ tới địa chỉ IP trong file **hosts**: `192.168.142.210 bailamthu1.com`
 
 Kiểm tra thành quả:
+
 ![](/Anh/Screenshot_410.png)
 
 File Log:
+
 ![](/Anh/Screenshot_411.png)
 
 ## Bài 2: 1 Webserver, 3 Domain, 1 IP, 1 Port
