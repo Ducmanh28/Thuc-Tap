@@ -159,3 +159,15 @@
   - Kiểm Tra và Kiểm Soát Lỗi
   - Cấu Hình DNS và Đăng Ký Tên Miền
   - Kiểm Tra và Đưa Trang Web Lên Internet
+
+### Từ 30/1 - 3/2
+- Tập trung vào giao thức Http
+  - Lab các bài toán về Nginx
+  - Lab đưa trang web lên Internet khi có 1 Server sở hữu IP Public, 1 DNS.
+  - Chỉnh sửa và thêm các nội dung còn thiếu phần Nginx và Apache
+  - Tìm hiểu về WordPress
+    - Lý thuyết về WordPress
+    - Thực hành cài đặt và sử dụng WordPress
+- Tìm hiểu thêm:
+  - Tìm hiểu về IP Table: Lý thuyết
+  - Tìm hiểu về 5 Scripts được giao
