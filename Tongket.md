@@ -170,7 +170,11 @@
     - Thực hành cài đặt và sử dụng WordPress
 - Tìm hiểu thêm:
   - Tìm hiểu về IP Table: Lý thuyết
-  - Tìm hiểu về 5 Scripts được giao
+    - Khái niệm
+    - Dùng để làm gì
+    - Tại sao cần dùng?
+    - Ưu và nhược điểm
+  - Tìm hiểu về 5 Scripts 
     - Vẽ ra hình
     - Tạo chữ có màu sắc
     - Mã hóa tệp tin/ thư mục
