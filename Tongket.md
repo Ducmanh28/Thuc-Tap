@@ -171,3 +171,8 @@
 - Tìm hiểu thêm:
   - Tìm hiểu về IP Table: Lý thuyết
   - Tìm hiểu về 5 Scripts được giao
+    - Vẽ ra hình
+    - Tạo chữ có màu sắc
+    - Mã hóa tệp tin/ thư mục
+    - Trình bày sức khỏe hệ thống
+    - Giám sát việc sử dụng ổ đĩa

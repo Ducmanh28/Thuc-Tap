@@ -11,6 +11,16 @@ Trong hệ điều hành Linux
 
 ==> IP Tables là một công cụ mạnh mẽ được sử dụng trên hệ điều hành Linux để quản lý tường lửa và quy tắc mạng. 
 
+## Dùng để làm gì?
+
+Bảo vệ hệ thống Linux bằng cách kiểm soát lưu lượng mạng.
+
+Ngăn chặn hoặc cho phép giao tiếp mạng dựa trên các quy tắc bạn định nghĩa.
+
+Thực hiện chuyển hướng lưu lượng mạng từ các nguồn đến các đích khác nhau.
+
+Quản lý cấu hình tường lửa trên hệ thống.
+
 ## Tại sao chúng ta cần sử dụng Ip Table?
 Như chúng ta đã biết, Linux có các tường lửa đơn giản cho người dùng sử dụng như Firewalld hoặc UFW.
 
@@ -20,3 +30,18 @@ Tuy nhiên, chính do sự đơn giản này khiến cho chúng bị giảm
   - ghi Log
   - Forward,....
 
+## Vậy cách IP Tables hoạt động ra sao?
+IP Tables hoạt động dựa trên các quy tắc (rules) bạn đặt ra trước. 
+
+Khi một gói tin mạng đi qua hệ thống, IP Tables kiểm tra gói tin này và áp dụng các quy tắc tương ứng. Nếu gói tin phù hợp với một quy tắc, IP Tables sẽ thực hiện hành động được chỉ định trong quy tắc đó (ví dụ: chấp nhận, từ chối hoặc chuyển hướng gói tin).
+
+## Ưu và Nhược điểm của IP Tables
+Ưu điểm:
+- Mạnh mẽ và linh hoạt, cho phép bạn thiết lập các quy tắc theo nhiều tiêu chí khác nhau.
+- Phổ biến và được tích hợp sẵn trên hầu hết các bản phân phối Linux.
+- Có khả năng xử lý lưu lượng mạng lớn với hiệu suất tốt.
+
+Nhược điểm:
+- Cấu hình phức tạp và khó hiểu đối với người mới sử dụng.
+- Dễ gặp lỗi khi thiết lập quy tắc không đúng cách có thể dẫn đến lỗi mạng.
+- Không có giao diện đồ họa, chỉ có giao diện dòng lệnh.
