@@ -169,8 +169,8 @@
     - Lý thuyết về WordPress
     - Thực hành cài đặt và sử dụng WordPress
 - Tìm hiểu thêm:
-  - Tìm hiểu về IP Table: Lý thuyết
-    - Khái niệm
+  - Tìm hiểu về IP Table: 
+    - Khái niệm 
     - Dùng để làm gì
     - Tại sao cần dùng?
     - Ưu và nhược điểm
