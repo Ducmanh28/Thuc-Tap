@@ -1,0 +1,38 @@
+# Day 2: Hàm có sẵn và biến
+## Hàm có sẵn
+Cũng như C++, C,... Python cũng sở hữu các hàm được tích hợp sẵn - nghĩa là Bạn có thể sử dụng mà không cần phải thiết lập hay cấu hình. 
+
+Một số hàm được sử dụng phổ biến như:
+- `print()` để in ra giá trị
+- `type()` để kiểm tra kiểu dữ liệu
+- `len()` để đếm số chữ
+- `int()` dữ liệu kiểu số nguyên
+- `float()` dữ liệu kiểu số thập phân
+- `min()` tìm giá trị nhỏ nhất 
+- `max()` tìm giá trị lớn nhất
+- `input()` lấy dữ liệu người dùng nhập vào
+- .........
+
+Dưới đây là các hàm có sẵn ở Python, hoặc bạn có thể tham khảo tại [đây](https://docs.python.org/3.9/library/functions.html)
+
+![](/Anh/Screenshot_433.png)
+
+Mỗi hàm sẽ có chức năng khác nhau, các dữ liệu đầu vào khác nhau dựa trên kiểu hàm và giá trị trả về của hàm(nếu có). Trong quá trình tìm hiểu, chúng ta sẽ lần lượt sử dụng các hàm này. Không những thế, sau này chúng ta cũng có thể tự tạo ra hàm của riêng mình.
+
+## Biến
+### Biến là gì?
+- Biến là tên của một vùng trong bộ nhớ RAM, được dùng để lưu trữ dữ liệu.
+- Chúng ta gán thông tin cho một biến để nó lưu trữ, sau đó có thể lấy ra sử dụng trong các dòng code tiếp theo.
+- Biến có thể lưu trữ nhiều kiểu dữ liệu như số, chuỗi ký tự, mảng, tập hợp, v.v.
+
+### Quy tắc đặt tên biến:
+- Tên của biến phải bắt đầu bằng một chữ hoặc một ký tự gạch dưới (_)
+- Không thể bắt đầu tên biến bằng một con số
+- Trong tên biến, có thể sử dụng số, chữ và dấu gạch dưới
+- Tên biến phải là duy nhất và không trùng lặp với tên của các biến khác trong cùng một phạm vi làm việc
+- Tên biến phân biệt chữ hoa và chữ thường
+
+### Khai báo biến
+Các biến không tự động có sẵn. Muốn máy tính biết được biến này ở đâu, chứa nội dung gì, kiểu dữ liệu gì thì chúng ta phải thực hiện khai báo biến. Khi chúng ta gán một kiểu dữ liệu nhất định cho một biến, nó được gọi là khai báo biến
+- Vậy gán ở đây là gì? Gán có nghĩa là lưu trữ dữ liệu trong biến. Dấu bằng trong Python không phải là đẳng thức như trong Toán học mà nó chính là toán tử **gán**
+- 
