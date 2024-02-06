@@ -65,3 +65,38 @@ Kết quả:
 ![](/Anh/Screenshot_436.png)
 
 ## Kiểu dữ liệu
+Trong Python cũng như các ngôn ngữ lập trình khác, một biến luôn có kiểu dữ liệu. Một số kiểu dữ liệu cơ bản trong Python:
+
+- int: đây là kiểu dữ liệu được dùng để lưu trữ các số nguyên (1, 2, 3, 4, ...).
+- float: đây là kiểu dữ liệu dùng để lưu trữ các biến kiểu số thực (1.43, 5.34, 3.333, ...).
+- bool: đây là kiểu dữ liệu dùng để lưu trữ các giá trị luận lý (True hoặc False)
+- str: đây là kiểu dữ liệu dùng để lưu trữ các xâu ký tự ("Viet Nam", "Codelearn", ...)
+- Ngoài ra trong Python còn một số kiểu dữ liệu khác như list, set, dict, tuple, complex nhưng chưa cần quan tâm tới các kiêu dữ liệu này vội. Các kiểu dữ liệu này sẽ được sử dụng trong các ngày tiếp theo.
+
+Để kiểm tra kiểu dữ liệu của biến, bạn có thể sử dụng hàm type(). Ví dụ:
+```
+name = "DucManh"
+date_of_birth = 28
+pi = 3.14
+
+print(type(name))
+print(type(date_of_birth))
+print(type(pi))
+```
+Kết quả sẽ hiển thị như sau:
+```
+<class 'str'>
+<class 'int'>
+<class 'float'>
+```
+
+Chuyển đổi kiểu dữ liệu:
+- Chúng ta có thể chuyển kiểu dữ liệu bằng cách dùng các hàm dữ liệu như `int()`, `string()`, `float()`,...
+- Ví dụ nhé
+```
+# int to float
+num_int = 10
+print('num_int',num_int)         # 10
+num_float = float(num_int)
+print('num_float:', num_float)   # 10.0
+```
