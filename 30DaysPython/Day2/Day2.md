@@ -35,4 +35,33 @@ Mỗi hàm sẽ có chức năng khác nhau, các dữ liệu đầu va
 ### Khai báo biến
 Các biến không tự động có sẵn. Muốn máy tính biết được biến này ở đâu, chứa nội dung gì, kiểu dữ liệu gì thì chúng ta phải thực hiện khai báo biến. Khi chúng ta gán một kiểu dữ liệu nhất định cho một biến, nó được gọi là khai báo biến
 - Vậy gán ở đây là gì? Gán có nghĩa là lưu trữ dữ liệu trong biến. Dấu bằng trong Python không phải là đẳng thức như trong Toán học mà nó chính là toán tử **gán**
-- 
+- Dưới đây sẽ là một số ví dụ về gán biến và đặt tên biến hợp quy định
+```
+name = "Duc Manh"
+age = 21
+is_married = False
+num1 = 10
+_if 
+```
+- Đặt tên biến không hợp lệ:
+```
+first-name
+first@name
+first$name
+num-1
+1num
+```
+
+Bạn cũng có thể khai báo nhiều biến trong một dòng
+```
+first_name, last_name, country, age, is_married = 'Asabeneh', 'Yetayeh', 'Helsink', 250, True
+```
+Sử dụng cùng với hàm nhập giá trị đầu vào `input()`
+```
+name = input("What is your name?")
+```
+Kết quả:
+
+![](/Anh/Screenshot_436.png)
+
+## Kiểu dữ liệu
