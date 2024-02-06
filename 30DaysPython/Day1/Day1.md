@@ -74,6 +74,7 @@ print(type(3j+1))            # Complex
 
 # Thực hành một số bài tập:
 In ra một số nội dung cơ bản: 
+
 ![](/Anh/Screenshot_431.png)
 
 Viết bài toán In ra màn hình chu vi và diện tích của một hình chữ nhật có chiều dài 15, chiều rộng 8
