@@ -1,6 +1,9 @@
 # Khám phá Các Toán Tử Trong Python
 Python là một ngôn ngữ lập trình mạnh mẽ với một loạt các toán tử cho phép bạn thực hiện các phép tính và so sánh khác nhau một cách dễ dàng và linh hoạt
 
+## Toán tử gán
+Toán tử gán được sử dụng để gán giá trị cho các biến. Chúng ta hãy lấy = làm ví dụ. Dấu bằng trong toán học cho thấy hai giá trị bằng nhau, tuy nhiên trong Python điều đó có nghĩa là chúng ta đang lưu trữ một giá trị trong một biến nhất định và chúng ta gọi nó là gán hoặc gán giá trị cho một biến
+![](/Anh/Screenshot_437.png)
 ## Toán Tử Số Học
 ### Cộng, Trừ, Nhân và Chia
 Toán tử số học cơ bản nhất trong Python bao gồm:
