@@ -28,7 +28,7 @@ tpl = ('item1', 'item2', 'item3')
 len(tpl)
 ```
 ## Truy cập Tuple Items
-Lập chỉ mục tích cực Tương tự như kiểu dữ liệu danh sách, chúng tôi sử dụng lập chỉ mục dương hoặc âm để truy cập các mục tuple. Truy cập các phần tu tuple
+- Lập chỉ mục tích cực Tương tự như kiểu dữ liệu danh sách, chúng tôi sử dụng lập chỉ mục dương hoặc âm để truy cập các mục tuple. Truy cập các phần tu tuple
 
 ![](/Anh/Screenshot_441.png)
 
@@ -43,8 +43,11 @@ second_fruit = fruits[1]
 last_index =len(fruits) - 1
 last_fruit = fruits[las_index]
 ```
-Lập chỉ mục tiêu cực Lập chỉ mục phủ định có nghĩa là bắt đầu từ cuối, -1 đề cập đến mục cuối cùng, -2 đề cập đến mục cuối cùng thứ hai và âm của danh sách / độ dài bộ đề cập đến mục đầu tiên. Tuple Lập chỉ mục âm
+- Lập chỉ mục tiêu cực Lập chỉ mục phủ định có nghĩa là bắt đầu từ cuối, -1 đề cập đến mục cuối cùng, -2 đề cập đến mục cuối cùng thứ hai và âm của danh sách / độ dài bộ đề cập đến mục đầu tiên. Tuple Lập chỉ mục âm
 
+![](/Anh/Screenshot_442.png)
+
+```
 # Syntax
 tpl = ('item1', 'item2', 'item3','item4')
 first_item = tpl[-4]
@@ -53,11 +56,12 @@ fruits = ('banana', 'orange', 'mango', 'lemon')
 first_fruit = fruits[-4]
 second_fruit = fruits[-3]
 last_fruit = fruits[-1]
-Cắt lát bộ
+```
+## Cắt lát bộ
 Chúng ta có thể cắt ra một bộ phụ bằng cách chỉ định một loạt các chỉ mục nơi bắt đầu và nơi kết thúc trong tuple, giá trị trả về sẽ là một bộ mới với các mục được chỉ định.
 
-Phạm vi của các chỉ số tích cực
-
+- Phạm vi của các chỉ số tích cực
+```
 # Syntax
 tpl = ('item1', 'item2', 'item3','item4')
 all_items = tpl[0:4]         # all items
@@ -68,8 +72,9 @@ all_fruits = fruits[0:4]    # all items
 all_fruits= fruits[0:]      # all items
 orange_mango = fruits[1:3]  # doesn't include item at index 3
 orange_to_the_rest = fruits[1:]
-Phạm vi của các chỉ số tiêu cực
-
+```
+- Phạm vi của các chỉ số tiêu cực
+```
 # Syntax
 tpl = ('item1', 'item2', 'item3','item4')
 all_items = tpl[-4:]         # all items
@@ -78,9 +83,10 @@ fruits = ('banana', 'orange', 'mango', 'lemon')
 all_fruits = fruits[-4:]    # all items
 orange_mango = fruits[-3:-1]  # doesn't include item at index 3
 orange_to_the_rest = fruits[-3:]
-Thay đổi bộ dữ liệu thành danh sách
+```
+## Thay đổi bộ dữ liệu thành danh sách
 Chúng ta có thể thay đổi bộ dữ liệu thành danh sách và danh sách thành bộ dữ liệu. Tuple là bất biến, nếu chúng ta muốn sửa đổi một tuple, chúng ta nên thay đổi nó thành một danh sách.
-
+```
 # Syntax
 tpl = ('item1', 'item2', 'item3','item4')
 lst = list(tpl)
@@ -90,9 +96,10 @@ fruits[0] = 'apple'
 print(fruits)     # ['apple', 'orange', 'mango', 'lemon']
 fruits = tuple(fruits)
 print(fruits)     # ('apple', 'orange', 'mango', 'lemon')
-Kiểm tra một mục trong bộ dữ liệu
+```
+## Kiểm tra một mục trong bộ dữ liệu
 Chúng ta có thể kiểm tra xem một mục có tồn tại hay không trong một bộ dữ liệu sử dụng in, nó trả về một boolean.
-
+```
 # Syntax
 tpl = ('item1', 'item2', 'item3','item4')
 'item2' in tpl # True
@@ -100,9 +107,10 @@ fruits = ('banana', 'orange', 'mango', 'lemon')
 print('orange' in fruits) # True
 print('apple' in fruits) # False
 fruits[0] = 'apple' # TypeError: 'tuple' object does not support item assignment
-Tham gia Tuples
+```
+## Tham gia Tuples
 Chúng ta có thể nối hai hoặc nhiều bộ bằng toán tử +
-
+```
 # syntax
 tpl1 = ('item1', 'item2', 'item3')
 tpl2 = ('item4', 'item5','item6')
@@ -110,11 +118,13 @@ tpl3 = tpl1 + tpl2
 fruits = ('banana', 'orange', 'mango', 'lemon')
 vegetables = ('Tomato', 'Potato', 'Cabbage','Onion', 'Carrot')
 fruits_and_vegetables = fruits + vegetables
-Xóa Tuples
+```
+## Xóa Tuples
 Không thể loại bỏ một mục duy nhất trong một tuple, nhưng có thể xóa chính bộ dữ liệu bằng del.
-
+```
 # syntax
 tpl1 = ('item1', 'item2', 'item3')
 del tpl1
 fruits = ('banana', 'orange', 'mango', 'lemon')
 del fruits
+```
