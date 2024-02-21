@@ -180,3 +180,13 @@
     - Mã hóa tệp tin/ thư mục
     - Trình bày sức khỏe hệ thống
     - Giám sát việc sử dụng ổ đĩa
+
+### Từ 5/2 - 19/2
+- Tập trung vào tìm hiểu Python
+  - Tìm hiểu 30 ngày học tập Python (Đã học đến ngày )
+  - Kết hợp tìm hiểu và học trên CodeLearn
+- Tìm hiểu thêm về IPTable
+  - Các thành phần chính của IPTable
+    - Table
+    - Chain
+    - Target
