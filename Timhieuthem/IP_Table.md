@@ -104,6 +104,7 @@ Bộ phận cuối cùng chính là **Target** - hành động sử dụng dành
 - **LOG**: Hành động chấp thuận gói tin nhưng có ghi lại log
 
 Target là hành động dành cho gói tin được phép đi qua tất cả các rules đặt ra mà không dừng lại ở bất kỳ rules nào. Trong trường hợp gói tin không khớp với yêu cầu của reles thì mặc định sẽ được chấp thuận
+
 ## Ưu và Nhược điểm của IP Tables
 Ưu điểm:
 - Mạnh mẽ và linh hoạt, cho phép bạn thiết lập các quy tắc theo nhiều tiêu chí khác nhau.
@@ -114,7 +115,111 @@ Nhược điểm:
 - Cấu hình phức tạp và khó hiểu đối với người mới sử dụng.
 - Dễ gặp lỗi khi thiết lập quy tắc không đúng cách có thể dẫn đến lỗi mạng.
 - Không có giao diện đồ họa, chỉ có giao diện dòng lệnh.
+## Sử dụng IP Tables
+### Các tuỳ chọn khi sử dụng IP Tables
+#### Những tuỳ chọn để chỉ định thông số IpTables
+- Chỉ định tên: `-t`
+- Loại giao thức: `-p`
+- Card mạng vào: `-i`
+- Card mạng ra: `-o`
+- Chỉ định IP nguồn: `-s <địa_chỉ_IP_nguồn>`
+- Chỉ định IP đích: `-d <địa_chỉ_IP_đích>`
+- Chỉ định cổng nguồn: `-sport`
+- Chỉ định cổng đích: `-dport`
+#### Những tuỳ chọn để thao tác với chain
+- Tạo chain mới: `Iptables -N`
+- Xoá hết các rule đã có trong chain: `Iptables -X`
+- Đặt danh sách cho các chain: ‘built-in’(INPUT, OUTPUT & FORWARD): `Iptables – p`
+- Liệt kê các rules trong chain: `Iptables -L`
+- Xoá các rule trong chain: `Iptalbes -F`
+- Reset bộ đếm Packet về 0: `Iptables -Z`
+#### Những tuỳ chọn để thao tác với Rule
+- Thêm rule: `-A`
+- Xoá rule: `-D`
+- Thay thế rule: `-R`
+- Chèn thêm rule: `-I`
 
+### Các lệnh cơ bản
+#### Tạo một rule mới:
+```
+iptables -A INPUT -i Io -j ACCEPT
+```
+Có nghĩa là:
+  - `A` nghĩa là Append. `A INPUT` nghĩa là kiểu kết nối sẽ được áp dụng
+  - `I` nghĩa là Internet. `I Io` nghĩa là khai báo thiết bị mạng được áp dụng
+  - `J` nghĩa là Jump. `J ACCEPT` nghĩa là khai báo hành động sẽ được áp dụng cho quy tắc này
 
+Sau đó bạn gõ lệnh dưới thì sẽ thấy ngay 1 rule mới đã xuất hiện
+```
+iptables -L -v
+```
+Sau khi thêm rules thành công, bạn thực hiện lưu và reset lại IP tables:
+```
+service iptables save
+service iptables restart
+```
+Nếu tiếp tục thêm rule để được phép lưu lại quá trình kết nối hiện tại cũng như tránh các hiện tượng tự Block ra khỏi máy chủ thì hãy thực hiện đúng lệnh quy định.
+```
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+``` 
+Để các cổng được phép truy cập từ bên ngoài vào qua giao thức tcp thì hãy thực hiện theo lệnh.
+```
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+```
+Trong đó:
+- `-p tcp`: giao thức được áp dụng
+- `-dport 22`: Cổng được cho phép áp dụng
+
+Để ngăn chặn tất cả các kết nối truy cập theo hướng từ bên ngoài vào không thỏa mãn những rule trên
+```
+iptables -A INPUT -j DROP
+```
+#### Bổ sung một rule mới
+Để chèn 1 rule mới vào trong 1 vị trí nào đó thì việc sử dụng các lệnh bổ sung thêm rule là điều quan trọng. Trong đó người dùng chỉ cần thay tham số `-A` table bằng tham số INSERT `–l` là xong. 
+
+Cấu trúc lệnh bổ sung 1 rule mới:
+```
+IPtables -I INPUT 2 -p tcp --dport 8080 -j ACCEPT 
+```
+#### Xoá một rule:
+Để thực hiện xóa 1 rule trong Iptables mà đã tạo ra tại vị trí 4, bạn có thể sử dụng lệnh xóa với tham số -D. Cấu trúc lệnh xóa 1 rule chi tiết như sau:
+```
+IPtables -D INPUT 4
+```
+Trong trường hợp bạn muốn thực hiện thao tác xóa toàn bộ các rule chứa hành động DROP có trong Iptables rất đơn giản. Bạn chỉ cần thực hiện lệnh với cấu trúc như sau sẽ dễ dàng loại bỏ tất cả các rule này.
+```
+IPtables -D INPUT -j DROP
+```
+### Cài đặt IP Tables trên Ubuntu Server
+Mặc định Ubuntu Server đã được cài đặt sẵn IP Table nên chúng ta cần kiểm tra xem máy đã có IpTables hay chưa rồi mới tiến hành cài đặt. Sử dụng lệnh sau để kiểm tra:
+```
+dpkg -l | grep iptables
+```
+Nếu kết quả hiện như sau nghĩa là đã có IpTables rồi
+![](/Anh/Screenshot_449.png)
+
+Nếu thực sự chưa có IpTables, ta tiến hành cài đặt bằng lệnh sau:
+```
+sudo apt update
+sudo apt install -y iptables
+```
+### Một vài thao tác cơ bản sử dụng IP Tables
+Xem danh sách các Rule: `sudo iptables -L`
+
+![](/Anh/Screenshot_450.png)
+
+Tạo và sửa đổi các luật
+- Bạn có thể tạo và sửa đổi các luật trong iptables bằng các lệnh như `iptables -A`, `iptables -D`, `iptables -I`, v.v.
+- Để lưu các thay đổi để chúng tồn tại qua các lần khởi động lại hệ thống, bạn cần sử dụng lệnh `iptables-save` để lưu cấu hình iptables vào một tệp tin và sau đó khôi phục nó bằng lệnh `iptables-restore`.
+
+Xoá các luật:
+- Để xóa một luật, bạn có thể sử dụng lệnh `iptables -D`.
+
+Chọn hành động mặc định cho các chain
+- Bạn có thể xác định hành động mặc định cho các chuỗi bằng lệnh iptables -P.
+- Ví dụ: để chặn tất cả các gói tin đến chuỗi INPUT
+```
+iptables -P INPUT DROP
+```
 ## Tài liệu tham khảo:
 [FPT Cloud](https://fptcloud.com/iptables/)
