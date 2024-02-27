@@ -1,4 +1,44 @@
 # Mục này tìm hiểu về IP Tables
+Mục Lục
+- [Mục này tìm hiểu về IP Tables](#mục-này-tìm-hiểu-về-ip-tables)
+  - [Giới thiệu về IP Table:](#giới-thiệu-về-ip-table)
+  - [Dùng để làm gì?](#dùng-để-làm-gì)
+  - [Tại sao chúng ta cần sử dụng Ip Table?](#tại-sao-chúng-ta-cần-sử-dụng-ip-table)
+  - [Vậy cách IP Tables hoạt động ra sao?](#vậy-cách-ip-tables-hoạt-động-ra-sao)
+  - [Các thành phần cơ bản của IPtables](#các-thành-phần-cơ-bản-của-iptables)
+    - [Các bảng trong IPtables:](#các-bảng-trong-iptables)
+      - [Filter Table](#filter-table)
+      - [NAT Table](#nat-table)
+      - [Mangle Table](#mangle-table)
+      - [RAM(RAW) Table](#ramraw-table)
+      - [Sercurity Table](#sercurity-table)
+    - [Chains](#chains)
+    - [Rule:](#rule)
+  - [Thứ tự các bảng mà một gói tin phải đi qua](#thứ-tự-các-bảng-mà-một-gói-tin-phải-đi-qua)
+  - [Quy trình xử lý gói tin của IP Table](#quy-trình-xử-lý-gói-tin-của-ip-table)
+    - [Quyết định bảng:](#quyết-định-bảng)
+    - [Chọn Chain:](#chọn-chain)
+    - [Kiểm tra Rule](#kiểm-tra-rule)
+    - [Áp dụng rule](#áp-dụng-rule)
+    - [Xử lý tiếp theo:](#xử-lý-tiếp-theo)
+    - [Kết thúc quy trình](#kết-thúc-quy-trình)
+  - [Ưu và Nhược điểm của IP Tables](#ưu-và-nhược-điểm-của-ip-tables)
+  - [Sử dụng IP Tables](#sử-dụng-ip-tables)
+    - [Các tuỳ chọn khi sử dụng IP Tables](#các-tuỳ-chọn-khi-sử-dụng-ip-tables)
+      - [Những tuỳ chọn để chỉ định thông số IpTables](#những-tuỳ-chọn-để-chỉ-định-thông-số-iptables)
+      - [Những tuỳ chọn để thao tác với chain](#những-tuỳ-chọn-để-thao-tác-với-chain)
+      - [Những tuỳ chọn để thao tác với Rule](#những-tuỳ-chọn-để-thao-tác-với-rule)
+    - [Các lệnh cơ bản](#các-lệnh-cơ-bản)
+      - [Tạo một rule mới:](#tạo-một-rule-mới)
+      - [Bổ sung một rule mới](#bổ-sung-một-rule-mới)
+      - [Xoá một rule:](#xoá-một-rule)
+    - [Cài đặt IP Tables trên Ubuntu Server](#cài-đặt-ip-tables-trên-ubuntu-server)
+    - [Một vài thao tác cơ bản sử dụng IP Tables](#một-vài-thao-tác-cơ-bản-sử-dụng-ip-tables)
+  - [Tìm hiểu thêm?](#tìm-hiểu-thêm)
+    - [Một gói tin có cần phải đi qua tất cả các bảng hay không?](#một-gói-tin-có-cần-phải-đi-qua-tất-cả-các-bảng-hay-không)
+    - [Khi các rule bị mâu thuẫn với nhau thì điều gì xảy ra?](#khi-các-rule-bị-mâu-thuẫn-với-nhau-thì-điều-gì-xảy-ra)
+  - [Tài liệu tham khảo:](#tài-liệu-tham-khảo)
+
 
 ## Giới thiệu về IP Table:
 Trước khi tìm hiểu về IP Table, chúng ta cần hiểu rõ tường lửa là gì.
@@ -40,8 +80,14 @@ Iptables hoạt động dựa trên các dòng lệnh để tương tác với P
 
 Cơ chế lọc gói tin của Iptables được xây dựng hoạt động dựa trên 3 thành phần cơ bản khác nhau:
 - Tables: Các bảng trong IPtables
-- Chains
-- Targets
+- Chains: Hay còn gọi là các Chuỗi
+- Rules: Các quy tắc
+  - Targets: Các hành động
+
+Mỗi bảng chứa nhiều chuỗi, mỗi chuỗi chứa nhiều Rule và Target
+- Mỗi bảng sẽ định nghĩa một không gian tên để lưu trữ các quy tắc 
+- Các chuỗi sẽ quy định các điều kiện và hành động được áp dụng cho các gói tin
+- Các quy tắc sẽ xác định cách mà gói tin cụ thể sẽ được xử lý
 
 ### Các bảng trong IPtables:
 Là một trong những thành phần xử lý các gói tin theo những cách cụ thể khác nhau
@@ -54,6 +100,11 @@ Là một trong những bảng được sử dụng nhiều nhất
 
 Hoặc nó sẽ quyết định từ chối yêu cầu của gói tin một cách chắc chắn và nhanh chóng
 
+Các chain trong bảng Filter:
+- `Chain INPUT`: Được sử dụng để xác định các quy tắc áp dụng cho các gói tin đang đi vào hệ thống
+- `Chain FORWARD`: Được sử dụng để xác định các quy tắc áp dụng cho các gói tin được chuyển tiếp qua hệ thống
+- `Chain OUTPUT`: Được sử dụng để xác định các quy tắc áp dụng cho các gói tin đi ra khỏi hệ thống
+
 #### NAT Table
 Sẽ dùng các rules về NAT
 
@@ -63,6 +114,11 @@ Hoặc nó sẽ chỉnh các IP đích của gói tin.
 
 Với sự hiện diện của bảng NAT, việc chỉnh sửa thông tin gói tin khi thực hiện cơ chế NAT trở nên đơn giản, dễ dàng hơn
 
+Các chain trong bảng NAT:
+- `Chain PREROUTING`: Được sử dụng để điều chỉnh các gói tin trước khi chúng được định tuyến
+- `Chain POSTROUTING`: Được sử dụng để điều chỉnh các gói tin sau khi chúng đã được định tuyến và trước khi ra khỏi hệ thống
+- `Chain OUTPUT`: Được sử dụng để xác định các quy tắc áp dụng cho các gói tin được tạo ra từ chính hệ thống này
+
 #### Mangle Table
 Là một trong những bảng quan trọng của IPtables
 
@@ -70,17 +126,33 @@ Có nhiệm vụ chỉnh sửa Header của gói tin.
 
 Sự hiện diện của bảng này còn cho phép chỉnh sửa các giá trị của các trường: **TTL**, **MTL**, **Type of Service**
 
-#### RAM Table
+Các chain trong bảng Mangle:
+- `Chain PREROUTING`: Được sử dụng để thay đổi thông tin trong header của gói tin trước khi kernel xác định quy tắc định tuyến cho chúng
+- `Chain INPUT`: Được sử dụng để xác định các quy tắc áp dụng cho gói tin đi vào hệ thống
+- `Chain FORWARD`: Được sử dụng để xác định các quy tắc áp dụng cho gói tin được chuyển tiếp qua hệ thống
+- `Chain OUTPUT`: Được sử dụng để xác định các quy tắc áp dụng cho gói tin đi ra khỏi hệ thống
+- `Chain POSTROUTING`: Được sử dụng để thay đổi thông tin trong header của gói tin sau khi kernel xác định quy tắc định tuyến cho chúng
+
+#### RAM(RAW) Table
 Dựa theo bản chất của Iptables thì Iptables là một stateful firewall với các gói tin. Các gói tin này được kiểm tra liên quan đến trạng thái State.
 
 RAM Tablet sẽ là bảng giúp người dùng dễ dàng làm việc với các gói tin trước khi kernel bắt đầu kiểm tra trạng thái
 
 Bảng RAM cũng chức năng loại bỏ một số gói tin khỏi việc tracking vì vấn đề hiệu năng của hệ thống
 
+Các chain trong bảng RAM:
+- `Chain PREROUTING`: Chain này được sử dụng để xác định các quy tắc áp dụng cho các gói tin ngay khi chúng đến hệ thống, trước khi các quy tắc cụ thể khác được áp dụng
+- `Chain OUTPUT`: Được sử dụng để xác định các quy tắc áp dụng cho các gói tin được tạo ra từ hệ thống
+
 #### Sercurity Table
 Một số Kernel có thể hỗ trợ thêm cho Security Table, được dùng bởi Selinux từ đó giúp thiết lập các chính sách bảo mật hiệu quả.
 
 Vậy nên Security Table luôn là một trong những bảng quan trọng trong các bảng của Iptables.
+
+Các chain trong bảng Sercurity
+- `Chain INPUT`: Được sử dụng để xác định các quy tắc áp dụng cho các gói tin đang đi vào hệ thống, với sự kết hợp với các cơ chế kiểm soát truy cập như SELinux
+- `Chain OUTPUT`: Được sử dụng để xác định quy tắc cho các gói tin đi ra khỏi hệ thống
+- `Chain FORWARD`: Được sử dụng để  xác định các quy tắc áp dụng cho các gói tin được chuyển tiếp qua hệ thống, với sự kết hợp với các cơ chế kiểm soát truy cập như SELinux
 
 ### Chains 
 Thành phần này được tạo ra với một số lượng nhất định ứng với mỗi bảng trong Iptables.
@@ -95,16 +167,48 @@ Có các loại Chains như sau:
 - **Chain Output**: Chain này tồn tại ở các bảng quen thuộc như Raw Table, Mangle Table và Filter. Các rules ở đây được thực thi sau khi gói tin tiến trình được tạo ra
 - **Chain Forward**: Tồn tại trong các bảng Mangle Table và Filter Table. Các rules cung cấp nhiệm vụ thực thi cho các gói tin được định tuyến qua host hiện đại
 - **Chain Postrouting**: Chỉ tồn tại ở bảng Mangle Table và NAT Table. Các rules trong Chain được thực thi khi gói tin rời giao diện Internet.
+### Rule:
+Trong iptables, một rule là một tập hợp các điều kiện được xác định để kiểm tra các gói tin khi chúng đi qua tường lửa. Nếu gói tin khớp với các điều kiện được chỉ định trong rule, một hành động cụ thể sẽ được thực hiện trên gói tin đó.
 
-### Target
-Bộ phận cuối cùng chính là **Target** - hành động sử dụng dành cho các gói tin khi các gói tin thỏa mãn các rules đặt ra
-- **ACCEPT**: Hành động chấp nhận và cho phép gói tin đi vào hệ thống
-- **DROP**: Hành động loại gói tin, không có gói tin trả lời.
-- **REJECT**: Hành động loại gói tin nhưng vẫn cho phép gói tin trả lời Table gói tin khác. 
-- **LOG**: Hành động chấp thuận gói tin nhưng có ghi lại log
+Mỗi rule bao gồm các phần chính sau:
+- **Matches**: Điều kiện mà gói tin cần phải thỏa mãn để được xem xét bởi rule. Các điều kiện này có thể bao gồm địa chỉ nguồn và đích, cổng nguồn và đích, giao thức, các thông tin trong header của gói tin (ví dụ: các thông tin TCP hoặc UDP), các dấu vết (marking), vv.
+- **Target**: Hành động sẽ được thực hiện nếu gói tin khớp với rule. Các mục tiêu phổ biến bao gồm 
+  - **ACCEPT** (chấp nhận gói tin), 
+  - **DROP** (từ chối gói tin), 
+  - **REJECT** (từ chối và gửi thông báo từ chối trở lại cho người gửi), 
+  - **LOG** (ghi log về gói tin), 
+  - **REDIRECT** (chuyển hướng) 
+  - **MARK** (đánh dấu gói tin).
+## Thứ tự các bảng mà một gói tin phải đi qua 
+- Bảng RAW: Gói tin được xử lý trong bảng này trước tiên. Bảng này thường được sử dụng để cấu hình các quy tắc để ảnh hưởng đến gói tin trước khi các quy tắc trong các bảng khác được áp dụng
+- Bảng Mangle: Bảng này thường được sử dụng để thay đổi các trường trong header của gói tin, nhưng cũng có thể được sử dụng để áp dụng các quy tắc tùy chỉnh khác.
+- Bảng NAT: Gói tin được xử lý trong bảng nat để thực hiện các chức năng NAT (Network Address Translation) như chuyển đổi địa chỉ IP và cổng.
+- Bảng Filter: Cuối cùng, gói tin đi qua bảng filter để kiểm tra và quyết định liệu gói tin đó có được chấp nhận (accept), từ chối (drop), hay xử lý theo các quy tắc khác được định nghĩa trong bảng này
 
-Target là hành động dành cho gói tin được phép đi qua tất cả các rules đặt ra mà không dừng lại ở bất kỳ rules nào. Trong trường hợp gói tin không khớp với yêu cầu của reles thì mặc định sẽ được chấp thuận
+## Quy trình xử lý gói tin của IP Table
+### Quyết định bảng:
+Khi một gói tin đến, kernel sẽ xác định bảng mà gói tin sẽ được xử lý. Quyết định này sẽ dựa trên mục đích của gói tin
 
+Ví dụ: định tuyến, tường lửa, NAT, vv...
+
+### Chọn Chain:
+Trong bảng đã quyết định ở trên, kernel sẽ xác định các chain trong bảng đó mà gói tin sẽ phải đi qua.
+
+Tất nhiên, quy trình sẽ theo thứ tự vào trước ra sau.
+
+### Kiểm tra Rule
+Gói tin sẽ được so khớp với các rules ở trong chain tương ứng. Mỗi rule sẽ định rõ một tập hợp các điều kiện mà gói tin cần thoả mãn để rule được áp dụng
+
+### Áp dụng rule
+Khi một gói tin khớp với một rule, hành động được chỉ định trong rule đó sẽ được thực hiện. 
+
+### Xử lý tiếp theo:
+Sau khi gói tin được xử lý bởi một rule, quá trình này có thể kết thúc(Nếu gói tin đã đáp ứng một rule cuối cùng)
+
+Hoặc gói tin có thể được chuyển tiếp đến chain khác trong cùng bảng, hoặc sang bảng khác để tiếp tục quá trình xử lý
+
+### Kết thúc quy trình
+Khi gói tin đã đi qua tất cả các bước xử lý, quá trình xử lý kết thúc và gói tin được gửi đến kernel để định tuyến (nếu cần) hoặc được xử lý bởi ứng dụng đích đến
 ## Ưu và Nhược điểm của IP Tables
 Ưu điểm:
 - Mạnh mẽ và linh hoạt, cho phép bạn thiết lập các quy tắc theo nhiều tiêu chí khác nhau.
@@ -221,5 +325,21 @@ Chọn hành động mặc định cho các chain
 ```
 iptables -P INPUT DROP
 ```
+## Tìm hiểu thêm?
+### Một gói tin có cần phải đi qua tất cả các bảng hay không?
+Không, một gói tin không nhất thiết phải đi qua hết tất cả các bảng trong iptables. Thực tế, mỗi bảng trong iptables có mục đích và chức năng riêng, và một gói tin chỉ cần đi qua các bảng cần thiết để thực hiện các chức năng mong muốn.
+
+Ví dụ, một gói tin có thể chỉ cần đi qua bảng filter để kiểm tra và quyết định liệu nó có được chấp nhận (accept) hay từ chối (drop) dựa trên các quy tắc tường lửa. Các gói tin không cần phải đi qua các bảng như nat, mangle, hoặc raw nếu không có yêu cầu cụ thể nào được áp dụng cho chúng.
+
+Tuy nhiên, trong một số trường hợp, gói tin có thể đi qua nhiều bảng, đặc biệt là khi cần thực hiện các chức năng như NAT hoặc khi cần thay đổi header của gói tin trong bảng mangle. Nhưng không phải tất cả các gói tin đều cần đi qua mọi bảng. Quyết định về việc một gói tin đi qua các bảng nào được dựa trên cấu hình và các quy tắc được định nghĩa trong iptables.
+### Khi các rule bị mâu thuẫn với nhau thì điều gì xảy ra?
+Khi có hiện tượng mâu thuẫn giữa các rule trong cùng một bảng của iptables, quyết định về cách xử lý gói tin sẽ được áp dụng theo một số nguyên tắc ưu tiên:
+- **Ưu tiên của rule đặc biệt hơn rule chung**: Nếu có một rule cụ thể mà khớp với gói tin hơn so với một rule chung, thì rule cụ thể đó sẽ được ưu tiên áp dụng.
+- **Thứ tự của các rule trong chain**: Rule ở phía trên trong chain sẽ được áp dụng trước. Do đó, nếu có nhiều rule khớp với gói tin, rule ở trên cùng sẽ được áp dụng trước, và các rule ở dưới cùng sẽ được áp dụng sau.
+- **Hành động mặc định của chain**: Nếu không có rule nào khớp với gói tin, hoặc nếu không có quy tắc nào được đặc biệt áp dụng, thì iptables sẽ thực hiện hành động mặc định cho chain đó. 
+  - Ví dụ, trong chain filter, hành động mặc định thường là ACCEPT hoặc DROP tùy thuộc vào cấu hình của hệ thống.
+- **Cơ chế quyết định xung đột**: Trong trường hợp có mâu thuẫn giữa các rule, iptables có các cơ chế quyết định xung đột để xác định rule nào sẽ được áp dụng. Các cơ chế này có thể bao gồm "First Match Wins" (rule đầu tiên khớp được áp dụng) hoặc "Last Match Wins" (rule cuối cùng khớp được áp dụng).
+
+Trong một số trường hợp, việc xác định rõ ràng các quy tắc và ưu tiên giữa chúng là rất quan trọng để đảm bảo hệ thống iptables hoạt động như mong đợi và tránh các hiện tượng mâu thuẫn không mong muốn.
 ## Tài liệu tham khảo:
 [FPT Cloud](https://fptcloud.com/iptables/)
