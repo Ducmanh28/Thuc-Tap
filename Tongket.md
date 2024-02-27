@@ -192,3 +192,9 @@
     - Target
 
 ### Từ 20/2 - 26/2
+- Tìm hiểu Python
+- Đọc lại nội dung về IpTables
+
+### Từ 27/2 - 1/3
+- Bổ sung thông tin về IpTables
+  - 

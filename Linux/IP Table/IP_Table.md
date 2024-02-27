@@ -334,7 +334,6 @@ Ví dụ, một gói tin có thể chỉ cần đi qua bảng filter để kiể
 Tuy nhiên, trong một số trường hợp, gói tin có thể đi qua nhiều bảng, đặc biệt là khi cần thực hiện các chức năng như NAT hoặc khi cần thay đổi header của gói tin trong bảng mangle. Nhưng không phải tất cả các gói tin đều cần đi qua mọi bảng. Quyết định về việc một gói tin đi qua các bảng nào được dựa trên cấu hình và các quy tắc được định nghĩa trong iptables.
 ### Khi các rule bị mâu thuẫn với nhau thì điều gì xảy ra?
 Khi có hiện tượng mâu thuẫn giữa các rule trong cùng một bảng của iptables, quyết định về cách xử lý gói tin sẽ được áp dụng theo một số nguyên tắc ưu tiên:
-- **Ưu tiên của rule đặc biệt hơn rule chung**: Nếu có một rule cụ thể mà khớp với gói tin hơn so với một rule chung, thì rule cụ thể đó sẽ được ưu tiên áp dụng.
 - **Thứ tự của các rule trong chain**: Rule ở phía trên trong chain sẽ được áp dụng trước. Do đó, nếu có nhiều rule khớp với gói tin, rule ở trên cùng sẽ được áp dụng trước, và các rule ở dưới cùng sẽ được áp dụng sau.
 - **Hành động mặc định của chain**: Nếu không có rule nào khớp với gói tin, hoặc nếu không có quy tắc nào được đặc biệt áp dụng, thì iptables sẽ thực hiện hành động mặc định cho chain đó. 
   - Ví dụ, trong chain filter, hành động mặc định thường là ACCEPT hoặc DROP tùy thuộc vào cấu hình của hệ thống.
