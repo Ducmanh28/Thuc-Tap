@@ -8,6 +8,7 @@ MỤC LỤC
     - [Thực hiện thêm rule bằng cách chỉnh sửa file cấu hình](#thực-hiện-thêm-rule-bằng-cách-chỉnh-sửa-file-cấu-hình)
   - [Thêm các rule cho IpTables bằng lệnh](#thêm-các-rule-cho-iptables-bằng-lệnh)
 - [Một số câu lệnh bổ sung:](#một-số-câu-lệnh-bổ-sung)
+  - [Cấu hình IP Table cho một số bài toán](#cấu-hình-ip-table-cho-một-số-bài-toán)
 
 # Cài đặt IP Tables
 Mặc định các máy đã được cài sẵn Firewalld. Vậy nên trước khi tiến hành cài đặt chúng ta cần kiểm tra xem các dịch vụ của Firewalld có đang bật hay không, nếu có hãy thực hiện tắt chúng 
@@ -199,3 +200,4 @@ iptables -t <tables> -L
 ```
 iptables -t nat -A POSTROUTING -o ens33 -s 192.168.68.187/24 -j SNAT --to-source 11.22.33.44
 ```
+## Cấu hình IP Table cho một số bài toán

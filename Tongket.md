@@ -197,4 +197,13 @@
 
 ### Từ 27/2 - 1/3
 - Bổ sung thông tin về IpTables
-  - 
+  - Thứ tự các bảng mà gói tin phải đi qua
+  - Quy trình xử lý một gói tin
+  - Khi có mâu thuẫn giữa các rule
+  - Nội dung các file cấu hình của IpTables
+- Sử dụng IpTables trên CentOS 7 
+  - Cài đặt
+  - Thêm rule bằng 2 cách
+    - Bằng cách chỉnh sửa file cấu hình
+    - Bằng cách thao tác với các lệnh
+  - Làm một số bài toán cấu hình IpTables:
