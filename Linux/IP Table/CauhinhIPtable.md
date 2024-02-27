@@ -7,6 +7,7 @@ MỤC LỤC
       - [File iptables-config](#file-iptables-config)
     - [Thực hiện thêm rule bằng cách chỉnh sửa file cấu hình](#thực-hiện-thêm-rule-bằng-cách-chỉnh-sửa-file-cấu-hình)
   - [Thêm các rule cho IpTables bằng lệnh](#thêm-các-rule-cho-iptables-bằng-lệnh)
+- [Một số câu lệnh bổ sung:](#một-số-câu-lệnh-bổ-sung)
 
 # Cài đặt IP Tables
 Mặc định các máy đã được cài sẵn Firewalld. Vậy nên trước khi tiến hành cài đặt chúng ta cần kiểm tra xem các dịch vụ của Firewalld có đang bật hay không, nếu có hãy thực hiện tắt chúng 
@@ -170,3 +171,31 @@ systemctl restart iptables
 iptables -L
 ```
 ![](/Anh/Screenshot_452.png)
+
+# Một số câu lệnh bổ sung:
+- Xoá tất cả rule đã thiết lập:
+```
+iptables -F
+```
+- Xem các rule đã có:
+```
+iptables -L
+``` 
+- Xoá dòng thứ n của chain chỉ định
+```
+iptables -D <chain> n
+```
+- Mặc định nếu ta không chỉ ra table trong iptables thì nó sẽ hiểu là `Filter Tables`. Nhưng khi ta muốn sử dụng tables khác thì ta chỉ cần chỉ đích danh bảng đó ra:
+```
+iptables -t <tables>
+``` 
+- Kết hợp gọi bảng và xem các chain trong bảng, các rules:
+```
+iptables -t <tables> -L
+```
+![](/Anh/Screenshot_453.png) 
+
+- Cài đặt cho các gói đến từ mạng `192.168.68.187/24` và thoát qua ens33 sẽ nhận được địa chỉ IP nguồn được đặt thành `11.22.33.44`
+```
+iptables -t nat -A POSTROUTING -o ens33 -s 192.168.68.187/24 -j SNAT --to-source 11.22.33.44
+```
