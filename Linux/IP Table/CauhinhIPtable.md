@@ -259,6 +259,7 @@ Vậy là bạn đã thành công
 ### Chỉ cho phép truy cập vào máy chủ vào một số thời điểm nhất định 
 Yêu cầu đề ra: Chỉ cho phép kết nối vào giờ hành chính
 - Giờ hành chính: 8:00 - 18:00
+- Tuy nhiên các Server sẽ tuân theo múi giờ UTC nên chúng ta cần phải đổi sang giờ Việt Nam là 1:00 - 11:00
 
 Thực hành:
 - Trước tiên, chúng ta sẽ cần xoá tất cả các rules đã thiết lập
@@ -269,7 +270,7 @@ Sau đó thêm rule mới vào như sau:
 - Truy cập vào file cấu hình của IpTables thông qua trình soạn thảo VIM
 - Thực hiện thêm vào 1 rule như sau:
 ```
--A INPUT -p tcp --dport 22 -m time --timestart 08:00 --timestop 18:00 -j ACCEPT 
+-A INPUT -p tcp --dport 22 -m time --timestart 01:00 --timestop 11:00 -j ACCEPT 
 ```
 - Hiểu nội dung đoạn code trên cơ bản là:
   - **-A INPUT**: Thêm vào INPUT
