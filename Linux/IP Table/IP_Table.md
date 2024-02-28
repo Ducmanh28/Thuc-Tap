@@ -14,7 +14,7 @@ Mục Lục
       - [Sercurity Table](#sercurity-table)
     - [Chains](#chains)
     - [Rule:](#rule)
-  - [Thứ tự các bảng mà một gói tin phải đi qua](#thứ-tự-các-bảng-mà-một-gói-tin-phải-đi-qua)
+  - [Thứ tự các chain trong mỗi bảng mà một gói tin phải đi qua](#thứ-tự-các-chain-trong-mỗi-bảng-mà-một-gói-tin-phải-đi-qua)
   - [Quy trình xử lý gói tin của IP Table](#quy-trình-xử-lý-gói-tin-của-ip-table)
     - [Quyết định bảng:](#quyết-định-bảng)
     - [Chọn Chain:](#chọn-chain)
@@ -179,12 +179,35 @@ Mỗi rule bao gồm các phần chính sau:
   - **LOG** (ghi log về gói tin), 
   - **REDIRECT** (chuyển hướng) 
   - **MARK** (đánh dấu gói tin).
-## Thứ tự các bảng mà một gói tin phải đi qua 
-- Bảng RAW: Gói tin được xử lý trong bảng này trước tiên. Bảng này thường được sử dụng để cấu hình các quy tắc để ảnh hưởng đến gói tin trước khi các quy tắc trong các bảng khác được áp dụng
-- Bảng Mangle: Bảng này thường được sử dụng để thay đổi các trường trong header của gói tin, nhưng cũng có thể được sử dụng để áp dụng các quy tắc tùy chỉnh khác.
-- Bảng NAT: Gói tin được xử lý trong bảng nat để thực hiện các chức năng NAT (Network Address Translation) như chuyển đổi địa chỉ IP và cổng.
-- Bảng Filter: Cuối cùng, gói tin đi qua bảng filter để kiểm tra và quyết định liệu gói tin đó có được chấp nhận (accept), từ chối (drop), hay xử lý theo các quy tắc khác được định nghĩa trong bảng này
+## Thứ tự các chain trong mỗi bảng mà một gói tin phải đi qua 
+Table raw:
+- PREROUTING
+- OUTPUT
 
+Table mangle:
+- PREROUTING
+- INPUT
+- FORWARD
+- OUTPUT
+- POSTROUTING
+
+Table nat:
+- PREROUTING
+- INPUT
+- OUTPUT
+- POSTROUTING
+
+Table filter:
+- INPUT
+- FORWARD
+- OUTPUT
+
+Table security:
+- INPUT
+- OUTPUT
+- FORWARD
+
+Trong mỗi chain, các quy tắc được áp dụng theo thứ tự từ trên xuống dưới. Một gói tin sẽ được xử lý bởi quy tắc đầu tiên mà nó khớp và tuân thủ điều kiện của nó. Nếu không có quy tắc nào khớp, gói tin sẽ tiếp tục đi qua chain theo thứ tự cho đến khi nó khớp với một quy tắc hoặc đạt đến cuối chain.
 ## Quy trình xử lý gói tin của IP Table
 ### Quyết định bảng:
 Khi một gói tin đến, kernel sẽ xác định bảng mà gói tin sẽ được xử lý. Quyết định này sẽ dựa trên mục đích của gói tin
