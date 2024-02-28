@@ -211,3 +211,4 @@
     - Cho phép truy cập SSH từ 1 IP
     - Giới hạn thời gian SSH
     - Giới hạn tần suất các gói tin TCP đến cổng 80
+    - Mở cổng 80 cho phép truy cập vào 1 trang web cụ thể và chặn truy cập vào các trang web khác

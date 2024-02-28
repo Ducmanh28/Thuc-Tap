@@ -13,6 +13,7 @@ MỤC LỤC
     - [Chặn tất cả truy cập SSH trừ một IP](#chặn-tất-cả-truy-cập-ssh-trừ-một-ip)
     - [Chỉ cho phép truy cập vào máy chủ vào một số thời điểm nhất định](#chỉ-cho-phép-truy-cập-vào-máy-chủ-vào-một-số-thời-điểm-nhất-định)
     - [Giới hạn tần suất các gói tin tcp tới cổng 80](#giới-hạn-tần-suất-các-gói-tin-tcp-tới-cổng-80)
+    - [Mở port 80 để truy cập các trang web local](#mở-port-80-để-truy-cập-các-trang-web-local)
 
 # Cài đặt IP Tables
 Mặc định các máy đã được cài sẵn Firewalld. Vậy nên trước khi tiến hành cài đặt chúng ta cần kiểm tra xem các dịch vụ của Firewalld có đang bật hay không, nếu có hãy thực hiện tắt chúng 
@@ -307,3 +308,40 @@ Hiểu đơn giản lệnh trên như sau:
 - `-m limit --limit 25/minute --limit-burst 100`: Sử dụng module **limit** của IpTables để giới hạn tần suất của gói tin. Quy định nhận tối đa 25 gói tin mỗi phút và 100 gói tin mỗi lần. Nếu số lượng gửi vượt quá thì chỉ nhận 25 gói tin đầu, các gói tin thừa sẽ được gửi vào hàng chờ
 
 Sau đó, chúng ta sẽ lưu và thoát khỏi VIM, rồi thực hiện khởi động lại IpTables
+
+### Mở port 80 để truy cập các trang web local
+Ban đầu khi chưa mở port, các trang web chúng ta dùng nginx để tạo ra sẽ không thể truy cập được
+
+![](/Anh/Screenshot_456.png)
+
+Bây giờ chúng ta tiến hành mở port thông qua IpTables 
+- Sử dụng trình soạn thảo văn bản VIM
+```
+vim /etc/sysconfig/iptables
+```
+- Thực hiện thêm vào rule sau:
+```
+-A INPUT -p tcp --dport 80 -j ACCEPT
+```
+- Sau đó, thoát khỏi VIM và thực hiện khởi động lại IpTables
+```
+systemctl restart iptables
+```
+
+Kiểm tra lại kết quả
+- Lúc này, bạn đã có thể truy cập trang web local của mình
+
+![](/Anh/Screenshot_457.png)
+
+Chúng ta cũng có thể cấu hình IpTables để chỉ cho phép kết nối đến trang web nhất định bằng cách thêm vào rule sau:
+```
+-A OUTPUT -p tcp -m string --string "bailamthu1.com" --algo bm -j ACCEPT
+
+-A OUTPUT -p tcp -j REJECT --reject-with tcp-reset
+```
+Hiểu dòng lệnh trên như sau:
+- `--algo bm`: Xác định thuật toán tìm kiếm chuỗi. Trong trường hợp này, bm là viết tắt của thuật toán Boyer-Moore, một thuật toán hiệu quả để tìm kiếm chuỗi trong văn bản.
+- `-m string --string "bailamthu1"`: 
+  - Sử dụng module string để kiểm tra chuỗi trong nội dung của gói tin. 
+  - `--string "bailamthu1.com"` chỉ định chuỗi cụ thể mà bạn muốn kiểm tra, trong trường hợp này là "bailamthu1". Điều này có nghĩa là chỉ có các gói tin chứa chuỗi "bailamthu1" mới sẽ được áp dụng quy tắc này.
+- `REJECT --reject-with tcp-reset`: chặn tất cả các kết nối không khớp và gửi kết quả "reset" cho client. Điều này giúp tránh trường hợp client chờ đợi timeout. 
