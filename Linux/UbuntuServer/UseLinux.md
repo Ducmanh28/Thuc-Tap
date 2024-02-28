@@ -736,12 +736,11 @@ Lệnh curl là một công cụ dòng lệnh và thư viện được sử dụ
 
 Bạn có thể thiết lập các tùy chọn cho lệnh curl bằng hàm curl_setopt hoặc curl_setopt_array trong PHP23. Một số tùy chọn phổ biến là:
 
-`CURLOPT_RETURNTRANSFER`: TRUE để curl_exec() trả về chuỗi chứ không xuất thẳng ra màn hình.
-`CURLOPT_CONNECTTIMEOUT`: Thời gian cho phép curl cố gắng kết nối (giây), 0 vô tận.
-`CURLOPT_USERAGENT`: Nội dung của dòng User-Agent: trong header của HTTP khi gửi yêu cầu.
-`CURLOPT_URL`: URL mà curl gửi yêu cầu.
-`CURLOPT_POST`: TRUE – Thiết lập yêu cầu gửi theo phương thức POST.
-`CURLOPT_POSTFIELDS`: Mảng dữ liệu để POST.
-Bạn có thể xem thêm danh sách đầy đủ các tùy chọn curl tại đây.
+- `CURLOPT_RETURNTRANSFER`: TRUE để curl_exec() trả về chuỗi chứ không xuất thẳng ra màn hình.
+- `CURLOPT_CONNECTTIMEOUT`: Thời gian cho phép curl cố gắng kết nối (giây), 0 vô tận.
+- `CURLOPT_USERAGENT`: Nội dung của dòng User-Agent: trong header của HTTP khi gửi yêu cầu.
+- `CURLOPT_URL`: URL mà curl gửi yêu cầu.
+- `CURLOPT_POST`: TRUE – Thiết lập yêu cầu gửi theo phương thức POST.
+- `CURLOPT_POSTFIELDS`: Mảng dữ liệu để POST.
 
 Sau khi thiết lập xong các tùy chọn, bạn có thể thực thi lệnh curl bằng hàm `curl_exec` và đóng lệnh curl bằng hàm `curl_close`.

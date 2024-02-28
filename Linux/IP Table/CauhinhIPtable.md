@@ -9,6 +9,10 @@ MỤC LỤC
   - [Thêm các rule cho IpTables bằng lệnh](#thêm-các-rule-cho-iptables-bằng-lệnh)
 - [Một số câu lệnh bổ sung:](#một-số-câu-lệnh-bổ-sung)
   - [Cấu hình IP Table cho một số bài toán](#cấu-hình-ip-table-cho-một-số-bài-toán)
+    - [Cấu hình IP Tables chặn một IP cụ thể](#cấu-hình-ip-tables-chặn-một-ip-cụ-thể)
+    - [Chặn tất cả truy cập SSH trừ một IP](#chặn-tất-cả-truy-cập-ssh-trừ-một-ip)
+    - [Chỉ cho phép truy cập vào máy chủ vào một số thời điểm nhất định](#chỉ-cho-phép-truy-cập-vào-máy-chủ-vào-một-số-thời-điểm-nhất-định)
+    - [Giới hạn tần suất các gói tin tcp tới cổng 80](#giới-hạn-tần-suất-các-gói-tin-tcp-tới-cổng-80)
 
 # Cài đặt IP Tables
 Mặc định các máy đã được cài sẵn Firewalld. Vậy nên trước khi tiến hành cài đặt chúng ta cần kiểm tra xem các dịch vụ của Firewalld có đang bật hay không, nếu có hãy thực hiện tắt chúng 
@@ -201,3 +205,104 @@ iptables -t <tables> -L
 iptables -t nat -A POSTROUTING -o ens33 -s 192.168.68.187/24 -j SNAT --to-source 11.22.33.44
 ```
 ## Cấu hình IP Table cho một số bài toán
+### Cấu hình IP Tables chặn một IP cụ thể
+Để chặn một IP cụ thể nhưng lại cho phép tất cả các IP khác kết nối chúng ta cần chỉnh sửa lại file cấu hình Ip Tables như sau:
+- Truy cập file cấu hình IpTables thông qua trình soạn thảo VIM:
+```
+vim /etc/sysconfig/iptables 
+```
+- Thực hiện chỉnh sửa nội dung file:
+```
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -s 192.168.217.120 -j DROP
+```
+- Thực hiện lưu file và thoát khỏi VIM
+- Sau đó khởi động lại dịch vụ IpTables
+
+Lúc này, IpTables sẽ chặn Ip 192.168.217.120
+
+### Chặn tất cả truy cập SSH trừ một IP 
+Trước tiên, chúng ta tiến hành ngắt tất cả truy cập SSH
+- Truy cập vào file cấu hình của IpTables ở đường dẫn `/etc/sysconfig/iptables`
+- Sử dụng VIM để thực hiện chỉnh sửa file
+- Chỉnh sửa thành nội dung như sau:
+```
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+COMMIT
+```
+- Chúng ta sẽ DROP tất cả các gói tin tới và chuyển tiếp khỏi máy
+- Lúc này, bạn không thể SSH vào Server được nữa
+- ![](/Anh/Screenshot_454.png)
+
+Tiến hành thêm vào câu lệnh như sau:
+```
+-A INPUT -p tcp -s 192.168.68.187 --dport 22 -j ACCEPT 
+```
+- Thực hiện lưu và thoát khỏi VIM
+- Sau đó khởi động lại IpTables
+```
+systemctl restart iptables
+```
+- Sau đó thực hiện SSH lại từ máy có địa chỉ IP như trên
+- ![](/Anh/Screenshot_455.png)
+
+Vậy là bạn đã thành công
+
+### Chỉ cho phép truy cập vào máy chủ vào một số thời điểm nhất định 
+Yêu cầu đề ra: Chỉ cho phép kết nối vào giờ hành chính
+- Giờ hành chính: 8:00 - 18:00
+
+Thực hành:
+- Trước tiên, chúng ta sẽ cần xoá tất cả các rules đã thiết lập
+```
+iptables -F
+```
+Sau đó thêm rule mới vào như sau:
+- Truy cập vào file cấu hình của IpTables thông qua trình soạn thảo VIM
+- Thực hiện thêm vào 1 rule như sau:
+```
+-A INPUT -p tcp --dport 22 -m time --timestart 08:00 --timestop 18:00 -j ACCEPT 
+```
+- Hiểu nội dung đoạn code trên cơ bản là:
+  - **-A INPUT**: Thêm vào INPUT
+  - **-p tcp**: protocol - giao thức tcp
+  - **--dport**: thông qua port 22
+  - **-m time**: để sử dụng module thời gian
+    - **--timestart**: thời gian bắt đầu
+    - **--timestop**: thời gian kết thúc
+  - **-j ACCEPT**: hành động thực hiện là chấp nhận kết nối
+- Sau khi viết xong, ta thực hiện thoát và lưu file 
+- Sau đó, tiến hành khởi động lại IpTables
+```
+systemctl restart iptables
+```
+Vậy là bạn đã thành công. Lúc này, bạn chỉ có thể SSH vào Server trong khoảng thời gian từ 8:00 - 18:00 giờ hằng ngày
+
+### Giới hạn tần suất các gói tin tcp tới cổng 80
+Xoá tất cả các rules đã thiết lập trong IpTables và thực hiện khởi động lại IpTables
+```
+iptables -F
+systemctl restart iptables
+```
+
+Truy cập vào file cấu hình của IpTables thông qua trình soạn thảo VIM:
+```
+vim /etc/sysconfig/iptables
+```
+Thực hiện thêm vào rule như sau:
+```
+-A INPUT -p tcp --dport 80 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
+```
+Hiểu đơn giản lệnh trên như sau:
+- Các phần đầu đoạn mã giống hệt các phần đã giải thích ở trên
+- `-m limit --limit 25/minute --limit-burst 100`: Sử dụng module **limit** của IpTables để giới hạn tần suất của gói tin. Quy định nhận tối đa 25 gói tin mỗi phút và 100 gói tin mỗi lần. Nếu số lượng gửi vượt quá thì chỉ nhận 25 gói tin đầu, các gói tin thừa sẽ được gửi vào hàng chờ
+
+Sau đó, chúng ta sẽ lưu và thoát khỏi VIM, rồi thực hiện khởi động lại IpTables

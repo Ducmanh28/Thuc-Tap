@@ -342,3 +342,5 @@ Khi có hiện tượng mâu thuẫn giữa các rule trong cùng một bảng c
 Trong một số trường hợp, việc xác định rõ ràng các quy tắc và ưu tiên giữa chúng là rất quan trọng để đảm bảo hệ thống iptables hoạt động như mong đợi và tránh các hiện tượng mâu thuẫn không mong muốn.
 ## Tài liệu tham khảo:
 [FPT Cloud](https://fptcloud.com/iptables/)
+
+[Chat GPT](https://chat.openai.com)

@@ -207,3 +207,7 @@
     - Bằng cách chỉnh sửa file cấu hình
     - Bằng cách thao tác với các lệnh
   - Làm một số bài toán cấu hình IpTables:
+    - Chặn 1 địa chỉ IP cụ thể
+    - Cho phép truy cập SSH từ 1 IP
+    - Giới hạn thời gian SSH
+    - Giới hạn tần suất các gói tin TCP đến cổng 80
