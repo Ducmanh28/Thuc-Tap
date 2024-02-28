@@ -24,6 +24,9 @@ Mục Lục
   - [Linux Fundamentals](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/LinuxFundamentals)
     - [Introduction Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/LinuxFundamentals/GioithieuLinux.md)
     - [First Step](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/LinuxFundamentals/FirstStepsOnCommandLine.md)
+  - [IP Tables](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/IP%20Table)
+    - [Lý thuyết IpTables](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/IP%20Table/IP_Table.md)
+    - [Cấu hình IpTables](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/IP%20Table/CauhinhIPtable.md)
   - [LinuxvsProtocol](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/Linuxvagiaothucmang)
     - [Tìm hiểu giao thức SSH](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux/Linuxvagiaothucmang/SecureShell)
       - [SSH](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/Linuxvagiaothucmang/SecureShell/SSH.md)
@@ -47,6 +50,7 @@ Mục Lục
   - [Server Vật Lý](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/Server.md)
   - [Content](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/hocviettailieu.md)
   - [Cách đưa website lên Internet](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/DuawebsitelenInternet.md)
+  - [UsefullBash](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Timhieuthem/UsefullBash.md)
   
 
 
