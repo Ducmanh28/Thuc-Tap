@@ -345,3 +345,9 @@ Hiểu dòng lệnh trên như sau:
   - Sử dụng module string để kiểm tra chuỗi trong nội dung của gói tin. 
   - `--string "bailamthu1.com"` chỉ định chuỗi cụ thể mà bạn muốn kiểm tra, trong trường hợp này là "bailamthu1". Điều này có nghĩa là chỉ có các gói tin chứa chuỗi "bailamthu1" mới sẽ được áp dụng quy tắc này.
 - `REJECT --reject-with tcp-reset`: chặn tất cả các kết nối không khớp và gửi kết quả "reset" cho client. Điều này giúp tránh trường hợp client chờ đợi timeout. 
+
+Kiểm tra kết quả:
+- Web bài làm thứ 2 lúc này không thể truy cập được
+- ![](/Anh/Screenshot_458.png)
+- Tuy nhiên web bài làm thứ 1 vẫn có thể truy cập bình thường
+- ![](/Anh/Screenshot_457.png)
