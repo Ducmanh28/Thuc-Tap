@@ -10,7 +10,6 @@ MỤC LỤC
 - [Một số câu lệnh bổ sung:](#một-số-câu-lệnh-bổ-sung)
   - [Cấu hình IP Table cho một số bài toán](#cấu-hình-ip-table-cho-một-số-bài-toán)
     - [Cấu hình IP Tables chặn một IP cụ thể](#cấu-hình-ip-tables-chặn-một-ip-cụ-thể)
-    - [Chặn tất cả truy cập SSH trừ một IP](#chặn-tất-cả-truy-cập-ssh-trừ-một-ip)
     - [Chỉ cho phép truy cập vào máy chủ vào một số thời điểm nhất định](#chỉ-cho-phép-truy-cập-vào-máy-chủ-vào-một-số-thời-điểm-nhất-định)
     - [Giới hạn tần suất các gói tin tcp tới cổng 80](#giới-hạn-tần-suất-các-gói-tin-tcp-tới-cổng-80)
     - [Mở port 80 để truy cập các trang web local](#mở-port-80-để-truy-cập-các-trang-web-local)
@@ -226,37 +225,6 @@ vim /etc/sysconfig/iptables
 - Sau đó khởi động lại dịch vụ IpTables
 
 Lúc này, IpTables sẽ chặn Ip 192.168.217.120
-
-### Chặn tất cả truy cập SSH trừ một IP 
-Trước tiên, chúng ta tiến hành ngắt tất cả truy cập SSH
-- Truy cập vào file cấu hình của IpTables ở đường dẫn `/etc/sysconfig/iptables`
-- Sử dụng VIM để thực hiện chỉnh sửa file
-- Chỉnh sửa thành nội dung như sau:
-```
-*filter
-:INPUT DROP [0:0]
-:FORWARD DROP [0:0]
-:OUTPUT ACCEPT [0:0]
-COMMIT
-```
-- Chúng ta sẽ DROP tất cả các gói tin tới và chuyển tiếp khỏi máy
-- Lúc này, bạn không thể SSH vào Server được nữa
-- ![](/Anh/Screenshot_454.png)
-
-Tiến hành thêm vào câu lệnh như sau:
-```
--A INPUT -p tcp -s 192.168.68.187 --dport 22 -j ACCEPT 
-```
-- Thực hiện lưu và thoát khỏi VIM
-- Sau đó khởi động lại IpTables
-```
-systemctl restart iptables
-```
-- Sau đó thực hiện SSH lại từ máy có địa chỉ IP như trên
-- ![](/Anh/Screenshot_455.png)
-
-Vậy là bạn đã thành công
-
 ### Chỉ cho phép truy cập vào máy chủ vào một số thời điểm nhất định 
 Yêu cầu đề ra: Chỉ cho phép kết nối vào giờ hành chính
 - Giờ hành chính: 8:00 - 18:00
