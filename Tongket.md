@@ -212,3 +212,9 @@
     - Giới hạn thời gian SSH
     - Giới hạn tần suất các gói tin TCP đến cổng 80
     - Mở cổng 80 cho phép truy cập vào 1 trang web cụ thể và chặn truy cập vào các trang web khác
+  - Lab IpTables trên CentOS 9:
+    - Học cách cài đặt và sử dụng
+    - Lab 1 số bài toán cơ bản như ở CentOS 7
+    - Lab 1 số bài toán nâng cao hơn:
+      - Cấu hình IpTables giới hạn SSH vào Server và gửi cảnh báo cho người dùng số lần đã SSH
+      - 

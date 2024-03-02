@@ -126,15 +126,45 @@ service iptables restart
 Tiếp đó, ta cần một script bash để hiển thị số lần đã SSH cho người truy cập
 ```
 vim ssh_count.sh
-
+```
+```
 #!/bin/bash
 
-# Lấy số lần kết nối từ log của iptables
-count=$(grep -c "SSH connection" /var/log/messages)
+ssh_logs=$(grep "sshd.*Accepted" /var/log/secure)
 
-# In số lần kết nối đã thực hiện
-echo "Number of SSH connections today: $count"
+declare -A ssh_counts
+
+while IFS= read -r line; do
+    user=$(echo "$line" | awk '{print $NF}')
+
+    ((ssh_counts[$user]++))
+done <<< "$ssh_logs"
+
+for user in "${!ssh_counts[@]}"; do
+    echo "User: $user - SSH connections: ${ssh_counts[$user]}"
+done
 ```
+Giải thích một chút:
+- `ssh_logs=$(grep "sshd.*Accepted" /var/log/secure)`:
+  - Dòng này sử dụng lệnh grep để tìm kiếm các dòng trong file /var/log/secure chứa cụm từ "sshd" và "Accepted". Điều này phù hợp với các dòng log cho biết việc đăng nhập SSH đã được chấp nhận
+  - Kết quả được lưu vào biến `ssh_logs`
+- `declare -A ssh_counts`: Dòng này khai báo một mảng kết hợp có tên `ssh_counts`
+- ```
+    while IFS= read -r line; do
+        user=$(echo "$line" | awk '{print $NF}')
+        ((ssh_counts[$user]++))
+    done <<< "$ssh_logs"
+    ```
+    - Vòng lặp này đọc từng dòng trong biến ssh_logs, mỗi dòng đại diện cho một kết nối SSH đã được chấp nhận.
+    - Lệnh awk '{print $NF}' được sử dụng để lấy tên người dùng cuối cùng trong mỗi dòng, tức là người dùng đã thực hiện đăng nhập.
+    - Sau đó, số lần kết nối của mỗi người dùng được tăng lên trong mảng ssh_counts.
+- ```
+    for user in "${!ssh_counts[@]}"; do
+        echo "User: $user - SSH connections: ${ssh_counts[$user]}"
+    done
+    ```
+    - Vòng lặp này đi qua mỗi cặp key-value trong mảng `ssh_counts`
+    - Mỗi lần lặp, nó in ra thông tin về người dùng và số lần kết nối SSH của họ đã được ghi lại.
 ```
 #Cấp quyền thực thi:
 sudo chmod +x ssh_count.sh
