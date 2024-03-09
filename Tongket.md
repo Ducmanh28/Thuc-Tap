@@ -223,4 +223,3 @@
 - Lab IpTables theo Server World: 3 ví dụ
   - Tìm hiểu về giao diện mạng
   - Tìm hiểu bảng NAT của IpTables
-- Thực hành 1 số bài Python
