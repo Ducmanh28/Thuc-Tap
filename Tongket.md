@@ -216,5 +216,11 @@
     - Học cách cài đặt và sử dụng
     - Lab 1 số bài toán cơ bản như ở CentOS 7
     - Lab 1 số bài toán nâng cao hơn:
-      - Cấu hình IpTables giới hạn SSH vào Server và gửi cảnh báo cho người dùng số lần đã SSH
-      - 
+      - Cấu hình IpTables giới hạn SSH vào Server và gửi cảnh báo cho người dùng số lần đã SSH(chưa hoàn thành)
+
+### Từ 2/3 - 9/3 
+- Hoàn thành bài toán cấu hình IpTables còn dở
+- Lab IpTables theo Server World: 3 ví dụ
+  - Tìm hiểu về giao diện mạng
+  - Tìm hiểu bảng NAT của IpTables
+- Thực hành 1 số bài Python
