@@ -370,3 +370,15 @@ highlight Comment ctermfg=LightCyan # Tùy chỉnh màu của các ý kiến.
 set wrap                        # Xuống dòng tự động khi cần thiết 
 ```
 ### Sudo Setting
+Cấu hình Sudo để phân quyền người dùng
+- Cài đặt Sudo
+```
+root@ducmanhhost:/home/ducmanh287# apt -y install sudo
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+sudo is already the newest version (1.9.9-1ubuntu2.4).
+sudo set to manually installed.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+```
+- Phân quyền người dùng
