@@ -382,3 +382,8 @@ sudo set to manually installed.
 0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 ```
 - Phân quyền người dùng
+```
+root@ducmanhhost:/home/ducmanh287# 
+
+# Thêm vào dòng cuối cùng để user
+```
