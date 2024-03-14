@@ -180,7 +180,7 @@ Mỗi rule bao gồm các phần chính sau:
   - **REDIRECT** (chuyển hướng) 
   - **MARK** (đánh dấu gói tin).
 ## Thứ tự các chain trong mỗi bảng mà một gói tin phải đi qua 
-Table raw:
+Table raw :
 - PREROUTING
 - OUTPUT
 
