@@ -383,7 +383,85 @@ sudo set to manually installed.
 ```
 - Phân quyền người dùng
 ```
-root@ducmanhhost:/home/ducmanh287# 
+root@ducmanhhost:/home/ducmanh287# visudo
 
-# Thêm vào dòng cuối cùng để user
+# Thêm vào dòng cuối cùng để user ducmanh287 có thể sử dụng tất cả quyền root
+ducmanh287 ALL=(ALL:ALL) ALL
+
+# [Ctrl x] để thoát khỏi visudo
+
+# Kiểm tra lại, mặc định sẽ từ chối
+ducmanh287@ducmanhhost:~$ /sbin/reboot
+Failed to set wall message, ignoring: Interactive authentication required.
+Failed to reboot system via logind: Interactive authentication required.
+Failed to open initctl fifo: Permission denied
+Failed to talk to init daemon.
+
+# Kết hợp với sudo
+ducmanh287@ducmanhhost:~$ sudo /sbin/reboot
+[sudo] password for ducmanh287:  # Nhập password ducmanh287    
+Session stopped                  # Chạy bình thường
+
 ```
+- Thêm settings từ chối một vài câu lệnh
+```
+# Truy cập visudo
+root@ubuntusv:/home/ducmanh287# visudo
+
+# Thêm alias
+# Cmnd alias specification
+
+Cmnd_Alias SHUTDOWN = /sbin/halt, /sbin/shutdown, \
+/sbin/poweroff, /sbin/reboot, /sbin/init, /bin/systemctl
+
+# Kiểm tra lại với user ducmanh287
+ducmanh287@ubuntusv:~$ sudo /sbin/shutdown -r now
+[sudo] password for ducmanh287:
+Sorry, user ducmanh287 is not allowed to execute '/sbin/shutdown -r now' as root on ubuntusv.
+# Đã từ chối
+```
+- Cấp quyền cho một số lệnh cho users trong 1 group
+```
+root@ubuntusv:~$ visudo
+
+# Thêm alias
+# Cmnd alias specification
+
+Cmnd_Alias USERMGR = /usr/sbin/adduser, /usr/sbin/useradd, /usr/sbin/newusers, \
+/usr/sbin/deluser, /usr/sbin/userdel, /usr/sbin/usermod, /usr/bin/passwd
+
+# Thêm vào dòng cuối
+%usermgr ALL=(ALL) USERMGR
+# Ctrl x --> Y --> Enter để thoát và lưu
+
+# Thêm user
+root@ubuntusv:/home/ducmanh287# groupadd usermgr
+root@ubuntusv:/home/ducmanh287# vi /etc/group
+# Thêm vào dòng sau:
+usermgr:x:1002:ubuntusv
+
+# Kiểm tra với người dùng ducmanh287
+ducmanh287@ubuntusv:~$ sudo /usr/sbin/useradd testuser
+ducmanh287@ubuntusv:~$ sudo /usr/bin/passwd testuser
+New password:
+Retype new password:
+passwd: password updated successfully
+```
+- Nếu bạn muốn giữ Sudo logs trong 1 file khác
+```
+root@ubuntusv:/home/ducmanh287# visudo
+# Thêm vào cuối:
+Defaults syslog=local
+
+# Chỉnh sửa rsyslogs:
+root@ubuntusv:/home/ducmanh287# vi /etc/rsyslog.d/50-default.conf
+# Thêm vào dòng 8 ba dòng sau:
+local1.*                        /var/log/sudo.log
+auth,authpriv.*;local1.none     /var/log/auth.log
+*.*;auth,authpriv.none          -/var/log/syslog
+
+# Khởi động lại rsyslogs
+root@ubuntusv:/home/ducmanh287# systemctl restart rsyslog
+```
+
+
