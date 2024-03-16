@@ -223,3 +223,21 @@
 - Lab IpTables theo Server World: 3 ví dụ
   - Tìm hiểu về giao diện mạng
   - Tìm hiểu bảng NAT của IpTables
+### Từ 12/3 - 16/3
+Tìm hiểu Ubuntu 22 theo Server World
+- Install và Setting cơ bản cho Ubuntu
+  - Cài đặt
+  - Làm việc với User
+  - Cài đặt mạng
+  - Cài đặt hệ thống
+  - VIM Setting
+  - Sudo Setting
+- SSH
+  - SSH Server
+  - SSH Client
+    - Ubuntu
+    - Windows
+  - SSH File Transfer 
+    - Ubuntu
+    - Windows
+  - SSH Xác thực Key-Pair

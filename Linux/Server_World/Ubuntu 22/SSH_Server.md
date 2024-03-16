@@ -1,3 +1,15 @@
+MỤC LỤC
+- [Mục này cấu hình SSH trên Ubuntu 22](#mục-này-cấu-hình-ssh-trên-ubuntu-22)
+  - [OpenSSH: Xác thực mật khẩu](#openssh-xác-thực-mật-khẩu)
+    - [SSH Server](#ssh-server)
+    - [SSH Client](#ssh-client)
+      - [SSH Client: Ubuntu](#ssh-client-ubuntu)
+      - [SSH Client: Windows](#ssh-client-windows)
+  - [SSH File Transfer](#ssh-file-transfer)
+    - [Ubuntu](#ubuntu)
+    - [Windows](#windows)
+  - [SSH xác thực Key-Pair](#ssh-xác-thực-key-pair)
+
 # Mục này cấu hình SSH trên Ubuntu 22
 Cấu hình SSH Server để quản lý máy chủ từ xa thông qua Port 22
 ## OpenSSH: Xác thực mật khẩu
@@ -192,5 +204,16 @@ drwxr-x--- 4 ducmanh287 ducmanh287 4096 Mar 15 09:44 ../
 ```
 - Chuyển khóa từ Server đến Client
 ```
+ducmanh287@ubuntusv:~$ mkdir ~/.ssh
+ducmanh287@ubuntusv:~$ chmod 700 ~/.ssh
+# Chuyển khóa riêng tư đến đường dẫn của máy local
+ducmanh287@ubuntusv:~$ scp root@192.168.217.132:/home/ducmanh287/.ssh/id_rsa ~/.ssh/
+root@192.168.217.132's password:
+id_rsa                          100% 2655     1.8MB/s   00:00
 
+ducmanh287@ubuntusv:~$ ssh root@192.168.217.132
+Enter passphrase for key '/home/ducmanh287/.ssh/id_rsa':   # passphrase(nếu có)
+Welcome to Ubuntu 22.04 LTS (GNU/Linux 5.15.0-25-generic x86_64)
+
+root@localhost:~$     # Đăng nhập thành công
 ```
