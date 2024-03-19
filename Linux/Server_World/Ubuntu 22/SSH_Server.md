@@ -175,45 +175,77 @@ Bạn cũng có thể sử dụng MobaXterm hoặc Putty để sử dụng SFTP 
 ![](/Anh/Screenshot_496.png)
 
 ## SSH xác thực Key-Pair
-Cấu hình máy chủ SSH để đăng nhập bằng Xác thực cặp khóa.
-Tạo một khóa riêng cho máy khách và một khóa công khai để máy chủ thực hiện.
-- Tạo Key-Pair theo từng người dùng, vì vậy hãy đăng nhập với một người dùng thông thường trên SSH Server Host và hoạt động như sau.
+Cấu hình SSH cho việc kết nối an toàn giữa máy chủ và máy khách. Máy khách sẽ thực hiện tạo 1 cặp khóa private và public key, trong đó:
+- Private key sẽ là khóa chỉ nằm ở máy khách và không đem đi chia sẻ
+- Public key sẽ là khóa được chia sẻ tới các máy chủ để có thể SSH vào Server
+
+Mô tả quá trình theo sơ đồ sẽ trông như sau:
+
+![](/Anh/Screenshot_497.png)
+
+Tôi sẽ sử dụng máy client là máy khách CentOS 9, máy chủ sẽ là máy UbuntuSV 22.
+
+Qúa trình sẽ được thực hiện như sau:
+- Thực hiện tạo cặp khóa trên máy Client: 
 ```
-ducmanh287@ubuntusv:~$ ssh-keygen
+[root@localhost ducmanh287]# ssh-keygen
 Generating public/private rsa key pair.
-Enter file in which to save the key (/home/ducmanh287/.ssh/id_rsa):
+Enter file in which to save the key (/root/.ssh/id_rsa):
+Created directory '/root/.ssh'.
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
-Your identification has been saved in /home/ducmanh287/.ssh/id_rsa
-Your public key has been saved in /home/ducmanh287/.ssh/id_rsa.pub
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
 The key fingerprint is:
-SHA256:H9fLOk6/71G+WGujssj82Vg1szS7A4nh3VU5IdrpOSI ducmanh287@ubuntusv
+SHA256:pyOZyguDwFiUaiBKif/nEIeVg4XOdc0Lm+epzTAuFyY root@localhost.localdomain
 The key's randomart image is:
-...
-...
-ducmanh287@ubuntusv:~$ cd .ssh/
-ducmanh287@ubuntusv:~/.ssh$ ll
-total 24
-drwx------ 2 ducmanh287 ducmanh287 4096 Mar 15 10:00 ./
-drwxr-x--- 4 ducmanh287 ducmanh287 4096 Mar 15 09:44 ../
--rw------- 1 ducmanh287 ducmanh287    0 Mar 15 06:56 authorized_keys
--rw------- 1 ducmanh287 ducmanh287 2602 Mar 15 10:00 id_rsa
--rw-r--r-- 1 ducmanh287 ducmanh287  573 Mar 15 10:00 id_rsa.pub
--rw------- 1 ducmanh287 ducmanh287  978 Mar 15 08:34 known_hosts
--rw-r--r-- 1 ducmanh287 ducmanh287  142 Mar 15 08:34 known_hosts.old
+......
+------
+......
 ```
-- Chuyển khóa từ Server đến Client
+- Sau khi đã tạo khóa xong, copy khóa công khai tới Server:
 ```
-ducmanh287@ubuntusv:~$ mkdir ~/.ssh
-ducmanh287@ubuntusv:~$ chmod 700 ~/.ssh
-# Chuyển khóa riêng tư đến đường dẫn của máy local
-ducmanh287@ubuntusv:~$ scp root@192.168.217.132:/home/ducmanh287/.ssh/id_rsa ~/.ssh/
-root@192.168.217.132's password:
-id_rsa                          100% 2655     1.8MB/s   00:00
+[root@localhost .ssh]# scp id_rsa.pub ducmanh287@192.168.217.128:/home/.ssh
+ducmanh287@192.168.217.128's password:    # Nhập password
+id_rsa.pub                      100%  408   332.7KB/s   00:00
+[root@localhost .ssh]#
+```
+- Thực hiện SSH vào Server bằng cách nhập Password
+```
+[root@localhost .ssh]# ssh ducmanh287@192.168.217.128
+ducmanh287@192.168.217.128's password:
+Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-100-generic x86_64)
 
-ducmanh287@ubuntusv:~$ ssh root@192.168.217.132
-Enter passphrase for key '/home/ducmanh287/.ssh/id_rsa':   # passphrase(nếu có)
-Welcome to Ubuntu 22.04 LTS (GNU/Linux 5.15.0-25-generic x86_64)
-
-root@localhost:~$     # Đăng nhập thành công
+ducmanh287@ubuntusv:~$
 ```
+- Tạo thư mục `.ssh` và file `authorized_keys`, sau đó copy nội dung file `id_rsa.pub` vào file `authorized_keys`. Cuối cùng là thực hiện cấp quyền:
+```
+# Tạo thư mục và file
+root@ubuntusv:/home# mkdir .ssh
+root@ubuntusv:/home# cd .ssh
+root@ubuntusv:/home/.ssh# touch authorized_keys
+# Cấp quyền
+root@ubuntusv:/home/.ssh# chmod 700 /home/.ssh
+root@ubuntusv:/home/.ssh# chmod 600 /home/.ssh/authorized_keys
+# Chuyển nội dung file
+root@ubuntusv:/home/.ssh# cat id_rsa.pub >> authorized_keys
+```
+- Tắt tính tăng đăng nhập bằng mật khẩu trong ssh_config
+```
+root@ubuntusv:/home/.ssh# vim /etc/ssh/ssh_config
+PasswordAuthentication no
+:wq
+root@ubuntusv:/home/.ssh# systemctl restart sshd
+```
+Vậy còn SSH giữa máy Windows và Server Ubuntu thì làm như thế nào? Ở đây, tôi sử dụng phần mềm trung gian là MobaXterm. Mô hình hoạt động sẽ trông như sau:
+
+![](/Anh/Screenshot_498.png)
+
+Cách làm sẽ trông như sau:
+- Trước tiên, ta dùng Tools trên MobaXterm để tạo cặp khóa:
+  - Vào **Tools** --> **MobaKeyGen** --> **Generate**
+  - ![](/Anh/Screenshot_499.png)
+  - Sau khi chọn nơi lưu file, chúng ta được 2 file trong đó 1 là Public Key, 1 là Private Key
+  - ![](/Anh/Screenshot_500.png)
+- Truy cập vào Server thông qua cách đăng nhập bằng Password,
+- Tạo file `.ssh/authorized_keys` và paste nội dung khóa Public vào file đấy.
