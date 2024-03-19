@@ -249,3 +249,6 @@ Cách làm sẽ trông như sau:
   - ![](/Anh/Screenshot_500.png)
 - Truy cập vào Server thông qua cách đăng nhập bằng Password,
 - Tạo file `.ssh/authorized_keys` và paste nội dung khóa Public vào file đấy.
+- Khi đăng nhập bằng MobaXterm, lúc này chúng ta chọn **Advanced SSH settings**
+- Tích vào ô **Use private key**, chọn đường dẫn tới file chứa **Private key**, sau đó kết nối. Lúc này, chúng ta không cần sử dụng Password nữa
+- ![](/Anh/Screenshot_501.png)
