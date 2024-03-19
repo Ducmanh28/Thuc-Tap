@@ -22,3 +22,8 @@ Thường được triển khai dưới dạng một ứng dụng dòng lệnh.
 - Bộ lọc: Cho phép người dùng lọc và chỉ định loại lưu lượng mạng cụ thể mà họ muốn theo dõi
 - Giao diện lập trình ứng dụng(API): Cung cấp khả năng tích hợp TCPdump vào các ứng dụng mạng khác
 
+Để lựa chọn gói tin phù hợp với nhu cầu của người sử dụng, tcpdump sẽ xuất ra màn hình một gói tin chạy trên card mạng mà máy chủ đang lắng nghe
+
+Tùy vào các lựa chọn khác nhau mà người sử dụng có thể xuất mô tả ra một gói tin thành một file "`pcap`" để phân tích và có thể đọc nội dung "`pcap`" đó với tcpdump, hoặc sử dụng phần mềm khác như: WireShark trên Windows.
+
+Đối với những trường hợp không có lựa chọn nào, 
