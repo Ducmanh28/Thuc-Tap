@@ -237,6 +237,13 @@ PasswordAuthentication no
 :wq
 root@ubuntusv:/home/.ssh# systemctl restart sshd
 ```
+- Thử đăng nhập:
+```
+[ducmanh287@localhost ~]$ ssh ducmanh287@192.168.217.128
+Enter passphrase for key '/home/ducmanh287/.ssh/id_rsa':
+
+ducmanh287@ubuntusv:~$        # Thành công
+```
 Vậy còn SSH giữa máy Windows và Server Ubuntu thì làm như thế nào? Ở đây, tôi sử dụng phần mềm trung gian là MobaXterm. Mô hình hoạt động sẽ trông như sau:
 
 ![](/Anh/Screenshot_498.png)
