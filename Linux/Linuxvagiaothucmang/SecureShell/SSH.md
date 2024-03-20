@@ -126,7 +126,7 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
 ### Trên Linux
 - Khi tạo khóa SSH trong Linux, bạn có thể sử dụng lệnh ssh-keygen được tích hợp sẵn
   - Sử dụng lệnh:
-    - `ssh-keygen -t rsa -b 4096`
+    - `ssh-keygen -t rsa `
   - Tiếp theo, bạn chọn nơi để lưu Private key
     - `Enter file in which to save the key (/home/username/.ssh/id_rsa):`
     - Public key sẽ được lưu trong cùng một vị trí, dưới cùng tên tệp, nhưng có phần mở rộng `.pub`. Nếu bạn không nhập gì thì sẽ sử dụng thư mục mặc định `/home/username/.ssh/id_rsa`
@@ -155,8 +155,8 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
     - `GSSAPIDelegateCredentials no`: Không ủy quyền thông tin xác thực GSSAPI
     - `GSSAPIKeyExchange no`: Không sử dụng trao đổi khóa GSSAPI.
     - `GSSAPITrustDNS no`: Không tin tưởng DNS khi sử dụng xác thực GSSAPI.
-    - `MatchMode no` Không sử dụng chế độ batch1.
-    - `CheckHostIP yes`: Kiểm tra IP của máy chủ1.
+    - `MatchMode no` Không sử dụng chế độ batch
+    - `CheckHostIP yes`: Kiểm tra IP của máy chủ
     - `AddressFamily any`: Cho phép sử dụng bất kỳ gia đình địa - chỉ nào.
     - `ConnectTimeout 0`: Không giới hạn thời gian chờ kết nối1.
     - `StrictHostKeyChecking ask`: Hỏi người dùng trước khi thêm khóa máy chủ
@@ -165,7 +165,7 @@ Trước khi tiến hành sử dụng SSH, chúng ta cần nắm rõ ly�
     - `Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc`: Danh sách các thuật toán mã hóa được chấp nhận
     - `MACs hmac-md5,hmac-sha1,umac-64@openssh.com`: Danh sách các thuật toán MAC được chấp nhận
     - `EscapeChar ~`: Ký tự thoát
-    - `Tunnel no`: Không tạo đường hầm1.
+    - `Tunnel no`: Không tạo đường hầm
     - `TunnelDevice any:any`: Thiết bị được sử dụng để tạo đường hầm
     - `PermitLocalCommand no`: Không cho phép thực thi lệnh cục bộ
     - `VisualHostKey no`: Không hiển thị khóa máy chủ dưới dạng hình ảnh
