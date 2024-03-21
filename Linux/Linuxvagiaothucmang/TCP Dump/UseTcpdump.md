@@ -169,3 +169,36 @@ Chúng ta không thể đọc nội dung file này mà cần có tcpdump mới c
 ducmanh287@ubuntusv:~$ tcpdump -r /home/ducmanh287/tcpdump/output.pcap
 ```
 ![](/Anh/Screenshot_503.png)
+
+## Kiểm tra các gói tin SSH:
+### Phân tích quá trình SSH và truyền dữ liệu thông qua các gói tin băt được bằng tcpdump
+Mặc định, SSH sẽ sử dụng port 22, vậy nên chúng ta sẽ thực hiện bắt các gói tin trên port 22.
+```
+ducmanh287@ubuntusv:~$ tcpdump -i ens33 port 22 -w /home/ducmanh287/tcpdump/sshoutput.pcap -c 50
+```
+Để thuận tiện cho việc phân tích, chúng ta sẽ sử dụng WireShark trên Windows để phân tích. Tôi sẽ sử dụng sftp cho việc chuyển file, sẽ sử dụng qua trung gian là MobaXterm như sau:
+
+![](/Anh/Screenshot_504.png)
+
+Sử dụng Wireshark để phân tích:
+
+![](/Anh/Screenshot_505.png)
+
+Tổng quan quá trình sẽ được tôi mô tả trong mô hình sau:
+
+![](/Anh/Screenshot_507.png)
+
+### Phân tích quá trình SSH key-pair thông qua các gói tin bắt được bằng tcpdump
+Thông tin các máy sẽ như sau:
+- Máy client: CentOS9 - 192.168.217.132
+- Máy server: UbuntuServer 22 - 192.168.217.128
+- Thiết bị sử dụng thêm: WireShark trên Windows
+
+```
+# Chúng ta sẽ thực hiện bắt các gói tin đi qua port 22 giữa 2 máy client và server. Lệnh sẽ được sử dụng trên máy Server
+ducmanh287@ubuntusv:~/tcpdump$ sudo tcpdump -i ens33 port 22 and host 192.168.217.132 and host 192.168.217.128 -w /home/ducmanh287/tcpdump/test4.pcap -c 100
+
+```
+Sau đó thực hiện chuyển file sang WireShark trên Windows để phân tích:
+
+![](/Anh/Screenshot_509.png)
