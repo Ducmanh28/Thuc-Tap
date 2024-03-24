@@ -241,3 +241,21 @@ Tìm hiểu Ubuntu 22 theo Server World
     - Ubuntu
     - Windows
   - SSH Xác thực Key-Pair
+### Từ 18/3 - 24/3 
+Tìm hiểu SSH Ubuntu
+- SSH Key- Pair ( tiếp tục)
+  - tạo, xóa khóa
+  - đăng nhập bằng khóa
+  - kiểm tra file log
+  - So sánh lệnh `scp` và `ssh-copy-id`
+- Tìm hiểu Tcpdump
+  - Khái niệm, công dụng, cách sử dụng
+  - Sử dụng tcpdump
+    - Một vài thao tác cơ bản
+    - Bắt các gói tin đơn giản
+    - Bắt gói tin SSH khi chuyển khóa
+    - Bắt các gói tin SSH khi đăng nhập
+  - Kết hợp giữa Tcpdump và WireShark
+    - Bắt các gói tin bằng TcpDump trên Ubuntu, lưu file
+    - Sử dụng SFTP để chuyển file `.pcap` sang Windows
+    - Phân tích bằng WireShark trên Windows
