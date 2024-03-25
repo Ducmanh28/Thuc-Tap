@@ -279,6 +279,7 @@ Thực hiện tạo DNS để phân giải tên miền trong `Systems32/driv
 ```
 Kiểm tra kết quả:
 ![](/Anh/Screenshot_390.png)
+
 ![](/Anh/Screenshot_391.png)
 
 Như vậy là đã thành công!
@@ -341,6 +342,7 @@ Thực hiện tạo DNS để phân giải tên miền
 
 Kiểm tra kết quả:
 ![](/Anh/Screenshot_396.png)
+
 ![](/Anh/Screenshot_395.png)
 
 
@@ -378,4 +380,5 @@ Thực hiện tạo file cấu hình:
 
 Kiểm tra kết quả:
 ![](/Anh/Screenshot_397.png)
+
 ![](/Anh/Screenshot_398.png)

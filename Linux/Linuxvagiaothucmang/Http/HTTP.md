@@ -157,13 +157,13 @@ HTTPS sử dụng Port 443 - đây chính là cổng hỗ trợ mã hóa
 ### Tốc độ
 HTTPS chậm hơn HTTP nhưng nhờ sự phát triển công nghệ hiện nay, sự khác biệt đã đạt giới hạn tiệm cận bằng 0
 ## Cách chuyển http sang https
-Cài đặt chứng chỉ SSL: Để sử dụng HTTPS, bạn cần cài đặt chứng chỉ SSL (Secure Sockets Layer) trên máy chủ web của mình. Chứng chỉ SSL giúp mã hóa thông tin giữa máy khách và máy chủ, đảm bảo an toàn cho dữ liệu truyền tải
+**Cài đặt chứng chỉ SSL**: Để sử dụng HTTPS, bạn cần cài đặt chứng chỉ SSL (Secure Sockets Layer) trên máy chủ web của mình. Chứng chỉ SSL giúp mã hóa thông tin giữa máy khách và máy chủ, đảm bảo an toàn cho dữ liệu truyền tải
 
-Cấu hình máy chủ web: Sau khi cài đặt chứng chỉ SSL, bạn cần cấu hình máy chủ web để sử dụng HTTPS. Cấu hình này có thể được thực hiện bằng cách sửa đổi tệp cấu hình máy chủ web của bạn.
+**Cấu hình máy chủ web**: Sau khi cài đặt chứng chỉ SSL, bạn cần cấu hình máy chủ web để sử dụng HTTPS. Cấu hình này có thể được thực hiện bằng cách sửa đổi tệp cấu hình máy chủ web của bạn.
 
-Cập nhật liên kết: Sau khi cấu hình máy chủ web, bạn cần cập nhật liên kết trên trang web của mình để sử dụng HTTPS thay vì HTTP. Bạn cần cập nhật tất cả các liên kết trên trang web của mình để đảm bảo rằng chúng đều sử dụng HTTPS
+**Cập nhật liên kết**: Sau khi cấu hình máy chủ web, bạn cần cập nhật liên kết trên trang web của mình để sử dụng HTTPS thay vì HTTP. Bạn cần cập nhật tất cả các liên kết trên trang web của mình để đảm bảo rằng chúng đều sử dụng HTTPS
 
-Kiểm tra và xác minh: Cuối cùng, bạn cần kiểm tra và xác minh rằng trang web của mình đang sử dụng HTTPS một cách chính xác. Bạn có thể sử dụng các công cụ trực tuyến để kiểm tra xem trang web của mình đã được cấu hình đúng cách hay chưa
+**Kiểm tra và xác minh**: Cuối cùng, bạn cần kiểm tra và xác minh rằng trang web của mình đang sử dụng HTTPS một cách chính xác. Bạn có thể sử dụng các công cụ trực tuyến để kiểm tra xem trang web của mình đã được cấu hình đúng cách hay chưa
 ## HTTP trong Linux:
 Có thể được sử dụng thông qua nhiều cách khác nhau, bao gồm việc thiết lập máy chủ Web và sử dụng công cụ để tải xuống tệp từ Internet
 
