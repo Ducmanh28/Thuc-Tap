@@ -14,4 +14,10 @@
 
 [Giao thức Mạng](https://github.com/Ducmanh28/Thuc-Tap/tree/main/OSIvaTCP-IP/03.%20InternetProtocol)
 - [Internet Protocol](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/03.%20InternetProtocol/InternetProtocolAddress.md)
-- [Chia Subnet]()
+- [Chia Subnet](https://github.com/Ducmanh28/Thuc-Tap/tree/main/OSIvaTCP-IP/03.%20InternetProtocol/ChiaSubnet)
+  - [Một số bài toán chia Subnet](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/03.%20InternetProtocol/ChiaSubnet/BaitapchiaSubnet.md)
+  - [Máy tính Subnet(C++)](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/03.%20InternetProtocol/ChiaSubnet/MaytinhSubnet.cpp)
+
+[Tìm hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/OSIvaTCP-IP/04..%20T%C3%ACm%20hi%E1%BB%83u%20th%C3%AAm)
+- [Quá trình truyền dữ liệu](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/04..%20T%C3%ACm%20hi%E1%BB%83u%20th%C3%AAm/Quatrinhtruyendulieu.md)
+- [Ứng dụng WireShark](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/04..%20T%C3%ACm%20hi%E1%BB%83u%20th%C3%AAm/WireShark.md)
