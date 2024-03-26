@@ -6,7 +6,7 @@ Mục Lục
 
 [Mô hình OSI, TCP-IP và các ứng dụng mạng](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/README.md)
 
-[Hệ thống Linux](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux)
+[Hệ thống Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/README.md)
 
 [Tìm hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Timhieuthem)
 
