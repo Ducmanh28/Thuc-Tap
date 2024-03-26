@@ -244,6 +244,28 @@ Enter passphrase for key '/home/ducmanh287/.ssh/id_rsa':
 
 ducmanh287@ubuntusv:~$        # Thành công
 ```
+Hoặc chúng ta cũng có thể sử dụng trực tiếp ứng dụng của SSH để thực hiện chuyển khóa như sau:
+```
+ducmanh287@ubuntusv:~$ ssh-copy-id ducmanh287@192.168.217.132
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/ducmanh287/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+ducmanh287@192.168.217.132's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'ducmanh287@192.168.217.132'"
+and check to make sure that only the key(s) you wanted were added.
+```
+Kết quả:
+```
+ducmanh287@ubuntusv:~$ ssh ducmanh287@192.168.217.132
+Enter passphrase for key '/home/ducmanh287/.ssh/id_rsa':
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Mar 26 15:00:00 2024 from 192.168.217.1
+[ducmanh287@localhost ~]$
+```
 Vậy còn SSH giữa máy Windows và Server Ubuntu thì làm như thế nào? Ở đây, tôi sử dụng phần mềm trung gian là MobaXterm. Mô hình hoạt động sẽ trông như sau:
 
 ![](/Anh/Screenshot_498.png)
