@@ -22,6 +22,7 @@ MỤC LỤC
     - [Một vài ví dụ về sử dụng lệnh `nc`](#một-vài-ví-dụ-về-sử-dụng-lệnh-nc)
       - [Gửi dữ liệu từ máy A sang B thông qua TCP/UDP](#gửi-dữ-liệu-từ-máy-a-sang-b-thông-qua-tcpudp)
       - [Kiểm tra kết nối:](#kiểm-tra-kết-nối)
+  - [Tổng quan 3 câu lệnh:](#tổng-quan-3-câu-lệnh)
 
 
 # Mục này tìm hiểu về 1 số câu lệnh hữu dụng khi sử dụng Linux
@@ -219,3 +220,9 @@ root@ubuntusv:~# nc -zv myweb.com 80
 Connection to myweb.com (50.6.160.97) 80 port [tcp/http] succeeded!
 # Như đoạn trên, kết nối tới website: myweb.com thông qua port 80 đã thành công
 ```
+## Tổng quan 3 câu lệnh:
+| --|ss|netstat|nc|
+|---|--|-------|--|
+|**Tính năng chính**|Hiển thị thông tin các kết nối mạng, bảng định tuyến, các thông tin liên quan đến hệ thống|Hiển thị các thông tin về các kết nối mạng, bảng định tuyến, giao diện mạng và các thông tin liên quan trên hệ thống|Tạo và quản lý kết nối mạng, gửi và nhận dữ liệu trên giao thức TCP hoặc UDP|
+|**Tính linh hoạt**|Có thể tinh chỉnh kết quả hiển thị qua bộ lọc và tùy chọn|Có thể tinh chỉnh kết quả hiển thị thông qua bộ lọc, tuy nhiên, không được tối ưu bằng ss|Có thể hoạt động như máy chủ(lắng nghe kết nối), hoặc máy khách(thiết lập kết nối)|
+|**Tổng kết**|Phù hợp sử dụng khi bạn cần công cụ linh hoạt và mạnh mẽ để kiểm tra và hiển thị các kết nối mạng|Phù hợp sử dụng khi bạn cần công cụ đơn giản để kiểm tra các kết nối mạng cơ bản|Phù hợp sử dụng khi bạn cần thực hiện các thao tác trực tiếp với kết nối mạng|
