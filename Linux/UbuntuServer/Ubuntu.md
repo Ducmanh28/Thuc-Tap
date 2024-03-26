@@ -1,6 +1,6 @@
-# Tìm hiểu về hệ điều hành Linux
+# Tìm hiểu về hệ điều hành Ubuntu
 MỤC LỤC:
-- [Tìm hiểu về hệ điều hành Linux](#tìm-hiểu-về-hệ-điều-hành-linux)
+- [Tìm hiểu về hệ điều hành Ubuntu](#tìm-hiểu-về-hệ-điều-hành-ubuntu)
   - [Ubuntu là gì ?](#ubuntu-là-gì-)
   - [Sự khác biệt giữa Ubuntu Server và Desktop](#sự-khác-biệt-giữa-ubuntu-server-và-desktop)
   - [Tiến hành cài đặt Ubuntu Server](#tiến-hành-cài-đặt-ubuntu-server)
