@@ -9,6 +9,8 @@ MỤC LỤC
     - [Ubuntu](#ubuntu)
     - [Windows](#windows)
   - [SSH xác thực Key-Pair](#ssh-xác-thực-key-pair)
+  - [Cấu hình SFTP only Chroot](#cấu-hình-sftp-only-chroot)
+  - [SSH - Agent](#ssh---agent)
 
 # Mục này cấu hình SSH trên Ubuntu 22
 Cấu hình SSH Server để quản lý máy chủ từ xa thông qua Port 22
@@ -281,3 +283,73 @@ Cách làm sẽ trông như sau:
 - Khi đăng nhập bằng MobaXterm, lúc này chúng ta chọn **Advanced SSH settings**
 - Tích vào ô **Use private key**, chọn đường dẫn tới file chứa **Private key**, sau đó kết nối. Lúc này, chúng ta không cần sử dụng Password nữa
 - ![](/Anh/Screenshot_501.png)
+
+## Cấu hình SFTP only Chroot
+Phân quyền cho một vài users - những người được cấp quyền chỉ có thể truy cập SFTP và một số đường dẫn Chroot
+
+"SFTP only chroot" thường ám chỉ việc cấu hình một máy chủ SFTP để hạn chế người dùng đăng nhập chỉ vào một môi trường chroot, có nghĩa là họ chỉ có thể truy cập vào các tệp và thư mục nằm trong phạm vi của một thư mục cụ thể, hạn chế bất kỳ truy cập nào ra ngoài thư mục này. Điều này tạo ra một môi trường cực kỳ an toàn khi cung cấp dịch vụ truyền tệp từ xa.
+
+Quá trình thực hiện như sau:
+```
+# Thực hiện tạo một group dành cho SFTP
+root@ubuntusv:/home/ducmanh287# groupadd sftp_users
+
+# Thêm user ducmanh287 vào nhóm SFTP
+root@ubuntusv:/home/ducmanh287# usermod -aG sftp_users ducmanh287
+
+# Thực hiện chỉnh sửa file cấu hình ssh như sau:
+# Comment dòng 115:Subsystem      sftp    /usr/lib/openssh/sftp-server
+
+# Thêm vào dưới dòng sau:
+Subsystem sftp internal-sftp
+# Thêm vào dưới cùng đoạn sau:
+Match Group sftp_users
+    X11Forwarding no
+    AllowTcpForwarding no
+    ChrootDirectory /home
+    ForceCommand internal-sftp
+
+# Thoát khỏi Vim và thực hiện lưu file, sau đó khởi động lại ssh và sshd
+root@ubuntusv:/home/ducmanh287# systemctl restart ssh
+root@ubuntusv:/home/ducmanh287# systemctl restart sshd
+```
+Giải thích:
+- **Dòng 115**: Định nghĩa một "subsystem" được gọi là "sftp" và chỉ định rằng nó sẽ sử dụng `/usr/lib/openssh/sftp-server` như là tiện ích con để xử lý các yêu cầu **SFTP** từ các máy khách
+- **Match Group sftp_users**: Đây là một điều kiện Match trong tệp cấu hình của máy chủ SSH. Nó áp dụng các cài đặt được liệt kê dưới đây chỉ cho các người dùng thuộc nhóm "sftp_users".
+- **X11Forwarding no**: Tắt chức năng chuyển tiếp X11 (X Window System) từ máy chủ SSH đến máy khách. Điều này ngăn chặn người dùng từ việc chạy các ứng dụng GUI trên máy khách thông qua kết nối SSH.
+- **AllowTcpForwarding no**: Vô hiệu hóa chuyển tiếp TCP từ máy chủ SSH đến máy khách. Điều này ngăn chặn người dùng từ việc sử dụng các dịch vụ như port forwarding.
+- **ChrootDirectory /home**: Đặt thư mục chroot cho các người dùng trong nhóm "sftp_users" là "/home". Điều này có nghĩa là họ sẽ bị hạn chế truy cập đến chỉ một phần nhất định của hệ thống tệp, cụ thể là thư mục "/home".
+- **ForceCommand internal-sftp**: Yêu cầu sử dụng chỉ tiện ích `internal-sftp` để xử lý các yêu cầu **SFTP** từ nhóm người dùng "sftp_users". Điều này giúp đảm bảo rằng các người dùng trong nhóm sftp_users chỉ có thể sử dụng **SFTP** và không thể truy cập vào shell thực sự trên máy chủ.
+
+Thực hiện kiểm tra kết quả:
+```
+[ducmanh287@localhost ~]$ ssh ducmanh287@192.168.217.128
+ducmanh287@192.168.217.128's password:
+This service allows sftp connections only.
+Connection to 192.168.217.128 closed.
+
+# Như đã cài đặt nó sẽ từ chối SSH
+# Nhưng nếu chúng ta sử dụng sftp thì sao
+
+[ducmanh287@localhost ~]$ sftp ducmanh287@192.168.217.128
+ducmanh287@192.168.217.128's password:
+Connected to 192.168.217.128.
+sftp>
+
+# Vậy là đã kết nối thành công
+```
+
+Kiểm tra quyền truy cập thư mục:
+- Trước khi thêm nhóm, có thể truy cập và mở bất kì
+
+![](/Anh/Screenshot_516.png)
+
+- Sau khi thêm nhóm, sẽ báo lỗi không tìm thấy khi truy cập một đường dẫn ngoài đường dẫn được cấp phép:
+
+![](/Anh/Screenshot_517.png)
+
+## SSH - Agent
+Là một chương trình chạy dưới dạng một dịch vụ nền (background service) trên hệ thống Unix và tương tự, chịu trách nhiệm quản lý các khóa SSH cho người dùng
+
+Khi bạn kết nối vào một máy chủ từ xa bằng SSH và cần xác thực bằng cách sử dụng một khóa SSH, ssh-agent giúp lưu trữ 
+và quản lý các khóa này trong một thời gian nhất định.
