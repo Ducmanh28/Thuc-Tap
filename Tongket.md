@@ -259,3 +259,12 @@ Tìm hiểu SSH Ubuntu
     - Bắt các gói tin bằng TcpDump trên Ubuntu, lưu file
     - Sử dụng SFTP để chuyển file `.pcap` sang Windows
     - Phân tích bằng WireShark trên Windows
+
+### Từ 25/3 - 30/3
+Tìm hiểu và viết bài về các lệnh được giao
+- Lệnh netstat, ss: Các lệnh hiển thị, kiểm tra thông tin về mạng. Trong đó, ss tối ưu hơn netstat
+- Lệnh nc(netcat): Kiểm tra, thiết lập các kết nối mạng, thực hiện các thao tác trực tiếp với kết nối mạng
+
+Tiếp tục tìm hiểu Server World
+- SFTP only Chroot: Chỉ cho phép dùng sftp trên một thư mục nhất định
+- SSH - Agent: tạo khóa ssh đăng nhập không cần mật khẩu
