@@ -353,3 +353,36 @@ Là một chương trình chạy dưới dạng một dịch vụ nền (backgro
 
 Khi bạn kết nối vào một máy chủ từ xa bằng SSH và cần xác thực bằng cách sử dụng một khóa SSH, ssh-agent giúp lưu trữ 
 và quản lý các khóa này trong một thời gian nhất định.
+
+Cơ chế hoạt động:
+- **Khởi động ssh-agent**: Người dùng thường khởi động ssh-agent bằng cách chạy lệnh `ssh-agent` từ dòng lệnh. Sau khi khởi động, ssh-agent sẽ tạo ra một môi trường và in ra các biến môi trường cần thiết để thiết lập môi trường làm việc cho các phiên làm việc sau này.
+
+- **Thêm khóa SSH vào ssh-agent**: Người dùng sau đó thêm các khóa riêng tư SSH vào ssh-agent bằng cách sử dụng lệnh ssh-add. Khi thêm khóa, ssh-agent yêu cầu mật khẩu của khóa (nếu có) và sau đó lưu trữ khóa trong bộ nhớ.
+
+- **Sử dụng khóa từ ssh-agent**: Khi người dùng thực hiện một kết nối SSH đến một máy chủ từ xa, ssh-agent sẽ cung cấp các khóa riêng tư mà nó lưu trữ để xác thực với máy chủ từ xa. Người dùng không cần phải nhập mật khẩu mỗi lần kết nối với máy chủ từ xa.
+
+- **Kết thúc ssh-agent**: Sau khi người dùng kết thúc phiên làm việc, họ có thể kết thúc ssh-agent bằng cách sử dụng lệnh ssh-agent -k để xóa tất cả các khóa khỏi bộ nhớ và kết thúc quá trình ssh-agent.
+
+Dưới đây là cách để sử dụng SSH - Agent
+```
+# Bắt đầu SSH - Agent
+ducmanh287@localhost: ~$ evel $(ssh-agent)
+Agent pid 1040
+
+# Thêm khóa
+ducmanh287@localhost: ~$ ssh-add
+Enter passphrase for /home/ducmanh287/.ssh/id_rsa:
+Identity added: /home/ducmanh287/.ssh/id_rsa (ducmanh287@192.168.217.128)
+
+# Xác nhận
+ducmanh287@localhost: ~$ ssh-add -l
+3072 SHA256:Sy81HjIIQhqVHeVoxBxfV/JEflv16yS7wl3TXBafBaw ducmanh287@192.168.217.128 (RSA)
+
+# Thử kết nối với SSH - mà không cần dùng mật khẩu
+ducmanh287@localhost: ~$ ssh ducmanh287@192.168.216.128
+ducmanh287@ubuntusv: ~# 
+
+# Thoát khỏi SSH-Agent
+ducmanh287@localhost: ~$ evel $(ssh-agent -k)
+Agent pid 1040 killed
+```
