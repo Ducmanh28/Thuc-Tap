@@ -271,4 +271,9 @@ Tiếp tục tìm hiểu Server World
 
 ### Từ 1/4 - 6/4 
 Tiếp tục tìm hiểu về Server World mục SSH
-- 
+- SSHPass
+- SSHFS - SSH File System
+- SSH Port Forwarding
+- Parallel SSH
+
+Dùng `tcpdump` bắt gói tin nc khi thực hiện chuyển dữ liệu và phân tích lại bằng WireShark
