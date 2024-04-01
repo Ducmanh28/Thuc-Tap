@@ -11,6 +11,10 @@ MỤC LỤC
   - [SSH xác thực Key-Pair](#ssh-xác-thực-key-pair)
   - [Cấu hình SFTP only Chroot](#cấu-hình-sftp-only-chroot)
   - [SSH - Agent](#ssh---agent)
+  - [Sử dụng SSHPass](#sử-dụng-sshpass)
+  - [Sử dụng SSHFS](#sử-dụng-sshfs)
+  - [SSH Port Forwarding](#ssh-port-forwarding)
+  - [Parallel SSH](#parallel-ssh)
 
 # Mục này cấu hình SSH trên Ubuntu 22
 Cấu hình SSH Server để quản lý máy chủ từ xa thông qua Port 22
@@ -385,4 +389,144 @@ ducmanh287@ubuntusv: ~#
 # Thoát khỏi SSH-Agent
 ducmanh287@localhost: ~$ evel $(ssh-agent -k)
 Agent pid 1040 killed
+```
+
+## Sử dụng SSHPass
+Chúng ta có thể sử dụng SSHPass để tự động nhập mật khẩu khi xác thực mật khẩu.
+
+Mặc dù điều này thuận tiện, tuy nhiên nó lại có các rủi ro bảo mật như rò rỉ mật khẩu, cần đặc biệt cẩn trọng khi sử dụng nó
+
+Nếu bạn chắc chắn khả năng quản lý của mình, chúng ta cùng tiến hành cài đặt và sử dụng SSHPass
+```
+# Cài đặt SSHPass
+ducmanh287@ubuntusv:~$ sudo apt install -y sshpass
+[sudo] password for ducmanh287:
+
+# Tiến hành sử dụng SSHPass
+# '-p' Sử dụng từ đối số nhập vào
+# Nếu sử dụng lần đầu thì thêm [StrictHostKeyChecking=no]
+ducmanh287@ubuntusv:~$ sshpass -p 28072003 ssh -o StrictHostKeyChecking=no 192.168.217.132 hostname
+ducmanh287
+
+# Hoặc '-f': Lấy từ file
+ducmanh287@ubuntusv:~$ echo '28072003' > sshpass.txt
+ducmanh287@ubuntusv:~$ chmod 600 sshpass.txt
+ducmanh287@ubuntusv:~$ sshpass -f sshpass.txt ssh ducmanh287@192.168.217.132 hostname
+ducmanh287
+
+# Hoặc '-e': Lấy từ biến môi trường
+ducmanh287@ubuntusv:~$ sshpass -e ssh ducmanh287@192.168.217.132 ls -a
+```
+Kiểm tra các kết quả hiển thị
+
+![](/Anh/Screenshot_518.png)
+
+## Sử dụng SSHFS
+SSHFS là một công cụ giúp bạn gắn kết một thư mục từ một máy chủ từ xa qua SSH vào hệ thống tệp cục bộ của bạn
+
+Bằng cách sử dụng `sshfs`, bạn có thể truy cập và làm việc với các tệp và thư mục trên máy chủ từ xa một cách dễ dàng như là chúng đang nằm trên hệ thống cục bộ của bạn
+
+Cách sử dụng SSHFS trên Ubuntu 22 như sau:
+```
+# Trước tiên, chúng ta cần cài đặt sshfs
+ducmanh287@ubuntusv:~$ sudo apt install -y sshfs
+
+# Tiến hành sử dụng
+## Tạo một thư mục tạm thời để chứa các thư mục điều khiển
+ducmanh287@ubuntusv:~$ mkdir ~/remote_mount
+## Gắn kết với sshfs
+ducmanh287@ubuntusv:~$ sshfs ducmanh287@192.168.217.132:/home/ducmanh287 ~/remote_mount
+ducmanh287@192.168.217.132's password:
+ducmanh287@ubuntusv:~$
+## Kiểm tra kết quả sử dụng lệnh sau:
+ducmanh287@ubuntusv:~$ df -hT
+Filesystem                                  Type        Size  Used Avail Use% Mounted on
+tmpfs                                       tmpfs       193M  1.3M  192M   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv           ext4        9.8G  5.7G  3.7G  61% /
+tmpfs                                       tmpfs       965M     0  965M   0% /dev/shm
+tmpfs                                       tmpfs       5.0M     0  5.0M   0% /run/lock
+/dev/sda2                                   ext4        1.8G  251M  1.4G  16% /boot
+tmpfs                                       tmpfs       193M  4.0K  193M   1% /run/user/1000
+ducmanh287@192.168.217.132:/home/ducmanh287 fuse.sshfs   17G  1.9G   16G  11% /home/ducmanh287/remote_mount
+
+## Sau khi thực hiện các chỉnh sửa hoàn tất, bạn có thể dùng lệnh sau để gỡ kết nối. Lúc này file remote_mount cũng sẽ biến mất
+ducmanh287@ubuntusv:~$ fusermount -u ~/remote_mount
+```
+Khi bạn sử dụng `sshfs` để gắn kết thư mục thì mọi thay đổi bạn thực hiện trên các tệp thư mục được gắn kết khi ở trên máy local sẽ được truyền lại bên server và lưu trữ trên server
+
+Điều này làm cho việc làm việc với các tệp từ xa trở nên thuận tiện, vì bạn có thể chỉnh sửa chúng trên máy tính cục bộ của mình nhưng thay đổi sẽ được tự động đồng bộ hóa với máy chủ từ xa thông qua kết nối SSH.
+
+## SSH Port Forwarding
+SSH Port Forwarding hay còn được gọi là SSH Tunneling là một kỹ thuật trong mạng máy tính cho phép chuyển tiếp lưu lượng truy cập mạng từ một cổng port trên máy tính cục bộ của bạn tới một máy chủ từ xa thông qua một kết nối SSH an toàn.
+- Bảo mật kết nối: Sử dụng SSH để chuyển tiếp dữ liệu giữa các máy tính, giúp bảo vệ dữ liệu khỏi bị đánh cắp hoặc thay đổi từ bên thứ 3
+- Truy cập vào các dịch vụ từ xa: Cho phép bạn truy cập vào các dịch vụ, máy chủ hoặc ứng dụng từ xa mà không cần mở các cổng truy cập trực tiếp trên mạng Internet, tăng cường bảo mật
+
+Mô tả sơ đồ quá trình như sau
+
+![](/Anh/Screenshot_520.png)
+
+Ví dụ về cách sử dụng: Đặt SSH Port Forwarding để các gói tin đến cổng 8081 trên 192.168.217.132 sẽ được chuyển tiếp đến cổng 80 trên 192.168.217.128
+```
+# SSH Login:
+[ducmanh287@localhost ~]$ ssh -L 192.168.217.132:8081:192.168.217.128:80 ducmanh287@192.168.217.128
+ducmanh287@192.168.217.128's password:
+ducmanh287@ubuntusv: ~$
+
+# Xác nhận:
+ducmanh287@ubuntusv:~$ ssh 192.168.217.132 "ss -napt | grep 8081"
+# Lắng nghe trên cổng 8081
+# Giữ lại phiên đăng nhập
+ducmanh287@192.168.217.132's password:
+LISTEN 0      128    192.168.217.132:8081          0.0.0.0:*     users:(("ssh",pid=23945,fd=4))
+```
+Kiểm thử kết quả:
+
+![](/Anh/Screenshot_521.png)
+
+Lúc này, `192.168.217.128:80` đã được chuyển tiếp sang `192.168.217.132:8081`
+
+## Parallel SSH
+PSSH là một công cụ được sử dụng để thực hiện các lệnh trên nhiều máy tính đồng thời thông qua SSH. Điều này giúp tiết kiệm thời gian và tăng hiệu suất khi cần thực hiện cùng một tác vụ trên nhiều máy tính
+
+Cách sử dụng PSSH: Tôi có 3 máy để thực hiện bài Lab này
+- Máy đóng vai trò sử dụng PSSH: ubuntusv-`192.168.217.128`
+- Máy PC1: Centos7-`192.168.217.131`
+- Máy PC2: Centos9-`192.168.217.132`
+```
+# Cài đặt PSSH
+ducmanh287@ubuntusv:~$ sudo apt install -y pssh
+
+# Kết nối trực tiếp tới 2 PC để thực hiện lệnh:
+ducmanh287@ubuntusv:~$ parallel-ssh -H "192.168.217.131 192.168.217.132" -i "hostname"
+[1] 09:04:18 [SUCCESS] 192.168.217.131
+ducmanh287
+[2] 09:04:18 [SUCCESS] 192.168.217.132
+ducmanh287
+
+# Chúng ta cũng có thể ghi các id vào 1 file rồi thực hiện kết nối như sau:
+## Tạo 1 file host.txt (Tạo ở đâu thực hiện lệnh ở đó)
+## Nội dung file
+ducmanh287@192.168.217.131
+ducmanh287@192.168.217.132
+
+## Thực hiện câu lệnh như sau:
+ducmanh287@ubuntusv:~$ parallel-ssh -h host.txt -i "uname -a"
+[1] 09:04:18 [SUCCESS] 192.168.217.131
+5.14.0-391.el7.x86_64
+[2] 09:04:18 [SUCCESS] 192.168.217.132
+3.10.0-1160.el9.x86_64
+
+# Lưu ý rằng phần này chỉ thực hiện được khi bạn không cài passphrase cho các khóa hoặc đã sử dụng phần mềm để đăng nhập ssh mà không cần mật khẩu
+```
+```
+# Hoặc bạn cũng có thể sử dụng parallel ssh với mật khẩu. Tuy nhiên, mật khẩu ở 2 máy phải như nhau.
+ducmanh287@ubuntusv:~$ parallel-ssh -h host.txt -A -O PreferredAuthentications=password -i "uname -r"
+Warning: do not enter your password if anyone else has superuser
+privileges or access to your account.
+Password:
+[1] 09:05:20 [SUCCESS] 192.168.217.131
+5.14.0-391.el7.x86_64
+[2] 09:05:20 [SUCCESS] 192.168.217.132
+3.10.0-1160.el9.x86_64
+ducmanh287@ubuntusv:~$
 ```
