@@ -463,12 +463,13 @@ SSH Port Forwarding hay còn được gọi là SSH Tunneling là một kỹ thu
 
 Mô tả sơ đồ quá trình như sau
 
-![](/Anh/Screenshot_520.png)
+![](/Anh/Screenshot_526.png)
 
 Ví dụ về cách sử dụng: Đặt SSH Port Forwarding để các gói tin đến cổng 8081 trên 192.168.217.132 sẽ được chuyển tiếp đến cổng 80 trên 192.168.217.128
 ```
 # SSH Login:
 [ducmanh287@localhost ~]$ ssh -L 192.168.217.132:8081:192.168.217.128:80 ducmanh287@192.168.217.128
+# Trong đó: `-L` là option của SSH giúp chỉ định kết nối chuyển tiếp cổng 
 ducmanh287@192.168.217.128's password:
 ducmanh287@ubuntusv: ~$
 
@@ -530,3 +531,6 @@ Password:
 3.10.0-1160.el9.x86_64
 ducmanh287@ubuntusv:~$
 ```
+Giải thích về câu lệnh:
+- `-h host.txt`: Tùy chọn này chỉ định một tệp tin (host.txt) chứa danh sách các máy tính mục tiêu mà lệnh sẽ thực hiện trên chúng
+- `-A`: Tùy chọn này yêu cầu xác thực bằng cách sử dụng một phương thức xác thực mà người dùng đã được xác định sẵn, thường là mật khẩu.
