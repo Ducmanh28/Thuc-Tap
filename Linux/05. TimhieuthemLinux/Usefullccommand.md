@@ -22,6 +22,7 @@ MỤC LỤC
     - [Một vài ví dụ về sử dụng lệnh `nc`](#một-vài-ví-dụ-về-sử-dụng-lệnh-nc)
       - [Gửi dữ liệu từ máy A sang B thông qua TCP/UDP](#gửi-dữ-liệu-từ-máy-a-sang-b-thông-qua-tcpudp)
       - [Kiểm tra kết nối:](#kiểm-tra-kết-nối)
+    - [Dùng `tcpdump` bắt gói tin và phân tích khi nc giao tiếp](#dùng-tcpdump-bắt-gói-tin-và-phân-tích-khi-nc-giao-tiếp)
   - [Tổng quan 3 câu lệnh:](#tổng-quan-3-câu-lệnh)
 
 
@@ -220,6 +221,39 @@ root@ubuntusv:~# nc -zv myweb.com 80
 Connection to myweb.com (50.6.160.97) 80 port [tcp/http] succeeded!
 # Như đoạn trên, kết nối tới website: myweb.com thông qua port 80 đã thành công
 ```
+### Dùng `tcpdump` bắt gói tin và phân tích khi nc giao tiếp
+Mô hình thực hành sẽ trông như sau:
+
+![](/Anh/Screenshot_524.png)
+
+- Coi như quá trình SSH và SFTP từ PC --> Ubuntu là điều không bàn đến
+- **B1:** Tạo thêm 1 phiên kết nối đến **VM1**, trên phiên này tạo 1 file testnc.pcap để lưu nội dung, dùng lệnh sau để lắng nghe các gói tin qua cổng 2873 và lưu vào file
+```
+root@ubuntusv:/home/ducmanh287# tcpdump -i ens33 -w testnc.pcap -nv port 2873
+tcpdump: listening on ens33, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+```
+- **B2:** Thực hiện dùng `nc` để lắng nghe trên cổng 2873 của máy **VM2** như sau:
+```
+[ducmanh287@localhost ~]$ nc -l -p 2873
+```
+- **B3:** Trên **VM1** thực hiện dùng `nc` để kết nối với **VM2** thông qua cổng 2873
+```
+ducmanh287@ubuntusv:~$ nc 192.168.217.132 2873
+```
+- Ví dụ mẫu nội dung cuộc giao tiếp giữa 2 máy:
+```
+echo "Hello, Client"
+echo "Hello, Server"
+echo "This is messenger from Server to test nc"
+echo "Test Complete, GoodBye!!!"
+```
+- **B4:** Thực hiện chuyển gói tin `.pcap` về máy PC:Windows để phân tích bằng WireShark. Nội dung như sau:
+
+![](/Anh/Screenshot_525.png)
+- 2 dòng đầu cờ SYN dùng để thiết lập kết nối
+- Từ dòng 3-11 là nội dung hội thoại giữa 2 thiết bị
+- 4 dòng cuối là Cờ FIN để kết thúc kết nối giữa 2 thiết bị
+
 ## Tổng quan 3 câu lệnh:
 | --|ss|netstat|nc|
 |---|--|-------|--|
