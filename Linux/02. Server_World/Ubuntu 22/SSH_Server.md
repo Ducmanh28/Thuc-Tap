@@ -422,7 +422,7 @@ Kiểm tra các kết quả hiển thị
 ![](/Anh/Screenshot_518.png)
 
 ## Sử dụng SSHFS
-SSHFS là một công cụ giúp bạn gắn kết một thư mục từ một máy chủ từ xa qua SSH vào hệ thống tệp cục bộ của bạn
+SSHFS - SSH File System là một công cụ giúp bạn gắn kết một thư mục từ một máy chủ từ xa qua SSH vào hệ thống tệp cục bộ của bạn
 
 Bằng cách sử dụng `sshfs`, bạn có thể truy cập và làm việc với các tệp và thư mục trên máy chủ từ xa một cách dễ dàng như là chúng đang nằm trên hệ thống cục bộ của bạn
 

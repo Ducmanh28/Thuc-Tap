@@ -268,3 +268,7 @@ Tìm hiểu và viết bài về các lệnh được giao
 Tiếp tục tìm hiểu Server World
 - SFTP only Chroot: Chỉ cho phép dùng sftp trên một thư mục nhất định
 - SSH - Agent: tạo khóa ssh đăng nhập không cần mật khẩu
+
+### Từ 1/4 - 6/4 
+Tiếp tục tìm hiểu về Server World mục SSH
+- 
