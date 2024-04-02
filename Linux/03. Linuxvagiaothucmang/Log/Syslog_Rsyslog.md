@@ -220,3 +220,25 @@ $WorkDirectory /var/spool/rsyslog   # Định nghĩa thư mục làm việc cho 
 
 $IncludeConfig /etc/rsyslog.d/*.conf    # Định nghĩa thư mục chứa các tệp cấu hình phụ (*.conf)
 ```
+#### File cấu hình phụ
+Thư mục chứa các file cấu hình phụ nằm ở: `/etc/rsyslog.d`
+
+File cấu hình phụ mặc định sẽ là: `50-default.conf`
+
+Những tệp cấu hình phụ này cho phép bạn tách biệt và quản lý các cấu hình riêng lẻ cho các mục đích cụ thể. Bạn có thể tạo các tệp cấu hình phụ mới hoặc chỉnh sửa các tệp cấu hình phụ đã tồn tại để cấu hình Rsyslog theo nhu cầu của bạn.
+
+Nội dung file như sau:
+```
+local1.*                        /var/log/sudo.log
+auth,authpriv.*;local1.none     /var/log/auth.log
+*.*;auth,authpriv.none          -/var/log/syslog
+auth,authpriv.*                 /var/log/auth.log
+*.*;auth,authpriv.none          -/var/log/syslog
+kern.*                          -/var/log/kern.log
+mail.*                          -/var/log/mail.log
+
+mail.err                        /var/log/mail.err
+
+
+*.emerg                         :omusrmsg:*
+```
