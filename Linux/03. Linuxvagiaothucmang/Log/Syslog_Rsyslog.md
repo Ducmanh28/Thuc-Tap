@@ -1,3 +1,24 @@
+MỤC LỤC
+- [Mục này tìm hiểu giao thức Syslog và ứng dụng Rsyslog](#mục-này-tìm-hiểu-giao-thức-syslog-và-ứng-dụng-rsyslog)
+  - [Log](#log)
+    - [Log là gì? Dùng để làm gì?](#log-là-gì-dùng-để-làm-gì)
+    - [Cấu trúc cơ bản của một log:](#cấu-trúc-cơ-bản-của-một-log)
+    - [Một số file log trong thư mục `/var/log`](#một-số-file-log-trong-thư-mục-varlog)
+  - [Syslog](#syslog)
+    - [Syslog là gì? Dùng để làm gì?](#syslog-là-gì-dùng-để-làm-gì)
+    - [Lịch sử hình thành và phát triển](#lịch-sử-hình-thành-và-phát-triển)
+    - [Cấu trúc của Log trong Syslogs](#cấu-trúc-của-log-trong-syslogs)
+    - [Định dạng tin nhắn của Syslog](#định-dạng-tin-nhắn-của-syslog)
+    - [Cách thức hoạt động](#cách-thức-hoạt-động)
+  - [RSyslog](#rsyslog)
+    - [Là gì?](#là-gì)
+    - [Các tính năng chính](#các-tính-năng-chính)
+    - [Cấu trúc của RSyslog](#cấu-trúc-của-rsyslog)
+    - [Tìm hiểu về file cấu hình của Rsyslog](#tìm-hiểu-về-file-cấu-hình-của-rsyslog)
+      - [File cấu hình chính](#file-cấu-hình-chính)
+      - [File cấu hình phụ](#file-cấu-hình-phụ)
+
+
 # Mục này tìm hiểu giao thức Syslog và ứng dụng Rsyslog
 Trước khi tìm hiểu về Syslog và Rsyslog, chúng ta cần hiểu Log là gì?
 ## Log
@@ -242,3 +263,4 @@ mail.err                        /var/log/mail.err
 
 *.emerg                         :omusrmsg:*
 ```
+Tất cả các dòng ở đây đều có mục đích chỉ định đường dẫn lưu log.
