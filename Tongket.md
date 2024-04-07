@@ -277,3 +277,12 @@ Tiếp tục tìm hiểu về Server World mục SSH
 - Parallel SSH
 
 Dùng `tcpdump` bắt gói tin nc khi thực hiện chuyển dữ liệu và phân tích lại bằng WireShark
+
+Tìm hiểu về Log, giao thức Syslog, ứng dụng RSyslog
+- Log là các file thông điệp
+- Syslog là giao thức được sử dụng để tìm kiếm, lưu trữ, phân tích và chuyển tiếp các Logfile
+- Rsyslog là ứng dụng sử dụng giao thức Syslog
+
+Thực hành lab Rsyslog: Dựng 2 máy ảo Linux cấu hình Log tập trung
+- Thực hiện gửi các log do hệ thống sinh ra
+- Thực hiện gửi các log do các ứng dụng tải về sinh ra(Http)
