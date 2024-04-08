@@ -271,7 +271,7 @@ Tiếp tục tìm hiểu Server World
 
 ### Từ 1/4 - 6/4 
 Tiếp tục tìm hiểu về Server World mục SSH
-- SSHPass
+- SSHPass: 
 - SSHFS - SSH File System
 - SSH Port Forwarding
 - Parallel SSH
