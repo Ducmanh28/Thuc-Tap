@@ -16,6 +16,7 @@ Mục Lục
       - [Tiến hành kiểm tra:](#tiến-hành-kiểm-tra)
     - [Dùng TCP Dump bắt gói tin lúc gửi log và phân tích bằng WireShark](#dùng-tcp-dump-bắt-gói-tin-lúc-gửi-log-và-phân-tích-bằng-wireshark)
     - [Cấu hình Rsyslog để chỉ gửi một số log quan trọng](#cấu-hình-rsyslog-để-chỉ-gửi-một-số-log-quan-trọng)
+    - [Cấu hình Rsyslog để chỉ gửi các log ssh](#cấu-hình-rsyslog-để-chỉ-gửi-các-log-ssh)
 
 
 # Mục này thực hiện Lab Rsyslog: Thực hiện cấu hình Log tập trung
@@ -281,5 +282,26 @@ Tiến hành kiểm tra lại:
 - ![](/Anh/Screenshot_547.png)
 - File `kernlog`
 - ![](/Anh/Screenshot_548.png)
+
+### Cấu hình Rsyslog để chỉ gửi các log ssh 
+Thực hiện trên Client:
+```
+#Thêm vào 1 file cấu hình phụ và thực hiện chèn đoạn code sau:
+auth.* @@192.168.217.132:514
+```
+
+Thực hiện trên Server
+```
+# Thêm mới một file cấu hình phụ và thực hiện như sau:
+# Chấp nhận log SSH từ máy Ubuntu
+if $programname == 'sshd' and $fromhost-ip == '192.168.217.128' then /var/log/ubuntu_ssh.log
+& stop
+```
+
+Mẫu hiển thị kết quả:
+```
+Apr 8 15:30:12 ubuntu sshd[1234]: Accepted password for user from 192.168.217.1 port 22 ssh2
+Apr 10 15:30:12 ubuntu sshd[1234]: pam_unix(sshd:session): session opened for user user by (uid=0)
+```
 
 
