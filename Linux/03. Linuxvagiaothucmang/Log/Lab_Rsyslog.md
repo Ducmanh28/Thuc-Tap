@@ -12,6 +12,10 @@ Mục Lục
       - [Kiểm tra kết quả:](#kiểm-tra-kết-quả)
     - [Gửi các log do các dịch vụ khác sinh ra](#gửi-các-log-do-các-dịch-vụ-khác-sinh-ra)
       - [Cấu hình trên Client](#cấu-hình-trên-client-1)
+      - [Cấu hình trên Server](#cấu-hình-trên-server-1)
+      - [Tiến hành kiểm tra:](#tiến-hành-kiểm-tra)
+    - [Dùng TCP Dump bắt gói tin lúc gửi log và phân tích bằng WireShark](#dùng-tcp-dump-bắt-gói-tin-lúc-gửi-log-và-phân-tích-bằng-wireshark)
+    - [Cấu hình Rsyslog để chỉ gửi một số log quan trọng](#cấu-hình-rsyslog-để-chỉ-gửi-một-số-log-quan-trọng)
 
 
 # Mục này thực hiện Lab Rsyslog: Thực hiện cấu hình Log tập trung
@@ -50,6 +54,20 @@ Sau khi thu tập dữ liệu xong, chúng ta cũng cần phải gửi các log 
 |`%fromhost-ip%`|Chèn IP của máy gửi log|
 |`%uuid%`|Chèn UID một cách ngẫu nhiên|
 |-------------------------------------------------|----------------------------------------------|
+
+Các biến local trong Syslog: Các biến `local0` đến `local7` được sử dụng để định nghĩa các kiểu thông điệp log cụ thể. Bạn có thể gán một giá trị số cho mỗi biến này trong tệp cấu hình **Syslog** và sau đó sử dụng chúng để quy định cách xử lý các thông điệp log từ các nguồn khác nhau. Điều này giúp tổ chức và phân loại các thông điệp log một cách rõ ràng và linh hoạt.
+
+|Số thứ tự biến|Chức năng|
+|--------------|---------|
+|local0| Được sử dụng để định nghĩa một loại thông điệp log chung, thường là cho các ứng dụng hoặc dịch vụ riêng biệt mà bạn muốn ghi log một cách độc lập|
+|local1|Thường được sử dụng cho một mục đích log cụ thể, có thể là cho một ứng dụng hoặc dịch vụ nhất định|
+|local2|Thường được sử dụng cho một mục đích log cụ thể, có thể là cho một ứng dụng hoặc dịch vụ nhất định|
+|local3|Thường được sử dụng cho một mục đích log cụ thể, có thể là cho một ứng dụng hoặc dịch vụ nhất định|
+|local4| Một loại thông điệp log đặc biệt, có thể được sử dụng để ghi log cho một ứng dụng quan trọng hoặc một loại hoạt động cụ thể|
+|local5|Được sử dụng cho một mục đích log cụ thể, có thể là để ghi log cho một ứng dụng hoặc dịch vụ nhất định|
+|local6|Được sử dụng cho một mục đích log cụ thể, có thể là để ghi log cho một ứng dụng hoặc dịch vụ nhất định|
+|local7|Một loại thông điệp log đặc biệt, có thể được sử dụng để ghi log cho các hoạt động quan trọng hoặc một ứng dụng cụ thể|
+
 
 ### Mô hình và yêu cầu thực hành
 Mô hình thực hành sẽ được miêu tả qua ảnh như sau:
@@ -149,9 +167,119 @@ $InputFileFacility local3
 $InputFilePollInterval 10
 $InputRunFileMonitor
 local3.*@@192.168.217.132:514
+
+#Thoát khỏi vim, lưu file và thực hiện khởi động lại dịch vụ
+
+root@ubuntusv:/etc# systemctl restart rsyslog
+```
+#### Cấu hình trên Server
+Đối với Server nhận log, chúng ta cấu hình như sau:
+```
+# Tạo một file cấu hình phụ mới
+[root@localhost rsyslog.d]# vim apachelog.conf
+
+# Thêm vào nội dung như sau:
+$ModLoad imtcp
+$InputTCPServerRun 514
+$template RemoteServer, "/var/log/testlog/%fromhost-ip%/%programname%"
+local3.* ?RemoteServer
+
+# Thoát ra và thực hiện lưu file, khởi động lại dịch vụ Rsyslog
+[root@localhost rsyslog.d]# systemctl restart rsyslog
+```
+#### Tiến hành kiểm tra:
+Từ máy Windows, sử dụng dịch vụ Apache, truy cập vào IP của máy Client
+
+![](/Anh/Screenshot_538.png)
+
+Kiểm tra file log bên máy client
+
+![](/Anh/Screenshot_539.png)
+![](/Anh/Screenshot_540.png)
+
+Kiểm tra bên máy Server
+- Kiểm tra xem file đã tồn tại chưa
+- ![](/Anh/Screenshot_541.png)
+- Kiểm tra nội dung file
+- ![](/Anh/Screenshot_542.png)
+
+### Dùng TCP Dump bắt gói tin lúc gửi log và phân tích bằng WireShark
+Trong quá trình gửi log, chúng ta đừng từ client hoặc server thực hiện sử dụng tcpdump bắt các gói tin như sau:
+```
+root@ubuntusv:/home/ducmanh287# tcpdump -i ens33 port 514 -w testlog.pcap
+tcpdump: listening on ens33, link-type EN10MB (Ethernet), snapshot length 262144 bytes
 ```
 
+Thực hiện chuyển file sang PC: Windows và phân tích lại bằng WireShark như sau:
 
+![](/Anh/Screenshot_543.png)
 
+Kiểm tra với lệnh ss 
+```
+ss -tn
+```
+![](/Anh/Screenshot_544.png)
+
+Như các bạn đang thấy, port 514 đang được sử dụng liên tục
+
+### Cấu hình Rsyslog để chỉ gửi một số log quan trọng
+Ở đây, ví dụ tôi cần gửi một số file log quan trọng như file:
+- auth.log
+- kern.log
+- syslog
+
+Thực hiện cấu hình trên Client
+```
+# Thêm mới 1 file cấu hình phụ
+root@ubuntusv:/etc/rsyslog.d# vim 01-systemlog.conf
+
+# Thêm vào nội dung như sau:
+$Modload imfile
+$InputFilePollInterval 10
+
+$InputFileName /var/log/syslog
+$InputFileTag systemlog
+$InputFileFacility local7
+$InputRunFileMonitor
+local7.* @@192.168.217.132:514
+
+$InputFileName /var/log/auth.log
+$InputFileTag authlog
+$InputFileFacility local7
+$InputRunFileMonitor
+local7.* @@192.168.217.132:514
+
+$InputFileName /var/log/kern.log
+$InputFileTag kernlog
+$InputFileFacility local7
+$InputRunFileMonitor
+local7.* @@192.168.217.132:514
+
+# Thực hiện lưu và thoát khỏi VIM. Sau đó khởi động lại Rsyslog
+root@ubuntusv:/etc/rsyslog.d# systemctl restart rsyslog
+```
+
+Đối với bên Server
+```
+# Bạn có thể thêm vào file cấu hình phụ sẵn có hoặc thêm mới một file cấu hình phụ dòng lệnh sau:
+
+$ModLoad imtcp
+$InputTCPServerRun 514
+$template RemoteServer, "/var/log/testlog/%fromhost-ip%/%programname%"
+local3.* ?RemoteServer
+local7.* ?RemoteServer
+```
+
+Tiến hành kiểm tra lại:
+
+![](/Anh/Screenshot_545.png)
+
+Đọc nội dung các file xem đã đúng hay chưa
+- File `auth.log`
+- ![](/Anh/Screenshot_546.png)
+- File `syslog`
+- ![](/Anh/Screenshot_547.png)
+- File `kernlog`
+- ![](/Anh/Screenshot_548.png)
 
 

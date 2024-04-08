@@ -9,7 +9,7 @@ MỤC LỤC
     - [2.4 IP Private(IP riêng tư)](#24-ip-privateip-riêng-tư)
     - [2.5 IP Private và IP Public](#25-ip-private-và-ip-public)
   - [3. Internet Protocol version 4(IPv4)](#3-internet-protocol-version-4ipv4)
-    - [3.1 Cấu trúc địa chỉ IP](#31-cấu-trúc-địa-chỉ-ip)
+  - [3.1 Cấu trúc địa chỉ IP](#31-cấu-trúc-địa-chỉ-ip)
   - [3.2 Các lớp địa chỉ IP](#32-các-lớp-địa-chỉ-ip)
     - [3.2.1 Lớp A](#321-lớp-a)
     - [3.2.2 Lớp B](#322-lớp-b)
@@ -111,7 +111,7 @@ Là địa chỉ IP được các nhà cung cấp dịch vụ internet như
 - ![](/Anh/Screenshot_51.png)
 ## 3. Internet Protocol version 4(IPv4)
 - Giao thức Internet phiên bản thứ 4, là phiên bản thứ 4 trong quá trình phát triển của IP. Đây là phiên bản đầu tiên của IP được sử dụng rộng rãi. Đến nay, IPv4 vẫn đang được sử dụng rất nhiều
-### 3.1 Cấu trúc địa chỉ IP
+## 3.1 Cấu trúc địa chỉ IP
 Được chia thành 2 phần:
 - ![](/Anh/Screenshot_52.png)
 - Phần Network: là địa chỉ mạng, dùng để xác định mạng mà thiết bị kết nối vào. Dùng để phần biệt mạng này với mạng khác
