@@ -240,21 +240,21 @@ $InputFilePollInterval 10
 
 $InputFileName /var/log/syslog
 $InputFileTag systemlog
-$InputFileFacility local7
+$InputFileFacility local5
 $InputRunFileMonitor
-local7.* @@192.168.217.132:514
+local5.* @@192.168.217.132:514
 
 $InputFileName /var/log/auth.log
 $InputFileTag authlog
-$InputFileFacility local7
+$InputFileFacility local5
 $InputRunFileMonitor
-local7.* @@192.168.217.132:514
+local5.* @@192.168.217.132:514
 
 $InputFileName /var/log/kern.log
 $InputFileTag kernlog
-$InputFileFacility local7
+$InputFileFacility local5
 $InputRunFileMonitor
-local7.* @@192.168.217.132:514
+local5.* @@192.168.217.132:514
 
 # Thực hiện lưu và thoát khỏi VIM. Sau đó khởi động lại Rsyslog
 root@ubuntusv:/etc/rsyslog.d# systemctl restart rsyslog
@@ -268,7 +268,7 @@ $ModLoad imtcp
 $InputTCPServerRun 514
 $template RemoteServer, "/var/log/testlog/%fromhost-ip%/%programname%"
 local3.* ?RemoteServer
-local7.* ?RemoteServer
+local5.* ?RemoteServer
 ```
 
 Tiến hành kiểm tra lại:
