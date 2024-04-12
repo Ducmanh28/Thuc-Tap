@@ -1,3 +1,12 @@
+MỤC LỤC
+- [Mục này tìm hiểu về tcpdump](#mục-này-tìm-hiểu-về-tcpdump)
+  - [TCPdump là gì?](#tcpdump-là-gì)
+  - [TCPdump có thể được dùng để làm những gì?](#tcpdump-có-thể-được-dùng-để-làm-những-gì)
+  - [Tcpdump cấu trúc như thế nào?](#tcpdump-cấu-trúc-như-thế-nào)
+  - [Một chút so sánh giữa Tcpdump và WireShark](#một-chút-so-sánh-giữa-tcpdump-và-wireshark)
+    - [TCPDump:](#tcpdump)
+    - [Wireshark:](#wireshark)
+
 # Mục này tìm hiểu về tcpdump
 Nếu như bạn sử dụng các phiên bản của hệ điều hành Unix/Linux, `tcpdump` sẽ là công cụ giúp bạn kiểm tra lưu lượng mạng và lưu lại những gói tin bắt được.
 

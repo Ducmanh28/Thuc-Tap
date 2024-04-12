@@ -8,6 +8,7 @@ MỤC LỤC
     - [Tổng quát về Logrotate](#tổng-quát-về-logrotate)
     - [Cấu hình logrotate theo số lượng file](#cấu-hình-logrotate-theo-số-lượng-file)
     - [Cấu hình logrotate theo dung lượng tối đa của file](#cấu-hình-logrotate-theo-dung-lượng-tối-đa-của-file)
+  - [Tiến hành gửi cmdlog đến Server](#tiến-hành-gửi-cmdlog-đến-server)
 
 # Hướng dẫn cấu hình Rsyslog gửi các Log mỗi khi người dùng sử dụng câu lệnh bất kỳ
 
@@ -199,3 +200,30 @@ Kiểm tra kết quả:
 
 ![](/Anh/Screenshot_552.png)
 
+## Tiến hành gửi cmdlog đến Server
+Ở trên máy client chúng ta thực hiện cấu hình như sau:
+```
+root@ubuntusv:/etc/rsyslog.d# vim /etc/rsyslog.d/514-cmdlog.conf
+$Modload imfile
+$InputFilePollInterval 10
+
+$InputFileName /var/log/cmdlog.log
+$InputFileTag cmdlog
+$InputFileFacility local5
+$InputRunFileMonitor
+local5.* @@192.168.217.132:514
+```
+Việc cấu hình như trên sẽ gửi dữ liệu ở trong File `cmdlog.log` lưu vào biến `local5` và thực hiện gửi đi
+
+Cấu hình trên Server
+```
+module(load="imtcp")
+input(type="imtcp" port="514")
+$template RemoteServer, "/var/log/%fromhost-ip%/%programname%"
+*.* ?RemoteServer
+```
+Việc cấu hình như trên sẽ áp dụng template cho tất cả các gói log nhận được
+
+Kiểm tra kết quả:
+
+![](/Anh/Screenshot_553.png)
