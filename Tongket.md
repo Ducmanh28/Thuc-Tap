@@ -297,4 +297,10 @@ Tiếp tục làm lại phần Rsyslog
   - Cấu hình cho các User được thêm mới sau này
   - Cấu hình Logrotate, tìm hiểu về các biến Local
   - Cấu hình Rsyslog để gửi cmd đến Server
-
+- Việc gửi Log còn gặp lỗi:
+```
+rsyslogd: pidfile '/run/rsyslogd.pid' and pid 1839 already exist.
+If you want to run multiple instances of rsyslog, you need to specify
+different pid files for them (-i option).
+rsyslogd: run failed with error -3000 (see rsyslog.h or try https://www.rsyslog.com/e/3000 to learn what that number means)
+```
