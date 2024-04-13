@@ -286,3 +286,15 @@ Tìm hiểu về Log, giao thức Syslog, ứng dụng RSyslog
 Thực hành lab Rsyslog: Dựng 2 máy ảo Linux cấu hình Log tập trung
 - Thực hiện gửi các log do hệ thống sinh ra
 - Thực hiện gửi các log do các ứng dụng tải về sinh ra(Http)
+
+### Từ 7/4 - 13/4
+Tiếp tục làm lại phần Rsyslog
+- Làm chi tiết hơn phần Log
+- Lọc ra và gửi các Log SSH
+- Sử dụng tcpdump, lệnh ss, lệnh nc và netstat để kiểm tra quá trình gửi Log
+- Cấu hình Rsyslog ghi lại các lệnh mà User đã sử dụng
+  - Cấu hình cho các User có sẵn
+  - Cấu hình cho các User được thêm mới sau này
+  - Cấu hình Logrotate, tìm hiểu về các biến Local
+  - Cấu hình Rsyslog để gửi cmd đến Server
+
