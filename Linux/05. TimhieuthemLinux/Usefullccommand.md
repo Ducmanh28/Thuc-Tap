@@ -272,6 +272,10 @@ Tuy nhiên, Telnet vẫn có thể hữu ích trong một số trường hợp, 
 
 Ở đây, chúng ta chỉ nên dùng lệnh `telnet` để kiểm tra kết nối giữa 2 máy Client và Server. Telnet sử dụng kết nối **TCP** vậy nên chúng ta chỉ có thể kiểm tra các kết nối **TCP** giữa 2 máy. Đối với các kết nối **UDP** chúng ta **không** thể sử dụng Telnet để kiểm tra.
 
+Mô hình kết nối trông như sau:
+
+![](/Anh/Screenshot_556.png)
+
 Câu lệnh kiểm tra như sau:
 ```
 telnet [địa chỉ IP] [chỉ định cổng Port]
