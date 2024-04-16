@@ -24,6 +24,7 @@ MỤC LỤC
       - [Kiểm tra kết nối:](#kiểm-tra-kết-nối)
     - [Dùng `tcpdump` bắt gói tin và phân tích khi nc giao tiếp](#dùng-tcpdump-bắt-gói-tin-và-phân-tích-khi-nc-giao-tiếp)
   - [Tổng quan 3 câu lệnh:](#tổng-quan-3-câu-lệnh)
+  - [Lệnh `Telnet`](#lệnh-telnet)
 
 
 # Mục này tìm hiểu về 1 số câu lệnh hữu dụng khi sử dụng Linux
@@ -260,3 +261,23 @@ echo "Test Complete, GoodBye!!!"
 |**Tính năng chính**|Hiển thị thông tin các kết nối mạng, bảng định tuyến, các thông tin liên quan đến hệ thống|Hiển thị các thông tin về các kết nối mạng, bảng định tuyến, giao diện mạng và các thông tin liên quan trên hệ thống|Tạo và quản lý kết nối mạng, gửi và nhận dữ liệu trên giao thức TCP hoặc UDP|
 |**Tính linh hoạt**|Có thể tinh chỉnh kết quả hiển thị qua bộ lọc và tùy chọn|Có thể tinh chỉnh kết quả hiển thị thông qua bộ lọc, tuy nhiên, không được tối ưu bằng ss|Có thể hoạt động như máy chủ(lắng nghe kết nối), hoặc máy khách(thiết lập kết nối)|
 |**Tổng kết**|Phù hợp sử dụng khi bạn cần công cụ linh hoạt và mạnh mẽ để kiểm tra và hiển thị các kết nối mạng|Phù hợp sử dụng khi bạn cần công cụ đơn giản để kiểm tra các kết nối mạng cơ bản|Phù hợp sử dụng khi bạn cần thực hiện các thao tác trực tiếp với kết nối mạng|
+
+
+## Lệnh `Telnet`
+Lệnh telnet là một công cụ dòng lệnh được sử dụng để thiết lập kết nối tới máy chủ thông qua giao thức Telnet. Telnet là một giao thức mạng đã cổ điển được sử dụng để thiết lập kết nối từ xa giữa các máy tính trên mạng TCP/IP.
+
+Cụ thể, lệnh telnet được sử dụng để thiết lập kết nối tới một máy chủ Telnet thông qua cổng mạng (thường là cổng 23). Khi kết nối thành công, người dùng có thể truy cập và quản lý máy chủ từ xa thông qua dòng lệnh của máy tính hiện tại. Telnet cung cấp một cửa sổ dòng lệnh đơn giản và không mã hóa dữ liệu, nên nó không an toàn khi sử dụng trên mạng công cộng hoặc mạng không an toàn, vì thông tin gửi đi có thể bị người thứ ba đánh cắp.
+
+Tuy nhiên, Telnet vẫn có thể hữu ích trong một số trường hợp, ví dụ như khi bạn cần kiểm tra kết nối hoặc gỡ lỗi vấn đề liên quan đến mạng hoặc dịch vụ. Trong môi trường sản xuất, Telnet thường được thay thế bằng SSH (Secure Shell) vì tính bảo mật cao hơn.
+
+Ở đây, chúng ta chỉ nên dùng lệnh `telnet` để kiểm tra kết nối giữa 2 máy Client và Server. Telnet sử dụng kết nối **TCP** vậy nên chúng ta chỉ có thể kiểm tra các kết nối **TCP** giữa 2 máy. Đối với các kết nối **UDP** chúng ta **không** thể sử dụng Telnet để kiểm tra.
+
+Câu lệnh kiểm tra như sau:
+```
+telnet [địa chỉ IP] [chỉ định cổng Port]
+```
+Nếu bạn thực sự muốn kết nối tới Server, bạn cần cài đặt Telnet Server trên máy chủ mà bạn muốn kết nối tới
+```
+sudo dnf install telnet-server
+```
+Lúc này, khi bạn Telnet vào máy chủ, bạn có thể điều khiển máy chủ như dùng SSH. Tuy nhiên nó sẽ có các lỗ hổng bảo mật và tôi không khuyến khích các bạn sử dụng Telnet để điều khiển máy chủ mà thay vào đó, nên dùng SSH.
