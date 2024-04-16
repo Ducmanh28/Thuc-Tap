@@ -304,3 +304,5 @@ If you want to run multiple instances of rsyslog, you need to specify
 different pid files for them (-i option).
 rsyslogd: run failed with error -3000 (see rsyslog.h or try https://www.rsyslog.com/e/3000 to learn what that number means)
 ```
+Sửa tạm thời
+
