@@ -9,6 +9,7 @@ MỤC LỤC
     - [Cấu hình logrotate theo số lượng file](#cấu-hình-logrotate-theo-số-lượng-file)
     - [Cấu hình logrotate theo dung lượng tối đa của file](#cấu-hình-logrotate-theo-dung-lượng-tối-đa-của-file)
   - [Tiến hành gửi cmdlog đến Server](#tiến-hành-gửi-cmdlog-đến-server)
+  - [Kiểm tra quá trình gửi Log](#kiểm-tra-quá-trình-gửi-log)
 
 # Hướng dẫn cấu hình Rsyslog gửi các Log mỗi khi người dùng sử dụng câu lệnh bất kỳ
 
@@ -215,10 +216,10 @@ local5.* @@192.168.217.132:514
 ```
 Việc cấu hình như trên sẽ gửi dữ liệu ở trong File `cmdlog.log` lưu vào biến `local5` và thực hiện gửi đi
 
-Cấu hình trên Server
+Cấu hình trên Server, thêm vào file cấu hình chính của Rsyslog nội dung sau
 ```
-module(load="imtcp")
-input(type="imtcp" port="514")
+module(load="imudp")
+input(type="imudp" port="514")
 $template RemoteServer, "/var/log/%fromhost-ip%/%programname%"
 *.* ?RemoteServer
 ```
@@ -227,3 +228,60 @@ Việc cấu hình như trên sẽ áp dụng template cho tất cả các gói 
 Kiểm tra kết quả:
 
 ![](/Anh/Screenshot_553.png)
+
+## Kiểm tra quá trình gửi Log
+Trước tiên, chúng ta cần phải xem Port 514 đã thực sự hoạt động hay chưa
+
+Nếu đứng từ Server, chúng ta thực hiện bằng cách sử dụng lệnh ss, netstat như sau:
+```
+#Một vài câu lệnh
+ss -lan | grep "514"      hoặc ss -lun | grep "514"
+
+netstat -lan | grep 514... 
+#Mẫu hiển thị đầu ra sẽ trông như sau
+[root@localhost ducmanh287]# ss -lun | grep "514"
+UNCONN 0      0            0.0.0.0:514       0.0.0.0:*
+UNCONN 0      0            0.0.0.0:514       0.0.0.0:*
+UNCONN 0      0               [::]:514          [::]:*
+UNCONN 0      0               [::]:514          [::]:*
+```
+Vậy nếu đứng từ Client, làm sao chúng ta biết được Server đã mở port 514 hay chưa?
+
+Lúc này, chính là lúc mà lệnh `nc` hoặc `telnet` phát huy tác dụng của mình. 
+```
+# Thực hiện dùng lệnh nc kiểm tra xem có kết nối được tới Server hay không?
+ducmanh287@ubuntusv:~$ nc -uzv 192.168.217.132 514
+Connection to 192.168.217.132 514 port [udp/syslog] succeeded!
+ 
+Như vậy là đã kết nối thành công tới Server thông qua [udp/syslog] port 514
+```
+
+Ở trên Server, thực hiện kiểm tra lắng nghe trên cổng 514 như sau:
+```
+[root@localhost ducmanh287]# nc -ul 514
+<173>Apr 16 07:22:55 ubuntusv cmdlog Apr 16 07:22:53 ubuntusv root:   211  root (192.168.217.1) 16/04/24 07:22:52 heel
+<173>Apr 16 07:22:55 ubuntusv cmdlog Apr 16 07:22:53 ubuntusv root:   212  root (192.168.217.1) 16/04/24 07:22:53 dsfsdg
+<173>Apr 16 07:22:55 ubuntusv cmdlog Apr 16 07:22:54 ubuntusv root:   213  root (192.168.217.1) 16/04/24 07:22:54 sgfd
+....
+# Như vậy nghĩa là Server đã lắng nghe thành công
+```
+
+Bắt gói tin và kiểm tra nội dung gói tin thử:
+```
+[root@localhost ducmanh287]# tcpdump -i ens33 port 514 -w testlog.pcap -c 50
+dropped privs to tcpdump
+tcpdump: listening on ens33, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+^C9 packets captured
+9 packets received by filter
+0 packets dropped by kernel
+```
+
+**Kiểm tra bằng WireShark**
+
+![](/Anh/Screenshot_554.png)
+
+Như các bạn có thể thấy, khi gửi bằng UDP, chúng ta có thể đọc toàn bộ nội dung gói tin Syslog
+
+**Giải thích lý do:**
+- Khi sử dụng giao thức TCP để gửi gói tin Syslog, dữ liệu thường được gửi dưới dạng các chuỗi ký tự được mã hóa, thường là theo các định dạng như RFC3164 hoặc RFC5424. Với giao thức TCP, dữ liệu được chia thành các phần (hoặc gói tin TCP) và được gửi dưới dạng các phần riêng lẻ. Vì vậy khi bạn bắt gói tin bằng Wireshark, Wireshark sẽ hiển thị mỗi gói tin TCP dưới dạng một đơn vị riêng biệt, chứ không phải là dữ liệu đầy đủ của thông điệp Syslog.
+- Trong khi đó, khi sử dụng giao thức UDP, mỗi thông điệp Syslog thường được gửi trong một gói tin UDP đầy đủ và độc lập. Do đó, khi bạn bắt gói tin UDP bằng Wireshark, mỗi gói tin sẽ chứa đầy đủ thông điệp Syslog mà không cần phải ghép nối như trong trường hợp của giao thức TCP.
