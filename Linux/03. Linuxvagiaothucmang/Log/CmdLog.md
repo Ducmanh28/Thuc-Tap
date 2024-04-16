@@ -248,6 +248,10 @@ UNCONN 0      0               [::]:514          [::]:*
 Vậy nếu đứng từ Client, làm sao chúng ta biết được Server đã mở port 514 hay chưa?
 
 Lúc này, chính là lúc mà lệnh `nc` hoặc `telnet` phát huy tác dụng của mình. 
+
+**Mô hình kiểm tra**
+
+![](/Anh/Screenshot_555.png)
 ```
 # Thực hiện dùng lệnh nc kiểm tra xem có kết nối được tới Server hay không?
 ducmanh287@ubuntusv:~$ nc -uzv 192.168.217.132 514
@@ -265,6 +269,7 @@ Như vậy là đã kết nối thành công tới Server thông qua [udp/syslog
 ....
 # Như vậy nghĩa là Server đã lắng nghe thành công
 ```
+
 
 Bắt gói tin và kiểm tra nội dung gói tin thử:
 ```
