@@ -212,7 +212,7 @@ $InputFileName /var/log/cmdlog.log
 $InputFileTag cmdlog
 $InputFileFacility local5
 $InputRunFileMonitor
-local5.* @@192.168.217.132:514
+local5.* @192.168.217.132:514
 ```
 Việc cấu hình như trên sẽ gửi dữ liệu ở trong File `cmdlog.log` lưu vào biến `local5` và thực hiện gửi đi
 
