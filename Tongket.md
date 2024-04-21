@@ -306,3 +306,43 @@ rsyslogd: run failed with error -3000 (see rsyslog.h or try https://www.rsyslog.
 ```
 Sửa tạm thời
 
+### Từ 15/4 - 20/4
+Kiểm tra trạng thái Port trên Server
+- Khi đứng từ Server
+  - Lệnh `ss`: `ss -tuln `
+  - Lệnh `netstat`: `netstat -tuln`
+
+- Khi đứng từ Client
+  - Lệnh `nc` có thể sử dụng để kiểm tra các port TCP/UDP 
+```
+nc - zv 192.168.217.132 514
+
+nc -uzv 192.168.217.132 514
+```
+  - Lệnh `nmap` có thể sử dụng để quét các Port
+```
+nmap -p 514 192.168.217.132
+
+nmap -sU -p 514 192.168.217.132
+```
+  - Lệnh `telnet` có thể sử dụng để kiểm tra các port TCP
+```
+telnet 192.168.217.132 514
+```
+Tuy nhiên:
+- Trong quá trình tìm hiểu còn gặp lỗi khi sử dụng `nc`: Lỗi khi thực hiện tắt card mạng vẫn có thể kết nối tới Server. Đánh giá khả năng gây lỗi do các cache và buffer, sau khi thực hiện xóa thì chưa gặp lại tình trạng lỗi
+- Đối với lệnh telnet, cần phân biệt giữa Port mở đang lắng nghe và Port mở không lắng nghe. Kể cả trên Server có mở Port thông qua tường lửa nhưng không có dịch vụ nào sử dụng Port để Port lắng nghe thì Telnet sẽ hiển thị không thể kết nối
+
+Hoàn thành gửi CMD Log thông qua Port 514 UDP từ CLient đến Server
+
+Lý thuyết về DNS:
+- Là hệ thống phân giải tên miền thành địa chỉ IP tương ứng
+- Giúp máy tính và các thiết bị truy cập internet dễ dàng tìm kiếm và kết nối với các máy chủ và dịch vụ thông qua tên miền thay vì phải ghi nhớ địa chỉ IP số
+- Trong môi trường Linux, dịch vụ DNS thường được triển khai thông qua các máy chủ DNS như BIND (Berkeley Internet Name Domain) hoặc dnsmasq(dùng chủ yếu là dnsmasq)
+-  DNS cài đặt không gian tên phân cấp dùng cho các đối tượng trên Internet. Các tên DNS được xử lý từ trái sang phải, sử dụng dấu chấm để ngăn cách. Mỗi quốc gia có 1 tên miền, ngoài ra còn có 6 tên miền lớn gồm: edu, com, gov, org và net. 6 miền lớn này nằm ở Mỹ. Những tên miền không chỉ ra tên nước một cách tường minh thì mặc nhiên nằm ở Mỹ
+-  Các Server tham gia vào hệ thống DNS:
+   -  **DNS Recursor**: Đóng vai trò liên lạc với các server khác để thay nó làm nhiệm vụ phản hồi cho client
+   -  **Local Nameserver**: Dùng để chứa thông tin để truy xuất và tìm kiếm máy chủ tên miền. 
+   -  **Root Nameserver**: Đùng để định hướng cho việc tìm kiếm
+   -  **TLD Nameserver**: Nó sẽ chịu trách nhiệm quản lý toàn bộ thông tin của 1 phần mở rộng tên miền chung
+   -  **Authiritative Nameserver**: Đây là nơi việc phân giải tên miền diễn ra
