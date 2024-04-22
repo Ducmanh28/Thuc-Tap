@@ -1,6 +1,7 @@
-# Mục này tìm hiểu về giao thức DNS trong Linux
+# Mục này tìm hiểu về giao thức DNS 
+
 MỤC LỤC
-- [Mục này tìm hiểu về giao thức DNS trong Linux](#mục-này-tìm-hiểu-về-giao-thức-dns-trong-linux)
+- [Mục này tìm hiểu về giao thức DNS](#mục-này-tìm-hiểu-về-giao-thức-dns)
   - [DNS là gì?](#dns-là-gì)
   - [Lịch sử phát triển của DNS](#lịch-sử-phát-triển-của-dns)
     - ["Hosts" file](#hosts-file)
