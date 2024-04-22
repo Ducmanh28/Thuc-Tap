@@ -336,7 +336,7 @@ Tuy nhiên:
 Hoàn thành gửi CMD Log thông qua Port 514 UDP từ CLient đến Server
 
 Lý thuyết về DNS:
-- Là hệ thống phân giải tên miền thành địa chỉ IP tương ứng
+- Là hệ thống phân giải tên miền thành địa chỉ IP tương ứng và ngược lại
 - Giúp máy tính và các thiết bị truy cập internet dễ dàng tìm kiếm và kết nối với các máy chủ và dịch vụ thông qua tên miền thay vì phải ghi nhớ địa chỉ IP số
 - Trong môi trường Linux, dịch vụ DNS thường được triển khai thông qua các máy chủ DNS như BIND (Berkeley Internet Name Domain) hoặc dnsmasq(dùng chủ yếu là dnsmasq)
 -  DNS cài đặt không gian tên phân cấp dùng cho các đối tượng trên Internet. Các tên DNS được xử lý từ trái sang phải, sử dụng dấu chấm để ngăn cách. Mỗi quốc gia có 1 tên miền, ngoài ra còn có 6 tên miền lớn gồm: edu, com, gov, org và net. 6 miền lớn này nằm ở Mỹ. Những tên miền không chỉ ra tên nước một cách tường minh thì mặc nhiên nằm ở Mỹ
