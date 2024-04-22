@@ -30,6 +30,7 @@ MỤC LỤC
     - [Bản Quản Lý (Authority Section):](#bản-quản-lý-authority-section)
     - [Bản Ghi Bổ Sung (Additional Section):](#bản-ghi-bổ-sung-additional-section)
   - [Các loại truy vấn DNS](#các-loại-truy-vấn-dns)
+  - [Một số DNS phổ biến hiện nay](#một-số-dns-phổ-biến-hiện-nay)
 
 ## DNS là gì?
 DNS (Domain Name System) là một hệ thống dùng để chuyển đổi các tên miền (như example.com) thành địa chỉ IP tương ứng và ngược lại. Nó giúp máy tính và các thiết bị truy cập internet dễ dàng tìm kiếm và kết nối với các máy chủ và dịch vụ thông qua tên miền thay vì phải ghi nhớ địa chỉ IP số.
@@ -190,3 +191,30 @@ Chứa các thông tin bổ sung, thường là các địa chỉ IP của các 
 - **Recursive query**: DNS client gửi 1  yêu cầu máy của DNS(thường là recursive DNS resolver). Máy chủ sẽ trả lời máy khách bằng bản ghi tài nguyên được yêu cầu. Hoặc thông báo lỗi nếu resolver không thể tìm thấy bản ghi
 - **Iterative query**: Client sẽ cho phép máy chủ trả về câu trả lời tốt nhất có thể. Nếu máy chủ được truy vấn không có kết quả trùng khớp với tên truy vấn, nó sẽ trả về 1 giới thiệu đến máy chủ có thẩm quyền cho mức thấp hơn. Client sau đó sẽ thực hiện một truy vấn đến địa chỉ được giới thiệu. Qúa trình này tiếp tục với các máy chủ DNS bổ sung cho đến khi xảy ra lỗi hoặc hết thời gian
 - **Non-recursive query**: Xảy ra khi DNS resolver client truy vấn máy chủ DNS một record mà server có quyền truy cập bản ghi tồn tại bên trong bộ đệm của server. Thông thường, 1 máy chủ DNS sẽ lưu các bản ghi DNS để ngăn chặn việc tiêu thụ thêm bằng thông và giảm tải cho các DNS khác
+
+## Một số DNS phổ biến hiện nay
+Có nhiều loại DNS phổ biến hiện nay có thể kể đến như:
+- Google DNS:
+  - Là dịch vụ DNS miễn phí do Google cung cấp, được sử dụng phổ biến trên toàn thế giới. 
+  - Địa chỉ IP của Google DNS là 8.8.8.8 và 8.8.4.4.
+- Cloudflare DNS: 
+  - Là dịch vụ DNS miễn phí của Cloudflare, cung cấp tốc độ và tính năng bảo mật cao. 
+  - Địa chỉ IP của Cloudflare DNS là 1.1.1.1 và 1.0.0.1.
+- OpenDNS: 
+  - Là dịch vụ DNS do công ty Cisco cung cấp, có khả năng chặn các trang web độc hại và lọc nội dung. 
+  - Địa chỉ IP của OpenDNS là 208.67.222.222 và 208.67.220.220.
+- Quad9 DNS: 
+  - Là dịch vụ DNS miễn phí được phát triển bởi tổ chức non-profit Global Cyber Alliance, có khả năng chặn các trang web độc hại và tăng cường bảo mật. 
+  - Địa chỉ IP của Quad9 DNS là 9.9.9.9 và 149.112.112.112.
+- Comodo Secure DNS: 
+  - Là dịch vụ DNS của công ty bảo mật Comodo, có khả năng chặn các trang web độc hại và giảm thiểu rủi ro cho người dùng.
+  - Địa chỉ IP của Comodo Secure DNS là 8.26.56.26 và 8.20.247.20.
+- DNS VNPT: 
+  - VNPT là một trong những nhà mạng viễn thông khá nổi tiếng tại Việt Nam.
+  - Địa chỉ IP của DNS VNPT: 203.162.4.191 và 203.162.4.190
+- DNS Viettel: 
+  - Bên cạnh VNPT, Viettel cũng là một nhà mạng lâu đời tại Việt Nam với đường truyền internet mạnh mẽ, phủ sóng toàn quốc và trên nhiều quốc gia trên thế giới. 
+  - DNS Server của Viettel: 203.113.131.1 và203.113.131.2
+- DNS FPT: 
+  - Là một trong ba ông lớn của viễn thông tại Việt Nam 
+  - Địa chỉ IP của FPT DNS Server là: 210.245.24.20 và 210.245.24.22
