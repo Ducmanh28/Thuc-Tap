@@ -352,8 +352,8 @@ Tiếp tục tìm hiểu Lý thuyết về DNS:
 - Lịch sử hình thành và phát triển phát triển: 
   - Trước khi có DNS, người ta sử dụng "Hosts" file
   - 1983 DNS ra đời
-  - 1984 bắt đầu ra mộ trường Internet thực tế
-  - 1984 dến nay, các bản cập nhật, nâng cấp thêm
+  - 1984 bắt đầu ra môi trường Internet thực tế
+  - 1984 đến nay, các bản cập nhật, mở rộng, nâng cấp thêm
 - Lưu lượng DNS: Là lượng dữ liệu truyền tải giữa máy tính của người dùng và máy chủ DNS khi thực hiện phân giải
 - Mô hình và cách thức hoạt động
   - Người dùng tìm tên miền
