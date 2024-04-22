@@ -346,3 +346,28 @@ Lý thuyết về DNS:
    -  **Root Nameserver**: Đùng để định hướng cho việc tìm kiếm
    -  **TLD Nameserver**: Nó sẽ chịu trách nhiệm quản lý toàn bộ thông tin của 1 phần mở rộng tên miền chung
    -  **Authiritative Nameserver**: Đây là nơi việc phân giải tên miền diễn ra
+
+### Từ 22/04 - 27/04
+Tiếp tục tìm hiểu Lý thuyết về DNS:
+- Lịch sử hình thành và phát triển phát triển: 
+  - Trước khi có DNS, người ta sử dụng "Hosts" file
+  - 1983 DNS ra đời
+  - 1984 bắt đầu ra mộ trường Internet thực tế
+  - 1984 dến nay, các bản cập nhật, nâng cấp thêm
+- Lưu lượng DNS: Là lượng dữ liệu truyền tải giữa máy tính của người dùng và máy chủ DNS khi thực hiện phân giải
+- Mô hình và cách thức hoạt động
+  - Người dùng tìm tên miền
+  - PC gửi truy vấn đến các máy chủ DNS
+  - Các máy chủ lần lượt tìm kiếm từ Local DNS --> ROOT DNS --> TLD Server --> Authoritative trả về địa chỉ IP
+- DNS Caching: là bộ nhớ lưu lại các tên miền đã được phân giải
+- Một số bản ghi DNS phổ biến: 
+  - A Record: Bản ghi IPv4
+  - AAAA Record: Bản ghi IPv6
+  - CNAME Record: Bản ghi alias
+- Cấu trúc gói tin:
+  - Thông tin truy vấn bao gồm 1 `header` và `question record`
+  - Thông tin trả lời bao gồm một `header`, `question record` và `answer record`, các bản ghi có thẩm quyền và các bản ghi bổ sung
+- Các loại truy vấn: 
+  - Recursive query: Là gói tin yêu cầu
+  - Iterative query: Là gói tin trả về tốt nhất. Có thể trả về IP hoặc trả về Server chứa thông tin cần tìm
+
