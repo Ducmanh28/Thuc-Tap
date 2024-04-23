@@ -5,6 +5,7 @@ MỤC LỤC
   - [DNS là gì?](#dns-là-gì)
   - [Lịch sử phát triển của DNS](#lịch-sử-phát-triển-của-dns)
     - ["Hosts" file](#hosts-file)
+    - [DNS hình thành và phát triển](#dns-hình-thành-và-phát-triển)
   - [Lưu lượng DNS](#lưu-lượng-dns)
   - [DNS Registry và DNS Registrar](#dns-registry-và-dns-registrar)
     - [DNS Registry](#dns-registry)
@@ -28,7 +29,7 @@ MỤC LỤC
   - [Các loại truy vấn DNS](#các-loại-truy-vấn-dns)
   - [Một số DNS phổ biến hiện nay](#một-số-dns-phổ-biến-hiện-nay)
   - [Một số ví dụ về quá trình DNS trong thực tế](#một-số-ví-dụ-về-quá-trình-dns-trong-thực-tế)
-    - [Ví dụ 1: Khi chúng ta tìm dantri.vn khi ở Việt Nam](#ví-dụ-1-khi-chúng-ta-tìm-dantrivn-khi-ở-việt-nam)
+    - [Ví dụ 1: Khi chúng ta tìm `dantri.vn` khi ở Việt Nam](#ví-dụ-1-khi-chúng-ta-tìm-dantrivn-khi-ở-việt-nam)
     - [Ví dụ 2: Khi chúng ta ở một nước khác và thực hiện tìm `dantri.vn`](#ví-dụ-2-khi-chúng-ta-ở-một-nước-khác-và-thực-hiện-tìm-dantrivn)
     - [Ví dụ 3: Khi chúng ta tìm một tên miền không tồn tại](#ví-dụ-3-khi-chúng-ta-tìm-một-tên-miền-không-tồn-tại)
 
@@ -48,7 +49,7 @@ Là một tập tin văn bản cục bộ mà mỗi máy tính trong mạng lưu
 Tuy nhiên việc quản lý và cập nhật "hosts" file trở nên không khả thi khi Internet phát triển và có hàng ngàn hoặc thậm chí hàng triệu tên miền. Do đó, DNS được phát triển nhằm tạo ra một cơ chế phân phối, tự động và linh hoạt hơn để ánh xạ tên miền thành địa chỉ IP, giúp Internet trở nên quy mô lớn và dễ quản lý
 
 Ngày nay, "Host" file vẫn còn tồn tại và đang được sử dụng. Nếu bạn sử dụng Windows, bạn có thể tìm thấy "Hosts" file ở đường dẫn sau: `C:\Windows\System32\drivers\etc\hosts`
-
+### DNS hình thành và phát triển
 - 1983: DNS được đề xuất trong RFC 882 và RFC 883 bởi **Paul Mockapetris** và **Jon Postel**. Đây là phiên bản DNS ban đầu.
 - 1984: DNS được triển khai trong môi trường thực tế cho Internet.
 - 1987: RFC 1034 và RFC 1035 được phát hành, mô tả một số cải tiến và mở rộng của DNS.
@@ -124,7 +125,7 @@ Hiện nay có khoảng 13 máy chủ định danh gốc trên toàn cầu đư�
 **Chức năng**:
 - Duy trì thông tin về các máy chủ DNS cung cấp cho các tên miền cụ thể trong TLD.
 - Điều hướng truy vấn đến máy chủ DNS cung cấp cho các tên miền cụ thể
-- 
+
 **Quản lý**: Tên miền cấp độ cao 2 (Second-Level Domain - SLD) được quản lý bởi các tổ chức được ủy quyền cho từng loại SLD.
 
 ### Máy Chủ DNS Cung Cấp(Authoritative DNS Server)
@@ -255,7 +256,7 @@ Có nhiều loại DNS phổ biến hiện nay có thể kể đến như:
   - Địa chỉ IP của FPT DNS Server là: 210.245.24.20 và 210.245.24.22
 
 ## Một số ví dụ về quá trình DNS trong thực tế
-### Ví dụ 1: Khi chúng ta tìm dantri.vn khi ở Việt Nam
+### Ví dụ 1: Khi chúng ta tìm `dantri.vn` khi ở Việt Nam
 Mô hình hoạt động:
 
 ![](/Anh/Screenshot_561.png)

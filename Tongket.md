@@ -370,4 +370,18 @@ Tiếp tục tìm hiểu Lý thuyết về DNS:
 - Các loại truy vấn: 
   - Recursive query: Là gói tin yêu cầu
   - Iterative query: Là gói tin trả về tốt nhất. Có thể trả về IP hoặc trả về Server chứa thông tin cần tìm
+- DNS Registry và DNS Registrar
+  - DNS Registry là các tổ chức quản lý các TLD Server
+  - DNS Registrar là các tổ chức, công ty mạng cung cấp các dịch vụ đăng ký tên miền, được cấp phép bởi Registry
+- Mô hình cấp bậc, phân quyền DNS Server:
+  - ROOT NAME SERVER do ICANN và một số tổ chức lớn quản lý, có 13 ROOT NAME SERVER trên toàn thế giới
+  - TLD SERVER do các Registry quản lý
+  - SLD SERVER do các tổ chức, công ty cá nhân quản lý
+  - AUTHORITATIVE SERVER do các Registrar quản lý
+  - LOCAL NAME SERVER do các User quản lý
+
+- Một số ví dụ thực tế:
+  - Khi kết nối đến dantri.vn từ Việt Nam
+  - Khi kết nối đến dantri.vn từ Mỹ
+  - Khi kết nối đến 1 tên miền không tồn tại
 
