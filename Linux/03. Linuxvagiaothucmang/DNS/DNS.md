@@ -16,6 +16,7 @@ MỤC LỤC
     - [Máy chủ DNS ở cấp độ 2(Second-Level Domain - SLD Server)](#máy-chủ-dns-ở-cấp-độ-2second-level-domain---sld-server)
     - [Máy Chủ DNS Cung Cấp(Authoritative DNS Server)](#máy-chủ-dns-cung-cấpauthoritative-dns-server)
     - [Các Máy Chủ DNS Cơ Sở Khác (Recursive DNS Server, Forwarding DNS Server):](#các-máy-chủ-dns-cơ-sở-khác-recursive-dns-server-forwarding-dns-server)
+  - [Mô hình cấp bậc và quản lý DNS](#mô-hình-cấp-bậc-và-quản-lý-dns)
   - [Mô hình và cách thức hoạt động của DNS](#mô-hình-và-cách-thức-hoạt-động-của-dns)
   - [DNS Caching và các loại bản ghi DNS](#dns-caching-và-các-loại-bản-ghi-dns)
   - [Cấu trúc gói tin DNS:](#cấu-trúc-gói-tin-dns)
@@ -143,7 +144,10 @@ Hiện nay có khoảng 13 máy chủ định danh gốc trên toàn cầu đư�
 **Chức Năng**: 
 - Thực hiện các truy vấn DNS cho người dùng, duyệt qua các máy chủ DNS cấp cao nhất để tìm kiếm thông tin tên miền được yêu cầu. 
 - Có thể lưu trữ thông tin truy vấn gần đây trong bộ nhớ cache để tăng tốc độ truy cập.
+## Mô hình cấp bậc và quản lý DNS
+DNS sẽ được chia thành từng cấp và mỗi cấp có nhiệm vụ riêng biệt và được quản lý bởi các tổ chức riêng biệt
 
+![](/Anh/Screenshot_565.png)
 ## Mô hình và cách thức hoạt động của DNS
 Mô hình hoạt động của DNS sẽ trông như sau:
 
