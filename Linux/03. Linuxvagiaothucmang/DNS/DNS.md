@@ -152,16 +152,18 @@ DNS sẽ được chia thành từng cấp và mỗi cấp có nhiệm vụ riê
 ## Mô hình và cách thức hoạt động của DNS
 Mô hình hoạt động của DNS sẽ trông như sau:
 
-![](/Anh/Screenshot_560.png)
+![](/Anh/Screenshot_566.png)
 
 Chi tiết về cách thức hoạt động:
 - Ban đầu, khi **USER** thực hiện tìm kiếm tên miền `example.com` trên **PC**
 - Lúc này, **PC** sẽ thực hiện gửi truy vấn DNS cho **Local Name Server**. **Local Name Server** sẽ tìm tên miền trong bảng tên miền của mình xem có chứa `example.com` hay không. Nếu có sẽ trả về cho **PC**.
 - Nếu trong bảng tên miền của **Local Name Server** không chứa `example.com`, thì lúc này, nó sẽ chuyển tiếp truy vấn DNS cho **ROOT NAME SERVER**. 
 - **Root Name Server** sẽ thực hiện tìm ra **TLD Server** quản lý đuôi `.com`, sau đó trả lại thông tin **TLD Server** chứa đuôi `.com` cho **Local Name Server**
-- **Local Name Server** khi này sẽ chuyển tiếp truy vấn DNS tới **TLD Server** chứa đuôi `.com`. **TLD Server** sẽ tìm kiếm **Authoritative Server** chứa `.com` và trả về cho **Local Name Server**.
-- Sau khi nhận được thông tin về **Authoritative** Server chứa tên miền cần tìm, **Local Name Server** sẽ chuyển tiếp truy vấn DNS đến **Authoritative Server**. 
-- **Authoritative Server** khi nhận được truy vấn sẽ hỏi **SLD Server** có phần `example` hay không. Nếu có **SLD Server** sẽ trả về kết quả cho **Authoritative Server**. Lúc này, **Authoritative Server** sẽ dò địa chỉ IP ứng với `example.com` và trả về kết quả cho **Local Name Server**
+- **Local Name Server** khi này sẽ chuyển tiếp truy vấn DNS tới **TLD Server** chứa đuôi `.com`. **TLD Server** sẽ tìm kiếm **SLD Server** quản lý phần `example` và trả về cho **Local Name Server**.
+- Sau khi nhận được thông tin về **SLD Server** chứa tên miền cần tìm, **Local Name Server** sẽ chuyển tiếp truy vấn DNS đến **SLD Server**. 
+- **SLD Server** khi nhận được truy vấn sẽ tìm kiếm thông tin về **Authoritative Server** quản lý `example.com` và trả về kết quả cho **Local Name Server**
+- Khi đã biết địa chỉ IP của **Authoritative Server** quản lý `example.com`, **Local Name Server** sẽ thực hiện truy vấn đến **Authoritative Server** đó để hỏi IP của `example.com`
+- Khi nhận được câu hỏi, **Authoritative Server** sẽ dò trong bộ nhớ cache của mình và trả về địa chỉ IP của `example.com`
 - Sau khi đã nhận được địa chỉ IP ứng với `example.com`, **Local Name Server** sẽ thực hiện trả về địa chỉ IP cho **PC**. 
 - **PC** thực hiện kết nối tới địa chỉ IP vừa nhận - chính là IP của trang web `example.com` và hiển thị ra trang web cho **USER**
 
@@ -230,28 +232,28 @@ Chứa các thông tin bổ sung, thường là các địa chỉ IP của các 
 
 ## Một số DNS phổ biến hiện nay
 Có nhiều loại DNS phổ biến hiện nay có thể kể đến như:
-- Google DNS:
+- **Google DNS**:
   - Là dịch vụ DNS miễn phí do Google cung cấp, được sử dụng phổ biến trên toàn thế giới. 
   - Địa chỉ IP của Google DNS là 8.8.8.8 và 8.8.4.4.
-- Cloudflare DNS: 
+- **Cloudflare DNS**: 
   - Là dịch vụ DNS miễn phí của Cloudflare, cung cấp tốc độ và tính năng bảo mật cao. 
   - Địa chỉ IP của Cloudflare DNS là 1.1.1.1 và 1.0.0.1.
-- OpenDNS: 
+- **OpenDNS**: 
   - Là dịch vụ DNS do công ty Cisco cung cấp, có khả năng chặn các trang web độc hại và lọc nội dung. 
   - Địa chỉ IP của OpenDNS là 208.67.222.222 và 208.67.220.220.
-- Quad9 DNS: 
+- **Quad9 DNS**: 
   - Là dịch vụ DNS miễn phí được phát triển bởi tổ chức non-profit Global Cyber Alliance, có khả năng chặn các trang web độc hại và tăng cường bảo mật. 
   - Địa chỉ IP của Quad9 DNS là 9.9.9.9 và 149.112.112.112.
-- Comodo Secure DNS: 
+- **Comodo Secure DNS**: 
   - Là dịch vụ DNS của công ty bảo mật Comodo, có khả năng chặn các trang web độc hại và giảm thiểu rủi ro cho người dùng.
   - Địa chỉ IP của Comodo Secure DNS là 8.26.56.26 và 8.20.247.20.
-- DNS VNPT: 
+- **DNS VNPT**: 
   - VNPT là một trong những nhà mạng viễn thông khá nổi tiếng tại Việt Nam.
   - Địa chỉ IP của DNS VNPT: 203.162.4.191 và 203.162.4.190
-- DNS Viettel: 
+- **DNS Viettel**: 
   - Bên cạnh VNPT, Viettel cũng là một nhà mạng lâu đời tại Việt Nam với đường truyền internet mạnh mẽ, phủ sóng toàn quốc và trên nhiều quốc gia trên thế giới. 
   - DNS Server của Viettel: 203.113.131.1 và203.113.131.2
-- DNS FPT: 
+- **DNS FPT**: 
   - Là một trong ba ông lớn của viễn thông tại Việt Nam 
   - Địa chỉ IP của FPT DNS Server là: 210.245.24.20 và 210.245.24.22
 
@@ -259,7 +261,7 @@ Có nhiều loại DNS phổ biến hiện nay có thể kể đến như:
 ### Ví dụ 1: Khi chúng ta tìm `dantri.vn` khi ở Việt Nam
 Mô hình hoạt động:
 
-![](/Anh/Screenshot_561.png)
+![](/Anh/Screenshot_568.png)
 
 Trong mô hình thực tế, trước khi hỏi Root Server Domain thì Local Name Server sẽ hỏi đến TLD của nước nhà trước.
 
@@ -288,7 +290,7 @@ Cách thức hoạt động như sau:
 
 Mô hình hoạt động như sau:
 
-![](/Anh/Screenshot_564.png)
+![](/Anh/Screenshot_567.png)
 
 Cách thức hoạt động như sau:
 - Khi chúng ta tìm `example.com`, PC sẽ hỏi LNS trước về IP của `example.com`. LNS không có và thực hiện chuyển tiếp câu hỏi tới TLD S1
@@ -297,3 +299,4 @@ Cách thức hoạt động như sau:
 - LNS hỏi TLD S2 về IP `example.com` thì TLD S2 trả về IP của Authoritative quản lý các DNS có đuôi `.com`.
 - LNS lại kết nối tới Authoritative và hỏi về IP của `example.com` Authoritative không tìm thấy nên hỏi SLD quản lý `example`. Tuy nhiên SLD không tìm thấy `example` trong danh mục quản lý của mình. Authoritative không có thông tin về `example.com` và thực hiện trả về thông báo cho LNS
 - LNS khi này trả lại thông báo không tồn tại tên miền `example.com` cho PC và PC hiển thị thông báo lỗi cho người dùng.
+
