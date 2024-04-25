@@ -32,6 +32,8 @@ MỤC LỤC
     - [Ví dụ 1: Khi chúng ta tìm `dantri.vn` khi ở Việt Nam](#ví-dụ-1-khi-chúng-ta-tìm-dantrivn-khi-ở-việt-nam)
     - [Ví dụ 2: Khi chúng ta ở một nước khác và thực hiện tìm `dantri.vn`](#ví-dụ-2-khi-chúng-ta-ở-một-nước-khác-và-thực-hiện-tìm-dantrivn)
     - [Ví dụ 3: Khi chúng ta tìm một tên miền không tồn tại](#ví-dụ-3-khi-chúng-ta-tìm-một-tên-miền-không-tồn-tại)
+    - [Tổng kết quá trình:](#tổng-kết-quá-trình)
+  - [Kiểm tra các bản tin dns bằng wireshark](#kiểm-tra-các-bản-tin-dns-bằng-wireshark)
 
 ## DNS là gì?
 DNS (Domain Name System) là một hệ thống dùng để chuyển đổi các tên miền (như example.com) thành địa chỉ IP tương ứng và ngược lại. Nó giúp máy tính và các thiết bị truy cập internet dễ dàng tìm kiếm và kết nối với các máy chủ và dịch vụ thông qua tên miền thay vì phải ghi nhớ địa chỉ IP số.
@@ -263,28 +265,20 @@ Mô hình hoạt động:
 
 ![](/Anh/Screenshot_568.png)
 
-Trong mô hình thực tế, trước khi hỏi Root Server Domain thì Local Name Server sẽ hỏi đến TLD của nước nhà trước.
-
-- Ban đầu khi người dùng nhập `dantri.vn` vào PC. Lúc này, PC sẽ thực hiện tìm kiếm trong Local Name Server xem đã có `dantri.vn` chưa, nếu chưa có thì sẽ hỏi sang **TLD SERVER VN**.
-- Tuy nhiên TLD Server không biết IP cho `dantri.vn` mà chỉ biết Authoritative chứa `dantri.vn` và thực hiện gửi IP của Authoritative Server đó cho LocalNameServer
-- Lúc này, Local Name Server sẽ hỏi đến Authoritative Server câu hỏi về IP của `dantri.vn`, AS sẽ thực hiện tìm kiếm IP cho `dantri.vn`, AS sẽ hỏi đến SLD Server quản lý phần `dantri`(nếu có) và sau khi nhận được phần trả về thì sẽ thực hiện lọc và tìm kiếm địa chỉ IP cho `dantri.vn` là `42.113.206.28` và trả về kết quả cho Local Name Server.
+- Ban đàu khi người dùng nhập `dantri.vn`, PC sẽ hỏi LNS để LNS kiểm tra xem trong bộ nhớ cache của mình đã tồn tại bản ghi liên quan tới tên miền
+- Nếu LNS không có bản ghi, sẽ gửi câu hỏi đến Root Name Server để hỏi xem TLD Server nào quản lý đuôi `.vn`
+- Root Name Server sẽ tìm TLD Server quản lý đuôi `.vn` và gửi IP của TLD cho Local
+- Local kết nối tới TLD hỏi xem IP của `dantri.vn` là gì. TLD Server 
 - Khi đã nhận đc IP, LNS sẽ trả về IP cho PC và PC sẽ thực hiện kết nối tới IP vừa nhận được và hiển thị kết quả của trang web `dantri.vn` cho người dùng
 
 ### Ví dụ 2: Khi chúng ta ở một nước khác và thực hiện tìm `dantri.vn`
 
-Ví dụ ở đây là khi chúng ta ở Mỹ mà muốn truy cập vào trang web `dantri.vn` 
+Ví dụ ở đây là khi chúng ta ở Mỹ mà muốn truy cập vào trang web `dantri.vn` thì cũng tương tự như quá trình kết nối tới `dantri.vn` khi chúng ta ở Việt Nam
 
 Mô hình hoạt động như sau:
 
-![](/Anh/Screenshot_563.png)
+![](/Anh/Screenshot_568.png)
 
-Cách thức hoạt động như sau:
-
-- Khi người dùng ở Mỹ nhập `dantri.vn` trên bàn phím. PC sẽ hỏi LNS về IP của `dantri.vn`. 
-- LNS không tìm thấy và thực hiện hỏi TLD US. Tuy nhiên TLD US không tìm thấy AS nào chứa `.vn` và thực hiện trả về IP của RNS
-- LNS sẽ hỏi RNS. Khi RNS tìm thấy `.vn` ở TLD VN sẽ trả về IP TLD VN cho LNS.
-- LNS hỏi TLD VN về IP của `dantri.vn`, TLD VN tìm thấy AS chứa `.vn`, AS sẽ hỏi SLD chứa `dantri`(nếu có) và thực hiện lọc, tìm kiếm IP của `dantri.vn`
-- Sau khi đã tìm thấy, AS trả về IP cho LNS. Khi này LNS trả về IP cho PC và PC sẽ thiết lập kết nối tới `dantri.vn` và trả về trang web cho người dùng
 
 ### Ví dụ 3: Khi chúng ta tìm một tên miền không tồn tại
 
@@ -300,3 +294,30 @@ Cách thức hoạt động như sau:
 - LNS lại kết nối tới Authoritative và hỏi về IP của `example.com` Authoritative không tìm thấy nên hỏi SLD quản lý `example`. Tuy nhiên SLD không tìm thấy `example` trong danh mục quản lý của mình. Authoritative không có thông tin về `example.com` và thực hiện trả về thông báo cho LNS
 - LNS khi này trả lại thông báo không tồn tại tên miền `example.com` cho PC và PC hiển thị thông báo lỗi cho người dùng.
 
+### Tổng kết quá trình:
+Mọi truy vấn tới các web mới thì đều phải đi qua Root Name Server. 
+
+Khi đã từng truy vấn tới web rồi thì thông tin IP của web sẽ được lưu trữ trong bộ nhớ cache của Local Name Server
+
+SLD Server không phải lúc nào cũng tồn tại trong hệ thống Server của DNS. 
+
+## Kiểm tra các bản tin dns bằng wireshark
+Ví dụ kiểm tra:
+- Truy cập vào WireShark chọn giao diện mạng Wifi
+- Truy cập vào Trình duyện mạng gõ một tên miền bất kì(Lưu ý tên miền này cần là một tên miền mới, chưa từng được tìm kiếm trong máy)
+- Dùng WireShark bắt các gói tin:
+
+![](/Anh/Screenshot_569.png)
+
+Gói tin gửi đi:
+- ID của Truy vấn (Query ID): 0x530b (hexadecimal) hoặc 21227 (decimal). Đây là một số duy nhất được tạo ra để định danh cho truy vấn DNS này.
+- Loại Truy vấn (Query Type): A. Truy vấn này yêu cầu một bản ghi A (địa chỉ IPv4) cho tên miền "hello.us".
+- Tên Miền (Query Name): "hello.us". Đây là tên miền mà máy chủ DNS được yêu cầu phân giải thành địa chỉ IP.
+- Địa chỉ IP nguồn (Source IP): 192.168.68.70. Đây là địa chỉ IP của máy tính gửi truy vấn DNS.
+- Địa chỉ IP đích (Destination IP): 203.162.4.191. Đây là địa chỉ IP của máy chủ DNS mà truy vấn được gửi tới.
+
+Gói tin nhận về:
+- ID của Truy vấn (Query ID): 0x530b (hoặc 21227). Đây là ID của truy vấn DNS ban đầu.
+- Loại Truy vấn (Query Type): A. Đây là loại truy vấn yêu cầu một bản ghi A (địa chỉ IPv4) cho tên miền "hello.us".
+- Phản hồi A Record: "hello.us A 62.22.171.53". Đây là phần của phản hồi DNS cung cấp bản ghi A (địa chỉ IPv4) cho tên miền "hello.us". Trong trường hợp này, địa chỉ IPv4 cho tên miền "hello.us" là 62.22.171.53.
+- Phản hồi NS Records: "NS ns2.hola.com NS ns.hola.com". Đây là phần của phản hồi DNS cung cấp các bản ghi NS (Name Server) cho tên miền "hello.us". Trong trường hợp này, có hai máy chủ Name Server được cung cấp: ns2.hola.com và ns.hola.com.
