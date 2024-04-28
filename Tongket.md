@@ -345,6 +345,7 @@ Lý thuyết về DNS:
    -  **Local Nameserver**: Dùng để chứa thông tin để truy xuất và tìm kiếm máy chủ tên miền. 
    -  **Root Nameserver**: Đùng để định hướng cho việc tìm kiếm
    -  **TLD Nameserver**: Nó sẽ chịu trách nhiệm quản lý toàn bộ thông tin của 1 phần mở rộng tên miền chung
+   -  **SLD Nameserver**: Là phần chịu trách nhiệm quản lý phần domain trước đuôi. Đứng ngay sau **TLD Nameserver**
    -  **Authiritative Nameserver**: Đây là nơi việc phân giải tên miền diễn ra
 
 ### Từ 22/04 - 27/04
@@ -359,6 +360,8 @@ Tiếp tục tìm hiểu Lý thuyết về DNS:
   - Người dùng tìm tên miền
   - PC gửi truy vấn đến các máy chủ DNS
   - Các máy chủ lần lượt tìm kiếm từ Local DNS --> ROOT DNS --> TLD Server --> Authoritative trả về địa chỉ IP
+
+![](/Anh/Screenshot_566.png)
 - DNS Caching: là bộ nhớ lưu lại các tên miền đã được phân giải
 - Một số bản ghi DNS phổ biến: 
   - A Record: Bản ghi IPv4
@@ -384,5 +387,8 @@ Tiếp tục tìm hiểu Lý thuyết về DNS:
   - Khi kết nối đến dantri.vn từ Việt Nam
   - Khi kết nối đến dantri.vn từ Mỹ
   - Khi kết nối đến 1 tên miền không tồn tại
+- Băt và phân tích các gói tin DNS bằng WireShark
+  - Gói tin gửi yêu cầu hỏi về tên miền tới DNS Server
+  - DNS Server thực hiện trả về IP nếu tên miền ấy tồn tại
 
-
+![](/Anh/Screenshot_569.png)
