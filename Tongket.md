@@ -385,3 +385,4 @@ Tiếp tục tìm hiểu Lý thuyết về DNS:
   - Khi kết nối đến dantri.vn từ Mỹ
   - Khi kết nối đến 1 tên miền không tồn tại
 
+
