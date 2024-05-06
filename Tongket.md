@@ -392,3 +392,11 @@ Tiếp tục tìm hiểu Lý thuyết về DNS:
   - DNS Server thực hiện trả về IP nếu tên miền ấy tồn tại
 
 ![](/Anh/Screenshot_569.png)
+
+- Cấu hình Lab DNS Local trên Windows 
+  - Máy ảo cài Windows Server và cấu hình làm DNS Server
+  - Máy chính dùng Windows 10 cấu hình DNS Client
+  - Mô hình thực hành trông như dưới
+  - Sử dụng lệnh `nslookup` để kiểm tra
+
+![](/Anh/Screenshot_572.png)
