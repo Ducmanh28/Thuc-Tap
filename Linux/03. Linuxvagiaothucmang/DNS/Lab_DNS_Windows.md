@@ -38,7 +38,7 @@ Server khi tìm thấy IP ứng với tên miền cần truy vấn thì sẽ g�
 ## Thực hành lab DNS Local Windows
 Mô hình thực hành
 
-![](/Anh/Screenshot_572.png)
+![](/Anh/Screenshot_601.png)
 ### Chuẩn bị trước khi thực hành
 Chúng ta cần có ít nhất 2 máy để kiểm tra bài thực hành này
 
@@ -171,5 +171,55 @@ Tiến hành truy cập cài đặt mạng và cấu hình như sau:
 ![](/Anh/Screenshot_598.png)
 
 Sử dụng lệnh `nslookup` để kiểm tra:
+- Phân giải tên miền thành IP
+- Phân giải IP thành tên miền
 
-![](/Anh/Screenshot_599.png)
+![](/Anh/Screenshot_602.png)
+
+## Thực hành lab Forward DNS ra Internet trên Windows Server
+Cũng tương tự như đối với DNS Local, chúng ta sẽ sử dụng DNS Local có sẵn. Nhưng ở đây, Sau khi truy vấn DNS ở Local xong, truy vấn sẽ được chuyển tiếp từ DNS Server Local sang DNS Server Internet mà chúng ta đã cấu hình. Chi tiết có thể xem ở hình dưới
+
+![](/Anh/Screenshot_603.png)
+
+Quy trình thực hành như sau:
+- Mở **DNS Manager**: Bạn có thể mở DNS Manager bằng cách vào: `Server Manager` --> `Tools` --> `DNS`.
+- Thêm Forwarders:
+  - Trong cửa sổ DNS Manager, chọn tên máy chủ DNS của bạn.
+  - Click phải và chọn Properties.
+  - Chuyển đến tab Forwarders.
+  - Click vào nút Edit.
+  - Thêm địa chỉ IP của các máy chủ DNS ngoại vi mà bạn muốn sử dụng (ví dụ: `8.8.8.8`, `8.8.4.4` là các máy chủ DNS của Google).
+
+![](/Anh/Screenshot_604.png)
+
+![](/Anh/Screenshot_605.png)
+
+![](/Anh/Screenshot_606.png)
+
+![](/Anh/Screenshot_607.png)
+
+Sau khi hoàn tất cấu hình, các bạn có thể sử dụng các lệnh sau ở trong CMD để tiến hành khởi động lại dịch vụ DNS
+```
+net stop dns
+
+net start dns
+```
+
+Sau đó sử dụng `nslookup` để kiểm tra 1 trang web bất kì trên Internet
+
+![](/Anh/Screenshot_608.png)
+
+## Thực hành Lab DNS Local ra một website ở UbuntuWebServer trong mạng nội bộ
+Ở trên chúng ta đã thực hiện lab DNS Server Local ở các mục tìm kiếm và phân giải tên miền đơn giản giữa 2 máy Windows và ra Internet.
+
+Tiếp đây, chúng ta sẽ cùng thực hiện cấu hình DNS Server sao cho Client kết nối được với Ubuntu Webserver
+
+Mô hình hoạt động và thực hành sẽ trông như hình dưới đây
+
+![](/Anh/Screenshot_609.png)
+
+Các bước thực hành như sau:
+- Tạo trang web trên WEBSERVER
+- Cấu hình DNS SERVER trỏ tới trang web
+- Tiến hành kiểm tra
+### Tạo trang web trên Ubuntu 22 sử dụng Apache

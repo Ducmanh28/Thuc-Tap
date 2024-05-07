@@ -400,3 +400,8 @@ Tiếp tục tìm hiểu Lý thuyết về DNS:
   - Sử dụng lệnh `nslookup` để kiểm tra
 
 ![](/Anh/Screenshot_572.png)
+
+Note các nhiệm vụ:4
+- Chỉnh sửa lại mô hình DNS
+- Lab phần DNS Local thiếu phần từ local ra Internet
+- 
