@@ -375,4 +375,9 @@ Kiểm tra bên phía Client `192.168.217.1`
 
 ![](/Anh/Screenshot_619.png)
 
+Kiểm tra và phân tích bằng WireShark khi đứng từ Client
+
+![](/Anh/Screenshot_620.png)
+- Ở đây, bạn có thể thấy được rằng Client hỏi Server IP của trang web `web.dnstest.local` bằng 1 câu hỏi bản ghi A(Ipv4)
+- Tiếp đó ngay dưới, Server đã trả lời lại Ip của trang web cần tìm là `192.168.217.130`
 Vậy là đã hoàn tất
