@@ -1,3 +1,20 @@
+MỤC LỤC
+- [Mục này show ra quá trình lab DNS Local trên Windows](#mục-này-show-ra-quá-trình-lab-dns-local-trên-windows)
+  - [Một vài thông tin về DNS Local](#một-vài-thông-tin-về-dns-local)
+  - [So sánh giữa DNS Local và DNS Public](#so-sánh-giữa-dns-local-và-dns-public)
+  - [Mô hình hoạt động của DNS Local](#mô-hình-hoạt-động-của-dns-local)
+  - [Thực hành lab DNS Local Windows](#thực-hành-lab-dns-local-windows)
+    - [Chuẩn bị trước khi thực hành](#chuẩn-bị-trước-khi-thực-hành)
+    - [Tiến hành](#tiến-hành)
+      - [Cài đặt Active Directory và DNS Server](#cài-đặt-active-directory-và-dns-server)
+      - [Tiến hành cấu hình DNS Server](#tiến-hành-cấu-hình-dns-server)
+      - [Tiến hành truy cập từ DNS Client](#tiến-hành-truy-cập-từ-dns-client)
+  - [Thực hành lab Forward DNS ra Internet trên Windows Server](#thực-hành-lab-forward-dns-ra-internet-trên-windows-server)
+  - [Thực hành Lab DNS Local ra một website ở UbuntuWebServer trong mạng nội bộ](#thực-hành-lab-dns-local-ra-một-website-ở-ubuntuwebserver-trong-mạng-nội-bộ)
+    - [Tạo trang web trên Ubuntu 22 sử dụng Apache](#tạo-trang-web-trên-ubuntu-22-sử-dụng-apache)
+    - [Cấu hình DNS Server trỏ tới trang web](#cấu-hình-dns-server-trỏ-tới-trang-web)
+    - [Tiến hành kiểm tra:](#tiến-hành-kiểm-tra)
+
 # Mục này show ra quá trình lab DNS Local trên Windows
 Chúng ta sẽ thực hiện tìm hiểu và thực hành DNS Local 
 ## Một vài thông tin về DNS Local
