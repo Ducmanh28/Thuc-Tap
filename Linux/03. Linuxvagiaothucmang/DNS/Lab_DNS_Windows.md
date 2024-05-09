@@ -223,3 +223,139 @@ Các bước thực hành như sau:
 - Cấu hình DNS SERVER trỏ tới trang web
 - Tiến hành kiểm tra
 ### Tạo trang web trên Ubuntu 22 sử dụng Apache
+Tiến hành tạo trang web là `web.dnstest.local` như sau:
+
+Trước tiên chúng ta cần tạo trang web bằng 1 file `html` cơ bản
+- Truy cập vào `/var/www/`, tạo thư mục chứa trang web và khởi tạo file chứa trang web:
+```
+# Tạo thư mục chứa:
+mkdir testdns 
+chmod 777 testdns
+
+# Tạo file html
+vim index.html
+```
+- Thêm vào trong file nội dung trang web. Bạn có thể tham khảo mẫu sau:
+```
+# Thêm vào nội dung trang web:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestDNS</title>
+</head>
+<body>
+    <h1>Hello, this is my simple website!</h1>
+    <p>Your DNS SERVER WORK SUCCESSFULLY!</p>
+    <h2>GOODBYE!<h2>
+</body>
+</html>
+```
+- Lưu lại nội dung trang web và cấp quyền truy cập file
+```
+# Sau đó thực hiện lưu và thoát:
+Esc --> wq
+# Cấp quyền
+chmod 777 testdns.html
+```
+
+Sau khi hoàn tất, bây giờ chúng ta sẽ cấu hình cho trang web ở Apache.
+- Truy cập vào đường dẫn chứa file cấu hình. File cấu hình cho trang web sẽ nằm ở `sites-available`
+```
+# Truy cập vào thư mục chứa
+cd /etc/apache2/sites-available
+
+# Tạo file cấu hình cho trang web
+vim testdns.conf
+```
+- Khi đã có file, chúng ta thực hiện thêm vào nội dung cấu hình cho trang web. Nếu bạn chưa rõ phần này, bạn có thể tham khảo file cấu hình dưới
+```
+<VirtualHost *:80>
+    ServerAdmin luongducmanh02@gmail.com
+    ServerName web.dnstest.local
+    DocumentRoot /var/www/testdns
+
+    ErrorLog /var/log/apache2/error.log
+    CustomLog /var/log/apache2/access.log combined
+</VirtualHost>
+```
+- Khi đã hoàn tất, các bạn thực hiện lưu và thoát khỏi vim, sau đó khởi động trang web khởi động lại dịch vụ apache2
+```
+# Lưu và thoát
+Esc --> wq
+
+# Khởi động trang web
+a2ensite testdns.conf
+
+# Khởi động lại dịch vụ apache2
+systemctl reload apache2
+```
+
+### Cấu hình DNS Server trỏ tới trang web
+Truy cập vào DNS Manager trên DNS Server bằng cách vào `Start --> Search --> DNS`
+
+![](/Anh/Screenshot_610.png)
+
+Tiến hành tạo 1 Zone mới trong DNS Server
+- Trong DNS Manager trên Windows Server 2022, chọn tên máy chủ. Ở đây của tôi là `WINSV22` như ảnh trên
+- Ở mục **Foward Lookup Zone** click phải chuột và chọn `New Zone`
+
+![](/Anh/Screenshot_611.png)
+
+- Tiếp đến, tại bảng cấu hình New Zone, chúng ta thực hiện như sau
+
+![](/Anh/Screenshot_612.png)
+
+- Có 3 loại Zone mà bạn có thể lựa chọn:
+  - PrimaryZone: Tạo 1 bản copy của 1 zone, cái mà có thể cập nhật thư mục, đường dẫn trên Server này
+  - SecondaryZone: Tạo 1 bản copy của 1 zone tồn tại trên 1 Server khác. Cái cài đặt này sẽ giúp cân bằng các chương trình tải cho PrimaryServer và cung cấp khả năng chịu lỗi
+  - StubZone: Tạo 1 bản sao của zone chứa NS, SOA. Cái Server chứa stubzone không phải Authoritative của zone đó
+
+![](/Anh/Screenshot_613.png)
+
+- Ở đây tiếp tục có 3 lựa chọn cho bạn chọn về cách mà bạn muốn zone data trả lời:
+  - Tới tất cả Server DNS chạy trên Quản lý domain ở `infoserver.local`
+  - Tới tất cả Server DNS chạy trên Quản lý domain ở trong domain `infoserver.local`
+  - Tới tất cả Quản lý domain trong `infoserver.local`
+
+![](/Anh/Screenshot_614.png)
+
+- Ở đây, bạn thực hiện đặt tên cho Zone. Phần tên này chính là phần domain. Ví dụ trang web của tôi là `web.dnstest.local` thì phần zone name này tôi sẽ đặt là `dnstest.local`
+
+![](/Anh/Screenshot_615.png)
+
+- Ở phần dynamic updates này, bạn chỉ nên chọn các bản cập nhật được bảo mật
+
+![](/Anh/Screenshot_616.png)
+
+- Cuối cùng là bấm Finish để hoàn tất quá trình cấu hình
+
+![](/Anh/Screenshot_617.png)
+
+Sau khi hoàn tất cấu hình, chúng ta thực hiện khởi động lại dịch vụ dns trên Windows Server như sau:
+- Truy cập vào **cmd** như sau: `Start --> Search --> cmd`
+- Nhập các lệnh sau để tiến hành khởi động lại dịch vụ DNS
+```
+# Tắt dịch vụ dns
+net stop dns
+
+# Khởi động dịch vụ dns
+net start dns
+
+# Xóa bộ nhớ cache
+ipconfig /flushdns
+
+# Đăng ký lại
+ipconfig /registerdns
+```
+### Tiến hành kiểm tra:
+Kiểm tra bên phía Server
+
+![](/Anh/Screenshot_618.png)
+
+Kiểm tra bên phía Client `192.168.217.1`
+
+![](/Anh/Screenshot_619.png)
+
+Vậy là đã hoàn tất
