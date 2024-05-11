@@ -401,7 +401,50 @@ Tiếp tục tìm hiểu Lý thuyết về DNS:
 
 ![](/Anh/Screenshot_572.png)
 
-Note các nhiệm vụ:4
-- Chỉnh sửa lại mô hình DNS
-- Lab phần DNS Local thiếu phần từ local ra Internet
-- 
+### Từ 6/5 - 11/5
+Triển khai Lab DNS Local
+- Mô hình triển khai
+
+![](/Anh/Screenshot_601.png)
+
+- Các bài lab triển khai:
+  - DNS Local giữa 2 máy windows
+  - DNS Foward ra Internet
+  - ![](/Anh/Screenshot_603.png)
+  - DNS Local trỏ tới trang web ở WebServer Unbuntu
+  - ![](/Anh/Screenshot_609.png)
+
+- Quá trình triển khai:
+  - Chuẩn bị: Các thiết bị VM
+    - Windows 10
+    - Windows Server 2022
+      - Đổi tên thành **WINSV22**
+      - Cài IP tĩnh
+      - Thiết lập DNS Local là IP của SV
+  - Triển khai:
+    - Server:
+      - Cài AD DS(Active Directory Domain Systems)
+      - Cài DNS Server
+      - Cấu hình AD DS làm DC(Domain Controller)
+      - Cấu hình DNS Server
+        - Tạo Zone mới
+        - Thêm Bản ghi A hoặc CNAME
+        - Tạo bản ghi PTR
+      - Thực hiện `nslookup` xuôi ngược để kiểm thử
+    - Client:
+      - Thiết lập DNS Server là **WINSV22**
+      - Thực hiện `nslookup` xuôi-ngược để kiểm thử 
+      - Sử dụng WireShark để bắt gói tin và kiểm thử
+  - Kết quả:
+
+![](/Anh/Screenshot_597.png)
+
+![](/Anh/Screenshot_602.png)
+
+![](/Anh/Screenshot_608.png)
+
+![](/Anh/Screenshot_618.png)
+
+![](/Anh/Screenshot_619.png)
+
+![](/Anh/Screenshot_620.png)
