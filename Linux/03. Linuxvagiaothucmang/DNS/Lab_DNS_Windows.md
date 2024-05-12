@@ -382,3 +382,5 @@ Kiểm tra và phân tích bằng WireShark khi đứng từ Client
 - Tiếp đó ngay dưới, Server đã trả lời lại Ip của trang web cần tìm là `192.168.217.130`
 
 Vậy là đã hoàn tất
+
+abcdef
