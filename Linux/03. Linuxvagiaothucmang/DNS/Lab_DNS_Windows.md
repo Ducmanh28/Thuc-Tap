@@ -350,6 +350,10 @@ Tiến hành tạo 1 Zone mới trong DNS Server
 
 ![](/Anh/Screenshot_617.png)
 
+Tiếp đến chúng ta thực hiện tạo bản ghi mới. Ở đây, bản ghi cần tạo là 1 bản ghi A(IPv4)
+
+![](/Anh/Screenshot_625.png)
+
 Sau khi hoàn tất cấu hình, chúng ta thực hiện khởi động lại dịch vụ dns trên Windows Server như sau:
 - Truy cập vào **cmd** như sau: `Start --> Search --> cmd`
 - Nhập các lệnh sau để tiến hành khởi động lại dịch vụ DNS
@@ -369,9 +373,11 @@ ipconfig /registerdns
 ### Tiến hành kiểm tra:
 Kiểm tra bên phía Server
 
-![](/Anh/Screenshot_618.png)
+![](/Anh/Screenshot_626.png)
 
 Kiểm tra bên phía Client `192.168.217.1`
+
+![](/Anh/Screenshot_627.png)
 
 ![](/Anh/Screenshot_619.png)
 
@@ -383,4 +389,3 @@ Kiểm tra và phân tích bằng WireShark khi đứng từ Client
 
 Vậy là đã hoàn tất
 
-abcdef
