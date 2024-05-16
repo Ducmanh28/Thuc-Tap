@@ -14,6 +14,17 @@ MỤC LỤC
     - [Tạo trang web trên Ubuntu 22 sử dụng Apache](#tạo-trang-web-trên-ubuntu-22-sử-dụng-apache)
     - [Cấu hình DNS Server trỏ tới trang web](#cấu-hình-dns-server-trỏ-tới-trang-web)
     - [Tiến hành kiểm tra:](#tiến-hành-kiểm-tra)
+      - [Kiểm tra bên phía Server](#kiểm-tra-bên-phía-server)
+      - [Kiểm tra bên phía Client `192.168.217.1`](#kiểm-tra-bên-phía-client-1921682171)
+  - [Thực hành LAB DNS Foward để máy Ubuntu Local có thể truy vấn ra một trang web Public thông qua DNS Server Local.](#thực-hành-lab-dns-foward-để-máy-ubuntu-local-có-thể-truy-vấn-ra-một-trang-web-public-thông-qua-dns-server-local)
+    - [Kiểm thử và giới thiệu trước khi thực hành](#kiểm-thử-và-giới-thiệu-trước-khi-thực-hành)
+    - [Mô hình thực hành](#mô-hình-thực-hành)
+    - [Tiến hành](#tiến-hành-1)
+      - [Cấu hình Foward cho DNS Server Local](#cấu-hình-foward-cho-dns-server-local)
+      - [Cấu hình Mạng cho máy Client](#cấu-hình-mạng-cho-máy-client)
+      - [Tiến hành kiểm thử](#tiến-hành-kiểm-thử)
+        - [Trên DNS Server:](#trên-dns-server)
+        - [Đối với trên Client Ubuntu](#đối-với-trên-client-ubuntu)
 
 # Mục này show ra quá trình lab DNS Local trên Windows
 Chúng ta sẽ thực hiện tìm hiểu và thực hành DNS Local 
@@ -371,11 +382,18 @@ ipconfig /flushdns
 ipconfig /registerdns
 ```
 ### Tiến hành kiểm tra:
-Kiểm tra bên phía Server
+#### Kiểm tra bên phía Server
+Kết quả khi sử dụng nslookup xuôi/ ngược để kiểm tra bên phía Server
 
 ![](/Anh/Screenshot_626.png)
 
-Kiểm tra bên phía Client `192.168.217.1`
+Kết quả thu được từ WireShark bên phía Server
+
+![](/Anh/Screenshot_628.png)
+- Ở gói tin thứ 85, Client `192.168.217.1` gửi đi gói tin truy vấn địa chỉ IP cho trang web `web3.dnstest.local`
+- Ở gói tin thứ 86, Server `192.168.217.135` sẽ thực hiện trả về IP cho trang web mà Client yêu cầu là: `192.168.217.130`
+
+#### Kiểm tra bên phía Client `192.168.217.1`
 
 ![](/Anh/Screenshot_627.png)
 
@@ -388,4 +406,137 @@ Kiểm tra và phân tích bằng WireShark khi đứng từ Client
 - Tiếp đó ngay dưới, Server đã trả lời lại Ip của trang web cần tìm là `192.168.217.130`
 
 Vậy là đã hoàn tất
+
+## Thực hành LAB DNS Foward để máy Ubuntu Local có thể truy vấn ra một trang web Public thông qua DNS Server Local.
+### Kiểm thử và giới thiệu trước khi thực hành
+Để làm được điều này, chúng ta cần cấu hình cho DNS Server khả năng chuyển tiếp truy vấn ra Internet
+
+Ban đầu, khi máy Ubuntu có kết nối Internet nhưng không cấu hình DNS Server Foward ra Internet thì máy chỉ có khả năng Ping tới địa chỉ IP rõ ràng như `8.8.8.8` mà không thể ping tới 1 tên miền như `hocchudong.com` hay `facebook.com`
+
+![](/Anh/Screenshot_629.png)
+
+Kể ở trên DNS Server, bạn vẫn có thể ping tới IP của trang web `facebook.com` nhưng lại không thể ping tới tên miền `facebook.com`. Nguyên nhân do DNS Server Local không có bản ghi cho tên miền này nên sẽ không thể thực hiện phân giải.
+
+![](/Anh/Screenshot_633.png)
+### Mô hình thực hành
+![](/Anh/Screenshot_630.png)
+
+Phía **Local** gồm 2 thiết bị:
+- **Client**: 
+  - **Máy**: Ubuntu Server 22
+  - **IP**: `192.168.217.130`
+- **DNS Local**: 
+  - **Máy**: Windows Server 2022
+  - **IP**: `192.168.217.135`
+  
+Phía **Public** gồm có: 
+  - **DNS Server Google**: `8.8.8.8` để cấu hình Foward
+  - Trang web `facebook.com` để tiến hành thử kết nối tới 
+
+### Tiến hành
+#### Cấu hình Foward cho DNS Server Local
+Truy cập vào DNS Manager bằng cách: `Start --> Search --> DNS`
+
+Sau đó, bấm chọn vào tên Server của bạn. Tại đây, bạn sẽ thấy các mục để lựa chọn. Click vào `Fowarders`
+
+![](/Anh/Screenshot_631.png)
+
+Khi bảng Fowarders hiện ra, CLick vào chọn Edit để chỉnh sửa thông tin.
+
+![](/Anh/Screenshot_632.png)
+
+Khi bảng Edit Fowarders hiện ra, các bạn Click vào vùng màu đỏ bên dưới để thực hiện thêm IP
+
+![](/Anh/Screenshot_634.png)
+
+Thêm IP của DNS Google là `8.8.8.8`, sau đó chọn OK để lưu.
+
+![](/Anh/Screenshot_635.png)
+
+Lúc này bạn sẽ thấy `dns google` và chỉ việc bấm `Apply` và `OK` để lưu và thoát
+
+![](/Anh/Screenshot_636.png)
+
+Tiếp đến là Khởi động lại dịch vụ DNS bằng cách truy cập vào CMD và gõ các lệnh như sau:
+
+```
+# Xóa các cache
+ipconfig /flushdns
+
+# Tắt dịch vụ DNS
+net stop dns
+
+# Bật dịch vụ DNS
+net start dns
+```
+
+#### Cấu hình Mạng cho máy Client
+Lưu ý bạn sẽ cần quyền Root để có thể cấu hình mạng cho máy Ubuntu.
+
+File cấu hình mạng của máy Ubuntu thường sẽ nằm trong `/etc/netplan/` và thường có tên là: `00-installer-config.yaml
+`
+
+Thực hiện cấu hình:
+```
+# Truy cập vào file cấu hình
+sudo vim /etc/netplan/00-installer-config.yaml
+
+# Thêm vào nội dung sau:
+#This is the network config written by 'subiquity'
+  network:
+    ethernets:
+      ens33:
+            dhcp4: yes
+            nameservers:
+                  addresses: [192.168.217.135, 192.168.217.1]
+    version: 2
+# Lưu và thoát
+## Bấm ESC, sau đó `:wq`
+```
+```
+# Áp dụng cấu hình mạng mới
+netplan apply
+```
+#### Tiến hành kiểm thử
+##### Trên DNS Server:
+Sử dụng `nslookup` để kiểm tra trên Server
+
+![](/Anh/Screenshot_637.png)
+
+Kiểm tra bằng WireShark trên Server khi dùng `nslookup`
+
+![](/Anh/Screenshot_638.png)
+
+Như ta có thể thấy, ở đây DNS Local hỏi DNS Public 2 lần cho địa chỉ IP của `facebook.com` 
+- (4893 - 4894)Một cái là hỏi IPv4 và được Public trả về 1 bản ghi A địa chỉ IPv4 của `facebook.com`
+- (4895-4896) sẽ hỏi IPv6 và được Public trả về 1 bản ghi AAAA địa chỉ IPv6 của `facebook.com`
+
+##### Đối với trên Client Ubuntu
+Thực hiện kiểm tra bằng Curl đối với 2 trang web là: `facebook.com` và `youtube.com`
+
+![](/Anh/Screenshot_639.png)
+
+![](/Anh/Screenshot_640.png)
+
+Thực hiện kiểm tra bằng Tcpdump và chuyển lên Wireshark để phân tích
+```
+root@ubuntusv:/home/ducmanh287/testdns# tcpdump -i ens33 -n port 53 -w testdns1.pcap
+tcpdump: listening on ens33, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+^C50 packets captured
+50 packets received by filter
+0 packets dropped by kernel
+```
+
+Phân tích bằng wireshark
+
+![](/Anh/Screenshot_641.png)
+
+Ta có thể hiểu quá trình này thông qua mô hình và phân tích như sau:
+- Mô hình:
+
+![](/Anh/Screenshot_642.png)
+- Giải thích:
+  - Có thể hiểu ở đây Default Gateway: `192.168.217.2` chính là PC `192.168.217.1`
+  - Gói tin truy vấn sẽ được đưa ra Default Gateway trước, sau đó từ DF sẽ trỏ tới DSL để hỏi địa chỉ IP
+  - DSL không có bản ghi thì sẽ hỏi lên DSP và khi này DSP sẽ trả về IP cho trang web mà Client cần tìm.
 
