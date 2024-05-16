@@ -540,3 +540,8 @@ Ta có thể hiểu quá trình này thông qua mô hình và phân tích như s
   - Gói tin truy vấn sẽ được đưa ra Default Gateway trước, sau đó từ DF sẽ trỏ tới DSL để hỏi địa chỉ IP
   - DSL không có bản ghi thì sẽ hỏi lên DSP và khi này DSP sẽ trả về IP cho trang web mà Client cần tìm.
 
+- Tổng quan của quá trình sẽ là: 
+  - Client hỏi DNS Local
+  - DNS Local hỏi DNS Public
+  - DNS Public trả lời DNS Local
+  - DNS Local trả lời Client
