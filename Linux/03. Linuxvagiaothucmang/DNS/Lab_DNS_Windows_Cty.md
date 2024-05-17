@@ -73,7 +73,7 @@ Tạo bản ghi Reverse cho bản ghi A của DNS Server
 
 ![](/Anh/Screenshot_651.png)
 
-
+Sau khi đã có bản ghi Reverse, chúng ta đã có cho mình 1 DNS Server. Bạn có thể sử dụng lệnh `nslookup` để kiểm tra. Server có thể phân giải được từ tên miền --> IP và ngược lại.
 
 ### Bài Lab 2: Cấu hình DNS Server Local sao cho Windows Client trỏ tới được 1 WebSite trên UbuntuWebServer
 ### Bài Lab 3: Cấu hình DNS Server Local sao cho Ubuntu Client trỏ tới được 1 trang web Public
