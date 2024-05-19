@@ -452,7 +452,7 @@ Triển khai Lab DNS Local
 ### Từ 13/5 - 19/5
 Tiếp tục hoàn thành các bài Lab DNS Local
 - Chỉnh sửa bài lab web apache local
-- Làm bài lab ubuntu server trỏ ra ngoài Internet
+- Làm bài lab ubuntu server local trỏ ra ngoài Internet thông qua DNS Server Local
 - Thực hiện các bài Lab DNS Server trên hệ thống LAB của công ty
 
 Tìm hiểu giao thức nfs
