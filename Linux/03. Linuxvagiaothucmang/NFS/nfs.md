@@ -20,6 +20,8 @@ MỤC LỤC
   - [Cài đặt NFS](#cài-đặt-nfs)
   - [Cấu hình NFS để chia sẻ](#cấu-hình-nfs-để-chia-sẻ)
     - [Cấu hình bên phía Server](#cấu-hình-bên-phía-server)
+    - [Cấu hình bên phía Client](#cấu-hình-bên-phía-client)
+    - [Kiểm tra](#kiểm-tra)
 
 # Lý thuyết:
 ## NFS là gì?
@@ -136,15 +138,19 @@ systemctl status nfs-utils
 ```
 ## Cấu hình NFS để chia sẻ
 ### Cấu hình bên phía Server
-Tạo 1 file để tiến hành chia sẻ:
+Tạo thư mục để tiến hành chia sẻ, thực hiện cấp quyền:
 ```
-mkdir testnfs
-
-vim testnfs/testnfs.txt 
+sudo mkdir -p /mnt/shared
+sudo chown nobody:nogroup /mnt/shared
+sudo chmod 777 /mnt/shared
 ```
 Chỉnh sửa nội dung trong file `/etc/exports` như sau
 ```
-/home/ducmanh287/testnfs/testnfs.txt 192.168.217.132(rw,sync,no_subtree_check)
+/mnt/shared 192.168.1.0/24(rw,sync,no_subtree_check)
+```
+Áp dụng cấu hình
+```
+sudo exportfs -ra
 ```
 ```
 # Khởi động lại dịch vụ NFS
@@ -157,7 +163,32 @@ sudo systemctl status nfs-kernel-server
 # Mở cổng trên FireWall
 sudo ufw allow nfs
 ```
+### Cấu hình bên phía Client
+Tạo thư mục Mount
 ```
-#Kiểm tra truy cập trên máy khách
-sudo mount 192.168.217.132:/home/ducmanh287/testnfs/testnfs.txt
+sudo mkdir -p /mnt/nfs_shared
 ```
+Mount thư mục NFS
+```
+sudo mount 192.168.217.130:/mnt/shared /mnt/nfs_shared
+```
+Kiểm tra việc Mount
+```
+df -h /mnt/nfs_shared
+```
+![](/Anh/Screenshot_673.png)
+
+### Kiểm tra
+Trên Server
+
+![](/Anh/Screenshot_674.png)
+
+Trên Client
+- Tạo File thử nghiệm
+```
+sudo touch /mnt/nfs_shared/testfile
+```
+- Kiểm tra sự tồn tại của File trên Server
+
+![](/Anh/Screenshot_675.png)
+
