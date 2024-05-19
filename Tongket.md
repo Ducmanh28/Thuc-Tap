@@ -448,3 +448,25 @@ Triển khai Lab DNS Local
 ![](/Anh/Screenshot_619.png)
 
 ![](/Anh/Screenshot_620.png)
+
+### Từ 13/5 - 19/5
+Tiếp tục hoàn thành các bài Lab DNS Local
+- Chỉnh sửa bài lab web apache local
+- Làm bài lab ubuntu server trỏ ra ngoài Internet
+- Thực hiện các bài Lab DNS Server trên hệ thống LAB của công ty
+
+Tìm hiểu giao thức nfs
+- Là giao thức dùng để truy cập vào các tập tin của 1 Server nào đó từ xa
+- Mọi hành động chỉnh sửa thêm mới đối với các tập tin ở trên Client đều sẽ được lưu lại trên Server
+- Giao thức RPC hay còn gọi là mô hình kỹ thuật mạng thể hiện sự giao tiếp giữa Client và Server
+- Sử dụng NFS
+  - Cài đặt trên Server và Client
+  - Tạo tệp chia sẻ
+  - Kết nối và thao tác trên tệp
+  - Đóng kết nối
+
+Nhiệm vụ tuần tới:
+- [ ]  lệnh iperf test tốc độ đọc ghi dữ liệu
+- [ ]  câu lệnh của linux: disk sentinel linux. List devices, ktra cái nào là disk —> thực hiện lệnh check tốc độ
+- [ ]  latency, iops, bandwith, các thông số về ổ cứng.
+- [ ]  Viết bashscripts: chạy lệnh kiểm tra tốc độ đọc/ghi của tất cả ổ cứng
