@@ -466,7 +466,8 @@ Tìm hiểu giao thức nfs
   - Đóng kết nối
 
 Nhiệm vụ tuần tới:
-- [ ]  lệnh iperf test tốc độ đọc ghi dữ liệu
-- [ ]  câu lệnh của linux: disk sentinel linux. List devices, ktra cái nào là disk —> thực hiện lệnh check tốc độ
-- [ ]  latency, iops, bandwith, các thông số về ổ cứng.
-- [ ]  Viết bashscripts: chạy lệnh kiểm tra tốc độ đọc/ghi của tất cả ổ cứng
+Sau khi hoàn thành các nhiệm vụ ở trên thì thực hiện
+- Tìm hiểu lệnh iperf test tốc độ đọc ghi dữ liệu
+- Câu lệnh của linux: disk sentinel linux. List devices, ktra cái nào là disk —> thực hiện lệnh check tốc độ
+- Tìm hiểu về latency, iops, bandwith, các thông số về ổ cứng.
+- Viết bashscripts: chạy lệnh kiểm tra tốc độ đọc/ghi của tất cả ổ cứng
