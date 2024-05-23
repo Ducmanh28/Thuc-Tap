@@ -22,6 +22,7 @@ MỤC LỤC
     - [Cấu hình bên phía Server](#cấu-hình-bên-phía-server)
     - [Cấu hình bên phía Client](#cấu-hình-bên-phía-client)
     - [Kiểm tra](#kiểm-tra)
+    - [Bashscripts cài NFS và tự động Mount đến Server](#bashscripts-cài-nfs-và-tự-động-mount-đến-server)
 
 # Lý thuyết:
 ## NFS là gì?
@@ -192,3 +193,88 @@ sudo touch /mnt/nfs_shared/testfile
 
 ![](/Anh/Screenshot_675.png)
 
+### Bashscripts cài NFS và tự động Mount đến Server
+Hoạt động của file ban đầu sẽ hỏi người dùng xem muốn cài đặt Client hay Server
+- Nếu câu trả lời là Server:
+  - Thực hiện kiểm tra xem nfs server đã được cài hay chưa
+    - Nếu chưa thì tiến hành cài
+    - Nếu đã được cài thì tiến hành kiểm tra các file đang chia sẻ
+- Nếu câu trả lời là Client:
+  - Thực hiện kiểm tra xem nfs client đã được cài hay chưa
+    - Nếu chưa thì tiến hành cài
+    - Nếu đã được cài thì viết câu lệnh:
+      - Tự động Mount tới Server
+      - Kiểm tra việc mount
+
+Mô hình hoạt động ví dụ:
+
+![](/Anh/Screenshot_687.png)
+
+Trước tiên, tạo file bash:
+```
+vim nfs_auto.sh
+```
+
+Thêm vào nội dung như sau:
+```
+#!/bin/bash
+
+install_package() {
+    PACKAGE_NAME=$1
+    if ! dpkg -l | grep -q $PACKAGE_NAME; then
+        echo " $PACKAGE_NAME wasn't installed. Installing....."
+        sudo apt update
+        sudo apt install -y $PACKAGE_NAME
+    else
+        echo "$PACKAGE_NAME has installed in your Server. Now check File Shared! ."
+    fi
+}
+
+read -p "Choice? (client/server): " choice
+
+case $choice in
+    server)
+        install_package nfs-kernel-server
+        
+        echo "Shared Folder:"
+        sudo exportfs -v
+        ;;
+    client)
+        install_package nfs-common
+        
+        SERVER_IP="172.16.66.81"
+        REMOTE_DIR="/mnt/shared"
+        LOCAL_DIR="/mnt/nfs_shared"
+        
+        sudo mkdir -p $LOCAL_DIR
+        
+        echo "Mounting $REMOTE_DIR from NFS Server $SERVER_IP to $LOCAL_DIR"
+        sudo mount -t nfs ${SERVER_IP}:${REMOTE_DIR} ${LOCAL_DIR}
+        
+        echo "Mount check:"
+        df -h $LOCAL_DIR
+        ;;
+    *)
+        echo "Wrong choice. Just 'client' or 'server'."
+        ;;
+esac
+```
+Giải thích script:
+- install_package: Hàm này kiểm tra xem một gói phần mềm đã được cài đặt chưa và tiến hành cài đặt nếu cần thiết.
+- Lựa chọn server:
+  - Kiểm tra và cài đặt nfs-kernel-server nếu chưa tồn tại.
+  - In ra các thư mục đang chia sẻ bằng lệnh exportfs -v.
+- Lựa chọn client:
+  - Kiểm tra và cài đặt nfs-common nếu chưa tồn tại.
+  - Tạo thư mục /mnt/nfs_shared nếu chưa tồn tại.
+  - Gắn kết thư mục từ NFS Server với IP 172.16.66.81 và thư mục được chia sẻ là /mnt/shared tới thư mục cục bộ /mnt/nfs_shared.
+  - Kiểm tra việc mount bằng lệnh df -h.
+
+KẾT QUẢ:
+- Khi thực hiện trên Client
+
+![](/Anh/Screenshot_688.png)
+
+- Khi thưc hiện trên Server
+
+![](/Anh/Screenshot_689.png)
