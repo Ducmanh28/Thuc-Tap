@@ -100,9 +100,9 @@ Trước tiên, chúng ta thực hiện đổi port cho giaot thức RDP như sa
 - Các bạn mở hộp thoại Run, gõ 'regedit'
 - Tiếp đến các bạn truy cập theo đường Link sau:`HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp`
 - Sau đó tìm file `Port Numbers` và thực hiện đổi từ 3389 thành 3400
-- Sau khi hoàn tất các bạn lưu lại và thoát
+- Sau khi hoàn tất các bạn lưu lại và thoát. Lưu ý tích vào mục Decimal để có thể nhập số thập phân
 
-![](/Anh/Screenshot_684.png)
+![](/Anh/Screenshot_686.png)
 
 Bây giờ chúng ta thực hiện thêm 2 rules (UDP/TCP) vào trong Firewall --> Advance Setting --> Inbound Rules --> New Rule
 
