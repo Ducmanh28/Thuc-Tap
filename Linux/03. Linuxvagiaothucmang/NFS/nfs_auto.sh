@@ -67,6 +67,9 @@ read -p "Do you want to install NFS Server or Client? (1 for Server / 2 for Clie
 case $choice in
     1)
         install_package nfs-kernel-server
+        echo"Open port NFS for Server..."
+        sudo ufw allow nfs
+        sudo restart ufw
         echo "Currently shared directories:"
         sudo exportfs -v
         ;;
