@@ -23,6 +23,8 @@ MỤC LỤC
     - [Cấu hình bên phía Client](#cấu-hình-bên-phía-client)
     - [Kiểm tra](#kiểm-tra)
     - [Bashscripts cài NFS và tự động Mount đến Server](#bashscripts-cài-nfs-và-tự-động-mount-đến-server)
+    - [Thực hành 2 máy mount tới 1 Server](#thực-hành-2-máy-mount-tới-1-server)
+      - [Kiểm tra:](#kiểm-tra-1)
 
 # Lý thuyết:
 ## NFS là gì?
@@ -278,3 +280,53 @@ KẾT QUẢ:
 - Khi thưc hiện trên Server
 
 ![](/Anh/Screenshot_689.png)
+
+### Thực hành 2 máy mount tới 1 Server
+Các thiết bị bao gồm:
+- LAB Ubuntu Server: 172.16.66.81
+- LAB Ubuntu Client: 172.16.66.82
+- LAB Centos 7: 172.16.66.84
+
+Yêu cầu cài đặt:
+- Máy Ubuntu Server sử dụng Bashscript cài đặt NFS
+- Máy Ubuntu Client sử dụng Bashscript cài đặt NFS và tự động mount
+- Máy Centos 7 thực hiện cài thủ công
+
+Thực hành trên máy Centos 7:
+- Cài đặt như sau:
+```
+sudo yum update
+sudo yum upgrade
+
+sudo apt install nfs-utils
+```
+- Tiến hành Mount tới Server
+```
+# Tạo thư mục mount
+mkdir /mnt/nfs_sharedc7
+
+# Tiến hành mount
+mount 172.16.66.81:/mnt/shared /mnt/nfs_sharedc7
+```
+#### Kiểm tra:
+Trên Server
+- Tạo file và kiểm tra
+
+![](/Anh/Screenshot_690.png)
+
+- Bắt bằng Wireshark
+```
+root@MANH-U22-Server:/home/suncloud/ducmanh# tcpdump -i ens160 -n port 2049 -w testnfs.pcap
+```
+![](/Anh/Screenshot_691.png) 
+
+Trên Ubuntu Client
+
+![](/Anh/Screenshot_692.png)
+
+Trên Centos7 Client
+
+![](/Anh/Screenshot_693.png)
+
+
+
