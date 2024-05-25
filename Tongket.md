@@ -464,6 +464,51 @@ Tìm hiểu giao thức nfs
   - Tạo tệp chia sẻ
   - Kết nối và thao tác trên tệp
   - Đóng kết nối
+### Từ 20/5 - 25/5:
+Chỉnh sửa lại phần cài đặt IP cho Ubuntu
+
+Giao thức RDP:
+- Thực hiện bật Firewall, cho phép Port 3389. 
+  - Bật Firewall sẽ không còn Ping được nếu như không cấu hình Firewall cho phép Ping(File and Printer Sharing)
+  - Không thể Remote nếu như không mở port 3389(Port mặc định của RDP)
+  - Cấu hình mở Port trong Firewall, InboundRules phần RDP
+- Thay đổi Port. 
+  - Thực hiện thay đổi Port mặc định RDP trong `regedit`
+  - Thực hiện cấu hình Firewall mở port vừa thay đổi
+
+Giao thức NFS:
+- Khi 2 máy Ubuntu và Centos9 cùng Mount vào 1 thư mục trên Server thì khi có bất kì thay đổi nào với thư mục. Tất cả các máy đều sẽ thấy.
+  - Cấu hình chia sẻ folder trên Server trước
+  - Tạo file mount và thực hiện Mount từ Client
+- Viết Bashscripts auto_nfs.sh làm được những việc như sau:
+  - Kiểm tra OS xem có phải Ubuntu hay không
+  - Đúng là Ubuntu sẽ hỏi người dùng muốn cài trên Server hay Client.
+    - Nếu chọn Server:
+      - Thực hiện cài đặt
+      - Bật tường lửa
+      - Show ra các thư mục đã chia sẻ nếu như đã cài đặt
+    - Nếu chọn Client:
+      - Hỏi người dùng xem chỉ muốn cài đặt hay vừa cài đặt vừa tự động Mount tới Server
+        - Chỉ muốn cài đặt sẽ chỉ cài đặt
+        - Cài đặt và tự động Mount:
+          - Cài đặt 
+          - Yêu cầu nhập vào Ip Server
+            - Kiểm tra IP
+            - Kiểm tra xem Port NFS trên Server có mở không
+          - Yêu cầu nhập vào tên thư mục mount trên thiết bị
+            - Nếu chưa có thư mục mount sẽ tự động tạo
+          - Thực hiện Mount tới Server
+          - In ra kết quả của việc Mount
+- Tìm hiểu về Fstab:
+  - là một tệp tin ở trong hệ thống Linux, được sử dụng để xác định các hệ thống tập tin và các thiết bị lưu trữ được gắn kết tự động và được tự động mount khi hệ thống khởi động. 
+  - Cấu hình để tự động Mount
+```
+172.16.66.81:/mnt/shared /mnt/nfs_shared nfs defaults 0 0
+```  
+
+
+
+
 
 Nhiệm vụ tuần tới:
 Sau khi hoàn thành các nhiệm vụ ở trên thì thực hiện
