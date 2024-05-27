@@ -1,4 +1,23 @@
-# RDP
+# Mục này tìm hiểu về RDP
+Mục lục
+- [Mục này tìm hiểu về RDP](#mục-này-tìm-hiểu-về-rdp)
+  - [RDP là gì?](#rdp-là-gì)
+  - [Cách sử dụng RDP](#cách-sử-dụng-rdp)
+    - [Dùng trực tiếp qua Windows](#dùng-trực-tiếp-qua-windows)
+    - [Dùng thông qua MobaXterm](#dùng-thông-qua-mobaxterm)
+    - [Cấu hình FireWall cho phép RDP hoạt động](#cấu-hình-firewall-cho-phép-rdp-hoạt-động)
+    - [Đổi port RDP](#đổi-port-rdp)
+  - [Phân quyền RDP:](#phân-quyền-rdp)
+    - [Tạo User](#tạo-user)
+      - [Sử dụng GUI để thao tác tạo User](#sử-dụng-gui-để-thao-tác-tạo-user)
+      - [Sử dụng CMD](#sử-dụng-cmd)
+    - [Phân quyền RDP cho user:](#phân-quyền-rdp-cho-user)
+      - [Sử dụng GUI](#sử-dụng-gui)
+      - [Sử dụng CMD](#sử-dụng-cmd-1)
+  - [Kiểm tra Log RDP trong Windows](#kiểm-tra-log-rdp-trong-windows)
+    - [Một số thông tin về Log](#một-số-thông-tin-về-log)
+    - [Log RDP:](#log-rdp)
+
 ## RDP là gì? 
 Giao thức RDP (Remote Desktop Protocol) là một giao thức mạng được Microsoft phát triển, cho phép người dùng kết nối và điều khiển máy tính từ xa thông qua giao diện đồ họa. Dưới đây là tóm tắt về RDP:
 - **Chức năng chính**: RDP cho phép người dùng truy cập vào một máy tính từ xa qua mạng, như thể họ đang ngồi trực tiếp trước máy tính đó. Giao thức này hỗ trợ nhiều phiên làm việc đồng thời, cho phép nhiều người dùng kết nối vào một máy chủ cùng lúc.
