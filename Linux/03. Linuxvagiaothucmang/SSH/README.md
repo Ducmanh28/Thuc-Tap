@@ -9,10 +9,9 @@ Một máy Linux cơ bản là có thể sử dụng Scripts này
 Chạy lệnh sau ở terminal của bạn, FILE được tải xuống sẽ nằm trong thư mục hiện tại bạn đan ở và có thể được kiểm tra bằng lệnh `pwd`
 ```
 # Sử dụng curl để tải xuống
-curl -O https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/main/Linux/03.%20Linuxvagiaothucmang/SSH/Acess_SSH.sh
-
+curl -O https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/main/Linux/03.%20Linuxvagiaothucmang/SSH/permissions_ssh.sh
 # Sử dụng wget
-wget https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/main/Linux/03.%20Linuxvagiaothucmang/SSH/Acess_SSH.sh
+wget https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/main/Linux/03.%20Linuxvagiaothucmang/SSH/permissions_ssh.sh
 ```
 
 ### Hướng dẫn sử dụng
@@ -56,3 +55,26 @@ Root login permitted.
 Successfully granted SSH access for user3.
 ```
 Ví dụ mẫu 2
+```
+root@MANH-U22-Server:/home/suncloud/ducmanh# ./permissions_ssh.sh
+This script is used to add SSH login permits for users and allow root SSH login for your server.
+To run this script, you will need root permissions. This script also creates a backup file for your sshd_config.
+Confirm to proceed (yes/no): yes
+Checking root permissions of current user!
+Checking root permissions complete!
+Checking Backup file!
+Backup file check completed.
+Username: user3
+Checking sudo privileges of user3
+user3 already has sudo privileges.
+Checking SSH permissions for user3
+user3 does not have SSH access.
+Adding SSH access for user3...
+Editing SSH configuration to grant SSH access for user user3...
+Restarting SSH service...
+Do you want to allow Root Login: no
+Checking Root Login Permissions
+Disenableing root login...
+Complete disallow Root Login Permissions. Restarting SSH...
+Successfully granted SSH access for user3.
+```
