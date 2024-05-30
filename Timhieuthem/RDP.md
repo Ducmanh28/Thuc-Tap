@@ -17,6 +17,7 @@ Mục lục
   - [Kiểm tra Log RDP trong Windows](#kiểm-tra-log-rdp-trong-windows)
     - [Một số thông tin về Log](#một-số-thông-tin-về-log)
     - [Log RDP:](#log-rdp)
+    - [Kiểm tra thời gian lưu Log](#kiểm-tra-thời-gian-lưu-log)
 
 ## RDP là gì? 
 Giao thức RDP (Remote Desktop Protocol) là một giao thức mạng được Microsoft phát triển, cho phép người dùng kết nối và điều khiển máy tính từ xa thông qua giao diện đồ họa. Dưới đây là tóm tắt về RDP:
@@ -168,8 +169,11 @@ Truy cập CMD
 
 Thêm vào câu lệnh sau:
 ```
+# Tổng quan:
+net localgroup "Group_name" <User_name> /add
+# Thêm vào Remote Desktop User
 net localgroup "Remote Desktop Users" TEST2 /add
-
+# Thêm vào admin
 net localgroup administrators TEST2 /add
 ```
 ## Kiểm tra Log RDP trong Windows
@@ -193,18 +197,19 @@ Bạn có thể thao tác với các EventLog thông qua EventViewer
 
 ### Log RDP:
 Để tìm ra log của một phiên Remote Desktop trong Windows, bạn cần kiểm tra các sự kiện trong **Security Log** và **TerminalServices-LocalSessionManager Log**. 
-- Kiểm tra Security Log:
+
+Kiểm tra Security Log:
   - **Event ID 4624**: Đăng nhập thành công.
   - **Event ID 4625**: Đăng nhập thất bại.
   - **Event ID 4634**: Đăng xuất.
 
-Trước tiên, mở bộ lọc tìm kiếm:
+- Trước tiên, mở bộ lọc tìm kiếm:
 
 ![](/Anh/Screenshot_708.png)
 
-Lọc các Event ID kết nối của RDP: 4624, 4625, 4634
+- Lọc các Event ID kết nối của RDP: 4624, 4625, 4634
 
-- Kiểm tra trong TerminalServices-LocalSessionManager Log
+Kiểm tra trong TerminalServices-LocalSessionManager Log
   - Event ID 21: Một phiên đã được đăng nhập vào Remote Desktop.
   - Event ID 22: Một phiên đã được ngắt kết nối khỏi Remote Desktop.
   - Event ID 23: Một phiên đã được kết nối lại vào Remote Desktop.
@@ -220,5 +225,23 @@ Ví dụ như trong ảnh sau, chúng ta có thể thấy được:
   - User được dùng để kết nối
   - ID của phiên kết nối
   - Địa chỉ IP của người kết nối đến
+
+### Kiểm tra thời gian lưu Log
+Để kiểm tra được thao tác mà máy sẽ thực hiện ví dụ đối với Security Log khi Log đầy, chúng ta vào `Event Viewer/ WindowsLog/Security`, chuột phải và chọn `Properties`
+
+![](/Anh/Screenshot_713.png)
+
+Ở đây sẽ có các thông tin như:
+- Tên Log
+- Đường dẫn lưu Log
+- Dung lượng của Log
+- Ngày tạo Log
+- Ngày chỉnh sửa
+- Ngày truy cập
+- Dung lượng tối đa lưu log
+- Khi log đầy, thực hiện:
+  - Ghi đè lên log(ghi đè từ phiên bản cũ nhất)
+  - Nén dữ liệu log, không ghi đè
+  - Xóa log, không ghi đè
 
 
