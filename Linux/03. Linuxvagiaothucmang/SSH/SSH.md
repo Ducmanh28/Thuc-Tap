@@ -161,6 +161,6 @@ Mô hình hoạt động của Scripts
 
 ![](/Anh/Screenshot_712.png)
 
-Hướng dẫn sử dụng các bạn tham khảo tại [đây]()
+Hướng dẫn sử dụng các bạn tham khảo tại [đây](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/03.%20Linuxvagiaothucmang/SSH/README.md)
 
-Nội dung của BashScripts được hiển thị tại [đây]()
+Nội dung của BashScripts được hiển thị tại [đây](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/03.%20Linuxvagiaothucmang/SSH/Acess_SSH.sh)
