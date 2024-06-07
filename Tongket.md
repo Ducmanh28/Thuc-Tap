@@ -505,7 +505,24 @@ Giao thức NFS:
 ```
 172.16.66.81:/mnt/shared /mnt/nfs_shared nfs defaults 0 0
 ```  
+### Từ 27/5 - 31/5
+Tìm hiểu về event trong Windows:
+- Kiểm tra trong Event Viewer
+- Một số file log quan trọng như:
+  - Application Log: Ghi lại các sự kiện từ các ứng dụng đang chạy trên hệ thống.
+  - System Log: Ghi lại các sự kiện từ hệ điều hành Windows.
+  - Security Log: Ghi lại các sự kiện bảo mật, chẳng hạn như đăng nhập thành công hoặc thất bại, thay đổi quyền người dùng, v.v.
+  - Setup Log: Ghi lại các sự kiện liên quan đến cài đặt và cấu hình hệ thống.
+  - Forwarded Events: Ghi lại các sự kiện được chuyển tiếp từ các máy tính khác.
 
+Tạo mới User trên Windows, cấp quyền cho User đó có thể Remote
+
+Xác định các Event ID của RDP:
+  - Security Log: 4624, 4625, 4634
+  - TerminalServices-LocalSessionManager Log: 21,22,23,24,25
+
+Phần SSH: 
+- Tạo 2 user 
 
 
 

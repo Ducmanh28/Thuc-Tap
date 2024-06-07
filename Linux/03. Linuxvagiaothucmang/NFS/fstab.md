@@ -15,7 +15,7 @@ Cấu trúc của 1 fstab thường bao gồm những thành phần sau:
 
 Fstab hoạt động bằng cách đọc thông tin trong tệp và tự động mount các thiết bị được chỉ định khi hệ thống khởi động
 
-### Cách sử dụng NFS:
+### Cách sử dụng Fstab
 Bạn cần tuân theo cấu trúc của fstab như trên. Bạn sẽ thực hiện tạo 1 `file /etc/fstab` và thêm và các câu lệnh khởi chạy. Dưới đây là một ví dụ
 
 ```
