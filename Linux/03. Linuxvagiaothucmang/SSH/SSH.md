@@ -71,7 +71,7 @@ sudo whoami
 ## Phân quyền SSH cho User
 Mô hình thực hiện:
 
-![](/Anh/Screenshot_711.png)
+![](/Anh/Screenshot_714.png)
 
 Giải thích mô hình:
 - Gồm 2 thiết bị:
@@ -163,4 +163,4 @@ Mô hình hoạt động của Scripts
 
 Hướng dẫn sử dụng các bạn tham khảo tại [đây](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/03.%20Linuxvagiaothucmang/SSH/README.md)
 
-Nội dung của BashScripts được hiển thị tại [đây](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/03.%20Linuxvagiaothucmang/SSH/Acess_SSH.sh)
+Nội dung của BashScripts được hiển thị tại [đây](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/03.%20Linuxvagiaothucmang/SSH/permissions_ssh.sh)
