@@ -20,7 +20,7 @@ check_root_permissions() {
         echo "You need root permissions to run this script. Exiting..."
         exit 1
     else 
-        echo "Checking root permissions complete!"
+        echo "Root permissions check complete!"
     fi
 }
 
@@ -58,10 +58,18 @@ enable_root_login() {
     if grep -q "^PermitRootLogin.*yes" /etc/ssh/sshd_config; then
         echo "Root login permitted."
     else
-        echo "Enabling root login..."
-        sudo sed -i "s/^PermitRootLogin.*/PermitRootLogin yes/" /etc/ssh/sshd_config
-        echo "Complete allow Root Login Permissions. Restarting SSH..."
-        sudo systemctl restart ssh
+        if grep -q "^#PermitRootLogin" /etc/ssh/sshd_config;then
+            echo "Uncommenting and enabling root login..."
+            sudo sed -i "s/^#PermitRootLogin.*/PermitRootLogin yes/" /etc/ssh/sshd_config
+        elif grep -q "^PermitRootLogin" /etc/ssh/sshd_config;then
+            echo "Enabling root login..."
+            sudo sed -i "s/^PermitRootLogin.*/PermitRootLogin yes/" /etc/ssh/sshd_config
+        else
+            echo "Adding PermitRootLogin directive..."
+            echo "PermitRootLogin yes" | sudo tee -a /etc/ssh/sshd_config > /del/null     
+        fi    
+            echo "Complete allow Root Login Permissions. Restarting SSH..."
+            sudo systemctl restart ssh
     fi
 }
 disenable_root_login() {
