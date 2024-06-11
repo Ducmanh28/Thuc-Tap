@@ -25,6 +25,7 @@ MỤC LỤC
     - [Dùng `tcpdump` bắt gói tin và phân tích khi nc giao tiếp](#dùng-tcpdump-bắt-gói-tin-và-phân-tích-khi-nc-giao-tiếp)
   - [Tổng quan 3 câu lệnh:](#tổng-quan-3-câu-lệnh)
   - [Lệnh `Telnet`](#lệnh-telnet)
+  - [Lệnh `iperf` kiểm tra tốc độ truyền dữ liệu](#lệnh-iperf-kiểm-tra-tốc-độ-truyền-dữ-liệu)
 
 
 # Mục này tìm hiểu về 1 số câu lệnh hữu dụng khi sử dụng Linux
@@ -285,3 +286,73 @@ Nếu bạn thực sự muốn kết nối tới Server, bạn cần cài đặt
 sudo dnf install telnet-server
 ```
 Lúc này, khi bạn Telnet vào máy chủ, bạn có thể điều khiển máy chủ như dùng SSH. Tuy nhiên nó sẽ có các lỗ hổng bảo mật và tôi không khuyến khích các bạn sử dụng Telnet để điều khiển máy chủ mà thay vào đó, nên dùng SSH.
+
+## Lệnh `iperf` kiểm tra tốc độ truyền dữ liệu
+Lệnh `iperf` là một công cụ mạnh mẽ được sử dụng để kiểm tra tốc độ truyền dữ liệu giữa 2 thiết bị.
+
+Mặc định, `iperf` không được cài đặt sẵn trên các thiết bị. Vậy nên, chúng ta có thể cài đặt `iperf` như sau:
+```
+# Cập nhật ứng dụng
+sudo apt upgrade
+
+# Cài đặt iperf
+sudo apt install -y iperf3
+```
+
+Sử dụng Iperf cơ bản:
+- Ở trên máy đóng vai trò là Server(lắng nghe kết nối đến) chúng ta thực hiện như sau:
+```
+# Mở cổng port 5201
+sudo ufw allow 5201
+
+# Thực hiện lắng nghe
+iperf3 -s
+```
+- Ở trên máy đóng vai trò là Client(kết nối đến Server):
+```
+# Tổng quát
+iperf3 -c <server_ip>
+
+# Ví dụ
+iperf3 -c 172.16.66.81
+```
+
+Mẫu kết quả hiển thị
+```
+root@MANH-U22-client:~# iperf3 -c 172.16.66.81
+Connecting to host 172.16.66.81, port 5201
+[  5] local 172.16.66.82 port 56420 connected to 172.16.66.81 port 5201
+[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+[  5]   0.00-1.00   sec  14.2 MBytes   119 Mbits/sec    0    447 KBytes
+[  5]   1.00-2.00   sec  12.1 MBytes   102 Mbits/sec    0    447 KBytes
+[  5]   2.00-3.00   sec  11.2 MBytes  93.8 Mbits/sec    0    447 KBytes
+[  5]   3.00-4.00   sec  12.1 MBytes   102 Mbits/sec    0    447 KBytes
+[  5]   4.00-5.00   sec  12.1 MBytes   102 Mbits/sec    0    447 KBytes
+[  5]   5.00-6.00   sec  12.1 MBytes   102 Mbits/sec    0    447 KBytes
+[  5]   6.00-7.00   sec  12.1 MBytes   102 Mbits/sec    0    447 KBytes
+[  5]   7.00-8.00   sec  11.2 MBytes  93.9 Mbits/sec    0    447 KBytes
+[  5]   8.00-9.00   sec  12.4 MBytes   104 Mbits/sec    0    510 KBytes
+[  5]   9.00-10.00  sec  11.6 MBytes  97.5 Mbits/sec    0    510 KBytes
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.00  sec   121 MBytes   102 Mbits/sec    0             sender
+[  5]   0.00-10.04  sec   119 MBytes  99.5 Mbits/sec                  receiver
+
+iperf Done.
+```
+- Connecting to host 172.16.66.81, port 5201: Đây là thông báo cho biết iperf đang kết nối đến máy chủ có địa chỉ IP là 172.16.66.81 và cổng 5201.
+- [ 5] local 172.16.66.82 port 43512 connected to 172.16.66.81 port 5201: Đây là thông báo cho biết máy đang chạy iperf có địa chỉ IP là 172.16.66.82 và đang kết nối đến máy chủ tại địa chỉ IP 172.16.66.81, sử dụng cổng 43512 để kết nối với cổng 5201 trên máy chủ.
+- [ 5] 0.00-1.00 sec 12.9 MBytes 108 Mbits/sec 0 163 KBytes: Các dòng này biểu diễn thông tin về tốc độ truyền dữ liệu trong từng khoảng thời gian cụ thể:
+  - [ 5]: ID của kết nối.
+  - 0.00-1.00 sec: Khoảng thời gian trong đơn vị giây.
+  - 12.9 MBytes: Lượng dữ liệu đã truyền trong khoảng thời gian đó, tính bằng Megabytes.
+  - 108 Mbits/sec: Tốc độ truyền dữ liệu trong khoảng thời gian đó, tính bằng Megabits mỗi giây (Mbps).
+  - 0: Số lần tái truyền (retransmits) trong khoảng thời gian đó.
+  - 163 KBytes: Kích thước của cửa sổ cửa trượt cửa mạch (TCP Congestion Window) trong khoảng thời gian đó.
+
+Đánh giá tổng quát kết quả ở trên:
+- Tốc độ truyền dữ liệu trung bình: Tốc độ trung bình đạt khoảng 101 Mbps (Megabits mỗi giây) từ máy gửi và 99.4 Mbps từ máy nhận. Điều này chỉ ra rằng mạng có khả năng truyền dữ liệu ổn định với tốc độ gần với đường truyền lí tưởng.
+- Sự ổn định của kết nối: Việc không có các lần tái truyền (retransmits) trong quá trình truyền dữ liệu chỉ ra rằng kết nối mạng ổn định và không có sự mất mát dữ liệu đáng kể.
+- Cửa sổ cửa trượt cửa mạch (TCP Congestion Window): Kích thước của cửa sổ cửa trượt cửa mạch duy trì ở mức 163 KBytes trong suốt quá trình truyền dữ liệu. Điều này chỉ ra rằng cơ chế kiểm soát tắc nghẽn trên mạng được quản lý tốt và không gây ra bất kỳ sự chậm trễ không cần thiết.
+- Thời gian gửi và nhận dữ liệu: Quá trình truyền dữ liệu diễn ra trong khoảng 10 giây và kết quả cho thấy tất cả dữ liệu đã được gửi và nhận một cách hoàn chỉnh.
+
