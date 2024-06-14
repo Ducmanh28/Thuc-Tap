@@ -129,7 +129,7 @@ function configure-netbox {
 	cd /opt/netbox/netbox/netbox
 	cp configuration_example.py configuration.py
     # Replace content in the configuration file
-	sed -i "s/^ALLOWED_HOSTS = \[\]$/ALLOWED_HOSTS = [$ALLOWED_HOSTS]/g" configuration.py
+	sed -i "s/^ALLOWED_HOSTS = \[\]$/ALLOWED_HOSTS = ['$DNS','$IP']/g" configuration.py
 	sed -i "s/'USER': ''/'USER': '$POSTGRES_USERNAME'/g" configuration.py
 	sed -i "0,/'PASSWORD': ''/s/'PASSWORD': ''/'PASSWORD': '$POSTGRES_PASSWORD'/g" configuration.py
 	sed -i "s/SECRET_KEY = ''/SECRET_KEY = '\/$secret_key'/g" configuration.py
