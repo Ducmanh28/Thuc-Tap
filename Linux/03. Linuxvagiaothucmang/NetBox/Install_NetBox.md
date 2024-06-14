@@ -139,7 +139,7 @@ Tạo khóa:
 ```
 python3 ../generate_secret_key.py
 
-$t0zw1&1mnZ#Pz(fxq43i)Dm)#X+YX_dh+g^#LW7n2HC($fJTe
+Ju(-)OV2%xBghQ=&%adtqi#gpW*c5uqwN-#dEg4k(k60zl2RJ*
 ```
 Sửa file cấu hình:
 ```
@@ -151,7 +151,7 @@ DATABASE = {
     'ENGINE': 'django.db.backends.postgresql',  # Database engine
     'NAME': 'netbox',         # Database name
     'USER': 'netbox',               # PostgreSQL username
-    'PASSWORD': 'Suncloud2024',           # PostgreSQL password
+    'PASSWORD': 'Suncloud@2024!',           # PostgreSQL password
     'HOST': 'localhost',      # Database server
     'PORT': '',               # Database port (leave blank for default)
     'CONN_MAX_AGE': 300,      # Max database connection age
@@ -197,7 +197,7 @@ Tạo theo mẫu như sau:
 ```
 Username (leave blank to use 'root'): nadmin
 Email address: admin@example.com
-Password: Suncloud@2024
+Password: Suncloud@2024!
 Password (again): 
 Superuser created successfully.
 ```
