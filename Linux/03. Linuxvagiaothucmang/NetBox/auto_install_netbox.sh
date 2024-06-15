@@ -2,7 +2,8 @@
 
 
 # Hàm cài đặt PostgreSQL Server
-function  {
+# Hàm cài đặt PostgreSQL Server
+function install_postgresql {
     if ! dpkg -l | grep -q "postgresql"; then
         echo "Installing PostgreSQL..."
         
@@ -26,18 +27,18 @@ function  {
 
 # Hàm khởi tạo User PostgreSQL Server
 function user_PostgreSQL {
-    echo "Starting creat Database, user and grant permission"
+    echo "Starting create Database, user and grant permission"
     sudo -i -u postgres psql <<EOF
         CREATE DATABASE $POSTGRESQL_DATABASE;
         CREATE USER $POSTGRESQL_USERNAME WITH PASSWORD '$POSTGRESQL_PASSWORD';
-        ALTER DATABASE $POSTGRESQL_DATABASE;
+        ALTER DATABASE $POSTGRESQL_DATABASE OWNER TO $POSTGRESQL_USERNAME;
         GRANT ALL PRIVILEGES ON DATABASE $POSTGRESQL_DATABASE TO $POSTGRESQL_USERNAME;
 EOF
     # Check process
-    if [$? -eq 0]; then
+    if [ $? -eq 0 ]; then
         echo "Database, user, and permission have been successfully created and granted."
     else 
-        echo "Error: Failed to create database, user"
+        echo "Error: Failed to create database or user."
     fi
 }
 
@@ -73,62 +74,58 @@ function download_netbox {
         sudo apt install -y wget
     fi
 
-    # Check if /opt/netbox directory exists
-    echo "Checking directory /opt/netbox..."
-    if [ ! -d "/opt/netbox" ]; then
-    # Mặc định cho cài bản mới nhất
-        # Download and install Netbox
-        echo "Downloading netbox..."
-        sudo wget "https://github.com/netbox-community/netbox/archive/refs/tags/$netbox_version.tar.gz" -P /tmp
+    local netbox_dir="/opt/netbox"
+    local netbox_tar="/tmp/v$netbox_version.tar.gz"
+
+    # Kiểm tra nếu thư mục /opt/netbox tồn tại
+    if [ -d "$netbox_dir" ]; then
+        echo "Netbox is already downloaded."
+    else
+        echo "Downloading Netbox..."
+        sudo wget "https://github.com/netbox-community/netbox/archive/refs/tags/v$netbox_version.tar.gz" -P /tmp
         if [ $? -ne 0 ]; then
             echo "Error: Failed to download Netbox version $netbox_version."
             exit 1
-        else
-            echo "Extracting Netbox..."
-            sudo tar -xzf "/tmp/$netbox_version.tar.gz" -C /opt
-            if [ $? -ne 0 ]; then
-                echo "Error: Failed to extract Netbox version $netbox_version."
-                exit 1
-            fi
-            echo "Creating Symbolic link..."
-            sudo ln -s "/opt/netbox-$netbox_version/" /opt/netbox
-            echo "Add user and create group "
-            sudo adduser --system --group $GROUP_NAME
-            echo "Change Owner of netbox to $GROUP_NAME"
-            sudo chown --recursive $GROUP_NAME /opt/netbox/netbox/media/
-            sudo chown --recursive $GROUP_NAME /opt/netbox/netbox/reports/
-            sudo chown --recursive $GROUP_NAME /opt/netbox/netbox/scripts/
-
-            # Check if the installation was successful
-            if [ $? -eq 0 ]; then
-                echo "Netbox version $netbox_version has been successfully installed."
-            else
-                echo "Error: Failed to install Netbox version $netbox_version."
-                exit 1
-            fi
         fi
-    else
-        echo "Netbox is already downloaded."
+
+        echo "Extracting Netbox..."
+        sudo tar -xzf "$netbox_tar" -C /opt
+        if [ $? -ne 0 ]; then
+            echo "Error: Failed to extract Netbox version $netbox_version."
+            exit 1
+        fi
+
+        echo "Creating Symbolic link..."
+        sudo ln -s "/opt/netbox-$netbox_version/" "$netbox_dir"
+        echo "Add user and create group"
+        sudo adduser --system --group $GROUP_NAME
+        echo "Change Owner of netbox to $GROUP_NAME"
+        sudo chown --recursive $GROUP_NAME "$netbox_dir"/netbox/media/
+        sudo chown --recursive $GROUP_NAME "$netbox_dir"/netbox/reports/
+        sudo chown --recursive $GROUP_NAME "$netbox_dir"/netbox/scripts/
+
+        echo "Netbox version $netbox_version has been successfully installed."
     fi
 }
 
 # Hàm cấu hình NetBox để cài đặt
 function configure_netbox_to_install {
     echo "Making Secret key..."
-    Secret_key = $(python3 /opt/netbox/netbox/genarate_secret_key.py)
-    echo "Genarating secret key compele. Move to netbox file"
+    Secret_key=$(python3 /opt/netbox/netbox/generate_secret_key.py)
+    echo "Generating secret key complete. Moving to NetBox file..."
     echo "Copying file configuration.py"
-    cp configuration_example.py configuration.py
-    echo "Editing file config..."
-    sed -i "s/^ALLOWED_HOSTS = \[\]$/ALLOWED_HOSTS = ['$DNS','$IP']/g" configuration.py
-    sed -i "s/'USER': ''/'USER': '$POSTGRES_USERNAME'/g" configuration.py
-	sed -i "0,/'PASSWORD': ''/s/'PASSWORD': ''/'PASSWORD': '$POSTGRES_PASSWORD'/g" configuration.py
-	sed -i "s/SECRET_KEY = ''/SECRET_KEY = '\/$Secret_key'/g" configuration.py
-    echo "Complete config"
+    cp /opt/netbox/netbox/netbox/configuration_example.py /opt/netbox/netbox/netbox/configuration.py
+    echo "Editing configuration file..."
+    sed -i "s/^ALLOWED_HOSTS = \[\]$/ALLOWED_HOSTS = ['$DNS','$IP']/g" /opt/netbox/netbox/netbox/configuration.py
+    sed -i "s/'USER': ''/'USER': '$POSTGRES_USERNAME'/g" /opt/netbox/netbox/netbox/configuration.py
+    sed -i "s/'PASSWORD': ''/'PASSWORD': '$POSTGRES_PASSWORD'/g" /opt/netbox/netbox/netbox/configuration.py
+    sed -i "s/SECRET_KEY = ''/SECRET_KEY = '$Secret_key'/g" /opt/netbox/netbox/netbox/configuration.py
+    echo "Configuration complete."
     echo "Installing NetBox..."
     /opt/netbox/upgrade.sh
-    echo "NetBox has been successfully installed on your System!"
+    echo "NetBox has been successfully installed on your system!"
 }
+
 
 # Hàm cấu hình NetBox để sử dụng
 function configure_netbox_to_use {
@@ -264,8 +261,8 @@ function main {
 
     install_python
 
-    read -p "Enter the NetBox version [latest]: " netbox_version
-    netbox_version=${netbox_version:-latest}
+    read -p "Enter the NetBox version [4.0.5]: " netbox_version
+    netbox_version=${netbox_version:-4.0.5}
 
     read -p "Enter the group name for NetBox [netbox]: " GROUP_NAME
     GROUP_NAME=${GROUP_NAME:-netbox}
@@ -317,8 +314,8 @@ function main {
 echo "This Scripts is used to install NetBox and all the things need to run NetBox! To run this Scripts, you will need root permission."
 echo "You can access root permission by entering 'sudo su' and input your sudo password! "
 echo "Before running this Scripts, please read README at: https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/03.%20Linuxvagiaothucmang/NetBox/README.md"
-read -p "Choose 'yes/no' to run or out: " choice
-if ["$choice" == "yes"]; then
+read -p "Confirm to proceed (yes/no): " choice
+if [ "$choice" = "yes" ]; then
     main;
 else 
     exit 1
