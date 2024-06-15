@@ -44,12 +44,12 @@ EOF
 
 # Hàm cài đặt Redis
 function install_Redis {
-    if ! dpkg -l | grep -q "redis-server"; then
+    if ! dpkg -l | grep -q "redis"; then
         echo "Redis is not installed. Installing Redis..."
-        sudo apt install -y redis-server
+        sudo apt install -y redis
 
         # Check process
-        if dpkg -l | grep -q "redis-server";then
+        if dpkg -l | grep -q "redis";then
             echo "Redis has been successfully installed."
         else
             echo "Error: Failed to install Redis."
@@ -107,8 +107,7 @@ function download_netbox {
         echo "Netbox version $netbox_version has been successfully installed."
     fi
 }
-
-# Hàm cấu hình NetBox để cài đặt
+# Hàm cấu hình NETBOX để cài đặt
 function configure_netbox_to_install {
     echo "Making Secret key..."
     Secret_key=$(python3 /opt/netbox/netbox/generate_secret_key.py)
@@ -116,10 +115,17 @@ function configure_netbox_to_install {
     echo "Copying file configuration.py"
     cp /opt/netbox/netbox/netbox/configuration_example.py /opt/netbox/netbox/netbox/configuration.py
     echo "Editing configuration file..."
+
+    # Thay thế ALLOWED_HOSTS
     sed -i "s/^ALLOWED_HOSTS = \[\]$/ALLOWED_HOSTS = ['$DNS','$IP']/g" /opt/netbox/netbox/netbox/configuration.py
-    sed -i "s/'USER': ''/'USER': '$POSTGRES_USERNAME'/g" /opt/netbox/netbox/netbox/configuration.py
-    sed -i "s/'PASSWORD': ''/'PASSWORD': '$POSTGRES_PASSWORD'/g" /opt/netbox/netbox/netbox/configuration.py
+
+    # Thay thế các thông số DATABASE
+    sed -i "/^DATABASES = {/a \    'USER': '$POSTGRES_USERNAME'," /opt/netbox/netbox/netbox/configuration.py
+    sed -i "/^DATABASES = {/a \    'PASSWORD': '$POSTGRES_PASSWORD'," /opt/netbox/netbox/netbox/configuration.py
+
+    # Thay thế SECRET_KEY
     sed -i "s/SECRET_KEY = ''/SECRET_KEY = '$Secret_key'/g" /opt/netbox/netbox/netbox/configuration.py
+
     echo "Configuration complete."
     echo "Installing NetBox..."
     /opt/netbox/upgrade.sh
@@ -162,6 +168,7 @@ function install_nginx {
         # Check process
         if dpkg -l | grep -q "nginx";then
             echo "Nginx has been successfully installed."
+            systemctl start nginx
         else
             echo "Error: Failed to install Nginx."
             exit 1
