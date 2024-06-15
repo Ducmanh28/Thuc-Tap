@@ -120,8 +120,8 @@ function configure_netbox_to_install {
     sed -i "s/^ALLOWED_HOSTS = \[\]$/ALLOWED_HOSTS = ['$DNS','$IP']/g" /opt/netbox/netbox/netbox/configuration.py
 
     # Thay thế các thông số DATABASE
-    sed -i "/^DATABASES = {/a \    'USER': '$POSTGRES_USERNAME'," /opt/netbox/netbox/netbox/configuration.py
-    sed -i "/^DATABASES = {/a \    'PASSWORD': '$POSTGRES_PASSWORD'," /opt/netbox/netbox/netbox/configuration.py
+    sed -i "s/'USER': ''/'USER': '$POSTGRES_USERNAME'/g" /opt/netbox/netbox/netbox/configuration.py
+	sed -i "0,/'PASSWORD': ''/s/'PASSWORD': ''/'PASSWORD': '$POSTGRES_PASSWORD'/g" /opt/netbox/netbox/netbox/configuration.py
 
     # Thay thế SECRET_KEY
     sed -i "s/SECRET_KEY = ''/SECRET_KEY = '$Secret_key'/g" /opt/netbox/netbox/netbox/configuration.py
@@ -306,7 +306,14 @@ function main {
     IP=${IP:-127.0.0.1}
     check_ip $IP
 
+    read -p "Enter the PostgreSQL username for NetBox configuration [netbox_user]: " POSTGRES_USERNAME
+    POSTGRES_USERNAME=${POSTGRES_USERNAME:-netbox_user}
+
+    read -p "Enter the PostgreSQL password for NetBox configuration [netbox_pass]: " POSTGRES_PASSWORD
+    POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-netbox_pass}
+    
     configure_netbox_to_install
+    echo "Install Completed. Now you need to create superuser"
 
     read -p "Enter the NetBox superuser username [admin]: " NETBOX_USERNAME
     NETBOX_USERNAME=${NETBOX_USERNAME:-admin}
