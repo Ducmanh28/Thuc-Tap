@@ -245,8 +245,31 @@ check_root_permissions() {
         echo "Root permissions check complete!"
     fi
 }
+# Hàm kiểm tra địa chỉ IP
+check_ip() {
+    IP=$1                                                     
+    if [[ $IP =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then   # Chia IP thành 2 phần: 3 phần có "." và 1 phần không có
+        for octet in ${IP//./ }; do     # Vòng lặp kiểm tra từng octet 
+            if ((octet > 255)); then    # Nếu giá trị của octet lớn hơn 255
+                echo "Invalid IP address: $IP. Each octet must be between 0 and 255."
+                exit 1
+            fi
+        done
+    else       # Nếu không đúng kiểu địa chỉ
+        echo "Invalid IP address format: $IP. Please check again."
+        exit 1
+    fi
+}
+# Hàm check hệ điều hành
+check_os() {
+    if [[ "$(lsb_release -is)" != "Ubuntu" ]]; then         # Câu lệnh `lsb_release -is` sẽ trả về giá trị tên của hệ điều hành
+        echo "Only Ubuntu Server can use this script."
+        exit 1
+    fi
+}
 # Hàm main 
 function main {
+    check_os
     check_root_permissions
 
     # Ghi nhận thời gian bắt đầu
@@ -281,12 +304,7 @@ function main {
 
     read -p "Enter the IP for NetBox configuration [127.0.0.1]: " IP
     IP=${IP:-127.0.0.1}
-
-    read -p "Enter the PostgreSQL username for NetBox configuration [netbox_user]: " POSTGRES_USERNAME
-    POSTGRES_USERNAME=${POSTGRES_USERNAME:-netbox_user}
-
-    read -p "Enter the PostgreSQL password for NetBox configuration [netbox_pass]: " POSTGRES_PASSWORD
-    POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-netbox_pass}
+    check_ip $IP
 
     configure_netbox_to_install
 
