@@ -290,11 +290,11 @@ function main {
 
     configure_netbox_to_install
 
-    read -p "Enter the NetBox superuser password [admin_pass]: " NETBOX_PASSWORD
-    NETBOX_PASSWORD=${NETBOX_PASSWORD:-admin_pass}
-
     read -p "Enter the NetBox superuser username [admin]: " NETBOX_USERNAME
     NETBOX_USERNAME=${NETBOX_USERNAME:-admin}
+    
+    read -p "Enter the NetBox superuser password [admin_pass]: " NETBOX_PASSWORD
+    NETBOX_PASSWORD=${NETBOX_PASSWORD:-admin_pass}
 
     read -p "Enter the NetBox superuser email [admin@example.com]: " NETBOX_MAIL
     NETBOX_MAIL=${NETBOX_MAIL:-admin@example.com}
