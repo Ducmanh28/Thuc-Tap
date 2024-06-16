@@ -520,16 +520,26 @@ Tạo mới User trên Windows, cấp quyền cho User đó có thể Remote
 Xác định các Event ID của RDP:
   - Security Log: 4624, 4625, 4634
   - TerminalServices-LocalSessionManager Log: 21,22,23,24,25
-
-Phần SSH: 
-- Tạo 2 user 
-
-
-
-
 Nhiệm vụ tuần tới:
 Sau khi hoàn thành các nhiệm vụ ở trên thì thực hiện
 - Tìm hiểu lệnh iperf test tốc độ đọc ghi dữ liệu
 - Câu lệnh của linux: disk sentinel linux. List devices, ktra cái nào là disk —> thực hiện lệnh check tốc độ
 - Tìm hiểu về latency, iops, bandwith, các thông số về ổ cứng.
 - Viết bashscripts: chạy lệnh kiểm tra tốc độ đọc/ghi của tất cả ổ cứng
+
+### Từ 9/6 - 16/6
+- Sửa lại hàm permitrootlogin trong phần SSH
+- Tìm hiểu tổng quan về NETBOX: Là công cụ mã nguồn mở, được sử dụng để quản lý cơ sở hạ tầng mạng
+- Hoàn thiện các phần liên quan đến ổ cứng
+  - Lệnh iperf kiểm tra tốc độ truyền dữ liệu
+  - linux disk sentinel
+  - Tìm hiểu một số thông số về ổ cứng
+    - Latency
+    - IOPS
+    - Bandwith
+    - ....
+  - Tìm hiểu một số lệnh test speed ổ cứng:
+    - dd
+    - fio
+  - bashscipts: sử dụng lệnh dd
+- Cải tiến bashscripts của anh quang

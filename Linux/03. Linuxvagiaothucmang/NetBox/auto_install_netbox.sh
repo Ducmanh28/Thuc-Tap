@@ -107,7 +107,7 @@ function download_netbox {
         echo "Netbox version $netbox_version has been successfully installed."
     fi
 }
-# Hàm cấu hình NETBOX để cài đặt
+# Hàm cấu hình NetBox để cài đặt
 function configure_netbox_to_install {
     echo "Making Secret key..."
     Secret_key=$(python3 /opt/netbox/netbox/generate_secret_key.py)
@@ -119,8 +119,8 @@ function configure_netbox_to_install {
     # Thay thế ALLOWED_HOSTS
     sed -i "s/^ALLOWED_HOSTS = \[\]$/ALLOWED_HOSTS = ['$DNS','$IP']/g" /opt/netbox/netbox/netbox/configuration.py
 
-    # Thay thế các thông số DATABASE
-    sed -i "s/'USER': ''/'USER': '$POSTGRES_USERNAME'/g" /opt/netbox/netbox/netbox/configuration.py
+    # Thay thế USER đầu tiên trong mục DATABASES
+	sed -i "s/'USER': ''/'USER': '$POSTGRES_USERNAME'/g" /opt/netbox/netbox/netbox/configuration.py
 	sed -i "0,/'PASSWORD': ''/s/'PASSWORD': ''/'PASSWORD': '$POSTGRES_PASSWORD'/g" /opt/netbox/netbox/netbox/configuration.py
 
     # Thay thế SECRET_KEY
