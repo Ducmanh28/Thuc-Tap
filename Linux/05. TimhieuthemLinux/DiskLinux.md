@@ -30,7 +30,7 @@ Một số khái niệm khác như:
 - **Interface**: Loại cổng giao tiếp mà ổ cứng sử dụng để kết nối với máy tính. Có thể là: SATA, NVMe, USB,...
 - **Drive Type**: Có thể là ổ HDD hoặc SSD
 - **Form Factor**: Kích thước ổ cứng: 2.5 inch, 3.5 inch, M.2,...
-- **Rotational Speed**(Tốc độ quay): Tốc độ quay của đĩa trong ổ cứng, đo bằng vòng quay mỗi phút (RPM). Ổ cứng có tốc độ quay cao hơn (như 7200 RPM so với 5400 RPM) thường có hiệu suất tốt hơn.
+- **Rotational Speed**(Tốc độ quay): Tốc độ quay của đĩa trong ổ cứng, đo bằng vòng quay mỗi phút (RPM). Ổ cứng có tốc độ quay cao hơn (như 7200 RPM so với 5400 RPM) thường có hiệu suất tốt hơn. Khái niệm này không có đối với ổ SSD vì SSD sử dụng bộ nhớ flash, không có bộ phận chuyển động
 - **Seek Time**(Thời gian tìm kiếm): Thời gian trung bình cần thiết để đầu đọc/ghi di chuyển đến vị trí cần thiết trên đĩa, đo bằng milliseconds (ms).
 
 
