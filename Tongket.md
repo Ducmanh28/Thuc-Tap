@@ -543,3 +543,14 @@ Sau khi hoàn thành các nhiệm vụ ở trên thì thực hiện
     - fio
   - bashscipts: sử dụng lệnh dd
 - Cải tiến bashscripts của anh quang
+  - Cải tiến lại các hàm
+    - Thêm hàm check os
+    - Thêm hàm check quyền root
+    - Thêm hàm check ip khi nhập vào
+    - Thêm hàm tính tổng thời gian
+    - Sửa lại hàm tải về netbox để người dùng nhập vào phiên bản muốn tải về
+  - Cài tiến yêu cầu nhập vào của người dùng: 
+    - Hàm chạy đến đâu sẽ nhập vào đến đó
+    - Các hàm được gọi sẽ được đưa vào 1 hàm main
+    - Thực hiện chạy hàm main
+  - Thêm vào các thông báo để người dùng biết đang ở đâu, làm gì
