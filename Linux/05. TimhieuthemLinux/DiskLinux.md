@@ -180,3 +180,28 @@ Kết quả đầu ra:
   - Điều này cho thấy mức độ tải CPU tương đối cao trong quá trình thử nghiệm, đặc biệt là với phần sử dụng hệ thống.
 
 ## BashScripts
+```
+#!/bin/bash
+
+# Lấy danh sách tất cả các ổ đĩa trong hệ thống
+drives=$(lsblk -o NAME -p -n | grep -E "^/dev/sd")
+
+# Kiểm tra nếu không có ổ đĩa nào
+if [ -z "$drives" ]; then
+    echo "Not found any disk in Server."
+    exit 1
+fi
+
+# Duyệt qua từng ổ đĩa và chạy lệnh kiểm tra tốc độ đọc/ghi
+for drive in $drives; do
+    echo "Checking $drive..."
+    echo "---------------------------"
+    echo "Read speed:"
+    sudo dd if=$drive of=/dev/null bs=1M count=1000 2>&1 | grep "copied"
+    echo "---------------------------"
+    echo "Write speed:"
+    sudo dd if=/dev/zero of=$drive bs=1M count=1000 2>&1 | grep "copied"
+    echo "==========================="
+done
+
+```
