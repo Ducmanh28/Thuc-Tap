@@ -554,3 +554,16 @@ Sau khi hoàn thành các nhiệm vụ ở trên thì thực hiện
     - Các hàm được gọi sẽ được đưa vào 1 hàm main
     - Thực hiện chạy hàm main
   - Thêm vào các thông báo để người dùng biết đang ở đâu, làm gì
+
+### Từ 17/6 - 23/6
+Tiếp tục cải tiến cho Scripts cài đặt NetBox:
+- Chỉnh sửa các hàm:
+  - Thêm các điều kiện kiểm tra xem hàm có chạy thành công hay không
+  - Nếu không thành công, in ra thông báo lỗi và tổng thời gian chạy chương trình
+- Thêm hàm:
+  - Thêm hàm tạo chứng chỉ SSL
+  - Thêm hàm cấu hình SSL vào trong nginx
+- Viết ReadMe hướng dẫn sử dụng chương trình
+  - Yêu cầu cần thiết
+  - Hướng dẫn các mục nhập vào
+  - Mẫu hiển thị kết quả đầu ra
