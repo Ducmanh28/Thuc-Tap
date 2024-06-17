@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-# Hàm cài đặt PostgreSQL Server
 # Hàm cài đặt PostgreSQL Server
 function install_postgresql {
     if ! dpkg -l | grep -q "postgresql"; then
@@ -19,6 +17,7 @@ function install_postgresql {
         else
             echo "Error: Failed to install PostgreSQL."
             exit 1
+            Total_time
         fi
     else
         echo "PostgreSQL is already installed!"
@@ -39,6 +38,8 @@ EOF
         echo "Database, user, and permission have been successfully created and granted."
     else 
         echo "Error: Failed to create database or user."
+        exit 1
+        Total_time
     fi
 }
 
@@ -54,6 +55,7 @@ function install_Redis {
         else
             echo "Error: Failed to install Redis."
             exit 1
+            Total_time
         fi
     else 
         echo "Redis is already installed"
@@ -86,6 +88,7 @@ function download_netbox {
         if [ $? -ne 0 ]; then
             echo "Error: Failed to download Netbox version $netbox_version."
             exit 1
+            Total_time
         fi
 
         echo "Extracting Netbox..."
@@ -107,29 +110,68 @@ function download_netbox {
         echo "Netbox version $netbox_version has been successfully installed."
     fi
 }
+#!/bin/bash
+
+#!/bin/bash
+
+# Đường dẫn tới tệp lưu trạng thái
+INSTALL_STATUS_FILE="/opt/netbox/.netbox_installed"
+
+#!/bin/bash
+
+# Đường dẫn tới tệp lưu trạng thái
+INSTALL_STATUS_FILE="/opt/netbox/.netbox_installed"
+
 # Hàm cấu hình NetBox để cài đặt
 function configure_netbox_to_install {
     echo "Making Secret key..."
     Secret_key=$(python3 /opt/netbox/netbox/generate_secret_key.py)
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to generate secret key."
+        exit 1
+    fi
+    
     echo "Generating secret key complete. Moving to NetBox file..."
-    echo "Copying file configuration.py"
-    cp /opt/netbox/netbox/netbox/configuration_example.py /opt/netbox/netbox/netbox/configuration.py
-    echo "Editing configuration file..."
-
-    # Thay thế ALLOWED_HOSTS
-    sed -i "s/^ALLOWED_HOSTS = \[\]$/ALLOWED_HOSTS = ['$DNS','$IP']/g" /opt/netbox/netbox/netbox/configuration.py
-
-    # Thay thế USER đầu tiên trong mục DATABASES
-	sed -i "s/'USER': ''/'USER': '$POSTGRES_USERNAME'/g" /opt/netbox/netbox/netbox/configuration.py
-	sed -i "0,/'PASSWORD': ''/s/'PASSWORD': ''/'PASSWORD': '$POSTGRES_PASSWORD'/g" /opt/netbox/netbox/netbox/configuration.py
-
-    # Thay thế SECRET_KEY
-    sed -i "s/SECRET_KEY = ''/SECRET_KEY = '$Secret_key'/g" /opt/netbox/netbox/netbox/configuration.py
-
-    echo "Configuration complete."
-    echo "Installing NetBox..."
-    /opt/netbox/upgrade.sh
-    echo "NetBox has been successfully installed on your system!"
+    
+    # Kiểm tra nếu tệp configuration.py đã tồn tại và đã được cấu hình
+    if [ -f /opt/netbox/netbox/netbox/configuration.py ]; then
+        echo "Configuration file 'configuration.py' already exists."
+        if grep -q "SECRET_KEY = '$Secret_key'" /opt/netbox/netbox/netbox/configuration.py && \
+           grep -q "ALLOWED_HOSTS = ['$DNS','$IP']" /opt/netbox/netbox/netbox/configuration.py && \
+           grep -q "'USER': '$POSTGRES_USERNAME'" /opt/netbox/netbox/netbox/configuration.py && \
+           grep -q "'PASSWORD': '$POSTGRES_PASSWORD'" /opt/netbox/netbox/netbox/configuration.py; then
+            echo "NetBox configuration is already up to date. Skipping configuration."
+        else
+            echo "Updating configuration file..."
+            # Thay đổi các giá trị trong configuration.py nếu cần thiết
+            sed -i "s/^ALLOWED_HOSTS = \[\]$/ALLOWED_HOSTS = ['$DNS','$IP']/g" /opt/netbox/netbox/netbox/configuration.py || { echo "Error: Failed to edit ALLOWED_HOSTS."; exit 1; }
+            sed -i "s/'USER': ''/'USER': '$POSTGRES_USERNAME'/g" /opt/netbox/netbox/netbox/configuration.py || { echo "Error: Failed to edit DATABASES USER."; exit 1; }
+            sed -i "0,/'PASSWORD': ''/s/'PASSWORD': ''/'PASSWORD': '$POSTGRES_PASSWORD'/g" /opt/netbox/netbox/netbox/configuration.py || { echo "Error: Failed to edit DATABASES PASSWORD."; exit 1; }
+            sed -i "s/SECRET_KEY = ''/SECRET_KEY = '$Secret_key'/g" /opt/netbox/netbox/netbox/configuration.py || { echo "Error: Failed to edit SECRET_KEY."; exit 1; }
+            echo "Configuration updated."
+        fi
+    else
+        echo "Copying file configuration.py"
+        cp /opt/netbox/netbox/netbox/configuration_example.py /opt/netbox/netbox/netbox/configuration.py || { echo "Error: Failed to copy configuration file."; exit 1; }
+        echo "Editing configuration file..."
+        # Thay đổi các giá trị trong configuration.py
+        sed -i "s/^ALLOWED_HOSTS = \[\]$/ALLOWED_HOSTS = ['$DNS','$IP']/g" /opt/netbox/netbox/netbox/configuration.py || { echo "Error: Failed to edit ALLOWED_HOSTS."; exit 1; }
+        sed -i "s/'USER': ''/'USER': '$POSTGRES_USERNAME'/g" /opt/netbox/netbox/netbox/configuration.py || { echo "Error: Failed to edit DATABASES USER."; exit 1; }
+        sed -i "0,/'PASSWORD': ''/s/'PASSWORD': ''/'PASSWORD': '$POSTGRES_PASSWORD'/g" /opt/netbox/netbox/netbox/configuration.py || { echo "Error: Failed to edit DATABASES PASSWORD."; exit 1; }
+        sed -i "s/SECRET_KEY = ''/SECRET_KEY = '$Secret_key'/g" /opt/netbox/netbox/netbox/configuration.py || { echo "Error: Failed to edit SECRET_KEY."; exit 1; }
+        echo "Configuration complete."
+    fi
+    
+    # Kiểm tra nếu NetBox đã được cài đặt trước đó
+    if [ -f "$INSTALL_STATUS_FILE" ]; then
+        echo "NetBox has already been installed. Skipping installation."
+    else
+        echo "Installing NetBox..."
+        /opt/netbox/upgrade.sh || { echo "Error: Failed to install NetBox."; exit 1; }
+        echo "NetBox has been successfully installed on your system!"
+        # Tạo tệp để đánh dấu đã cài đặt thành công
+        touch "$INSTALL_STATUS_FILE" || { echo "Error: Failed to create install status file."; exit 1; }
+    fi
 }
 
 
@@ -157,6 +199,16 @@ function configure_netbox_to_use {
     systemctl start netbox netbox-rq
     systemctl enable netbox netbox-rq
     systemctl restart netbox.service
+     # Kiểm tra xem tất cả các dịch vụ đã khởi động thành công hay không
+    systemctl is-active --quiet netbox netbox-rq
+    if [ $? -ne 0 ]; then
+        echo "Error: Some NetBox services failed to start."
+        exit 1
+        Total_time
+    else 
+        systemctl restart netbox.service
+        echo "NetBox configuration and startup completed successfully!."
+    fi    
 }
 
 # Hàm cài đặt Nginx
@@ -164,7 +216,6 @@ function install_nginx {
     if ! dpkg -l | grep -q "nginx"; then
         echo "Nginx is not installed. Installing Nginx..."
         sudo apt install -y nginx
-
         # Check process
         if dpkg -l | grep -q "nginx";then
             echo "Nginx has been successfully installed."
@@ -172,11 +223,21 @@ function install_nginx {
         else
             echo "Error: Failed to install Nginx."
             exit 1
+            Total_time
         fi
     else 
         echo "Nginx is already installed"
     fi
 }
+# Hàm kiểm tra apache2
+function check_apache2 {
+    if dpkg -l | grep -q "apache2"; then
+        echo "Found Apache2 on your Server. Turning off...."
+        sudo systemctl stop apache2
+        sudo systemctl disable apache2    
+    fi
+}
+
 
 
 # Hàm cấu hình Nginx
@@ -184,10 +245,14 @@ function config_nginx {
     echo "Editing main config file of Nginx"
     sudo sed -i '/http {/a \ \ server_names_hash_bucket_size 64;' /etc/nginx/nginx.conf
     echo "Creat Virtual Host of Nginx and making it to Reverse Proxy"
+    if dpkg -l | grep -q "netbox.conf";then
+        rm -rf /etc/nginx/sites-enabled/netbox.conf
+        rm -rf /etc/nginx/site-available/netbox.conf
+    fi
     sudo tee /etc/nginx/sites-available/netbox.conf > /dev/null <<EOF
 server {
     listen 80;
-    server_name ${Nginx_HOSTS};
+    server_name ${Nginx_HOSTS}, ${Nginx_HOSTS_IP};
     access_log /var/log/nginx/netbox.access.log;
     error_log /var/log/nginx/netbox.error.log;
 
@@ -211,7 +276,21 @@ EOF
     echo "Restarting Nginx"
     sudo systemctl start nginx
     sudo systemctl restart nginx
-    sudo systemctl enable nginx
+    # Kiểm tra lại cấu hình Nginx
+    echo "Checking Nginx configuration..."
+    sudo nginx -t
+    if [ $? -eq 0 ]; then
+        echo "Nginx configuration test successful. Reloading Nginx..."
+        sudo systemctl reload nginx
+        sudo systemctl enable nginx
+        sudo systemctl start nginx
+    else
+        echo "Error: Nginx configuration test failed. Rolling back changes..."
+        # Đảm bảo rằng Nginx không bị tắt bởi cấu hình sai
+        sudo systemctl reload nginx
+        exit 1
+        Total_time
+    fi
 	cd ~
 }
 
@@ -241,6 +320,7 @@ check_root_permissions() {
     if [[ $(id -u) -ne 0 ]]; then
         echo "You need root permissions to run this script. Exiting..."
         exit 1
+        Total_time
     else 
         echo "Root permissions check complete!"
     fi
@@ -258,6 +338,7 @@ check_ip() {
     else       # Nếu không đúng kiểu địa chỉ
         echo "Invalid IP address format: $IP. Please check again."
         exit 1
+        Total_time
     fi
 }
 # Hàm check hệ điều hành
@@ -265,7 +346,103 @@ check_os() {
     if [[ "$(lsb_release -is)" != "Ubuntu" ]]; then         # Câu lệnh `lsb_release -is` sẽ trả về giá trị tên của hệ điều hành
         echo "Only Ubuntu Server can use this script."
         exit 1
+        Total_time
     fi
+}
+
+# Hàm cấu hình chứng chỉ SSL
+function create_ssl {
+    # Số ngày hiệu lực của chứng chỉ
+    DAYS_VALID=365
+    # Tên file private key
+    PRIVATE_KEY_FILE="/etc/ssl/private/private.key"
+    # Tên file CSR
+    CSR_FILE="/etc/ssl/certs/certificate.csr"
+    # Tên file chứng chỉ
+    CERTIFICATE_FILE="/etc/ssl/certs/certificate.crt"
+    PASSFILE="/etc/nginx/passphrase.txt"
+    echo $PASSPHRASE > $PASSFILE
+    chmod 600 $PASSFILE
+    # Bắt đầu tạo chứng chỉ SSL
+    echo "Create private key..."
+    openssl genpkey -algorithm RSA -out $PRIVATE_KEY_FILE -aes256 -pass pass:$PASSPHRASE
+    if [ $? -ne 0 ]; then
+        echo "Error: Can't create private key"
+        exit 1
+        Total_time
+    fi
+    echo "Create Certificate Signing Request (CSR)..."
+    openssl req -new -key $PRIVATE_KEY_FILE -passin pass:$PASSPHRASE -out $CSR_FILE -subj "/C=$COUNTRY/ST=$STATE/L=$LOCALITY/O=$ORGANIZATION/OU=$ORG_UNIT/CN=$DOMAIN/emailAddress=$EMAILSS"
+    if [ $? -ne 0 ]; then
+        echo "Error: Can't create Certificate Signing Request."
+        exit 1
+        Total_time
+    fi
+    echo "Create Certificate..."
+    openssl x509 -req -days $DAYS_VALID -in $CSR_FILE -signkey $PRIVATE_KEY_FILE -passin pass:$PASSPHRASE -out $CERTIFICATE_FILE
+    if [ $? -ne 0 ]; then
+        echo "Error: Can't create Certificate."
+        exit 1
+        Total_time
+    fi
+    echo "Completed!SSL has been created!"
+}
+# Hàm áp dụng ssl vào nginx
+function apply_ssl_to_nginx {
+    echo "Editing main config file of Nginx"
+    sudo sed -i '/http {/a \ \ server_names_hash_bucket_size 64;' /etc/nginx/nginx.conf
+    echo "Creat Virtual Host of Nginx and making it to Reverse Proxy"
+    if dpkg -l | grep -q "netbox.conf";then
+        rm -rf /etc/nginx/sites-enabled/netbox.conf
+        rm -rf /etc/nginx/site-available/netbox.conf
+    fi
+    PASSFILE="/etc/nginx/passphrase.txt"
+    sudo tee /etc/nginx/sites-available/netbox.conf > /dev/null <<EOF
+server {
+    listen [::]:443 ssl ipv6only=off;
+    # CHANGE THIS TO YOUR SERVER'S NAME
+    server_name ${Nginx_HOSTS}, ${Nginx_HOSTS_IP};
+    ssl_certificate /etc/ssl/certs/certificate.crt;
+    ssl_certificate_key /etc/ssl/private/private.key;
+    ssl_password_file $PASSFILE;
+    client_max_body_size 25m;
+    location /static/ {
+        alias /opt/netbox/netbox/static/;
+    }
+    location / {
+        proxy_pass http://127.0.0.1:8001;
+        proxy_set_header X-Forwarded-Host \$http_host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+}
+server {
+    # Redirect HTTP traffic to HTTPS
+    listen [::]:80 ipv6only=off;
+    server_name ${Nginx_HOSTS}, ${Nginx_HOSTS_IP};
+    return 301 https://\$host\$request_uri;
+}
+EOF
+    echo "Enable new config..."
+    rm /etc/nginx/sites-enabled/default
+    ln -s /etc/nginx/sites-available/netbox.conf /etc/nginx/sites-enabled/netbox.conf
+    echo "Restarting Nginx"
+    sudo systemctl start nginx
+    sudo systemctl restart nginx
+    sudo nginx -t
+    if [ $? -eq 0 ]; then
+        echo "Nginx configuration test successful. Reloading Nginx..."
+        sudo systemctl reload nginx
+        sudo systemctl enable nginx
+        sudo systemctl start nginx
+    else
+        echo "Error: Nginx configuration test failed. Rolling back changes..."
+        # Đảm bảo rằng Nginx không bị tắt bởi cấu hình sai
+        sudo systemctl reload nginx
+        exit 1
+        Total_time
+    fi
+	cd ~
 }
 # Hàm main 
 function main {
@@ -325,21 +502,48 @@ function main {
     NETBOX_MAIL=${NETBOX_MAIL:-admin@example.com}
 
     configure_netbox_to_use
-
+    check_apache2
     install_nginx
 
     read -p "Enter the Nginx hosts for NetBox configuration [localhost]: " Nginx_HOSTS
     Nginx_HOSTS=${Nginx_HOSTS:-localhost}
+    read -p "Enter the Nginx IP for NetBox configuration [127.0.0.1]: " Nginx_HOSTS_IP
+    Nginx_HOSTS=${Nginx_HOSTS_IP:-127.0.0.1}
+    check_ip $Nginx_HOSTS_IP
 
-    config_nginx
+    read -p "Do you want to use SSL?[yes/no]: " CHOICE
+    if [ "$CHOICE" = "yes" ]; then
+        read -p "Common Name[localhost]: " DOMAIN
+        DOMAIN=${DOMAIN:-localhost}
+        read -p "Country Name[VN]: " COUNTRY
+        COUNTRY=${COUNTRY:-VN}
+        read -p "State or Province Name: " STATE
+        read -p "Locality Name: " LOCALITY
+        read -p "Organization Name: " ORGANIZATION
+        read -p "Organizational Unit Name: " ORG_UNIT
+        read -p "Email Address[netbox@example.com]: " EMAILSS
+        EMAILSS=${EMAILSS:-netbox@example.com}
 
-    Ufw_turnon
+        read -p "Nhập passphrase cho private key: " PASSPHRASE
+        create_ssl
+        apply_ssl_to_nginx
+        Ufw_turnon
+        # Tính tổng thời gian chạy ứng dụng
+        Total_time
 
-    # Tính tổng thời gian chạy ứng dụng
-    Total_time
+        # Thông báo hoàn thành
+        echo "NetBox installation and configuration complete!"
+    else
+        config_nginx
 
-    # Thông báo hoàn thành
-    echo "NetBox installation and configuration complete!"
+        Ufw_turnon
+
+        # Tính tổng thời gian chạy ứng dụng
+        Total_time
+
+        # Thông báo hoàn thành
+        echo "NetBox installation and configuration complete!"
+    fi
 }
 
 
