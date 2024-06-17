@@ -524,7 +524,7 @@ function main {
         read -p "Email Address[netbox@example.com]: " EMAILSS
         EMAILSS=${EMAILSS:-netbox@example.com}
 
-        read -p "Nhập passphrase cho private key: " PASSPHRASE
+        read -p "Enter passphrase for private key: " PASSPHRASE
         create_ssl
         apply_ssl_to_nginx
         Ufw_turnon
