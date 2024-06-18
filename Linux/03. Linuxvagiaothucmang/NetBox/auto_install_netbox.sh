@@ -379,7 +379,7 @@ function create_ssl {
         Total_time
     fi
     echo "Create Certificate..."
-    openssl x509 -req -days $DAYS_VALID -in $CSR_FILE -signkey $PRIVATE_KEY_FILE -passin pass:$PASSPHRASE -out $CERTIFICATE_FILE
+            
     if [ $? -ne 0 ]; then
         echo "Error: Can't create Certificate."
         exit 1
