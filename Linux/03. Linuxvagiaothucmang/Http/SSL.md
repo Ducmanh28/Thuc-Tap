@@ -16,8 +16,10 @@ MỤC LỤC
     - [Yêu cầu cần có:](#yêu-cầu-cần-có)
     - [Thực hành:](#thực-hành)
       - [Trước tiên, chúng ta tạo root CA bằng việc tạo private key:](#trước-tiên-chúng-ta-tạo-root-ca-bằng-việc-tạo-private-key)
-      - [Sau đó, chúng ta tạo **Certificate Signing Request** (CSR)](#sau-đó-chúng-ta-tạo-certificate-signing-request-csr)
-      - [Tiếp đó, chúng ta tạo chứng chỉ:](#tiếp-đó-chúng-ta-tạo-chứng-chỉ)
+      - [Sau đó, chúng ta tạo file xác định danh tính](#sau-đó-chúng-ta-tạo-file-xác-định-danh-tính)
+      - [Tiếp đó, chúng ta tạo private key cho trang web](#tiếp-đó-chúng-ta-tạo-private-key-cho-trang-web)
+      - [Tạo ra file chứa yêu cầu ký chứng chỉ](#tạo-ra-file-chứa-yêu-cầu-ký-chứng-chỉ)
+      - [Tạo file chứa thông tin mở rộng:](#tạo-file-chứa-thông-tin-mở-rộng)
       - [Áp dụng SSL vào trong nginx:](#áp-dụng-ssl-vào-trong-nginx)
 
 ## SSL là gì
@@ -108,23 +110,16 @@ Trên hệ thống Ubuntu cần có:
 #### Trước tiên, chúng ta tạo root CA bằng việc tạo private key:
 Câu lệnh khởi tạo:
 ```
-openssl genpkey -algorithm RSA -out /etc/ssl/private/private.key -aes256
+openssl genrsa -out /etc/ssl/private/private.key 2048
 ```
-Sau khi nhập lệnh này, chúng ta nhập passphrase để tạo, đầu ra trông như sau:
-```
-..............+....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.+.....+.......+........+...+....+...+.........+...+...........+....+...+.....+............+.+.....+......+.+.........+.....+.+..+.......+...+......+..+.........+...+.+..+....+.....+......+.......+.....+...+....+......+..+............+.+..+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...+..............+.+.................+......+.+......+..+.+...............+.....+...................+...+..+.......+...+....................+...+.......+...............+.....+.......+.........+......+.....+......+...+............+....+.....+.+........+....+...+............+.....+...+...+.......+..+................+..............+.+...........+.........+...............+......+......+....+...+........+....+......+..+.+......+.....+...+......+.......+...+..+............+......+......+.+........+....+......+...............+..+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-..+......+....+.....+.......+..+...+.......+........+...+....+...+...+..+.......+..+.........+.+...+........+.........+.........+.......+..+......+.+.....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.+....+.....+...+..................+.......+...+..+............+.+.........+...+........+...+.+.....+....+..+.......+..+.+..+.......+........+...............+...+...+.+...+...+..+.....................+....+..+.+..+..........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...+......+...+....+..+.+............+...............+..+.........+............+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Enter PEM pass phrase:
-Verifying - Enter PEM pass phrase:
-```
-#### Sau đó, chúng ta tạo **Certificate Signing Request** (CSR)
+
+#### Sau đó, chúng ta tạo file xác định danh tính
 Câu lệnh khởi tạo:
 ```
-openssl req -new -key /etc/ssl/private/private.key -out /etc/ssl/certs/certificate.csr
+openssl req -x509 -sha256 -new -nodes -days 3650 -key /etc/ssl/private/private.key -out /etc/ssl/certs/CA.pem
 ```
 Kết quả đầu ra mẫu như sau:
 ```
-Enter pass phrase for /etc/ssl/private/private.key:
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
 What you are about to enter is what is called a Distinguished Name or a DN.
@@ -133,31 +128,71 @@ For some fields there will be a default value,
 If you enter '.', the field will be left blank.
 -----
 Country Name (2 letter code) [AU]:VN
-State or Province Name (full name) [Some-State]:HANOI
-Locality Name (eg, city) []:HANOI
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:SunCloud
-Organizational Unit Name (eg, section) []:VietTelCo
+State or Province Name (full name) [Some-State]:HN
+Locality Name (eg, city) []:HN
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Suncloud
+Organizational Unit Name (eg, section) []:Suncloud
 Common Name (e.g. server FQDN or YOUR name) []:www.testssl.local
-Email Address []:luongducmanh03@suncloud.com.vn
+Email Address []:ducmanh@suncloud.com
+root@MANH-U22-Server:/etc/ssl/certs#
+```
+Ở trên chính là quá trình định danh cho CA của chúng ta. Nhưng để trang web có thể sử dụng SSL, cần phải tạo cho nó một cặp khóa riêng và được ký bởi CA vừa tạo ở trên.
+#### Tiếp đó, chúng ta tạo private key cho trang web
+Câu lệnh khởi tạo:
+```
+openssl genrsa -out /etc/ssl/private/testssl.key 2048
+```
+#### Tạo ra file chứa yêu cầu ký chứng chỉ 
+```
+openssl req -new -key /etc/ssl/private/testssl.key -out /etc/ssl/certs/testssl.csr
+```
+Đầu ra như sau:
+```
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:VN
+State or Province Name (full name) [Some-State]:HN
+Locality Name (eg, city) []:HN
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Suncloud
+Organizational Unit Name (eg, section) []:Suncloud
+Common Name (e.g. server FQDN or YOUR name) []:www.testssl.com
+Email Address []:ducmanh@suncloud.com
 
 Please enter the following 'extra' attributes
 to be sent with your certificate request
-A challenge password []:# Enter your password
-An optional company name []:VTC
+A challenge password []:extra
+An optional company name []:
 ```
-#### Tiếp đó, chúng ta tạo chứng chỉ:
-Câu lệnh khởi tạo:
-```
-openssl x509 -req -days 365 -in /etc/ssl/certs/certificate.csr -signkey /etc/ssl/private/private.key -out /etc/ssl/certs/certificate.crt
-```
-Kết quả đầu ra của câu lệnh này: 
-```
-Enter pass phrase for /etc/ssl/private/private.key:
-Certificate request self-signature ok
-subject=C = VN, ST = HANOI, L = HANOI, O = SunCloud, OU = VietTelCo, CN = www.testssl.local, emailAddress = luongducmanh03@suncloud.com.vn
-```
-Như vậy là đã hoàn tất khởi tạo.
 
+#### Tạo file chứa thông tin mở rộng:
+```
+vim /etc/ssl/certs/testssl.ext
+```
+Thêm vào nội dung sau
+```
+  authorityKeyIdentifier = keyid,issuer
+  basicConstraints = CA:FALSE
+  keyUsage = digitalSignature,nonRepudiation,keyEncipherment,dataEncipherment
+  subjectAltName = @alt_names
+  [alt_names]
+  DNS.1 = www.testssl.local
+  IP.1 = 172.16.66.81
+```
+Ký SSL certificate:
+```
+openssl x509 -req -in /etc/ssl/certs/testssl.csr -CA /etc/ssl/certs/CA.pem -CAkey /etc/ssl/private/private.key -CAcreateserial -days 365 -sha256 -extfile /etc/ssl/certs/testssl.ext -out /etc/ssl/certs/testssl.crt
+```
+Kết quả:
+```
+root@MANH-U22-Server:/etc/ssl/certs# openssl x509 -req -in /etc/ssl/certs/testssl.csr -CA /etc/ssl/certs/CA.pem -CAkey /etc/ssl/private/private.key -CAcreateserial -days 365 -sha256 -extfile /etc/ssl/certs/testssl.ext -out /etc/ssl/certs/testssl.crt
+Certificate request self-signature ok
+subject=C = VN, ST = HN, L = HN, O = Suncloud, OU = Suncloud, CN = www.testssl.com, emailAddress = ducmanh@suncloud.com
+```
 #### Áp dụng SSL vào trong nginx:
 Các bạn lưu passphrase vào trong file có tên là `passphrase.txt` và lưu vào trong `/etc/nginx/passphrase.txt`
 
@@ -203,7 +238,7 @@ Sau đó, chúng ta thực hiện tạo một file html trang web:
 
 Tuy nhiên, lúc này, trang web của bạn vẫn chưa chấp nhận chứng chỉ tự ký này. Chúng ta sẽ cấu hình cho nó có thể chấp nhận chứng chỉ tự ký.
 
-Để lấy được file chữ ký, nó nằm trong mục `/etc/ssl/certs/certificate.crt`. Các bạn sử dụng máy Windows SFTP vào Linux để lấy file về.
+Để lấy được file chữ ký, nó nằm trong mục `/etc/ssl/certs/CA.pem`. Các bạn sử dụng máy Windows SFTP vào Linux để lấy file về.
 
 Vào trình duyệt, chọn Settings và tìm kiếm mục Certificate:
 
@@ -223,4 +258,4 @@ Lúc này, các bạn khởi động lại trình duyệt và tiến hành kiể
 
 - Sau khi cấu hình:
 
- 
+![](/Anh/Screenshot_729.png)
