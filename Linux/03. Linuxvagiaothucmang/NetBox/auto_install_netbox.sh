@@ -506,7 +506,7 @@ function main {
     read -p "Enter the Nginx hosts for NetBox configuration [localhost]: " Nginx_HOSTS
     Nginx_HOSTS=${Nginx_HOSTS:-localhost}
     read -p "Enter the Nginx IP for NetBox configuration [127.0.0.1]: " Nginx_HOSTS_IP
-    Nginx_HOSTS=${Nginx_HOSTS_IP:-127.0.0.1}
+    Nginx_HOSTS_IP=${Nginx_HOSTS_IP:-127.0.0.1}
     check_ip $Nginx_HOSTS_IP
 
     read -p "Do you want to use SSL?[yes/no]: " CHOICE
