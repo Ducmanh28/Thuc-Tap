@@ -63,3 +63,5 @@ NetBox hoạt động như một ứng dụng web tiêu chuẩn. Người dùng 
 - Cấu hình: Thêm và cấu hình các thiết bị, khối địa chỉ IP, các kết nối, và các thông tin khác vào NetBox.
 - Quản lý: Sử dụng giao diện web hoặc API để quản lý và theo dõi cơ sở hạ tầng mạng.
 - Báo cáo: Tạo các báo cáo và trích xuất thông tin từ NetBox để hỗ trợ việc quản lý và lập kế hoạch.
+
+

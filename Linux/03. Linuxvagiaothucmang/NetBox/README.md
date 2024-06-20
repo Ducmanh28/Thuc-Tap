@@ -195,7 +195,6 @@ Locality Name: # Tên thành phố
 Organization Name: # Tên tổ chức
 Organizational Unit Name: # Tên công ty
 Email Address[netbox@example.com]: # Email
-Enter passphrase for private key: # Mật khẩu cho privatekey
 ```
 Nếu quá trình tạo thành công, sẽ có thông báo sau: 
 ```
@@ -251,7 +250,18 @@ Sau khi hoàn tất, bạn có thể truy cập vào trang chủ netbox trên m�
 
 ![](/Anh/Screenshot_722.png)
 
+Để biến trang web trở nên secure với local ssl, các bạn thực hiện như sau:
+- Tải xuống file có tên `CA.pem` nằm ở trong `/etc/ssl/certs`
+- Mở trình duyệt, vào mục **Settings** và tìm kiếm mục **Certificate**.
+- Sau đó, các bạn cấu hình như sau: 
 
+![](/Anh/Screenshot_726.png)
+
+![](/Anh/Screenshot_727.png)
+
+- Cuối cùng, kết quả hiển thị như sau:
+
+![](/Anh/Screenshot_730.png)
 
 
 
