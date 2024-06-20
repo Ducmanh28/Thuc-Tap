@@ -353,26 +353,27 @@ check_os() {
 # Hàm cấu hình chứng chỉ SSL
 function create_ssl {
     # Biến Server thành CA
-    CA_KEY = "/etc/ssl/private/CA.key"
-    CA_PEM = "/etc/ssl/certs/CA.pem"
+    CA_KEY="/etc/ssl/private/CA.key"
+    CA_PEM="/etc/ssl/certs/CA.pem"
     # Khởi tạo key
     echo "Making your Server become CA..."
     openssl genrsa -out $CA_KEY 2048 || { echo "Error: Failed to make."; exit 1; }
     # Khởi tạo mẫu ký
-    openssl req -x509 -sha256 -new -nodes -days 3650 -key $CA_KEY -out $CA_PEM || { echo "Error: Failed to make."; exit 1; }
+    openssl req -x509 -sha256 -new -nodes -days 3650 -key $CA_KEY -out $CA_PEM -subj "/C=$COUNTRY/ST=$STATE/L=$LOCALITY/O=$ORGANIZATION/OU=$ORG_UNIT/CN=$DOMAIN/emailAddress=$EMAILSS" || { echo "Error: Failed to make."; exit 1; }
+    echo "Making CA complete!"
 
     # Tạo SSL cho trang web
-    PRIVATE_KEY = "/etc/ssl/private/private.key"
-    CSR_FILE = "/etc/ssl/certs/certificate.csr"
-    EXT_FILE = "/etc/ssl/certs/certificate.ext"
-    CRT_FILE = "/etc/ssl/certs/certificate.crt"
+    PRIVATE_KEY="/etc/ssl/private/private.key"
+    CSR_FILE="/etc/ssl/certs/certificate.csr"
+    EXT_FILE="/etc/ssl/certs/certificate.ext"
+    CRT_FILE="/etc/ssl/certs/certificate.crt"
 
     echo "Making private key for your website..."
     openssl genrsa -out $PRIVATE_KEY 2048 || { echo "Error: Failed to make."; exit 1; }
     echo "Generate Csr file..."
-    openssl req -new -key $PRIVATE_KEY -out $CSR_FILE || { echo "Error: Failed to make."; exit 1; }
+    openssl req -new -key $PRIVATE_KEY -out $CSR_FILE -subj "/C=$COUNTRY/ST=$STATE/L=$LOCALITY/O=$ORGANIZATION/OU=$ORG_UNIT/CN=$DOMAIN/emailAddress=$EMAILSS" || { echo "Error: Failed to make."; exit 1; }
 
-    echo "Making Ext file"
+    echo "Making Ext file..."
     sudo tee /etc/ssl/certs/certificate.ext > /dev/null <<EOF
 authorityKeyIdentifier = keyid,issuer
 basicConstraints = CA:FALSE
@@ -382,7 +383,7 @@ subjectAltName = @alt_names
 DNS.1 = ${Nginx_HOSTS}
 IP.1 = ${Nginx_HOSTS_IP}
 EOF
-    echo "Making SSL CRT_file"
+    echo "Making SSL CRT_file..."
     openssl x509 -req -in $CSR_FILE -CA $CA_PEM -CAkey $CA_KEY -CAcreateserial -days 3650 -sha256 -extfile $EXT_FILE -out $CRT_FILE || { echo "Error: Failed to make."; exit 1; }
     echo "Making SSL Complete successfully!"
 }
@@ -514,8 +515,10 @@ function main {
         DOMAIN=${DOMAIN:-localhost}
         read -p "Country Name[VN]: " COUNTRY
         COUNTRY=${COUNTRY:-VN}
-        read -p "State or Province Name: " STATE
+        read -p "State or Province Name[HN]: " STATE
+        STATE=${STATE:-HN}
         read -p "Locality Name: " LOCALITY
+        LOCALITY=${LOCALITY:-HN}
         read -p "Organization Name: " ORGANIZATION
         read -p "Organizational Unit Name: " ORG_UNIT
         read -p "Email Address[netbox@example.com]: " EMAILSS
@@ -529,6 +532,8 @@ function main {
 
         # Thông báo hoàn thành
         echo "NetBox installation and configuration complete!"
+        echo "To run NetBox with SSH, please copy file 'CA.pem' to your Certificate config in your webbrowser settings."
+        echo "You can find how to do it in README"
     else
         config_nginx
 
