@@ -12,6 +12,15 @@ MỤC LỤC
     - [Local Certificate:](#local-certificate)
     - [Public Certificate](#public-certificate)
       - [Các loại Public Certificate:](#các-loại-public-certificate)
+  - [Quy trình đăng ký một SSL Certificate:](#quy-trình-đăng-ký-một-ssl-certificate)
+    - [Chọn loại chứng chỉ SSL](#chọn-loại-chứng-chỉ-ssl)
+    - [Chọn nhà cung cấp chứng chỉ SSL](#chọn-nhà-cung-cấp-chứng-chỉ-ssl)
+    - [Tạo yêu cầu ký chứng chỉ (CSR - Certificate Signing Request)](#tạo-yêu-cầu-ký-chứng-chỉ-csr---certificate-signing-request)
+    - [Gửi CSR cho nhà cung cấp SSL](#gửi-csr-cho-nhà-cung-cấp-ssl)
+    - [Xác minh thông tin](#xác-minh-thông-tin)
+    - [Nhận và cài đặt chứng chỉ SSL](#nhận-và-cài-đặt-chứng-chỉ-ssl)
+    - [Cấu hình máy chủ web](#cấu-hình-máy-chủ-web)
+    - [Kiểm tra và xác minh](#kiểm-tra-và-xác-minh)
   - [Cách tạo một Local Certificate:](#cách-tạo-một-local-certificate)
     - [Yêu cầu cần có:](#yêu-cầu-cần-có)
     - [Thực hành:](#thực-hành)
@@ -95,7 +104,51 @@ Chứng chỉ cục bộ, thường được sử dụng trong các mạng nội
 - Wildcard Certificate: Bảo mật một tên miền và tất cả các subdomain của nó. Ví dụ: `*.example.com` sẽ bảo mật `example.com`, `www.example.com`, `mail.example.com`, v.v.
 - Multi-Domain (SAN) Certificate: Bảo mật nhiều tên miền và subdomain khác nhau trong một chứng chỉ. Ví dụ: `example.com`, `example.net`, `example.org`.
 
+## Quy trình đăng ký một SSL Certificate:
+Quy trình đăng ký SSL (Secure Sockets Layer) bao gồm các bước sau:
 
+### Chọn loại chứng chỉ SSL
+Có nhiều loại chứng chỉ SSL khác nhau phù hợp với nhu cầu của từng trang web, bao gồm:
+- Chứng chỉ SSL tiêu chuẩn (Domain Validated - DV): Xác thực tên miền.
+- Chứng chỉ SSL cấp tổ chức (Organization Validated - OV): Xác thực cả tên miền và tổ chức.
+- Chứng chỉ SSL mở rộng (Extended Validation - EV): Xác thực toàn diện và cung cấp mức độ tin cậy cao nhất.
+### Chọn nhà cung cấp chứng chỉ SSL
+Chọn một nhà cung cấp chứng chỉ SSL uy tín như:
+
+- Comodo (bây giờ là Sectigo)
+- Symantec (nay là một phần của DigiCert)
+- Let's Encrypt (miễn phí)
+- GeoTrust
+- Thawte
+### Tạo yêu cầu ký chứng chỉ (CSR - Certificate Signing Request)
+CSR là một tập tin chứa thông tin cần thiết để tạo chứng chỉ SSL. Để tạo CSR, bạn cần:
+
+- Một máy chủ hoặc công cụ hỗ trợ tạo CSR (thường là web server hoặc cPanel).
+- Cung cấp thông tin tên miền, tên tổ chức, địa chỉ, email, v.v.
+### Gửi CSR cho nhà cung cấp SSL
+Sau khi tạo CSR, bạn cần gửi tập tin này cho nhà cung cấp SSL thông qua trang quản lý của họ hoặc qua email.
+
+### Xác minh thông tin
+Nhà cung cấp SSL sẽ xác minh thông tin của bạn. Quá trình này phụ thuộc vào loại chứng chỉ:
+
+- DV: Xác minh qua email hoặc DNS record.
+- OV và EV: Xác minh thêm thông tin tổ chức qua tài liệu pháp lý và có thể gọi điện để xác thực.
+### Nhận và cài đặt chứng chỉ SSL
+Sau khi xác minh xong, nhà cung cấp sẽ gửi chứng chỉ SSL cho bạn. Bạn cần:
+
+Tải về chứng chỉ và các tập tin liên quan (CA bundle).
+Cài đặt chứng chỉ trên máy chủ web của bạn.
+### Cấu hình máy chủ web
+Cấu hình máy chủ web để sử dụng chứng chỉ SSL mới:
+
+- Apache: Cập nhật tập tin cấu hình với đường dẫn đến chứng chỉ và CA bundle.
+- Nginx: Cập nhật tập tin cấu hình với đường dẫn đến chứng chỉ và CA bundle.
+- IIS: Sử dụng giao diện quản lý để thêm chứng chỉ.
+### Kiểm tra và xác minh
+Kiểm tra lại xem chứng chỉ SSL đã được cài đặt đúng cách chưa bằng cách:
+
+Sử dụng công cụ kiểm tra SSL trực tuyến (như SSL Labs).
+Kiểm tra trực tiếp trên trình duyệt bằng cách truy cập trang web qua HTTPS.
 ## Cách tạo một Local Certificate:
 ### Yêu cầu cần có:
 Một máy sử dụng làm Web Server: Ubuntu 22
@@ -107,6 +160,23 @@ Trên hệ thống Ubuntu cần có:
 - Ứng dụng tạo chứng chỉ: Openssl
 
 ### Thực hành:
+Tổng quan các bước:
+- Biến chúng ta thành CA:
+  - Tạo CA private key
+  - Tạo mẫu đăng ký SSL CA PEM
+- Đăng ký website:
+  - Tạo web private key
+  - Tạo mẫu ký(web.csr)
+  - Tạo file hỗ trợ ký(web.ext)
+  - ký ssl crt(web.crt)
+
+Tầm quan trọng:
+- ca.key: Khóa riêng của CA, dùng để ký chứng chỉ.
+- ca.pem: Chứng chỉ CA, xác nhận CA.
+- web.key: Khóa riêng của website, dùng để mã hóa kết nối SSL.
+- web.csr: Yêu cầu ký chứng chỉ, chứa thông tin website và khóa công khai.
+- web.ext: Thuộc tính mở rộng cho chứng chỉ SSL.
+- web.crt: Chứng chỉ SSL của website, mã hóa kết nối.
 #### Trước tiên, chúng ta tạo root CA bằng việc tạo private key:
 Câu lệnh khởi tạo:
 ```
