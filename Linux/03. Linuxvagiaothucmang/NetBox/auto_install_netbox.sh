@@ -352,40 +352,39 @@ check_os() {
 
 # Hàm cấu hình chứng chỉ SSL
 function create_ssl {
-    # Số ngày hiệu lực của chứng chỉ
-    DAYS_VALID=365
-    # Tên file private key
-    PRIVATE_KEY_FILE="/etc/ssl/private/private.key"
-    # Tên file CSR
-    CSR_FILE="/etc/ssl/certs/certificate.csr"
-    # Tên file chứng chỉ
-    CERTIFICATE_FILE="/etc/ssl/certs/certificate.crt"
-    PASSFILE="/etc/nginx/passphrase.txt"
-    echo $PASSPHRASE > $PASSFILE
-    chmod 600 $PASSFILE
-    # Bắt đầu tạo chứng chỉ SSL
-    echo "Create private key..."
-    openssl genpkey -algorithm RSA -out $PRIVATE_KEY_FILE -aes256 -pass pass:$PASSPHRASE
-    if [ $? -ne 0 ]; then
-        echo "Error: Can't create private key"
-        exit 1
-        Total_time
-    fi
-    echo "Create Certificate Signing Request (CSR)..."
-    openssl req -new -key $PRIVATE_KEY_FILE -passin pass:$PASSPHRASE -out $CSR_FILE -subj "/C=$COUNTRY/ST=$STATE/L=$LOCALITY/O=$ORGANIZATION/OU=$ORG_UNIT/CN=$DOMAIN/emailAddress=$EMAILSS"
-    if [ $? -ne 0 ]; then
-        echo "Error: Can't create Certificate Signing Request."
-        exit 1
-        Total_time
-    fi
-    echo "Create Certificate..."
-            
-    if [ $? -ne 0 ]; then
-        echo "Error: Can't create Certificate."
-        exit 1
-        Total_time
-    fi
-    echo "Completed!SSL has been created!"
+    # Biến Server thành CA
+    CA_KEY = "/etc/ssl/private/CA.key"
+    CA_PEM = "/etc/ssl/certs/CA.pem"
+    # Khởi tạo key
+    echo "Making your Server become CA..."
+    openssl genrsa -out $CA_KEY 2048 || { echo "Error: Failed to make."; exit 1; }
+    # Khởi tạo mẫu ký
+    openssl req -x509 -sha256 -new -nodes -days 3650 -key $CA_KEY -out $CA_PEM || { echo "Error: Failed to make."; exit 1; }
+
+    # Tạo SSL cho trang web
+    PRIVATE_KEY = "/etc/ssl/private/private.key"
+    CSR_FILE = "/etc/ssl/certs/certificate.csr"
+    EXT_FILE = "/etc/ssl/certs/certificate.ext"
+    CRT_FILE = "/etc/ssl/certs/certificate.crt"
+
+    echo "Making private key for your website..."
+    openssl genrsa -out $PRIVATE_KEY 2048 || { echo "Error: Failed to make."; exit 1; }
+    echo "Generate Csr file..."
+    openssl req -new -key $PRIVATE_KEY -out $CSR_FILE || { echo "Error: Failed to make."; exit 1; }
+
+    echo "Making Ext file"
+    sudo tee /etc/ssl/certs/certificate.ext > /dev/null <<EOF
+authorityKeyIdentifier = keyid,issuer
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = ${Nginx_HOSTS}
+IP.1 = ${Nginx_HOSTS_IP}
+EOF
+    echo "Making SSL CRT_file"
+    openssl x509 -req -in $CSR_FILE -CA $CA_PEM -CAkey $CA_KEY -CAcreateserial -days 3650 -sha256 -extfile $EXT_FILE -out $CRT_FILE || { echo "Error: Failed to make."; exit 1; }
+    echo "Making SSL Complete successfully!"
 }
 # Hàm áp dụng ssl vào nginx
 function apply_ssl_to_nginx {
@@ -396,7 +395,6 @@ function apply_ssl_to_nginx {
         rm -rf /etc/nginx/sites-enabled/netbox.conf
         rm -rf /etc/nginx/site-available/netbox.conf
     fi
-    PASSFILE="/etc/nginx/passphrase.txt"
     sudo tee /etc/nginx/sites-available/netbox.conf > /dev/null <<EOF
 server {
     listen [::]:443 ssl ipv6only=off;
@@ -404,7 +402,6 @@ server {
     server_name ${Nginx_HOSTS}, ${Nginx_HOSTS_IP};
     ssl_certificate /etc/ssl/certs/certificate.crt;
     ssl_certificate_key /etc/ssl/private/private.key;
-    ssl_password_file $PASSFILE;
     client_max_body_size 25m;
     location /static/ {
         alias /opt/netbox/netbox/static/;
@@ -524,7 +521,6 @@ function main {
         read -p "Email Address[netbox@example.com]: " EMAILSS
         EMAILSS=${EMAILSS:-netbox@example.com}
 
-        read -p "Enter passphrase for private key: " PASSPHRASE
         create_ssl
         apply_ssl_to_nginx
         Ufw_turnon
