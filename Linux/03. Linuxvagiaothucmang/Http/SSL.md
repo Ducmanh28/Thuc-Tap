@@ -30,6 +30,14 @@ MỤC LỤC
       - [Tạo ra file chứa yêu cầu ký chứng chỉ](#tạo-ra-file-chứa-yêu-cầu-ký-chứng-chỉ)
       - [Tạo file chứa thông tin mở rộng:](#tạo-file-chứa-thông-tin-mở-rộng)
       - [Áp dụng SSL vào trong nginx:](#áp-dụng-ssl-vào-trong-nginx)
+  - [Cách tạo một Public Certificate:](#cách-tạo-một-public-certificate)
+    - [Yêu cầu cần có:](#yêu-cầu-cần-có-1)
+    - [Mô hình thực hành](#mô-hình-thực-hành)
+    - [Tiến hành.](#tiến-hành)
+      - [Cấu hình trỏ tên miền về WebServer](#cấu-hình-trỏ-tên-miền-về-webserver)
+      - [Cấu hình trang web trên WebServer](#cấu-hình-trang-web-trên-webserver)
+      - [Xin chứng chỉ SSL cho trang web:](#xin-chứng-chỉ-ssl-cho-trang-web)
+      - [Kiểm tra kết quả bằng cách truy cập vào trang web:](#kiểm-tra-kết-quả-bằng-cách-truy-cập-vào-trang-web)
 
 ## SSL là gì
 SSL là viết tắt của Secure Sockets Layer, nó là một công nghệ tiêu chuẩn cho phép thiết lập kết nối được mã hóa an toàn giữa máy chủ web(host) và trình duyệt web ở trên máy client. 
@@ -329,3 +337,181 @@ Lúc này, các bạn khởi động lại trình duyệt và tiến hành kiể
 - Sau khi cấu hình:
 
 ![](/Anh/Screenshot_729.png)
+
+
+## Cách tạo một Public Certificate:
+### Yêu cầu cần có:
+- 1 Server có sử dụng Ip Public
+- 1 tên miền public
+- CertBot(ứng dụng lấy chứng chỉ SSL free)
+
+### Mô hình thực hành
+Mô hình thực hành của bài làm sẽ trông như sau:
+
+![](/Anh/Screenshot_732.png)
+
+Giải thích mô hình:
+- Trước tiên, chúng ta sẽ SSH vào WebServer để kiểm tra xem có ổn định hay không, có kết nối vào được không, kiểm tra lại các thông tin như IP, Port của webserver.
+- Sau khi xác định rằng các thông tin cần thiết đã ổn, chúng ta sẽ truy cập vào trang web quản lý tên miền, yêu cầu trỏ tên miền về Hosting là IP Public của webserver của bạn
+- Sau khi trỏ hoàn tất, chúng ta thực hiện cấu hình trang web trên Nginx(cấu hình config và cấu hình nội dung trang web)
+- Sau khi hoàn tất, chúng ta tải và cài đặt certbot để xin chứng chỉ ssl cho trang web. 
+- Cuối cùng, chúng ta thực hiện tìm kiếm tên miền trên web browser để kiểm chứng
+
+### Tiến hành.
+#### Cấu hình trỏ tên miền về WebServer
+Ví dụ tôi sử dụng dịch vụ tên miền trên trang web `matbao.com`, tôi sẽ thực hiện cấu hình trỏ về WebServer như sau:
+
+![](/Anh/Screenshot_733.png)
+
+Cấu hình các bản ghi DNS:
+
+![](/Anh/Screenshot_734.png)
+
+Vậy là đã hoàn tất trỏ tên miền về WebServer
+
+#### Cấu hình trang web trên WebServer
+Thực hiện cấu hình nội dung trang web trong: `/var/www/test/index.html`
+
+Thêm vào nội dung sau:
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to My Website</title>
+</head>
+<body>
+    <h1>Success! The Nginx is working!</h1>
+</body>
+</html>
+```
+Thực hiện cấu hình file cấu hình nginx cho trang web ở trong: `/etc/nginx/sites-available/testweb.conf`
+
+Thêm vào nội dung sau:
+```
+server {
+    listen 80;
+    server_name www.ducmanh2873.click;
+
+    root /var/www/my_website;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+```
+Thực hiện kiểm tra lại và khởi động lại dịch vụ nginx:
+```
+nginx -t
+
+systemctl restart nginx
+```
+#### Xin chứng chỉ SSL cho trang web:
+Các bạn thực hiện truy cập vào trang web [CertBot](https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal) và làm theo hướng dẫn:
+- Tải snapd
+```
+sudo apt update
+
+sudo apt install snapd
+```
+- Cài certbot với snapd:
+```
+sudo snap install --classic certbot
+```
+- Cấu hình để có thể chạy lệnh cerbot bằng cách tạo liên kết tượng trưng:
+```
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+```
+- Khởi chạy certbot cho trang web:
+```
+sudo certbot --nginx
+```
+Mẫu đầu ra trông như sau:
+```
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Enter email address (used for urgent renewal and security notices)
+ (Enter 'c' to cancel): luongducmanh02@gmail.com
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Please read the Terms of Service at
+https://letsencrypt.org/documents/LE-SA-v1.4-April-3-2024.pdf. You must agree in
+order to register with the ACME server. Do you agree?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: Y
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Would you be willing, once your first certificate is successfully issued, to
+share your email address with the Electronic Frontier Foundation, a founding
+partner of the Let's Encrypt project and the non-profit organization that
+develops Certbot? We'd like to send you email about our work encrypting the web,
+EFF news, campaigns, and ways to support digital freedom.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: Y
+Account registered.
+Please enter the domain name(s) you would like on your certificate (comma and/or
+space separated) (Enter 'c' to cancel): www.ducmanh2873.click
+Requesting a certificate for www.ducmanh2873.click
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/www.ducmanh2873.click/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/www.ducmanh2873.click/privkey.pem
+This certificate expires on 2024-09-22.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+Deploying certificate
+Successfully deployed certificate for www.ducmanh2873.click to /etc/nginx/sites-enabled/testweb.conf
+```
+- Kiểm tra gia hạn:
+```
+sudo certbot renew --dry-run
+```
+Mẫu đầu ra như sau:
+```
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Processing /etc/letsencrypt/renewal/www.ducmanh2873.click.conf
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Account registered.
+Simulating renewal of an existing certificate for www.ducmanh2873.click
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Congratulations, all simulated renewals succeeded:
+  /etc/letsencrypt/live/www.ducmanh2873.click/fullchain.pem (success)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+root@MANH-U22-Client:/etc/nginx/sites-available# cd /var/www
+```
+- Kiểm tra lại file cấu hình nginx:
+```
+server {
+    server_name www.ducmanh2873.click;
+
+    root /var/www/test;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/www.ducmanh2873.click/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/www.ducmanh2873.click/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+server {
+    if ($host = www.ducmanh2873.click) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    server_name www.ducmanh2873.click;
+    return 404; # managed by Certbot
+}
+```
+- Kiểm tra và khởi động lại dịch vụ nginx như ở trên.
+
+#### Kiểm tra kết quả bằng cách truy cập vào trang web:
+Kết quả:
+
+![](/Anh/Screenshot_735.png)
