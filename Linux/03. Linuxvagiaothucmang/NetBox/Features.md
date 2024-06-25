@@ -25,6 +25,14 @@ Mục Lục:
   - [Power Tracking](#power-tracking)
     - [Power Panels(Tấm phân phối điện)](#power-panelstấm-phân-phối-điện)
     - [Power Feeds(Nguồn cấp điện)](#power-feedsnguồn-cấp-điện)
+    - [Ví dụ thực tế:](#ví-dụ-thực-tế-2)
+  - [Internet Protocol Address Management(IPAM)](#internet-protocol-address-managementipam)
+    - [IP Hierarchy](#ip-hierarchy)
+    - [Utilization Stats:](#utilization-stats)
+    - [VRF Tracking:](#vrf-tracking)
+    - [AS Numbers:](#as-numbers)
+    - [Service Mapping:](#service-mapping)
+    - [Ví dụ về IPAM](#ví-dụ-về-ipam)
 ## Facilities(Sự tiện nghi bao quát)
 Từ các khu vực chứa đựng máy chủ lớn, đến tận nơi các giá đỡ thiết bị mạng riêng lẻ, NetBox đều cho phép bạn mô hình hóa toàn bộ sự hiện diện của mạng. Điều này được thực hiện thông qua việc sử dụng một số mô hình được xây dựng có mục đích. Biểu đồ dưới đây có thể minh họa một phần của chúng:
 
@@ -211,21 +219,84 @@ Các thành phần này thường được sử dụng để ghi lại và quả
 ![](/Anh/Screenshot_739.png)
 
 ### Power Panels(Tấm phân phối điện)
-Tính năng:
+**Tính năng**:
 - Tấm phân phối điện là thiết bị chính trong việc quản lý và phân phối điện năng tư nguồn điện chính đến các thiết bị hoặc giá đỡ 
 - Cho phép quản lý các mạch điện(circuits) và các thông số liên quan như dòng điện, điện áp, công suất,...
 
-Lợi ích: 
+**Lợi ích**: 
 - Giúp quản lý và giám sất việc phân phối điện trong trung tâm dữ liệu một cách chi tiết và hiệu quả
 - Giảm thiểu rủi ro gây ra bởi sự cố điện nhờ việc theo dõi và kiểm soát các mạch điện
 - Tối ưu hóa việc sử dụng điện năng và cải thiện hiệu suất hoạt động của hệ thống
 
 ### Power Feeds(Nguồn cấp điện)
-Tính năng: 
+**Tính năng**: 
 - Nguồn cấp điện là các đường dây hoặc mạch cung cấp điện từ tấm phân phối điện đến các thiết bị hoặc giá đỡ
 - Dùng để quản lý các thông tin về nguồn cấp điện, bao gồm nguồn gốc, đường đi, các thông số kỹ thuật và các thiết bị được cấp điện
 
-Lợi ích:
+**Lợi ích**:
 - Giúp theo dõi và quản lý nguồn cấp điện từ đầu vào đến các thiết bị đầu cuối, đảm bảo cung cấp điện ổn định và liên tục
 - Cung cấp khả năng dự phòng và chuyển đổi nguồn điện trong trường hợp có sự cố hoặc bảo trì
 - Tăng cường tính linh hoạt trong việc quản lý và mở rộng hệ thống điện
+
+### Ví dụ thực tế:
+**Trung Tâm Dữ Liệu**
+- Power Panels (Tấm phân phối điện):
+  - Tấm phân phối điện chính: Được lắp đặt tại khu vực phân phối điện của trung tâm dữ liệu, tấm này nhận điện từ lưới điện quốc gia hoặc máy phát điện dự phòng.
+  - Các tấm phân phối phụ: Được lắp đặt tại các khu vực khác nhau trong trung tâm dữ liệu để phân phối điện đến các giá đỡ.
+- Power Feeds (Nguồn cấp điện):
+  - Nguồn cấp từ tấm phân phối chính đến các tấm phân phối phụ: Các dây cáp điện chính được sử dụng để chuyển điện từ tấm phân phối chính đến các tấm phân phối phụ.
+  - Nguồn cấp từ các tấm phân phối phụ đến các giá đỡ: Các dây cáp điện nhỏ hơn cung cấp điện từ tấm phân phối phụ đến từng giá đỡ, cung cấp điện cho các máy chủ, thiết bị lưu trữ và thiết bị mạng.
+
+## Internet Protocol Address Management(IPAM)
+IPAM là một trong những tính năng cốt lõi của NetBox. Nó hỗ trợ đầy đủ cho cả IPv4 và IPv6, gán VRF nâng cao, hình thành hệ thống phân cấp tự động và hơn thế nữa.
+
+### IP Hierarchy
+NetBox sử dụng một số loại đối tượng để đại diện cho một hệ thống phân cấp tài nguyên IP:
+- **Aggregate**: Đại diện cho gốc của hệ thống phân cấp địa chỉ IP, thường là một phạm vi lớn của không gian địa chỉ công cộng hoặc riêng tư.
+- **Prefix**: Một mạng con được xác định trong một tổng hợp, mở rộng hệ thống phân cấp.
+- **IP Range**: Một dải địa chỉ IP riêng lẻ trong một tiền tố, chia sẻ cùng một mặt nạ.
+- **IPAddress**: Một địa chỉ IP riêng lẻ với mặt nạ mạng con của nó, được tự động sắp xếp trong cấu trúc phân cấp.
+
+**Ví dụ cho một IP Hierarchy**:
+
+100.64.0.0/10 (aggregate)
+- 100.64.0.0/20 (prefix)
+- 100.64.16.0/20 (prefix)
+  - 100.64.16.0/24 (prefix)
+    - 100.64.16.1/24 (address)
+    - 100.64.16.2/24 (address)
+    - 100.64.16.3/24 (address)
+  - 100.64.19.0/24 (prefix)
+- 100.64.32.0/20 (prefix)
+  - 100.64.32.1/24 (address)
+  - 100.64.32.10-99/24 (range)
+
+### Utilization Stats: 
+Tỷ lệ sử dụng cho mỗi prefix được tính toán tự động dựa trên trạng thái của nó. Các prefix container là những prefix chứa các prefix con, tỷ lệ sử dụng của chúng được xác định dựa trên không gian IP khả dụng được tiêu thụ bởi các prefix con.
+
+Tương tự như Aggregate, Utilization rate sử dụng cho các aggregates được xác định dựa trên không gian được tiêu thụ bởi các prefix con của chúng.
+
+### VRF Tracking: 
+NetBox hỗ trợ mô hình hóa các thể hiện định tuyến và chuyển tiếp ảo (VRF) để biểu diễn nhiều bảng định tuyến khác nhau, bao gồm cả các không gian địa chỉ chồng lấn. Mỗi loại đối tượng IP trong một tổng hợp - tiền tố, phạm vi IP và địa chỉ IP - có thể được gán cho một VRF cụ thể.
+
+Mô hình VRF trong NetBox tuân thủ rất chặt chẽ những gì bạn tìm thấy trong các cấu hình mạng trong thế giới thực, với mỗi VRF được chỉ định một bộ phân biệt tuyến tuân thủ tiêu chuẩn. Bạn thậm chí có thể tạo các mục tiêu tuyến đường để quản lý việc nhập và xuất thông tin định tuyến giữa các VRF.
+
+Mỗi VRF có thể được cấu hình độc lập để cho phép hoặc cấm các đối tượng IP trùng lặp. 
+
+**Ví dụ**: VRF đã được cấu hình để thực thi không gian IP duy nhất sẽ không cho phép tạo hai tiền tố 192.0.2.0/24. Khả năng chuyển đổi hạn chế này trên mỗi VRF mang lại cho người dùng sự linh hoạt tối đa trong việc mô hình hóa không gian IP của họ.
+
+### AS Numbers: 
+NetBox cũng theo dõi các số AS và sự phân bổ của chúng đến các địa điểm. Cả 16-bit và 32-bit AS numbers được hỗ trợ.
+
+### Service Mapping: 
+NetBox mô hình các ứng dụng mạng như các đối tượng dịch vụ riêng biệt liên kết với thiết bị và/hoặc máy ảo, và tùy chọn với các địa chỉ IP cụ thể được gắn với các đối tượng cha đó.
+
+Để mô hình hóa các dịch vụ trong NetBox, hãy bắt đầu bằng cách tạo một mẫu dịch vụ xác định tên, giao thức và (các) số cổng mà dịch vụ lắng nghe. Mẫu này sau đó có thể dễ dàng khởi tạo để "đính kèm" các dịch vụ mới vào thiết bị hoặc máy ảo. Cũng có thể tạo các dịch vụ mới bằng tay mà không cần mẫu, tuy nhiên cách tiếp cận này có thể nhàm chán.
+
+### Ví dụ về IPAM
+Trong một công ty lớn, có hàng ngàn thiết bị mạng, máy chủ và ứng dụng phải được quản lý. IPAM giúp tổ chức này:
+- Quản lý phân bổ IP: IPAM giúp quản lý việc phân bổ các địa chỉ IP cho các thiết bị mạng và máy chủ một cách hiệu quả. Bằng cách tự động gán IP và theo dõi các phạm vi IP dự phòng, IPAM giảm thiểu sự xung đột IP và lỗi cấu hình.
+- Theo dõi sử dụng và tài nguyên: IPAM cung cấp thông tin chi tiết về việc sử dụng địa chỉ IP. Người quản trị mạng có thể dễ dàng xem xét các phạm vi IP nào đang sử dụng hết công suất và cần mở rộng, từ đó tối ưu hóa tài nguyên mạng.
+- Quản lý VRF và không gian IP chồng lấn: Đối với các mạng có nhiều VRF và không gian địa chỉ chồng lấn, IPAM hỗ trợ việc phân bổ và theo dõi địa chỉ IP một cách hiệu quả. Việc mô hình hóa VRF trong IPAM giúp giải quyết các vấn đề về định tuyến và bảo mật trong mạng lưới.
+- Đảm bảo tuân thủ và an ninh: IPAM cũng đóng vai trò quan trọng trong việc đảm bảo tuân thủ các chính sách an ninh mạng. Việc theo dõi và kiểm soát các địa chỉ IP, cũng như giám sát việc sử dụng chúng, giúp ngăn ngừa các mối đe dọa an ninh từ việc xâm nhập vào mạng.
+- Tích hợp với các công cụ và hệ thống khác: IPAM thường có khả năng tích hợp với các công cụ và hệ thống khác trong mạng lưới, chẳng hạn như hệ thống quản lý mạng (NMS) và hệ thống giám sát. Điều này giúp tự động hóa các quy trình quản lý mạng và cải thiện khả năng phản ứng khi xảy ra sự cố.
