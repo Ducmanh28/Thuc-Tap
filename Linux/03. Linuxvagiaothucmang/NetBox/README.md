@@ -47,10 +47,10 @@ Bạn có thể tải xuống bản Raw của file bằng Windows, sau đó sử
 Hoặc bạn cũng có thể truy cập và tải xuống trực tiếp xuống máy chủ thông qua câu lệnh sau. File được tải xuống sẽ nằm trong thư mục hiện tại mà bạn đang ở:
 ```
 # Sử dụng wget
-wget https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/main/Linux/03.%20Linuxvagiaothucmang/NetBox/auto_install_netbox.sh
+wget https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/main/Linux/03.%20Linuxvagiaothucmang/NetBox/Install/auto_install_netbox.sh
 
 # Sử dụng curl
-curl -O https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/main/Linux/03.%20Linuxvagiaothucmang/NetBox/auto_install_netbox.sh
+curl -O https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/main/Linux/03.%20Linuxvagiaothucmang/NetBox/Install/auto_install_netbox.sh
 ```
 #### Cấp quyền 
 Để có thể chạy được bất kì một scripts nào, trước tiên bạn cũng đều cần phải cấp quyền khởi chạy cho scripts. Bạn sử dụng câu lệnh sau:
