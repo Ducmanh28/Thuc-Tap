@@ -35,3 +35,8 @@ Trước tiên, bạn cần tạo Region và SiteGroup(nếu có) trước tiên
 ![](/Anh/Screenshot_743.png)
 
 Đối với mục này, trước tiên, bạn cần tạo RIR và RouteTarget trước, sau đó tạo Role, Aggregate, VRE. Sau đó tạo Prefix, VLANGroup(nếu có), sau đó tạo VLAN, IPRange, IPAddress.
+
+
+
+# Tài liệu tham khảo:
+[Planning](https://netboxlabs.com/docs/netbox/en/stable/getting-started/planning/)
