@@ -6,7 +6,6 @@ MỤC LỤC:
     - [RACKS:](#racks)
     - [TENANCY](#tenancy)
     - [CONTACTS:](#contacts)
-  - [Thực hành:](#thực-hành)
 
 
 ![](/Anh/Screenshot_740.png)
@@ -44,5 +43,5 @@ Contact Roles: Các vai trò cho các contact như "primary contact", "technical
 
 Contact Assignments: Gán các contact cho các đối tượng như site, rack, v.v
 
-## Thực hành:
+
  
