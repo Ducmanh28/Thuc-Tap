@@ -230,7 +230,7 @@ Complete allow Port
 Finished in: 0 hours, 29 minutes and 37 seconds
 NetBox installation and configuration complete!
 ```
-Vậy là bạn đã hoàn tất cài đặt Nginx trên hệ thống Ubuntu của mình.
+Vậy là bạn đã hoàn tất cài đặt NetBox trên hệ thống Ubuntu của mình.
 ## Thông tin thêm
 Trước khi bạn có thể truy cập vào trang chủ netbox thông qua tên miền đã cấu hình, bạn cần cấu hình DNS trả về ip khi nhập vào tên miền của Netbox trên máy truy cập. Ví dụ đối với windows, các bạn thực hiện chỉnh sửa file `hosts` ở đường dẫn sau: `C:\Windows\System32\drivers\etc\hosts`
 
