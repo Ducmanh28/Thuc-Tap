@@ -33,6 +33,27 @@ Mục Lục:
     - [AS Numbers:](#as-numbers)
     - [Service Mapping:](#service-mapping)
     - [Ví dụ về IPAM](#ví-dụ-về-ipam)
+  - [Circuits (Mạch Kết Nối)](#circuits-mạch-kết-nối)
+    - [ASN (Số Hệ Thống Tự Quản Lý)](#asn-số-hệ-thống-tự-quản-lý)
+    - [Nhà Cung Cấp (Provider)](#nhà-cung-cấp-provider)
+    - [Mạng Của Nhà Cung Cấp (Provider Network)](#mạng-của-nhà-cung-cấp-provider-network)
+    - [Mạch Kết Nối (Circuit)](#mạch-kết-nối-circuit)
+    - [Mạch Vật Lý vs. Mạch Ảo](#mạch-vật-lý-vs-mạch-ảo)
+    - [Kết Nối Mạch](#kết-nối-mạch)
+  - [Virtualization (Ảo Hóa)](#virtualization-ảo-hóa)
+    - [Clusters (Cụm)](#clusters-cụm)
+    - [Virtual Machines (Máy Ảo)](#virtual-machines-máy-ảo)
+    - [Platform (Nền Tảng)](#platform-nền-tảng)
+    - [VMInterface (Giao Diện Máy Ảo)](#vminterface-giao-diện-máy-ảo)
+    - [Tổng kết lại](#tổng-kết-lại)
+  - [Tenancy (Sự Gán Quyền Sở Hữu)](#tenancy-sự-gán-quyền-sở-hữu)
+    - [Nhóm Khách Hàng](#nhóm-khách-hàng)
+    - [Khách Hàng (Tenant)](#khách-hàng-tenant)
+    - [Đối Tượng Có Thể Gán Cho Khách Hàng](#đối-tượng-có-thể-gán-cho-khách-hàng)
+    - [Gán Khách Hàng](#gán-khách-hàng)
+    - [Tóm Lại](#tóm-lại)
+  - [Contacts (Liên Hệ)](#contacts-liên-hệ)
+    - [Gán liên hệ](#gán-liên-hệ)
 ## Facilities(Sự tiện nghi bao quát)
 Từ các khu vực chứa đựng máy chủ lớn, đến tận nơi các giá đỡ thiết bị mạng riêng lẻ, NetBox đều cho phép bạn mô hình hóa toàn bộ sự hiện diện của mạng. Điều này được thực hiện thông qua việc sử dụng một số mô hình được xây dựng có mục đích. Biểu đồ dưới đây có thể minh họa một phần của chúng:
 
@@ -253,8 +274,8 @@ IPAM là một trong những tính năng cốt lõi của NetBox. Nó hỗ trợ
 ### IP Hierarchy
 NetBox sử dụng một số loại đối tượng để đại diện cho một hệ thống phân cấp tài nguyên IP:
 - **Aggregate**: Đại diện cho gốc của hệ thống phân cấp địa chỉ IP, thường là một phạm vi lớn của không gian địa chỉ công cộng hoặc riêng tư.
-- **Prefix**: Một mạng con được xác định trong một tổng hợp, mở rộng hệ thống phân cấp.
-- **IP Range**: Một dải địa chỉ IP riêng lẻ trong một tiền tố, chia sẻ cùng một mặt nạ.
+- **Prefix**: Một mạng con được xác định trong một Aggregate, mở rộng hệ thống phân cấp.
+- **IP Range**: Một dải địa chỉ IP riêng lẻ trong một Prefix, chia sẻ cùng một mặt nạ.
 - **IPAddress**: Một địa chỉ IP riêng lẻ với mặt nạ mạng con của nó, được tự động sắp xếp trong cấu trúc phân cấp.
 
 **Ví dụ cho một IP Hierarchy**:
@@ -277,7 +298,7 @@ Tỷ lệ sử dụng cho mỗi prefix được tính toán tự động dựa t
 Tương tự như Aggregate, Utilization rate sử dụng cho các aggregates được xác định dựa trên không gian được tiêu thụ bởi các prefix con của chúng.
 
 ### VRF Tracking: 
-NetBox hỗ trợ mô hình hóa các thể hiện định tuyến và chuyển tiếp ảo (VRF) để biểu diễn nhiều bảng định tuyến khác nhau, bao gồm cả các không gian địa chỉ chồng lấn. Mỗi loại đối tượng IP trong một tổng hợp - tiền tố, phạm vi IP và địa chỉ IP - có thể được gán cho một VRF cụ thể.
+NetBox hỗ trợ mô hình hóa các thể hiện định tuyến và chuyển tiếp ảo (VRF) để biểu diễn nhiều bảng định tuyến khác nhau, bao gồm cả các không gian địa chỉ chồng lấn. Mỗi loại đối tượng IP trong một Aggregate - Prefix, phạm vi IP và địa chỉ IP - có thể được gán cho một VRF cụ thể.
 
 Mô hình VRF trong NetBox tuân thủ rất chặt chẽ những gì bạn tìm thấy trong các cấu hình mạng trong thế giới thực, với mỗi VRF được chỉ định một bộ phân biệt tuyến tuân thủ tiêu chuẩn. Bạn thậm chí có thể tạo các mục tiêu tuyến đường để quản lý việc nhập và xuất thông tin định tuyến giữa các VRF.
 
@@ -286,8 +307,9 @@ Mỗi VRF có thể được cấu hình độc lập để cho phép hoặc c�
 **Ví dụ**: VRF đã được cấu hình để thực thi không gian IP duy nhất sẽ không cho phép tạo hai tiền tố 192.0.2.0/24. Khả năng chuyển đổi hạn chế này trên mỗi VRF mang lại cho người dùng sự linh hoạt tối đa trong việc mô hình hóa không gian IP của họ.
 
 ### AS Numbers: 
-NetBox cũng theo dõi các số AS và sự phân bổ của chúng đến các địa điểm. Cả 16-bit và 32-bit AS numbers được hỗ trợ.
+NetBox cũng theo dõi các số AS và sự phân bổ của chúng đến các địa điểm. Cả 16-bit và 32-bit AS numbers đều được hỗ trợ.
 
+Autonomous System Numbers (ASNs) là các số nhận dạng duy nhất được gán cho các Autonomous Systems (AS) trên Internet. Autonomous System (AS) là một tập hợp các mạng (prefixes) được quản lý và điều hành bởi một hoặc một nhóm các nhà quản trị mạng, và có một chính sách định tuyến chung.
 ### Service Mapping: 
 NetBox mô hình các ứng dụng mạng như các đối tượng dịch vụ riêng biệt liên kết với thiết bị và/hoặc máy ảo, và tùy chọn với các địa chỉ IP cụ thể được gắn với các đối tượng cha đó.
 
@@ -300,3 +322,137 @@ Trong một công ty lớn, có hàng ngàn thiết bị mạng, máy chủ và 
 - Quản lý VRF và không gian IP chồng lấn: Đối với các mạng có nhiều VRF và không gian địa chỉ chồng lấn, IPAM hỗ trợ việc phân bổ và theo dõi địa chỉ IP một cách hiệu quả. Việc mô hình hóa VRF trong IPAM giúp giải quyết các vấn đề về định tuyến và bảo mật trong mạng lưới.
 - Đảm bảo tuân thủ và an ninh: IPAM cũng đóng vai trò quan trọng trong việc đảm bảo tuân thủ các chính sách an ninh mạng. Việc theo dõi và kiểm soát các địa chỉ IP, cũng như giám sát việc sử dụng chúng, giúp ngăn ngừa các mối đe dọa an ninh từ việc xâm nhập vào mạng.
 - Tích hợp với các công cụ và hệ thống khác: IPAM thường có khả năng tích hợp với các công cụ và hệ thống khác trong mạng lưới, chẳng hạn như hệ thống quản lý mạng (NMS) và hệ thống giám sát. Điều này giúp tự động hóa các quy trình quản lý mạng và cải thiện khả năng phản ứng khi xảy ra sự cố.
+
+## Circuits (Mạch Kết Nối)
+NetBox rất phù hợp để quản lý các nhà cung cấp dịch vụ mạng và các mạch kết nối của mạng bạn. Nó cho phép bạn mô hình hóa các mạch vật lý trong trung tâm dữ liệu và môi trường doanh nghiệp, và kết nối chúng trực tiếp với các giao diện thiết bị thông qua cáp.
+
+### ASN (Số Hệ Thống Tự Quản Lý)
+ASN là số nhận dạng duy nhất cho mỗi hệ thống tự quản lý trên Internet, giúp định tuyến các gói dữ liệu hiệu quả.
+
+### Nhà Cung Cấp (Provider)
+Nhà cung cấp là các tổ chức cung cấp kết nối Internet hoặc kết nối riêng. Họ có thể là các nhà cung cấp lớn hoặc các dịch vụ nội bộ. Mỗi nhà cung cấp có thể có các thông tin tài khoản, liên hệ, và nhiều số AS.
+
+### Mạng Của Nhà Cung Cấp (Provider Network)
+Đây là các mạng mà bạn không thể quản lý toàn bộ, thường được biểu diễn bằng biểu tượng đám mây trong sơ đồ. NetBox hỗ trợ mô hình hóa các mạng này để các mạch của bạn có thể kết nối vào. Ví dụ: mạng MPLS của nhà cung cấp kết nối nhiều địa điểm.
+
+### Mạch Kết Nối (Circuit)
+Mạch kết nối là kết nối vật lý giữa hai điểm, do nhà cung cấp bên ngoài cài đặt và bảo trì. Ví dụ: kết nối Internet qua cáp quang là một mạch kết nối.
+- ID mạch: Mỗi mạch có một ID duy nhất cho nhà cung cấp đó.
+- Loại mạch: Do người dùng định nghĩa.
+- Trạng thái hoạt động và đặc tính khác.
+### Mạch Vật Lý vs. Mạch Ảo
+Mạch Vật Lý: Là kết nối thực tế bạn có thể chỉ vào.
+
+Mạch Ảo: Là các kết nối được xây dựng trên cơ sở hạ tầng vật lý, như subinterface gắn thẻ VLAN.
+
+### Kết Nối Mạch
+Mỗi mạch có thể có đến hai điểm kết nối (A và Z), có thể kết nối với một trang web cụ thể hoặc mạng của nhà cung cấp. Cáp có thể kết nối giữa điểm kết nối của mạch và thiết bị để lập bản đồ kết nối vật lý.
+
+## Virtualization (Ảo Hóa)
+NetBox hỗ trợ mô hình hóa các máy ảo và cụm máy ảo cùng với cơ sở hạ tầng vật lý. Địa chỉ IP và các tài nguyên khác được gán cho các đối tượng ảo giống như các đối tượng vật lý, tạo nên sự tích hợp liền mạch giữa mạng vật lý và mạng ảo.
+
+Các Thành Phần Chính
+- ClusterGroup (Nhóm Cụm)
+- ClusterType (Loại Cụm)
+- Cluster (Cụm)
+- VirtualMachine (Máy Ảo)
+- Platform (Nền Tảng)
+- VMInterface (Giao Diện Máy Ảo)
+### Clusters (Cụm)
+Là một hoặc nhiều thiết bị chủ vật lý (host) chạy các máy ảo.
+- Loại và Trạng Thái: Mỗi cụm phải có loại (do người dùng định nghĩa) và trạng thái hoạt động.
+- Nhóm: Các cụm có thể được phân vào các nhóm (do người dùng định nghĩa).
+- Thiết Bị Chủ: Mỗi cụm có thể gán một hoặc nhiều thiết bị làm chủ (tùy chọn).
+### Virtual Machines (Máy Ảo)
+Là một instance tính toán được ảo hóa, hoạt động tương tự như các thiết bị vật lý trong NetBox nhưng không có thuộc tính vật lý.
+- Giao Diện: Máy ảo có thể có các giao diện được gán địa chỉ IP và VLAN, nhưng không thể kết nối qua cáp vì chúng là ảo.
+- Tài Nguyên: Mỗi máy ảo có thể định nghĩa các tài nguyên tính toán, bộ nhớ và lưu trữ của nó.
+### Platform (Nền Tảng)
+Là hệ điều hành hoặc phần mềm mà máy ảo hoặc thiết bị chạy trên đó. Ví dụ: VMware, KVM, hoặc OpenStack.
+### VMInterface (Giao Diện Máy Ảo)
+Là các cổng mạng ảo của máy ảo, có thể được gán địa chỉ IP và VLAN nhưng không thể kết nối vật lý.
+### Tổng kết lại
+**Clusters** (Cụm)
+- Gồm nhiều thiết bị chủ vật lý.
+- Có loại và trạng thái hoạt động.
+- Có thể thuộc nhóm và gán thiết bị chủ (tùy chọn).
+
+**Virtual Machines** (Máy Ảo)
+- Là instance tính toán ảo.
+- Có các giao diện mạng ảo (không kết nối vật lý).
+- Định nghĩa tài nguyên tính toán, bộ nhớ và lưu trữ.
+
+**Platform** (Nền Tảng): Hệ điều hành hoặc phần mềm mà máy ảo chạy trên đó.
+
+**VMInterface** (Giao Diện Máy Ảo):Cổng mạng ảo của máy ảo.
+
+## Tenancy (Sự Gán Quyền Sở Hữu)
+Trong mô hình dữ liệu của NetBox, hầu hết các đối tượng cốt lõi hỗ trợ khái niệm tenancy. Đây là việc liên kết một đối tượng với một khách hàng hay tổ chức cụ thể để biểu thị quyền sở hữu hoặc phụ thuộc. 
+
+Ví dụ, một doanh nghiệp có thể biểu diễn các đơn vị kinh doanh nội bộ của mình dưới dạng các khách hàng (tenants), trong khi một nhà cung cấp dịch vụ quản lý có thể tạo một tenant trong NetBox để đại diện cho từng khách hàng của mình.
+
+Các Thành Phần Chính
+- TenantGroup (Nhóm Khách Hàng)
+- Tenant (Khách Hàng)
+- Site (Địa Điểm)
+- Device (Thiết Bị)
+- Prefix (Prefix)
+- Circuit (Mạch Kết Nối)
+- Và nhiều đối tượng khác...
+### Nhóm Khách Hàng
+Các khách hàng có thể được nhóm bởi bất kỳ logic nào mà yêu cầu sử dụng của bạn, và các nhóm có thể được nhúng đệ quy cho tính linh hoạt tối đa. Ví dụ, bạn có thể định nghĩa một nhóm cha "Khách Hàng" với các nhóm con "Hiện tại" và "Quá khứ" bên trong.
+### Khách Hàng (Tenant)
+Thường thì mô hình khách hàng được sử dụng để đại diện cho một khách hàng hoặc tổ chức nội bộ, tuy nhiên nó có thể được sử dụng cho bất kỳ mục đích nào phù hợp với nhu cầu của bạn.
+
+### Đối Tượng Có Thể Gán Cho Khách Hàng
+Các đối tượng sau đây có thể được gán cho các khách hàng:
+- Sites (Địa điểm)
+- Racks (Tủ rack)
+- Rack reservations (Đặt chỗ rack)
+- Devices (Thiết bị)
+- VRFs (Virtual Routing and Forwarding)
+- Prefixes (Các phần đầu địa chỉ IP)
+- Địa chỉ IP
+- VLANs
+- Circuits (Mạch kết nối)
+- Clusters (Cụm)
+- Virtual machines (Máy ảo)
+### Gán Khách Hàng
+Phân công khách hàng được sử dụng để chỉ định sở hữu của một đối tượng trong NetBox. Do đó, mỗi đối tượng chỉ có thể thuộc về một khách hàng duy nhất. 
+
+Ví dụ, nếu bạn có một tường lửa dành riêng cho một khách hàng cụ thể, bạn sẽ gán nó cho khách hàng đó. Tuy nhiên, nếu tường lửa phục vụ cho nhiều khách hàng, việc gán khách hàng sẽ không phù hợp.
+
+### Tóm Lại
+Tenancy trong NetBox là cách thức để quản lý và theo dõi sự sở hữu của các đối tượng, cho phép bạn liên kết các tài nguyên với từng khách hàng hay tổ chức cụ thể.
+Phân công khách hàng giúp định rõ quyền sở hữu của mỗi đối tượng và làm cho việc quản lý mạng dễ dàng và có tổ chức hơn.
+
+
+## Contacts (Liên Hệ)
+
+Trong NetBox, việc gán liên hệ cho phép bạn theo dõi người chịu trách nhiệm cho các tài nguyên. Mỗi liên hệ đại diện cho một cá nhân có trách nhiệm cụ thể.
+
+- Nhóm Liên Hệ (ContactGroup): Nhóm các liên hệ theo logic tổ chức.
+
+- Liên Hệ (Contact): Đại diện cho cá nhân, bao gồm tên, tiêu đề, số điện thoại, email và chi tiết liên quan.
+- Vai Trò Liên Hệ (ContactRole): Xác định mối quan hệ của liên hệ đối với đối tượng được gán.
+
+Các liên hệ có thể được tái sử dụng và gán cho nhiều đối tượng NetBox khác nhau, giúp quản lý và theo dõi tài nguyên một cách hiệu quả.
+
+### Gán liên hệ
+Các mô hình sau hỗ trợ việc gán liên hệ:
+
+- circuits.Circuit (Mạch Kết Nối)
+- circuits.Provider (Nhà Cung Cấp)
+- circuits.ProviderAccount (Tài Khoản Nhà Cung Cấp)
+- dcim.Device (Thiết Bị)
+- dcim.Location (Địa Điểm)
+- dcim.Manufacturer (Nhà Sản Xuất)
+- dcim.PowerPanel (Bảng Điện)
+- dcim.Rack (Tủ Rack)
+- dcim.Region (Khu Vực)
+- dcim.Site (Địa Điểm)
+- dcim.SiteGroup (Nhóm Địa Điểm)
+- tenancy.Tenant (Khách Hàng)
+- virtualization.Cluster (Cụm)
+- virtualization.ClusterGroup (Nhóm Cụm)
+- virtualization.VirtualMachine (Máy Ảo)
