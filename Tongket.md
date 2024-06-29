@@ -567,3 +567,25 @@ Tiếp tục cải tiến cho Scripts cài đặt NetBox:
   - Yêu cầu cần thiết
   - Hướng dẫn các mục nhập vào
   - Mẫu hiển thị kết quả đầu ra
+### Từ 24/6 - 29/6
+Tìm hiểu về SSL Public:
+- Hiểu được cách hoạt động của SSL Public
+- Cấu hình SSL Public cho trang web:
+  - 1 Server có IP Public
+	- 1 DNS Public
+	- Sử dụng CertBot để nhận chứng chỉ
+
+Tìm hiểu lý thuyết NetBox:
+- Facilities: Tổng quan về mô hình NetBox
+- Devices & Cabling
+- Power & Tracking
+- IPAM
+- Circuits
+- Virtualization
+- Tenacy
+- Contacts
+- Mục Organization trong NetBox:
+  - Sites
+  - Rack
+  - Tenacy
+  - Contacts
