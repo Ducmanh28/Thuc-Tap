@@ -133,13 +133,13 @@ Netbox là một công cụ để mô hình hóa cơ sở hạ tầng mạng c�
 
 ![](/Anh/Screenshot_737.png)
 ### Manufacturer
-Tính năng: 
+**Tính năng**: 
 - Lưu trữ thông tin về nhà sản xuất thiết bị và Module
 - Liên kết các DeviceType, ModuleType với nhà sản xuất tương ứng
 
-Lợi ích: Dễ dàng theo dõi và quản lý nguồn gốc của thiết bị, module
+**Lợi ích**: Dễ dàng theo dõi và quản lý nguồn gốc của thiết bị, module
 
-Ví dụ: Cisco, Juniper, HP là các nhà sản xuất thiết bị mạng phổ biến
+**Ví dụ**: Cisco, Juniper, HP là các nhà sản xuất thiết bị mạng phổ biến
 
 ### DeviceRole
 **Tính năng**: Dùng để xác định vai trò của thiết bị trong mạng
@@ -274,10 +274,13 @@ IPAM là một trong những tính năng cốt lõi của NetBox. Nó hỗ trợ
 ### IP Hierarchy
 NetBox sử dụng một số loại đối tượng để đại diện cho một hệ thống phân cấp tài nguyên IP:
 - **Aggregate**: Đại diện cho gốc của hệ thống phân cấp địa chỉ IP, thường là một phạm vi lớn của không gian địa chỉ công cộng hoặc riêng tư.
-- **Prefix**: Một mạng con được xác định trong một Aggregate, mở rộng hệ thống phân cấp.
+- **Prefix**: 
+  - Một mạng con được xác định trong một Aggregate, mở rộng hệ thống phân cấp.
+  - Ví dụ: Trung tâm dữ liệu A có một dải địa chỉ IP là 192.168.0.0/16. Trong dải địa chỉ này, họ chia thành các dải con như 192.168.1.0/24 cho máy chủ web, 192.168.2.0/24 cho các dịch vụ nội bộ, và 192.168.3.0/24 cho khách hàng.
 - **IP Range**: Một dải địa chỉ IP riêng lẻ trong một Prefix, chia sẻ cùng một mặt nạ.
-- **IPAddress**: Một địa chỉ IP riêng lẻ với mặt nạ mạng con của nó, được tự động sắp xếp trong cấu trúc phân cấp.
-
+- **IPAddress**: 
+  - Một địa chỉ IP riêng lẻ với mặt nạ mạng con của nó, được tự động sắp xếp trong cấu trúc phân cấp.
+  - Ví dụ: Máy chủ web chính của công ty sử dụng địa chỉ IP 192.168.1.10, trong khi máy chủ cơ sở dữ liệu sử dụng địa chỉ IP 192.168.1.11.
 **Ví dụ cho một IP Hierarchy**:
 
 100.64.0.0/10 (aggregate)
@@ -297,6 +300,7 @@ Tỷ lệ sử dụng cho mỗi prefix được tính toán tự động dựa t
 
 Tương tự như Aggregate, Utilization rate sử dụng cho các aggregates được xác định dựa trên không gian được tiêu thụ bởi các prefix con của chúng.
 
+Ví dụ: Một công ty có dải mạng như sau: 192.168.1.0/24, tổng cộng có 256 địa chỉ IP, trong đó 200 địa chỉ đã sử dụng, tỷ lệ sử dụng 78%.
 ### VRF Tracking: 
 NetBox hỗ trợ mô hình hóa các thể hiện định tuyến và chuyển tiếp ảo (VRF) để biểu diễn nhiều bảng định tuyến khác nhau, bao gồm cả các không gian địa chỉ chồng lấn. Mỗi loại đối tượng IP trong một Aggregate - Prefix, phạm vi IP và địa chỉ IP - có thể được gán cho một VRF cụ thể.
 
@@ -305,6 +309,11 @@ Mô hình VRF trong NetBox tuân thủ rất chặt chẽ những gì bạn tìm
 Mỗi VRF có thể được cấu hình độc lập để cho phép hoặc cấm các đối tượng IP trùng lặp. 
 
 **Ví dụ**: VRF đã được cấu hình để thực thi không gian IP duy nhất sẽ không cho phép tạo hai tiền tố 192.0.2.0/24. Khả năng chuyển đổi hạn chế này trên mỗi VRF mang lại cho người dùng sự linh hoạt tối đa trong việc mô hình hóa không gian IP của họ.
+
+Ví dụ: Công ty A thuê một phần của trung tâm dữ liệu và yêu cầu một VRF riêng để đảm bảo lưu lượng mạng của họ được định tuyến tách biệt khỏi các khách hàng khác. VRF này có thể được đặt tên là "VRF_CongTyA".
+
+Tracking: VRF "VRF_CongTyA" được theo dõi để đảm bảo rằng tất cả các thiết bị và đường dẫn mạng liên quan đến công ty A đều sử dụng đúng VRF này. Các thay đổi hoặc lỗi trong VRF này sẽ được ghi lại và báo cáo.
+
 
 ### AS Numbers: 
 NetBox cũng theo dõi các số AS và sự phân bổ của chúng đến các địa điểm. Cả 16-bit và 32-bit AS numbers đều được hỗ trợ.
@@ -316,12 +325,11 @@ NetBox mô hình các ứng dụng mạng như các đối tượng dịch vụ 
 Để mô hình hóa các dịch vụ trong NetBox, hãy bắt đầu bằng cách tạo một mẫu dịch vụ xác định tên, giao thức và (các) số cổng mà dịch vụ lắng nghe. Mẫu này sau đó có thể dễ dàng khởi tạo để "đính kèm" các dịch vụ mới vào thiết bị hoặc máy ảo. Cũng có thể tạo các dịch vụ mới bằng tay mà không cần mẫu, tuy nhiên cách tiếp cận này có thể nhàm chán.
 
 ### Ví dụ về IPAM
-Trong một công ty lớn, có hàng ngàn thiết bị mạng, máy chủ và ứng dụng phải được quản lý. IPAM giúp tổ chức này:
-- Quản lý phân bổ IP: IPAM giúp quản lý việc phân bổ các địa chỉ IP cho các thiết bị mạng và máy chủ một cách hiệu quả. Bằng cách tự động gán IP và theo dõi các phạm vi IP dự phòng, IPAM giảm thiểu sự xung đột IP và lỗi cấu hình.
-- Theo dõi sử dụng và tài nguyên: IPAM cung cấp thông tin chi tiết về việc sử dụng địa chỉ IP. Người quản trị mạng có thể dễ dàng xem xét các phạm vi IP nào đang sử dụng hết công suất và cần mở rộng, từ đó tối ưu hóa tài nguyên mạng.
-- Quản lý VRF và không gian IP chồng lấn: Đối với các mạng có nhiều VRF và không gian địa chỉ chồng lấn, IPAM hỗ trợ việc phân bổ và theo dõi địa chỉ IP một cách hiệu quả. Việc mô hình hóa VRF trong IPAM giúp giải quyết các vấn đề về định tuyến và bảo mật trong mạng lưới.
-- Đảm bảo tuân thủ và an ninh: IPAM cũng đóng vai trò quan trọng trong việc đảm bảo tuân thủ các chính sách an ninh mạng. Việc theo dõi và kiểm soát các địa chỉ IP, cũng như giám sát việc sử dụng chúng, giúp ngăn ngừa các mối đe dọa an ninh từ việc xâm nhập vào mạng.
-- Tích hợp với các công cụ và hệ thống khác: IPAM thường có khả năng tích hợp với các công cụ và hệ thống khác trong mạng lưới, chẳng hạn như hệ thống quản lý mạng (NMS) và hệ thống giám sát. Điều này giúp tự động hóa các quy trình quản lý mạng và cải thiện khả năng phản ứng khi xảy ra sự cố.
+- Prefixes: 192.168.0.0/16, chia thành 192.168.1.0/24 và 192.168.2.0/24.
+- IP Addresses: Trong dải .1.0, 192.168.1.10 cho máy chủ web.
+- VLANs: VLAN 10 (quản lý), VLAN 20 (khách hàng).
+- VRFs: VRF "Customer_A" cho khách hàng A.
+- Services: 192.168.1.100 cho dịch vụ DNS.
 
 ## Circuits (Mạch Kết Nối)
 NetBox rất phù hợp để quản lý các nhà cung cấp dịch vụ mạng và các mạch kết nối của mạng bạn. Nó cho phép bạn mô hình hóa các mạch vật lý trong trung tâm dữ liệu và môi trường doanh nghiệp, và kết nối chúng trực tiếp với các giao diện thiết bị thông qua cáp.
