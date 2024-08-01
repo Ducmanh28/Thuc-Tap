@@ -153,8 +153,8 @@ Ví dụ khởi tạo 1 rack với các thông tin như sau:
 Mẫu tạo Reservation:
 - Rack: Suncloud Rack Device
 - Units: 12-17
-Description: Mở rộng hệ thống
-Tenant: KH Miền Bắc/ Suncloud Group
+- Description: Mở rộng hệ thống
+- Tenant: KH Miền Bắc/ Suncloud Group
 
 ### Tạo các Liên hệ:
 Tạo Contact Roles:
