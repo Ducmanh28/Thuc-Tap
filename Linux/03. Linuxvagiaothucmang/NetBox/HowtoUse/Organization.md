@@ -6,6 +6,18 @@ MỤC LỤC:
     - [RACKS:](#racks)
     - [TENANCY](#tenancy)
     - [CONTACTS:](#contacts)
+  - [Thực hành tạo](#thực-hành-tạo)
+    - [Tạo Regions](#tạo-regions)
+    - [Tạo SiteGroups(optional)](#tạo-sitegroupsoptional)
+    - [Tạo TenantGroups](#tạo-tenantgroups)
+    - [Tạo Tenants](#tạo-tenants)
+    - [Tạo Sites:](#tạo-sites)
+    - [Tạo Locations:](#tạo-locations)
+    - [Tạo 1 Rack Role cơ bản:](#tạo-1-rack-role-cơ-bản)
+    - [Tạo Rack:](#tạo-rack)
+    - [Tạo đơn đặt chỗ Rack](#tạo-đơn-đặt-chỗ-rack)
+    - [Tạo các Liên hệ:](#tạo-các-liên-hệ)
+  - [Hoàn tất](#hoàn-tất)
 
 
 ![](/Anh/Screenshot_740.png)
@@ -61,7 +73,107 @@ Ví dụ:
 - Một cá nhân chịu trách nhiệm quản lý mạng tại một công ty là một contact. Nhóm liên hệ có thể là bộ phận IT của công ty.
 - Nhóm các nhân viên IT của một công ty vào một Contact Group để dễ dàng quản lý và liên lạc.
 - A là "primary contact" cho một dự án, còn B là "technical contact" chịu trách nhiệm về các vấn đề kỹ thuật.
-- Gán A, người là "technical contact", cho một rack cụ thể trong trung tâm dữ liệu để cô ấy chịu trách nhiệm về các thiết bị trong rack đó.
+- Gán A, người là "technical contact", cho một rack cụ thể trong trung tâm dữ liệu để A chịu trách nhiệm về các thiết bị trong rack đó.
 
+## Thực hành tạo
+### Tạo Regions
+Ví dụ tạo 1 khu vực đơn giản như sau:
+- Name: Việt Nam
+- Slug: vit-nam
 
- 
+### Tạo SiteGroups(optional) 
+Có thể tạo 1 nhóm Sites là các Site ở khu vực miền Bắc, Trung, Nam.
+
+- Ví dụ tạo SiteGroups miền Bắc:
+  - Name: Miền Bắc
+  - Slug: min-bc
+  - Descripts(optional): Các cơ sở dữ liệu thuộc khu vực miền Bắc
+
+Kết quả của quá trình tôi được 3 SiteGroups như sau:
+
+![](/Anh/Screenshot_753.png)
+
+### Tạo TenantGroups
+Tương tự như việc tạo các SiteGroups, tôi cũng sẽ chia các khách hàng ra làm 3 khu vực: Bắc, Trung và Nam
+
+- Ví dụ tạo TenantGroups miền Bắc:
+  - Name: KH Miền Bắc
+  - Slug: kh-min-bc
+  - Descripts: Nhóm khách hàng khu vực miền Bắc
+
+Kết quả của quá trình tôi được 3 TenantGroups như sau:
+
+![](/Anh/Screenshot_755.png)
+
+### Tạo Tenants
+Tiến hành tạo 1 khách hàng cơ bản như sau:
+- Name: Suncloud Group
+- Slug: suncloud-group
+- Group: KH Miền Bắc
+
+### Tạo Sites:
+Ví dụ tạo 1 Sites với các thông tin cơ bản như sau:
+- Name: IDC Ha Noi
+- Slug: idc-ha-noi
+- Status: Active
+- Region: Việt Nam
+- Group: Miền Bắc
+- Time zone: Asia/Ho Chi Minh
+
+- Tenant group: KH Miền Bắc
+- Tenant: Suncloud Group
+
+Contact Info
+- Physical address: Số 92/1 phố Đào Tấn, Phường Cống Vị, Quận Ba Đình, Thành phố Hà Nội, Việt Nam
+- Shipping address: 101A, Liền kề C2, Vũ Ngọc Phan, Láng Hạ, Đống Đa, Hà Nội, Việt Nam
+If different from the physical address
+
+### Tạo Locations:
+Mẫu tạo 1 Locations trông như sau:
+
+![](/Anh/Screenshot_756.png)
+
+Nghĩa là: Tại tầng 2 của tòa nhà sẽ là phòng DataCenter 1 của Suncloud Group
+
+### Tạo 1 Rack Role cơ bản:
+Tạo 1 Rack có vai trò là tủ đựng các thiết bị mạng
+
+- Name: Device Rack
+- Slug: device-rack
+- Descripts: Tủ đựng các thiết bị mạng
+
+### Tạo Rack:
+Ví dụ khởi tạo 1 rack với các thông tin như sau:
+
+![](/Anh/Screenshot_757.png)
+
+![](/Anh/Screenshot_758.png)
+
+### Tạo đơn đặt chỗ Rack
+Mẫu tạo Reservation:
+- Rack: Suncloud Rack Device
+- Units: 12-17
+Description: Mở rộng hệ thống
+Tenant: KH Miền Bắc/ Suncloud Group
+
+### Tạo các Liên hệ:
+Tạo Contact Roles:
+
+![](/Anh/Screenshot_759.png)
+
+Tạo Contact Groups:
+
+![](/Anh/Screenshot_760.png)
+
+Tạo Contact:
+
+![](/Anh/Screenshot_761.png)
+
+Đối với mục Contact Assignment, bạn truy cập vào Site, SiteGroups hay Rack,.... để thực hiện khởi tạo.
+
+Ví dụ mẫu:
+
+![](/Anh/Screenshot_762.png)
+
+## Hoàn tất
+Sau khi hoàn tất, chúng ta thực hiện kiểm tra lại các mục xem đã liên kết với nhau chưa, kiểm tra lại các thông tin xem chính xác hay chưa
