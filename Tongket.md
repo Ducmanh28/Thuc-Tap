@@ -589,3 +589,52 @@ Tìm hiểu lý thuyết NetBox:
   - Rack
   - Tenacy
   - Contacts
+
+### Từ 01/08 - 04/08:
+Tìm hiểu về Lab NetBox:
+- Lab phần Organization:
+  - Tạo Region: Việt Nam
+  - ![](/Anh/Screenshot_779.png)
+  - Tạo SiteGroups: Miền Bắc
+  - ![](/Anh/Screenshot_753.png)
+  - Tạo Tenant Group: KH miền Bắc
+  - ![](/Anh/Screenshot_755.png)
+  - Tạo Tenant: Suncloud
+  - ![](/Anh/Screenshot_780.png) 
+  - Tạo Site: IDC Hà Nội
+  - ![](/Anh/Screenshot_781.png)
+  - Tạo Location: Phòng 201 của tòa IDC Hà Nội
+  - ![](/Anh/Screenshot_756.png)
+  - Tạo Rack Role: Tủ đựng Device
+  - ![](/Anh/Screenshot_782.png)
+  - Tạo Rack: Suncloud Rack Device
+  - ![](/Anh/Screenshot_757.png)
+  - ![](/Anh/Screenshot_758.png)
+  - Tạo Rack Reservation: Dự phòng
+  - Tạo các Contact:
+    - Contact Roles: Hệ thống
+    - ![](/Anh/Screenshot_785.png)
+    - Contact Group: IT Group
+    - ![](/Anh/Screenshot_786.png)
+    - Tạo Contact và gán Contact Assignment
+    - ![](/Anh/Screenshot_783.png)
+    - ![](/Anh/Screenshot_784.png)
+
+Tìm hiểu lý thuyết Device:
+- Devices: Các thông tin về thiết bị
+- Device Types: Các thông tin về loại thiết bị
+- Device Components: Các thông tin về thành phần của thiết bị
+
+Thực hành Lab phần Device:
+- Tạo Manufacturer
+- Tạo Device Type
+- Tạo Module Type
+- Tạo Device Roles
+- Tạo Platforms
+- Tạo Device
+- Tạo Virtual Chassis
+- Tạo Virtual Device Context
+- Tạo Module Bay
+- Tạo Module
+- Tạo Device Components
+  - Tạo các thông cố của Device Components
