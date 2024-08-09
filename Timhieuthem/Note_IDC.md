@@ -58,3 +58,36 @@ Sau khi đã lắp đặt thiết bị xong, thực hiện để thiết bị l�
 Tiến hành kiểm tra xem máy đã nhận được đủ RAM chưa thông qua IDRAC
 
 ![](/Anh/IDC01.jpg)
+
+Như vậy là máy đã nhận đủ RAM, tiến hành xếp gọn dây và ra đóng tủ chứa thiết bị
+
+### Lắp thêm Backplane:
+Các bước kiểm tra dây, tháo thiết bị như ở trên.
+
+Bắt đầu giai đoạn lắp đặt:
+- Trước tiên, chúng ta kiểm tra khu vực lắp đặt Backplane 2 ở đâu trên bảng hướng dẫn sử dụng của Server
+- Thực hiện tháo dỡ các nơi cần thiết để thuận tiện cho việc lắp hơn. Lưu ý nhớ từng nơi và thứ tự của các bộ phận được lắp như thế nào, kết nối dây ra sao,.... Để an toàn, hãy thực hiện chụp ảnh hoặc quay video quá trình tháo rời
+
+![](/Anh/IDC03.jpg)
+
+- Tiến hành quá trình lắp đặt. Lưu ý để ý các khớp, lắp dùng lực đúng lúc, tránh để thiết bị bị gãy, hỏng hóc hoặc gây ảnh hưởng tới khu vực khác.
+
+![](/Anh/IDC02.jpg)
+
+- Sau khi lắp đặt hoàn tất, cất lại thiết bị và nối lại dây thật cẩn thận.
+- Thực hiện kiểm tra. Đảm bảo quá trình như sau để an toàn nhất
+  - Xác nhận các ổ cứng hoạt động đầy đủ
+  - Khi thay đổi vị trí 1 ổ cứng thì màn hình báo ổ cứng thay đổi
+
+### Thiết bị thứ 3
+Hiện tại bị hacker hack và thông tin bị mã hóa
+
+Hướng giải quyết: Restore lại thiết bị
+
+![](/Anh/IDC06.jpg)
+
+## Tổng kết
+Sau 1 buổi đi IDC:
+- Được tiếp xúc với các thiết bị vật lý cụ thể
+- Được lắp đặt và tiến hành kiểm thử chi tiết
+- Có thêm kiến thức về lắp đặt thiết bị, nâng cấp và nắm được các thông tin cơ bản về 1 Server
