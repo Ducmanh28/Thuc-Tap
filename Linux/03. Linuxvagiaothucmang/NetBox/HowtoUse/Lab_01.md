@@ -4,6 +4,8 @@ Tuân theo mô hình sau:
 
 ![](/Anh/Screenshot_790.png)
 
+Sơ đồ này mô tả chi tiết cách các thiết bị trong mạng được kết nối và tổ chức, bao gồm các máy tính, máy chủ, switch, tường lửa và router. Các thiết bị được chia thành các VLAN khác nhau để quản lý và bảo mật mạng tốt hơn
+
 Chúng ta sẽ thực hiện các mục sau:
 - Tạo Site
 - Tạo Region
@@ -203,7 +205,44 @@ Cuối cùng, sau khi đã hoàn tất các thông tin bên lề cho 1 Device, c
 - 10 Máy trạm
 
 ### Bắt đầu khởi tạo
+#### Thêm mới 1 Server
+Thêm 1 Device có thông tin như sau:
 
+![](/Anh/Screenshot_825.png)
 
+![](/Anh/Screenshot_826.png)
 
+Tiếp tục tạo thêm 3 Device cần thiết là: Server_Cat_Patch_01, PfSense, LibreNms với các thông tin lần lượt như sau:
+- Server_CAT_PATCH_01:
+- ![](/Anh/Screenshot_827.png)
+
+- PfSense:
+- ![](/Anh/Screenshot_828.png)
+
+- LibreNms:
+- ![](/Anh/Screenshot_829.png)
+
+Sau khi hoàn tất các khởi tạo, bạn sẽ được 1 mô hình Rack trông như thế này:
+
+![](/Anh/Screenshot_830.png)
+
+#### Thêm Router và các thiết bị khác vào trong Rack NW
+Trước tiên, chúng ta thêm 1 router có thông tin như sau:
+
+![](/Anh/Screenshot_831.png)
+
+Thêm 1 cái nữa:
+
+![](/Anh/Screenshot_832.png)
+
+#### Tạo Faculty1 và thêm các device vào location này
+Trước tiên chúng ta tạo 1 Tenant cơ bản như sau:
+
+![](/Anh/Screenshot_833.png)
+
+Thêm mới Location:
+
+![](/Anh/Screenshot_834.png)
+
+Tạo thêm 1 9U Rack:
 
