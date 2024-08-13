@@ -236,13 +236,90 @@ Thêm 1 cái nữa:
 ![](/Anh/Screenshot_832.png)
 
 #### Tạo Faculty1 và thêm các device vào location này
-Trước tiên chúng ta tạo 1 Tenant cơ bản như sau:
+##### Trước tiên chúng ta tạo 1 Tenant cơ bản như sau:
 
 ![](/Anh/Screenshot_833.png)
 
-Thêm mới Location:
+##### Thêm mới Location:
 
 ![](/Anh/Screenshot_834.png)
 
-Tạo thêm 1 9U Rack:
+##### Tạo thêm 1 9U Rack:
+
+- Tạo các thông tin cơ bản như sau:
+
+![](/Anh/Screenshot_835.png)
+
+![](/Anh/Screenshot_836.png)
+
+##### Thêm 1 Router vào Rack
+Thông tin nên có trông sẽ như sau:
+
+![](/Anh/Screenshot_837.png)
+
+##### Thêm Fibre Patch Panel và CAT 6 Patch Panel cho Rack này
+Thêm Fibre Patch Panel:
+
+![](/Anh/Screenshot_838.png)
+
+Thêm CAT6 Patch Panel
+
+![](/Anh/Screenshot_839.png)
+
+#### Kết nối cáp các thiết bị với nhau
+
+Mẫu ví dụ: Tạo mới kết nối giữa Campus Core(FE0/1) và Campus_FB_BACKBONE_PATCH_01(FP10)
+
+![](/Anh/Screenshot_840.png)
+
+![](/Anh/Screenshot_841.png)
+
+Kiểm tra kết quả cuối cùng bằng Trace:
+
+![](/Anh/Screenshot_842.png)
+
+#### Thêm VLAN
+Mẫu thêm 1 VLAN:
+
+![](/Anh/Screenshot_843.png)
+
+Tiến hành thêm để có kết quả như hình sau
+
+![](/Anh/Screenshot_844.png)
+
+#### Thêm và quản lý địa chỉ IP
+Gồm 3 mục như sau:
+- Tạo Aggregates
+- Tạo Prefixes
+- Thêm IP address
+
+##### Tạo Aggregates:
+Tạo RIR(Regional Internet Registry)
+
+![](/Anh/Screenshot_845.png)
+
+Tạo Aggregates, tạo dải `10.0.0.0/8`:
+
+![](/Anh/Screenshot_846.png)
+
+##### Tạo Prefixes
+Chúng ta sẽ sử dụng dải `10.1.0.0/16` cho campus
+
+![](/Anh/Screenshot_847.png)
+
+Thêm Child Prefix:
+
+![](/Anh/Screenshot_848.png)
+
+- Tất cả các child prefix đều thuộc /24
+- Khi hoàn thành tạo thì sẽ trông như thế này:
+
+![](/Anh/Screenshot_849.png)
+
+##### Thêm IP Address
+Bây giờ chúng ta sẽ tiến hành thêm IP Address cho các thiết bị
+
+Mẫu thêm Ip:
+
+![](/Anh/Screenshot_850.png)
 
