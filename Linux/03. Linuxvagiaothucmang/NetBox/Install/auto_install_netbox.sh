@@ -126,6 +126,7 @@ INSTALL_STATUS_FILE="/opt/netbox/.netbox_installed"
 function configure_netbox_to_install {
     echo "Making Secret key..."
     Secret_key=$(python3 /opt/netbox/netbox/generate_secret_key.py)
+    echo "$Secret_key"
     if [ $? -ne 0 ]; then
         echo "Error: Failed to generate secret key."
         exit 1
