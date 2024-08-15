@@ -4,6 +4,11 @@ Tuân theo mô hình sau:
 
 ![](/Anh/Screenshot_790.png)
 
+Phân tích cụ thể:
+- PC1 ở VLAN 10 kết nối tới Switch FAC1-BLD1-FL1A qua đường e0
+- PC2 ở VLAN 20 kết nối tới Switch FAC1-BLD1-FL1B qua đường e0
+- PC3 ở VLAN 20 kết 
+
 Sơ đồ này mô tả chi tiết cách các thiết bị trong mạng được kết nối và tổ chức, bao gồm các máy tính, máy chủ, switch, tường lửa và router. Các thiết bị được chia thành các VLAN khác nhau để quản lý và bảo mật mạng tốt hơn
 
 Chúng ta sẽ thực hiện các mục sau:
