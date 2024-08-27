@@ -10,12 +10,27 @@
     - [Các tính năng nổi bật khác:](#các-tính-năng-nổi-bật-khác)
     - [Ứng dụng phổ biến:](#ứng-dụng-phổ-biến)
     - [Ưu điểm:](#ưu-điểm)
+  - [IBM Storwire V7000](#ibm-storwire-v7000)
+    - [Tổng quan về hệ thống](#tổng-quan-về-hệ-thống)
+    - [Cấu hình phần cứng](#cấu-hình-phần-cứng)
+    - [Cổng kết nối](#cổng-kết-nối)
+      - [Cổng Fibre Chanel](#cổng-fibre-chanel)
+      - [Cổng iSCSI/FCoE](#cổng-iscsifcoe)
+      - [Cổng SAS (Serial Attached SCSI)](#cổng-sas-serial-attached-scsi)
+      - [Cổng quản lý (Management Port)](#cổng-quản-lý-management-port)
+      - [Cổng USB](#cổng-usb)
+      - [Cổng nội bộ (Inter-Node)](#cổng-nội-bộ-inter-node)
+      - [Cổng nguồn (Power Ports)](#cổng-nguồn-power-ports)
+    - [Các tính năng phần mềm](#các-tính-năng-phần-mềm)
 
 ## Dell R740
 Dell R740 có tên đầy đủ là **Dell PowerEdge R740** - là một sản phẩm của dòng của dòng PowerEdge nổi tiếng của Dell Technologies, tập trung vào việc cung cấp các giải pháp máy chủ cho doanh nghiệp với hiệu suất, tính linh hoạt và khả năng mở rộng cao
 
 Dell PowerEdge R740 đánh dấu một bước tiến lớn trong chiến lược của Dell để cung cấp các máy chủ mạnh mẽ, có khả năng đáp ứng nhu cầu ngày càng cao của các doanh nghiệp hiện đại.
 
+![](/Anh/Screenshot_874.png)
+
+![](/Anh/Screenshot_875.png)
 ### Thông số kỹ thuật 
 **Nhà sản xuất**: Dell Technologies
 
@@ -92,3 +107,78 @@ Tính linh hoạt cao: Hỗ trợ nhiều loại workload khác nhau từ ảo h
 Khả năng mở rộng: Dễ dàng nâng cấp và mở rộng theo nhu cầu kinh doanh.
 
 Hiệu suất mạnh mẽ: Nhờ vào việc hỗ trợ các CPU Xeon Scalable mới nhất và RAM tốc độ cao.
+
+## IBM Storwire V7000
+Là một hệ thống lưu trữ tầm trung mạnh mẽ của IBM, được thiết kế để cung cấp giải pháp lưu trữ linh hoạt, hiệu quả và có thể mở rộng cho các doanh nghiệp. 
+
+### Tổng quan về hệ thống
+Loại thiết bị: Hệ thống lưu trữ tầm trung(MSS)
+
+Kiến trúc: Modular, có thể mở rộng, với khả năng kết hợp nhiều module
+
+Kích thước: 2U
+
+### Cấu hình phần cứng
+Controller Nodes: Hệ thống hỗ trợ tối đa 4 controller nodes(mỗi node gồm 2 controllers hoạt động song song), cung cấp hiệu suất cao và khả năng chịu lỗi. Mỗi controller có nhiệm vụ quản lý việc đọc/ghi dữ liệu trên các ổ đĩa, xử lý các yêu cầu từ máy chủ, và thực hiện các chức năng như nén, sao chép, và phân cấp dữ liệu
+
+Ổ đĩa hỗ trợ: Các loại ổ đĩa phổ biến như: SSD, HDD, SAS 2.5" và 3.5". Dung lượng mỗi ổ đĩa có thể dao động từ 300GB - 15.36TB
+
+Mỗi thiết bị mặc định hỗ trợ tối đa 24 ổ đĩa 2.5" hoặc 12 ổ đĩa 3.5". Tuy nhiên, có thể mở rộng lên tới 504 ổ đĩa thông qua các expansion enclosure.
+
+### Cổng kết nối
+Có nhiều cổng kết nối để đảm bảo tính linh hoạt và khả năng tích hợp với các hệ thống mạng lưu trữ khác nhau
+#### Cổng Fibre Chanel
+- Loại cổng: SFP+ (Small Form-factor Pluggable)
+- Chức năng: Kết nối với mạng lưu trữ SAN qua giao thức Fibre Channel
+- Sử dụng kết nối Fibre Channel với tùy chọn tốc độ 8 Gbps, 16 Gbps, hoặc 32 Gbps
+- Nằm ở phía trên các controller nodes, phía sau của control enclosure
+- Số lượng: Mỗi controller node có 4 cổng FC, có thể lên tới 8 nếu có 2 controller nodes
+
+#### Cổng iSCSI/FCoE
+- Loại cổng: SFP+.
+- Chức năng: Dùng để kết nối với mạng IP sử dụng giao thức iSCSI hoặc Fibre Channel over Ethernet (FCoE).
+- Sử dụng kết nối: iSCSI hoặc FCoE với tốc độ 10 Gbps.
+- Vị trí: Trên các controller nodes, phía sau của control enclosure.
+- Số lượng: Mỗi controller node có 4 cổng có thể cấu hình cho iSCSI hoặc FCoE, tổng cộng có thể lên đến 8 cổng.
+#### Cổng SAS (Serial Attached SCSI)
+- Loại cổng: Mini-SAS HD.
+- Chức năng: Kết nối với các expansion enclosures để mở rộng dung lượng lưu trữ.
+- Sử dụng kết nối: SAS 12 Gbps.
+- Vị trí: Trên các controller nodes, phía sau của control enclosure.
+- Số lượng: Mỗi controller node có 2 cổng SAS, tổng cộng có thể lên đến 4 cổng khi có 2 controller nodes.
+#### Cổng quản lý (Management Port)
+- Loại cổng: RJ-45.
+- Chức năng: Dùng để quản lý hệ thống thông qua giao diện web hoặc CLI.
+- Sử dụng kết nối: Ethernet 1 Gbps.
+- Vị trí: Trên các controller nodes, phía sau của control enclosure.
+- Số lượng: Mỗi controller node có 2 cổng quản lý, tổng cộng có thể lên đến 4 cổng.
+#### Cổng USB
+- Loại cổng: USB Type-A.
+- Chức năng: Sao lưu cấu hình hệ thống, cập nhật firmware.
+- Sử dụng kết nối: USB 2.0.
+- Vị trí: Trên các controller nodes, phía trước hoặc phía sau của control enclosure.
+- Số lượng: Mỗi controller node có 1 cổng USB, tổng cộng có thể lên đến 2 cổng.
+#### Cổng nội bộ (Inter-Node)
+- Loại cổng: Mini-SAS.
+- Chức năng: Kết nối giữa các controller nodes trong cùng một control enclosure.
+- Sử dụng kết nối: SAS tốc độ cao để đồng bộ dữ liệu và chia sẻ tải giữa các nodes.
+- Vị trí: Nằm bên trong hệ thống, không hiển thị ra ngoài.
+- Số lượng: 2 cổng trên mỗi controller node, tổng cộng có 4 cổng kết nối nội bộ.
+#### Cổng nguồn (Power Ports)
+- Loại cổng: IEC C14.
+- Chức năng: Cấp nguồn điện cho hệ thống.
+- Sử dụng kết nối: AC 100-240V.
+- Vị trí: Phía sau của control enclosure.
+- Số lượng: 2 cổng nguồn cho mỗi controller node, tổng cộng 4 cổng cho hệ thống dự phòng.
+### Các tính năng phần mềm
+Storage Virtualization: Ảo hóa các hệ thống lưu trữ bên ngoài, giúp quản lý tập trung và tối ưu hóa tài nguyên.
+
+Real-time Compression: Tính năng nén thời gian thực giúp tăng hiệu quả lưu trữ lên gấp 5 lần mà không ảnh hưởng đến hiệu suất.
+
+Easy Tier: Tự động phân cấp dữ liệu giữa các lớp lưu trữ dựa trên mức độ sử dụng.
+
+Data Replication: Hỗ trợ sao chép đồng bộ và không đồng bộ giữa các hệ thống Storwize hoặc các hệ thống khác thông qua chức năng Global Mirror và Metro Mirror.
+
+Thin Provisioning: Tối ưu hóa việc cấp phát không gian lưu trữ, chỉ sử dụng dung lượng thực sự cần thiết.
+
+Encryption: Mã hóa dữ liệu theo chuẩn AES-256 để bảo vệ dữ liệu.
