@@ -4,7 +4,7 @@ API (Application Programming Interface) là một tập hợp các giao thức, 
 
 Đơn giản hơn, API là một cầu nối giữa 2 ứng dụng. Đóng vai trò làm trung gian giúp 2 ứng dụng giao tiếp với nhau. Ví dụ, A muốn giao tiếp với C thì phải thông qua B. Ở đây, B chính là API
 
-[](/Anh/Screenshot_894.png)
+![](/Anh/Screenshot_894.png)
 
 ## API dùng để làm gì?
 API được dùng để kết nối các hệ thống khác nhau, giúp chúng chia sẻ dữ liệu và dịch vụ. 
@@ -24,7 +24,7 @@ API hoạt động dựa trên mô hình yêu cầu-đáp ứng (request-respons
 - Client gửi một yêu cầu tới API bằng cách gọi một endpoint cụ thể.
 - Server xử lý yêu cầu, truy xuất dữ liệu hoặc thực hiện hành động và trả về một phản hồi cho client.
 
-[](/Anh/Screenshot_895.png)
+![](/Anh/Screenshot_895.png)
 
 ## Khi nào sử dụng API trong thực tế?
 API được sử dụng khi:
