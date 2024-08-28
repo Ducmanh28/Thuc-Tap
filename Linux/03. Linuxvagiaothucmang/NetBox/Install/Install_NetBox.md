@@ -151,7 +151,7 @@ DATABASE = {
     'ENGINE': 'django.db.backends.postgresql',  # Database engine
     'NAME': 'netbox',         # Database name
     'USER': 'netbox',               # PostgreSQL username
-    'PASSWORD': 'Suncloud@2024!',           # PostgreSQL password
+    'PASSWORD': 'Suncloud2024',           # PostgreSQL password
     'HOST': 'localhost',      # Database server
     'PORT': '',               # Database port (leave blank for default)
     'CONN_MAX_AGE': 300,      # Max database connection age
