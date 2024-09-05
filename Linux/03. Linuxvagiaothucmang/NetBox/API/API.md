@@ -170,3 +170,18 @@ Nhược điểm:
 Sử dụng API chính là dùng các phương thức GET và POST đối với dữ liệu.
 
 Đối với Linux, lệnh `curl` hay `wget` chính là 1 minh chứng cho việc sử dụng API. Nói đơn giản, API chính là dựa trên http để hoạt động
+
+Ví dụ 1 lệnh GET sử dụng `curl`:
+```
+root@MANHNetBoxLab:~# curl -X GET http://localhost:5000/api/items/1
+```
+- `-X GET`: Phương thức sử dụng là GET
+- `http://localhost:5000/api/items/1`: Đường dẫn tới nơi chứa dữ liệu
+
+Ví dụ 1 lệnh POST sử dụng `curl`:
+```
+root@MANHNetBoxLab:~# curl -X POST http://localhost:5000/api/items      -H "Content-Type: application/json"      -d '{"id": 3, "name": "Item 3"}'
+```
+- `curl -X POST http://localhost:5000/api/items`: Phương thức và đường dẫn nơi post dữ liệu
+- `-H "Content-Type: application/json"`: Loại dữ liệu post
+- `-d '{"id": 3, "name": "Item 3"}'`: dữ liệu post
