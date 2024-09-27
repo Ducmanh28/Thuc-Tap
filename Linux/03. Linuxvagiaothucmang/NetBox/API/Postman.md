@@ -18,7 +18,7 @@ Post Man mang lại nhiều lợi ích, đặc biệt là trong quá trình phá
 ### Cài đặt PostMan
 Các bạn truy cập vào trang chủ PostMan
 
-Lựa chọn phiên abanr phù hợp để tải xuống và cài đặt. 
+Lựa chọn phiên bản phù hợp để tải xuống và cài đặt. 
 
 ### Màn hình chính của PostMan
 ![](/Anh/Screenshot_908.png)
