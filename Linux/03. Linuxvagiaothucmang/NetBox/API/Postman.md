@@ -1,4 +1,56 @@
 # Mục này tìm hiểu về phần mềm PostMan, cách sử dụng nó
+Mục lục
+- [Mục này tìm hiểu về phần mềm PostMan, cách sử dụng nó](#mục-này-tìm-hiểu-về-phần-mềm-postman-cách-sử-dụng-nó)
+  - [PostMan là gì](#postman-là-gì)
+  - [Tại sao nên dùng PostMan](#tại-sao-nên-dùng-postman)
+  - [Hướng dẫn sử dụng PostMan](#hướng-dẫn-sử-dụng-postman)
+    - [Cài đặt PostMan](#cài-đặt-postman)
+    - [Màn hình chính của PostMan](#màn-hình-chính-của-postman)
+    - [Các mã trạng thái của PostMan](#các-mã-trạng-thái-của-postman)
+      - [1xx - Informational (Thông tin)](#1xx---informational-thông-tin)
+      - [2xx - Success (Thành công)](#2xx---success-thành-công)
+      - [3xx - Redirection (Chuyển hướng)](#3xx---redirection-chuyển-hướng)
+      - [4xx - Client Error (Lỗi phía máy khách)](#4xx---client-error-lỗi-phía-máy-khách)
+      - [5xx - Server Error (Lỗi phía máy chủ)](#5xx---server-error-lỗi-phía-máy-chủ)
+    - [Các dạng Auth Type của PostMan](#các-dạng-auth-type-của-postman)
+  - [Thao tác với dữ liệu sử dụng PostMan](#thao-tác-với-dữ-liệu-sử-dụng-postman)
+    - [Hướng dẫn tạo 1 Request](#hướng-dẫn-tạo-1-request)
+    - [Hướng dẫn làm việc với Request yêu cầu xác thực](#hướng-dẫn-làm-việc-với-request-yêu-cầu-xác-thực)
+      - [Thực hiện test](#thực-hiện-test)
+    - [Post Data lên NetBox](#post-data-lên-netbox)
+      - [Cách tạo 1 API Token](#cách-tạo-1-api-token)
+      - [Post data lên NetBox](#post-data-lên-netbox-1)
+    - [Patch và Put](#patch-và-put)
+      - [Patch data](#patch-data)
+      - [Put data](#put-data)
+      - [Lưu ý](#lưu-ý)
+    - [Delete data](#delete-data)
+    - [Head Method trong PostMan](#head-method-trong-postman)
+    - [Options Method trong PostMan](#options-method-trong-postman)
+  - [Tham số hóa các Request](#tham-số-hóa-các-request)
+    - [Cách tạo biến môi trường](#cách-tạo-biến-môi-trường)
+    - [Sử dụng các biến môi trường](#sử-dụng-các-biến-môi-trường)
+  - [Scripts và tự động hóa trong PostMan](#scripts-và-tự-động-hóa-trong-postman)
+    - [Phân Loại](#phân-loại)
+      - [Pre-request Scripts](#pre-request-scripts)
+      - [Tests Scripts](#tests-scripts)
+      - [Global Scripts (Tùy Chỉnh)](#global-scripts-tùy-chỉnh)
+      - [Collection-level Scripts](#collection-level-scripts)
+    - [Một số Scripts hữu ích](#một-số-scripts-hữu-ích)
+      - [Tạo và Lưu Token từ Phản Hồi](#tạo-và-lưu-token-từ-phản-hồi)
+      - [Kiểm Tra Status Code](#kiểm-tra-status-code)
+      - [Kiểm Tra Nội Dung Phản Hồi](#kiểm-tra-nội-dung-phản-hồi)
+      - [Tạo Timestamp và Lưu Vào Biến](#tạo-timestamp-và-lưu-vào-biến)
+      - [Tạo UUID Mới](#tạo-uuid-mới)
+      - [Kiểm Tra Thời Gian Phản Hồi](#kiểm-tra-thời-gian-phản-hồi)
+      - [Xác Thực Thông Tin Đăng Nhập](#xác-thực-thông-tin-đăng-nhập)
+      - [Trích Xuất Dữ Liệu từ Phản Hồi](#trích-xuất-dữ-liệu-từ-phản-hồi)
+      - [Lặp Qua Một Mảng và Kiểm Tra Mỗi Phần Tử](#lặp-qua-một-mảng-và-kiểm-tra-mỗi-phần-tử)
+      - [Đặt Biến Để Sử Dụng Trong Yêu Cầu Tiếp Theo](#đặt-biến-để-sử-dụng-trong-yêu-cầu-tiếp-theo)
+    - [Kiểm thử 1 số Scripts vào NetBox](#kiểm-thử-1-số-scripts-vào-netbox)
+      - [Tìm kiếm DeviceRoles theo tên](#tìm-kiếm-deviceroles-theo-tên)
+      - [Kiểm tra thời gian phản hồi](#kiểm-tra-thời-gian-phản-hồi-1)
+      - [Lọc ra các biến id](#lọc-ra-các-biến-id)
 
 ## PostMan là gì 
 Hiểu đơn giản, PostMan là một App Extensions-một ứng dụng mã nguồn mở. 
@@ -51,6 +103,54 @@ Như các bạn có thể thấy, giao diện người dùng của PostMan khá 
 - 502 Bad Gateway: Máy chủ nhận phản hồi không hợp lệ từ máy chủ khác.
 - 503 Service Unavailable: Máy chủ hiện không khả dụng (quá tải hoặc bảo trì).
 - 504 Gateway Timeout: Máy chủ không nhận được phản hồi kịp thời từ máy chủ khác.
+
+### Các dạng Auth Type của PostMan
+1. **No Auth**
+- Không sử dụng bất kỳ phương thức xác thực nào.
+- Dùng khi API không yêu cầu xác thực hoặc chỉ để thử nghiệm.
+
+2. **API Key**
+- API key được gửi dưới dạng một tham số URL, một trường trong phần Header, hoặc một phần của Body.
+- Thường sử dụng cho các API công khai hoặc khi muốn kiểm soát truy cập dễ dàng.
+
+3. **Bearer Token**
+- Sử dụng một chuỗi token duy nhất để xác thực.
+- Token thường được gửi trong phần Header với cấu trúc: `Authorization: Bearer <token>`
+
+4. **Basic Auth**
+- Sử dụng tên người dùng và mật khẩu mã hóa bằng Base64.
+Thường được dùng cho các API yêu cầu xác thực đơn giản.
+
+5. **Digest Auth**
+- Cách xác thực bảo mật hơn Basic Auth, mã hóa thông tin đăng nhập bằng các thuật toán băm (hashing).
+- Phù hợp với các API yêu cầu xác thực nâng cao.
+
+6. **OAuth 1.0**
+- Xác thực sử dụng khóa công khai và khóa bí mật cùng với token.
+Dùng cho các dịch vụ cũ hoặc các API yêu cầu OAuth 1.0.
+
+7. **OAuth 2.0**
+- Phương thức xác thực hiện đại và bảo mật hơn, dựa trên việc cấp và quản lý token.
+- Phổ biến với các dịch vụ như Google, Facebook, GitHub.
+
+8. **NTLM Auth (Windows NT LAN Manager)**
+- Sử dụng để xác thực trong các môi trường mạng Windows.
+- Phù hợp với các ứng dụng nội bộ yêu cầu xác thực Windows.
+
+9. **AWS Signature**
+- Được sử dụng để xác thực các yêu cầu gửi đến AWS APIs.
+Yêu cầu AWS Access Key, Secret Key và các thông số khác.
+
+10. **Hawk Authentication**
+- Một loại xác thực dựa trên mã băm tương tự như HMAC (Hash-based Message Authentication Code).
+- Bảo vệ API khỏi việc thay đổi dữ liệu hoặc tấn công replay.
+
+11. **AWS IAM Auth**
+- Dùng cho các yêu cầu xác thực với Amazon Web Services (AWS) bằng cách sử dụng IAM roles.
+
+12. **Akamai EdgeGrid**
+- Sử dụng khi cần xác thực với Akamai APIs, cung cấp bảo mật nâng cao cho các dịch vụ web.
+
 ## Thao tác với dữ liệu sử dụng PostMan
 ### Hướng dẫn tạo 1 Request
 Trước khi tiến hành thao tác với dữ liệu qua PIM . Dữ liệu mẫu sẽ được lấy mẫu tại [đây](https://jsonplaceholder.typicode.com/users)
@@ -68,6 +168,8 @@ Như các bạn cũng biết, khi sử dụng một ứng dụng nào đó thì 
 
 Khi vào một trang web bán hàng chẳng hạn, khi bạn muốn thực hiện chức năng thêm vào giỏ hàng thì yêu cầu bạn phải đăng nhập mới có thể thực hiện chức năng đó. Đúng vậy có những chắc năng mà bạn phải đăng nhập mới có thể thưc hiện được.
 
+
+#### Thực hiện test
 Để có thể test một chức năng trên postman mà yêu cầu bạn phải đăng nhập thì postman cho phép bạn truyền lên header của nó một biến Authorization có value là dạng chuối mã hóa Base64. Giá trị này chính là giá trị access_token của user khi user đó đăng nhập vào hệ thống.
 
 Thực hiện test thử:
@@ -218,3 +320,173 @@ Tiến hành thêm các biến:
 Thay thế các giá trị cố định trong yêu cầu bằng cú pháp `{{variable_name}}`. Ví dụ: `{{baseUrl}}/api/devices/`
 
 ![](/Anh/Screenshot_926.png)
+
+## Scripts và tự động hóa trong PostMan
+Một tính năng hữu ích khi sử dụng PostMan là tính năng tự động hóa bằng các Scripts
+
+Scripts trong Postman được sử dụng để thực hiện các tác vụ tự động trước hoặc sau khi gửi yêu cầu API. Nó được chia làm các loại chính
+- Pre-request Scripts
+- Test Scripts
+- Global Scripts
+- Collection-level Scripts
+### Phân Loại
+#### Pre-request Scripts
+Vị trí: Chạy trước khi gửi yêu cầu API.
+
+Mục đích: Chuẩn bị các tham số hoặc thực hiện các phép toán cần thiết trước khi yêu cầu được gửi.
+
+Sử dụng: Tạo token, thiết lập biến, hoặc chuẩn bị dữ liệu cho yêu cầu.
+
+Ví dụ:
+- Tạo timestamp.
+- Lưu API key vào biến môi trường.
+#### Tests Scripts
+Vị trí: Chạy sau khi nhận phản hồi từ API.
+
+Mục đích: Kiểm tra kết quả của phản hồi, xác thực dữ liệu, hoặc lưu trữ thông tin cho các yêu cầu sau.
+
+Sử dụng: Kiểm tra status code, nội dung của phản hồi, hoặc lưu giá trị từ phản hồi.
+
+Ví dụ:
+- Kiểm tra xem phản hồi có chứa trường cụ thể.
+- Lưu token từ phản hồi vào biến môi trường.
+#### Global Scripts (Tùy Chỉnh)
+Vị trí: Có thể được sử dụng trong bất kỳ yêu cầu nào trong bộ sưu tập.
+
+Mục đích: Tạo các hàm hoặc biến mà bạn muốn sử dụng nhiều lần trong các yêu cầu khác nhau.
+
+Sử dụng: Tạo các hàm hỗ trợ hoặc biến chung cho tất cả các yêu cầu.
+
+Ví dụ:
+- Tạo hàm để xử lý dữ liệu trả về.
+#### Collection-level Scripts
+Vị trí: Chạy trước và sau tất cả các yêu cầu trong một bộ sưu tập.
+
+Mục đích: Thiết lập môi trường cho toàn bộ bộ sưu tập hoặc kiểm 
+tra cuối cùng sau khi tất cả yêu cầu đã được thực hiện.
+
+Sử dụng: Thiết lập biến cho toàn bộ bộ sưu tập hoặc kiểm tra tổng thể.
+
+Ví dụ:
+- Thiết lập thông tin cấu hình cho bộ sưu tập.
+- Kiểm tra tổng quát kết quả của tất cả các yêu cầu trong bộ sưu tập.
+### Một số Scripts hữu ích
+#### Tạo và Lưu Token từ Phản Hồi
+```
+// Lưu token từ phản hồi vào biến môi trường
+pm.test("Token is stored", function () {
+    let jsonData = pm.response.json();
+    pm.environment.set("authToken", jsonData.token);
+});
+```
+#### Kiểm Tra Status Code
+```
+// Kiểm tra xem status code có phải là 200 hay không
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+```
+#### Kiểm Tra Nội Dung Phản Hồi
+```
+// Kiểm tra xem phản hồi có chứa trường 'data'
+pm.test("Response has data field", function () {
+    let jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property('data');
+});
+```
+#### Tạo Timestamp và Lưu Vào Biến
+```
+// Tạo timestamp và lưu vào biến môi trường
+pm.environment.set("timestamp", new Date().toISOString());
+```
+#### Tạo UUID Mới
+```
+// Tạo UUID mới và lưu vào biến môi trường
+const uuid = require('uuid');
+pm.environment.set("uniqueId", uuid.v4());
+```
+#### Kiểm Tra Thời Gian Phản Hồi
+```
+// Kiểm tra thời gian phản hồi (response time)
+pm.test("Response time is less than 200ms", function () {
+    pm.expect(pm.response.responseTime).to.be.below(200);
+});
+```
+#### Xác Thực Thông Tin Đăng Nhập
+```
+// Kiểm tra thông tin đăng nhập thành công
+pm.test("Login successful", function () {
+    let jsonData = pm.response.json();
+    pm.expect(jsonData.message).to.eql('Login successful');
+});
+```
+#### Trích Xuất Dữ Liệu từ Phản Hồi
+```
+// Lưu giá trị 'id' từ phản hồi vào biến môi trường
+let jsonData = pm.response.json();
+pm.environment.set("userId", jsonData.id);
+```
+#### Lặp Qua Một Mảng và Kiểm Tra Mỗi Phần Tử
+```
+// Kiểm tra tất cả các mục trong mảng 'items' có thuộc tính 'id'
+pm.test("All items have id", function () {
+    let jsonData = pm.response.json();
+    jsonData.items.forEach(item => {
+        pm.expect(item).to.have.property('id');
+    });
+});
+```
+#### Đặt Biến Để Sử Dụng Trong Yêu Cầu Tiếp Theo
+```
+// Đặt giá trị từ biến môi trường cho yêu cầu tiếp theo
+pm.request.headers.add({ key: "Authorization", value: `Bearer ${pm.environment.get("authToken")}` });
+```
+
+### Kiểm thử 1 số Scripts vào NetBox
+#### Tìm kiếm DeviceRoles theo tên 
+Scripts:
+```
+let jsonData = pm.response.json();
+let roleExists = jsonData.results.some(role => role.name === "SAN Storage");
+pm.test("Device role exists", function () {
+    pm.expect(roleExists).to.be.true;
+});
+```
+Kết quả:
+
+![](/Anh/Screenshot_927.png)
+
+#### Kiểm tra thời gian phản hồi
+Scripts:
+```
+pm.test("Response time is acceptable", function () {
+    pm.expect(pm.response.responseTime).to.be.below(200);
+});
+```
+Kết quả:
+
+![](/Anh/Screenshot_928.png)
+
+#### Lọc ra các biến id
+Scripts:
+```
+// Lấy dữ liệu phản hồi JSON
+let responseData = pm.response.json();
+
+// Kiểm tra xem có dữ liệu trong results không
+pm.test("Check if results exist", function () {
+    pm.expect(responseData.results).to.be.an('array').that.is.not.empty;
+});
+
+// Lưu id của từng đối tượng vào một mảng
+let ids = responseData.results.map(item => item.id);
+
+// Lưu mảng id vào biến môi trường
+pm.environment.set("deviceRoleIds", JSON.stringify(ids));
+
+// In ra console để kiểm tra
+console.log("Device Role IDs: ", ids);
+```
+Kết quả:
+
+![](/Anh/Screenshot_929.png)
