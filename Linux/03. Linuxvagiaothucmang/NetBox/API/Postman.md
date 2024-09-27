@@ -192,3 +192,29 @@ Sử dụng như thế nào:
 Ví dụ:
 
 ![](/Anh//Screenshot_923.png)
+
+## Tham số hóa các Request
+Tham số hóa dữ liệu là một trong những tính năng hữu ích nhất của Postman. 
+
+Để tạo cùng một request với dữ liệu khác nhau, bạn có thể sử dụng các biến với tham số. Những dữ liệu này có thể từ một tệp dữ liệu hoặc biến môi trường. 
+
+Tham số hóa giúp tránh lặp lại các thử nghiệm tương tự và có thể sử dụng để kiểm thử tự động.
+
+Environment trong Postman là nơi mà mà bạn có thể tạo để quản lý các biến giá trị như URL, token, và các thông số khác, giúp bạn dễ dàng thay đổi hoặc kiểm tra API trên các môi trường khác nhau (ví dụ: Development, Staging, Production) mà không cần sửa đổi trực tiếp các yêu cầu.
+### Cách tạo biến môi trường
+Các biến môi trường sẽ được lưu ở trong môi trường. Vì vậy, trước khi tạo các biến, chúng ta cần tạo 1 môi trường.
+
+![](/Anh/Screenshot_924.png)
+
+Tiến hành thêm các biến:
+- Thêm các biến với "Variable" - Tên biến. Ví dụ: "baseUrl" 
+- "Initial Value" - Gía trị của biến. Ví dụ: `https://www.netboxlab.local`
+
+![](/Anh/Screenshot_925.png)
+
+### Sử dụng các biến môi trường
+Ở góc trên phải của Postman, chọn environment mà bạn muốn sử dụng
+
+Thay thế các giá trị cố định trong yêu cầu bằng cú pháp `{{variable_name}}`. Ví dụ: `{{baseUrl}}/api/devices/`
+
+![](/Anh/Screenshot_926.png)
