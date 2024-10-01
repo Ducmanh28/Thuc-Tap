@@ -32,9 +32,7 @@ Là Menu chính, Menu ban đầu của Tools.
 #### Second Menu
 Sau khi bạn đã lựa chọn được thao tác mà bạn muốn làm với dữ liệu. Chúng ta sẽ tiến hành chọn dữ liệu mà bạn muốn thực hiện các thao tác đó. Một danh sách các content của NetBox sẽ hiện ra cho bạn chọn lựa
 
-Mục này sẽ có 2 danh sách: 
-- Ban đầu sẽ là chọn các đề mục như Orgnaization, Device, Connections,...
-- Danh sách thứ 2 sẽ chứa các mục trong đề mục mà bạn đã chọn ở danh sách ban đầu.
+
 
 #### *Checking Requirements(Only in Add data)
 Mục này sẽ kiểm tra các yêu cầu về dữ liệu cần thiết để có thể tạo được content mà bạn muốn.

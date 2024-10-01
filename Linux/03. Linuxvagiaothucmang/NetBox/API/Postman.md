@@ -153,9 +153,11 @@ Yêu cầu AWS Access Key, Secret Key và các thông số khác.
 
 ## Thao tác với dữ liệu sử dụng PostMan
 ### Hướng dẫn tạo 1 Request
-Trước khi tiến hành thao tác với dữ liệu qua PIM . Dữ liệu mẫu sẽ được lấy mẫu tại [đây](https://jsonplaceholder.typicode.com/users)
+Trước khi tiến hành thao tác với dữ liệu thât, dữ liệu mẫu sẽ được lấy mẫu tại [đây](https://jsonplaceholder.typicode.com/users)
 
-Sau khi Send, bạn sẽ nhận được response như ở dưới, đúng với nội dung dữ liệu trên trang web:
+- Trước tiên, chúng ta chọn phương thức(ví dụ là GET), 
+- tiếp đến là nhập đường link dẫn tới nơi lấy data. 
+- Sau khi Send, bạn sẽ nhận được response như ở dưới, đúng với nội dung dữ liệu trên trang web:
 
 ![](/Anh/Screenshot_910.png)
 
