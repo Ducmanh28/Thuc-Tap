@@ -73,7 +73,7 @@ Các bạn truy cập vào trang chủ PostMan
 Lựa chọn phiên bản phù hợp để tải xuống và cài đặt. 
 
 ### Màn hình chính của PostMan
-![](/Anh/Screenshot_908.png)
+![](/Anh/Screenshot_909.png)
 
 Như các bạn có thể thấy, giao diện người dùng của PostMan khá thân thiện và dễ sử dụng
 ### Các mã trạng thái của PostMan

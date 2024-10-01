@@ -9,7 +9,7 @@ Tools sử dụng ngôn ngữ BashScripts, chạy trên các máy hệ điều h
 Tools có khả năng thêm, sửa, xóa,... đối với dữ liệu trên NetBox. Ví dụ như thêm 1 thiết bị, chỉnh sửa thông tin khách hàng hoặc xóa 1 thiết bị nào đó,... trên NetBox. 
 
 ## Mô hình tổng quan quy trình hoạt động của ứng dụng
-![](/Anh/Screenshot_931.png)
+![](/Anh/Screenshot_934.png)
 
 ### Pre-Launch(Checking)
 Mục này sẽ kiểm tra xem thiết bị có phù hợp để chạy tools không. Các điều kiện sẽ là:
@@ -20,31 +20,22 @@ Mục này sẽ kiểm tra xem thiết bị có phù hợp để chạy tools kh
 Nếu đáp ứng đủ các yêu cầu ở trên, tools sẽ bắt đầu quá trình khởi chạy
 
 ### Launch
-Bắt đầu khởi chạy. Các dòng thông tin của Tools, thông báo sẽ hiện ra về kết quả kiểm tra, mô tả tổng quát về Tools,...
-#### Main Menu
-Là Menu chính, Menu ban đầu của Tools.
+Bắt đầu khởi chạy chương trình
 
-Đây là nơi sẽ hiển thị các thao tác mà bạn muốn làm với dữ liệu trên NetBox.
-- Thêm: Thêm 1 dữ liệu mới vào NetBox
-- Chỉnh sửa: Chỉnh sửa dữ liệu hiện có trên NetBox.
-- Xóa: Xóa data trên NetBox
+Ở Menu chính sẽ là nơi mà bạn chọn xem bạn muốn làm gì với dữ liệu.
+#### Add
+Khi chọn thêm dữ liệu. Điều đầu tiên sẽ thực hiện chọn xem bạn muốn thêm những dữ liệu gì của 1 device. 1 bảng thông tin sẽ hiện ra để bạn chọn những dữ liệu mà mình muốn thêm.
 
-#### Second Menu
-Sau khi bạn đã lựa chọn được thao tác mà bạn muốn làm với dữ liệu. Chúng ta sẽ tiến hành chọn dữ liệu mà bạn muốn thực hiện các thao tác đó. Một danh sách các content của NetBox sẽ hiện ra cho bạn chọn lựa
+Sau khi chọn dữ liệu, chúng ta sẽ xử lý đến các trường dữ liệu có sẵn trên NetBox để lấy xuống. Ví dụ như Device Types, Device Roles, Sites, Locations,.... Đối với các trường dữ liệu như thế này, chúng ta sẽ có 2 lựa chọn. 
+- Lấy dữ liệu có sẵn từ NetBox. Đối với việc này, sau khi get dữ liệu xuống, chúng ta sẽ lưu dữ liệu vào 1 mảng để người dùng có thể lựa chọn thêm dữ liệu nào
+- Tạo mới dữ liệu
 
+Sau khi đã hoàn tất, dữ liệu sẽ được tổng hợp lại và đưa ra thành 1 file json.
 
+Cuối cùng, dữ liệu được bỏ vào phần body của lệnh curl để đưa lên NetBox
+#### Update
 
-#### *Checking Requirements(Only in Add data)
-Mục này sẽ kiểm tra các yêu cầu về dữ liệu cần thiết để có thể tạo được content mà bạn muốn.
-
-Ví dụ: Bạn muốn tạo 1 Device thì sẽ cần phải có Device Roles, Device Types, Sites.
-
-Để giải quyết vấn đề này, bạn sẽ có 2 lựa chọn ở đây:
-- Tạo mới dữ liệu cần thiết(Khuyến khích tạo dữ liệu mới theo thứ tự của NetBox)
-- Lấy các dữ liệu này từ kho dữ liệu đã được tạo trước đó trên NetBox.
-
-#### Complete
-Sau khi chọn các content muốn thao tác, kiểm tra các yêu cầu và nhập dữ liệu cần thiết hoàn tất. Tools sẽ đưa bạn về lại Main Menu để có thể tiếp tục làm các thao tác mới
+#### Delete
 
 ## Chi tiết về dự án
 Ở phần này chúng ta sẽ cùng phát triển dự án này
@@ -113,3 +104,5 @@ main_menu() {
     esac
 }
 ```
+
+#### 
