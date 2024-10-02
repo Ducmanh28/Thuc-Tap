@@ -9,7 +9,7 @@ Tools sử dụng ngôn ngữ BashScripts, chạy trên các máy hệ điều h
 Tools có khả năng thêm, sửa, xóa,... đối với dữ liệu trên NetBox. Ví dụ như thêm 1 thiết bị, chỉnh sửa thông tin khách hàng hoặc xóa 1 thiết bị nào đó,... trên NetBox. 
 
 ## Mô hình tổng quan quy trình hoạt động của ứng dụng
-![](/Anh/Screenshot_934.png)
+![](/Anh/Screenshot_935.png)
 
 ### Pre-Launch(Checking)
 Mục này sẽ kiểm tra xem thiết bị có phù hợp để chạy tools không. Các điều kiện sẽ là:
@@ -24,11 +24,13 @@ Bắt đầu khởi chạy chương trình
 
 Ở Menu chính sẽ là nơi mà bạn chọn xem bạn muốn làm gì với dữ liệu.
 #### Add
-Khi chọn thêm dữ liệu. Điều đầu tiên sẽ thực hiện chọn xem bạn muốn thêm những dữ liệu gì của 1 device. 1 bảng thông tin sẽ hiện ra để bạn chọn những dữ liệu mà mình muốn thêm.
+Khi chọn thêm dữ liệu. Điều đầu tiên bạn sẽ thực hiện là chọn thêm mới 1 thiết bị ngay lập tức, hay lựa chọn thêm mới các dữ liệu cần thiết cho 1 Device trước
 
-Sau khi chọn dữ liệu, chúng ta sẽ xử lý đến các trường dữ liệu có sẵn trên NetBox để lấy xuống. Ví dụ như Device Types, Device Roles, Sites, Locations,.... Đối với các trường dữ liệu như thế này, chúng ta sẽ có 2 lựa chọn. 
-- Lấy dữ liệu có sẵn từ NetBox. Đối với việc này, sau khi get dữ liệu xuống, chúng ta sẽ lưu dữ liệu vào 1 mảng để người dùng có thể lựa chọn thêm dữ liệu nào
-- Tạo mới dữ liệu
+Nếu như lựa chọn của bạn là thêm mới ngay lập tức, nghĩa là bạn đã có đầy đủ các dữ liệu cần thiết cho 1 Device rồi và sẵn sàng để thêm mới tức thì. 
+
+Và nếu bạn lựa chọn làm việc với các dữ liệu cần thiết trước thì bạn sẽ có 2 lựa chọn là:
+- Lấy dữ liệu có sẵn từ NetBox. Đối với việc này, tôi chỉ đơn giản show ra cho bạn những dữ liệu sẵn có từ NetBox để bạn tham khảo và tái sử dụng
+- Tạo mới dữ liệu. Tạo mới hoàn toàn các dữ liệu này với các thông tin cơ bản bắt buộc phải có.
 
 Sau khi đã hoàn tất, dữ liệu sẽ được tổng hợp lại và đưa ra thành 1 file json.
 
