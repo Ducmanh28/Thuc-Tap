@@ -353,6 +353,8 @@ add_device() {
     esac
 }
 adding () {
+
+
     echo "=== Add a New Device to NetBox ==="
     
     read -p "Device Name: " device_name
@@ -391,8 +393,7 @@ adding () {
   "rack": $rack,
   "position": $position,
   "status": "$status",
-  "primary_ip4": $primary_ip4,
-  "comments": "Device added via bash script"
+  "primary_ip4": $primary_ip4
 }
 EOF
 )
