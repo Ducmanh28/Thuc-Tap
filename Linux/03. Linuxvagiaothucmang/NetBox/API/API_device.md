@@ -402,4 +402,250 @@ Giải thích:
 - Ban đầu, hàm cũng sẽ hiển thị 1 List các Manufactures có sẵn với ID và Tên để người dùng có thể dễ dàng chọn lựa
 - Sau đó, người dùng nhập vào 1 số thông tin cần thiết để tạo nên 1 Device Types
 - Sau đó sẽ tổng hợp dữ liệu và đưa vào lệnh `curl` rồi Post lên NetBox
-- 
+- Cuối cùng vẫn đưa người dùng quay trở về Menu Create
+
+#### Create Device Roles
+Hàm này để tạo ra 1 Device Roles
+```
+create_device_role () {
+    list_of_roles=()
+    responselistroles=$(curl -s -X GET -H "Authorization: Token $NETBOX_TOKEN" "https://$NETBOX_URL/api/dcim/device-roles/")
+    mapfile -t list_of_roles < <(echo "$responselistroles" | jq -r '.results[] | "\(.id) - \(.name)"')
+
+    echo "Available Roles:"
+    for role_info in "${list_of_roles[@]}"; do
+        echo "$role_info"
+    done
+    
+    read -p "Enter Device Role Name: " role_name
+    read -p "Enter Slug: " role_slug
+    read -p "Enter Color(Hex): " role_color
+
+    response=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" \
+        -d "{\"name\": \"$role_name\", \"slug\": \"$role_slug\", \"color\": \"$role_color\"}" https://$NETBOX_URL/api/dcim/device-roles/)
+
+    if [[ "$response" -lt 300 ]]; then
+        echo "Device Role created successfully!"
+    else
+        echo "Failed to create device role. HTTP Status Code: $response"
+    fi
+
+    create_menu
+}
+```
+Giải thích:
+- Cũng tương tự các hàm Create trước đó về logic và cách thức hoạt động
+- Ban đầu cũng sẽ hiển thị cho người dùng danh sách các Device Roles có sẵn của NetBox
+- Tiếp theo đó yêu cầu người dùng nhập vào 1 số thông tin cần thiết để tạo ra 1 Device Roles mới
+- Sau khi việc nhập hoàn tất, sẽ gộp dữ liệu lại, sau đó đưa vào lệnh curl và POST lên NetBox
+- Cuối cùng vẫn là đưa người dùng quay về Menu
+
+### Các hàm Show
+#### Show_data_of_Sites
+Hàm này sẽ show ra các sites và id của mỗi site
+```
+show_data_of_Sites () {
+    echo "Taking data....."
+
+    response=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" https://$NETBOX_URL/api/dcim/sites/)
+
+    if [[ -n "$response" ]]; then
+        # Lấy id và name của các site
+        local sites_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.name)"')
+        echo "List of Sites:"
+        while IFS= read -r site_info; do
+            echo "- $site_info"
+        done <<< "$sites_data"
+    else
+        echo "No data received from NetBox."
+    fi
+
+    show_data_Menu
+}
+```
+Giải thích:
+- Thủ thuật đơn giản là sử dụng phương thức GET và lọc ra các giá trị đầu ra
+- Phương thức GET được sử dụng để lấy dữ liệu JSON xuống của các Sites thông qua API
+- Tiếp đến, nếu như kết quả là có dữ liệu, chúng ta sẽ sử dụng jq để xử lý dữ liệu đầu ra. Lọc ra các trường "id" và "name" để hiển thị
+- Vòng lặp while:
+  - `IFS=`: IFS (Internal Field Separator) là biến môi trường dùng để xác định ký tự phân tách trường khi đọc dữ liệu
+  - Ở đây có nghĩa là không sử dụng bất kỳ ký tự phân tách nào, cho phép đọc toàn bộ dòng, kể cả những dòng có khoảng trắng hoặc ký tự đặc biệt mà không bị chia tách.
+  - `read -r site_info`: Lệnh dùng để đọc dữ liệu, sử dụng thêm options `-r` để giúp vô hiệu hóa xử lý các ký tự như `\`. Dữ liệu đọc được sẽ được lưu vào biến `site_info`
+  - `<<< "$sites_data"`: <<< là cú pháp ***here string*** trong bash, nó chuyển nội dung của biến `$sites_data` thành đầu vào cho lệnh `read`.
+- Kết quả sẽ hiển thị dữ liệu Sites dưới dạng ID - Name
+- Sau khi chạy hoàn tất, sẽ đưa người dùng về lại menu show data
+
+#### Show_data_of_Device_Types
+Hàm này sẽ show ra dữ liệu của các Devices Types:
+```
+show_data_of_Device_Types () {
+    echo "Taking data....."
+
+    response=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" https://$NETBOX_URL/api/dcim/device-types/)
+
+    if [[ -n "$response" ]]; then
+        local device_types_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.model)"')
+        echo "List of Device Types:"
+        while IFS= read -r device_types_info; do
+            echo "- $device_types_info"
+        done <<< "$device_types_data" 
+    else
+        echo "No data received from NetBox."
+    fi
+
+    show_data_Menu
+}
+```
+- Cách hoạt động của Hàm tương tự với hàm Show_data_of_Sites
+- Cũng sẽ GET data xuống và sau đó dùng `jq` để xử lý các dữ liệu đầu ra. 
+- Cuối cùng là dùng vòng lặp để show ra dữ liệu
+
+#### Show_data_of_Device_Roles
+Hàm này được tạo ra để hiển thị id và name của Device Roles
+```
+show_data_of_Device_Roles () {
+    echo "Taking data....."
+
+    response=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" https://$NETBOX_URL/api/dcim/device-roles/)
+
+    if [[ -n "$response" ]]; then
+        # Lấy tên và ID của các vai trò thiết bị
+        local device_roles_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.name)"')
+        echo "List of Device Roles:"
+        while IFS= read -r device_roles_info; do
+            echo "- $device_roles_info"
+        done <<< "$device_roles_data"
+    else
+        echo "No data received from NetBox."
+    fi
+
+    show_data_Menu
+}
+```
+Giải thích:
+- Cách hoạt động của Hàm tương tự với hàm Show_data_of_Sites
+- Cũng sẽ GET data xuống và sau đó dùng `jq` để xử lý các dữ liệu đầu ra. 
+- Cuối cùng là dùng vòng lặp để show ra dữ liệu sao cho đưa ra thông tin ID - Name
+- Sau cùng, hàm cũng sẽ đưa bạn trở về Menu để tiếp tục sử dụng
+
+#### Show_data_of_Locations
+Hàm này được tạo ra để hiển thị id và name của Locations
+```
+show_data_of_location () {
+    echo "Taking data....."
+
+    response=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" https://$NETBOX_URL/api/dcim/locations/)
+
+    if [[ -n "$response" ]]; then
+        # Lấy tên và ID của các vị trí
+        local location_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.name) (Site: \(.site.name))"')
+        echo "List of Locations:"
+        while IFS= read -r location_info; do
+            echo "- $location_info"
+        done <<< "$location_data"
+    else
+        echo "No data received from NetBox."
+    fi
+
+    show_data_Menu
+}
+```
+Giải thích:
+- Cách hoạt động của Hàm tương tự với hàm Show_data_of_Sites
+- Cũng sẽ GET data xuống và sau đó dùng `jq` để xử lý các dữ liệu đầu ra. 
+- Cuối cùng là dùng vòng lặp để show ra dữ liệu sao cho đưa ra thông tin ID - Name
+- Sau cùng, hàm cũng sẽ đưa bạn trở về Menu để tiếp tục sử dụng
+
+#### Show_Device
+Hàm này được sử dụng để hiện thị 1 vài thông tin của các Device đang có sẵn trên NetBox. **ID - NAME - DEVICE TYPES - DEVICE ROLES Site**
+```
+show_device() {
+    echo "Taking data....."
+    response=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" https://$NETBOX_URL/api/dcim/devices/ )
+
+    if [[ -n "$response" ]]; then
+        local devices_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.name) - \(.device_type.model) - \(.role.name) (Site: \(.site.name))"')
+        echo "List of Devices:"
+        while IFS= read -r devices_info; do
+            echo "- $devices_info"
+        done <<< "$devices_data"
+    else    
+        echo "No data received from NetBox."
+    fi
+}
+```
+Giải thích:
+- Cách hoạt động của Hàm tương tự với hàm Show_data_of_Sites
+- Cũng sẽ GET data xuống và sau đó dùng `jq` để xử lý các dữ liệu đầu ra. 
+- Cuối cùng là dùng vòng lặp để show ra dữ liệu sao cho đưa ra thông tin ID - Name - device types model - device roles name - site name
+- Sau cùng, hàm cũng sẽ đưa bạn trở về Menu để tiếp tục sử dụng
+
+### 3 Hàm chính của Tools
+3 Hàm này bao gồm
+- Adding: Sử dụng để thêm mới 1 Device
+- Update: Sử dụng để sửa thông tin của 1 Device có sẵn
+- Delete: Sử dụng để xóa thông tin của 1 Device có sẵn
+
+#### Adding
+Hàm này cũng có tính logic tương tự như các hàm Create. Sử dụng để thêm mới 1 Device
+```
+adding () {
+    echo "=== Add a New Device to NetBox ==="
+    
+    read -p "Device Name: " device_name
+    read -p "Device Type ID: " device_type
+    read -p "Device Role ID: " device_role
+    read -p "Serial Number: " serial
+    read -p "Site ID: " site
+    read -p "Location ID (leave blank if none): " location
+    location=${location:-null}
+    read -p "Rack ID (leave blank if none): " rack
+    rack=${rack:-null}
+    read -p "Position in Rack (leave blank if none): " position
+    position=${position:-null}
+    read -p "Device Status (active, planned, staged, failed, offline): " status
+    read -p "Primary IPv4 ID (leave blank if none): " primary_ip4
+    # Gán null nếu primary_ip4 để trống
+    if [[ -z "$primary_ip4" ]]; then
+        primary_ip4=null
+    else
+        check_ip $primary_ip4
+    fi
+    # Tạo body json
+    json_body=$(cat <<EOF
+{
+  "name": "$device_name",
+  "device_type": $device_type,
+  "role": $device_role,
+  "serial": "$serial",
+  "site": $site,
+  "location": $location,
+  "rack": $rack,
+  "position": $position,
+  "status": "$status",
+  "primary_ip4": $primary_ip4
+}
+EOF
+)
+    echo "Sending request to NetBox..."
+    # Send POST request to NetBox API
+    response=$(curl -s -w "%{http_code}" -o /dev/null -X POST "https://$NETBOX_URL/api/dcim/devices/" \
+  -H "Authorization: Token $NETBOX_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "$json_body")
+    if [[ "$response" -lt 300 ]]; then
+        echo "Adding Device Complete!"
+        add_device
+    else
+        echo "Failed to adding device. HTTP Status Code: $response"
+    fi
+}
+```
+Giải thích:
+- Với cách hoạt động và tính Logic tương tự như các hàm Create đã có sẵn ở trên, hàm này cũng sẽ sử dụng phương thức POST.
+- Phần thông tin nhập vào cũng sẽ có một số thông tin được nhập mặc định nếu người dùng không nhập gì
+- Riêng phần IP sẽ có 1 hàm kiểm tra IP để xem người dùng nhập có đúng định dạng hay không.
+- Sau phần nhập thông tin vẫn sẽ là tạo json_body.
+- Tiếp đó sẽ gán vào lệnh curl và POST lên NetBox
+- Cuối cùng vẫn sẽ hiển thị thông báo và đưa người dùng về lại Menu Main
+
