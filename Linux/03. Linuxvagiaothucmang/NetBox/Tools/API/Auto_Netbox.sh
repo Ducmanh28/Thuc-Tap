@@ -8,9 +8,11 @@ pre_launch_check() {
 
     echo "Before running, we need some informations about your NetBox Server"
     read -p "Input the NetBox URL [www.netboxlab.local]: " NETBOX_URL
+    NETBOX_URL=${NETBOX_URL:-www.netboxlab.local}
     #read -p "Input the NetBox Ip Address": NETBOX_IP
     read -p "Input the API Token of NetBox: " NETBOX_TOKEN
-    # Kiểm tra hệ điều hành
+    NETBOX_TOKEN=${NETBOX_TOKEN:-aa8f29998abd6a63f476a2328ce2a629a506b579}
+
     if [[ "$(uname -s)" != "Linux" ]]; then
         echo "You must using Linux OS to run this scripts!"
         exit 1
@@ -20,7 +22,6 @@ pre_launch_check() {
         echo "OS Checking complete!"
     fi
 
-    # Kiểm tra quyền Root
     if [[ $EUID -ne 0 ]]; then
         echo "You should run this scripts with root's permission!"
         exit 1
@@ -30,7 +31,6 @@ pre_launch_check() {
         echo "Permission Checking complete!"
     fi
 
-    # Kiểm tra trạng thái kết nối
     response=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Token $NETBOX_TOKEN" https://$NETBOX_URL/api/)
     if [[ $response -ne 200 ]]; then
         echo "Can't connect to NetBox, please check the url and token again!!!"
@@ -43,14 +43,14 @@ pre_launch_check() {
 }
 check_ip() {
     IP=$1                                                     
-    if [[ $IP =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then   # Chia IP thành 2 phần: 3 phần có "." và 1 phần không có
-        for octet in ${IP//./ }; do     # Vòng lặp kiểm tra từng octet 
-            if ((octet > 255)); then    # Nếu giá trị của octet lớn hơn 255
+    if [[ $IP =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then   
+        for octet in ${IP//./ }; do     
+            if ((octet > 255)); then    
                 echo "Invalid IP address: $IP. Each octet must be between 0 and 255."
                 adding
             fi
         done
-    else       # Nếu không đúng kiểu địa chỉ
+    else      
         echo "Invalid IP address format: $IP. Please check again."
         adding
     fi
@@ -121,7 +121,8 @@ show_data_Menu () {
     echo "2. Showing data of Locations"
     echo "3. Showing data of Device Role"
     echo "4. Showing data of Device Type"
-    echo "5. Continue"
+    echo "5. Showing data of Devices"
+    echo "6. Continue"
     echo "======================================="
     read -p "Your choice: " data_r_choice
     case $data_r_choice in
@@ -129,7 +130,8 @@ show_data_Menu () {
         2) show_data_of_location ;;
         3) show_data_of_Device_Roles ;;
         4) show_data_of_Device_Types ;;
-        5) Add_data_menu;;
+        5) show_device ;;
+        6) main_menu ;;
     esac
 }
 show_data_of_Sites () {
@@ -138,7 +140,6 @@ show_data_of_Sites () {
     response=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" https://$NETBOX_URL/api/dcim/sites/)
 
     if [[ -n "$response" ]]; then
-        # Lấy id và name của các site
         local sites_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.name)"')
         echo "List of Sites:"
         while IFS= read -r site_info; do
@@ -170,7 +171,6 @@ show_data_of_Device_Types () {
     response=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" https://$NETBOX_URL/api/dcim/device-types/)
 
     if [[ -n "$response" ]]; then
-        # Lấy id và model của các loại thiết bị
         local device_types_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.model)"')
         echo "List of Device Types:"
         while IFS= read -r device_types_info; do
@@ -188,7 +188,6 @@ show_data_of_Device_Roles () {
     response=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" https://$NETBOX_URL/api/dcim/device-roles/)
 
     if [[ -n "$response" ]]; then
-        # Lấy tên và ID của các vai trò thiết bị
         local device_roles_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.name)"')
         echo "List of Device Roles:"
         while IFS= read -r device_roles_info; do
@@ -206,7 +205,6 @@ show_data_of_location () {
     response=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" https://$NETBOX_URL/api/dcim/locations/)
 
     if [[ -n "$response" ]]; then
-        # Lấy tên và ID của các vị trí
         local location_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.name) (Site: \(.site.name))"')
         echo "List of Locations:"
         while IFS= read -r location_info; do
@@ -221,21 +219,37 @@ show_data_of_location () {
 create_site () {
     read -p "Enter Site Name: " site_name
     read -p "Enter Slug: " site_slug
+    read -p "Enter Status(active): " site_status
+    read -p "Enter Region ID: " region
+    read -p "Enter Tenant ID: " site_tenant_id
+    read -p "Enter Time Zone(Asia/Ho_Chi_Minh): " site_time_zone
+    site_time_zone=${site_time_zone:-Asia/Ho_Chi_Minh}
+    read -p "Enter Description: " site_description
+    read -p "Enter Physical Address: " physical_addr
 
-    # Gửi yêu cầu POST để tạo site trên NetBox
-    response=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" \
-        -d "{\"name\": \"$site_name\", \"slug\": \"$site_slug\"}" https://$NETBOX_URL/api/dcim/sites/)
-
-    # Kiểm tra phản hồi từ NetBox
+    json_body=$(cat <<EOF
+{
+  "name": "$site_name",
+  "slug": "$site_slug",
+  "status": "$site_status",
+  "region": $region,
+  "tenant": $site_tenant_id,
+  "time_zone": "$site_time_zone",
+  "description": "$site_description",
+  "physical_address": "$physical_addr"
+}
+EOF
+)
+    echo "Sending request to NetBox..."
+    response=$(curl -s -w "%{http_code}" -o /dev/null -X POST "https://$NETBOX_URL/api/dcim/sites/" \
+  -H "Authorization: Token $NETBOX_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "$json_body")
     if [[ "$response" -lt 300 ]]; then
-        # Lấy ID của site vừa tạo
-        site_id=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" https://$NETBOX_URL/api/dcim/sites/ | jq ".results[] | select(.name==\"$site_name\") | .id")
-
         echo "Site created successfully!"
     else
         echo "Failed to create site. HTTP Status Code: $response"
     fi
-
     create_menu
 }
 create_location () {
@@ -248,18 +262,15 @@ create_location () {
         echo "$location_info"
     done
 
-
+    read -p "Enter Site ID: " site_id
     read -p "Enter Location Name: " location_name
     read -p "Enter Slug: " location_slug
-    read -p "Enter Site ID: " site_id 
+    read -p "Enter Status: " location_status
 
     response=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" \
-        -d "{\"name\": \"$location_name\", \"slug\": \"$location_slug\", \"site\": $site_id}" https://$NETBOX_URL/api/dcim/locations/)
+        -d "{\"site\": $site_id, \"name\": \"$location_name\", \"slug\": \"$location_slug\",  \"status\": \"$location_status\"}" https://$NETBOX_URL/api/dcim/locations/)
 
     if [[ "$response" -lt 300 ]]; then
-        # Lấy ID của location vừa tạo
-        location_id=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" https://$NETBOX_URL/api/dcim/locations/ | jq ".results[] | select(.name==\"$location_name\") | .id")
-
         echo "Location created successfully!"
     else
         echo "Failed to create location. HTTP Status Code: $response"
@@ -288,9 +299,6 @@ create_device_type () {
         "https://$NETBOX_URL/api/dcim/device-types/")
 
     if [[ "$response" -lt 300 ]]; then
-        # Lấy ID của device type vừa tạo
-        device_type_id=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" "https://$NETBOX_URL/api/dcim/device-types/" | jq ".results[] | select(.model==\"$model\") | .id")
-
         echo "Device Type created successfully!"
     else
         echo "Failed to create device types. HTTP Status Code: $response"
@@ -299,6 +307,15 @@ create_device_type () {
     create_menu
 }
 create_device_role () {
+    list_of_roles=()
+    responselistroles=$(curl -s -X GET -H "Authorization: Token $NETBOX_TOKEN" "https://$NETBOX_URL/api/dcim/device-roles/")
+    mapfile -t list_of_roles < <(echo "$responselistroles" | jq -r '.results[] | "\(.id) - \(.name)"')
+
+    echo "Available Roles:"
+    for role_info in "${list_of_roles[@]}"; do
+        echo "$role_info"
+    done
+
     read -p "Enter Device Role Name: " role_name
     read -p "Enter Slug: " role_slug
     read -p "Enter Color(Hex): " role_color
@@ -307,9 +324,6 @@ create_device_role () {
         -d "{\"name\": \"$role_name\", \"slug\": \"$role_slug\", \"color\": \"$role_color\"}" https://$NETBOX_URL/api/dcim/device-roles/)
 
     if [[ "$response" -lt 300 ]]; then
-        # Lấy ID của device role vừa tạo
-        role_id=$(curl -s -H "Authorization: Token $NETBOX_TOKEN" https://$NETBOX_URL/api/dcim/device-roles/ | jq ".results[] | select(.name==\"$role_name\") | .id")
-
         echo "Device Role created successfully!"
     else
         echo "Failed to create device role. HTTP Status Code: $response"
@@ -317,7 +331,6 @@ create_device_role () {
 
     create_menu
 }
-# Function to display the Add Menu
 add_menu() {
     echo "Welcome to the Add Menu, where you can add devices or device data before adding a device."
     echo "========== Add Menu =========="
@@ -350,13 +363,12 @@ add_device() {
     esac
 }
 adding () {
-
-
     echo "=== Add a New Device to NetBox ==="
     
     read -p "Device Name: " device_name
     read -p "Device Type ID: " device_type
     read -p "Device Role ID: " device_role
+    read -p "Tenant ID: " tenant
     read -p "Serial Number: " serial
     read -p "Site ID: " site
     read -p "Location ID (leave blank if none): " location
@@ -367,18 +379,17 @@ adding () {
     position=${position:-null}
     read -p "Device Status (active, planned, staged, failed, offline): " status
     read -p "Primary IPv4 ID (leave blank if none): " primary_ip4
-    # Gán null nếu primary_ip4 để trống
     if [[ -z "$primary_ip4" ]]; then
         primary_ip4=null
     else
         check_ip $primary_ip4
     fi
-    # Tạo body json
     json_body=$(cat <<EOF
 {
   "name": "$device_name",
   "device_type": $device_type,
   "role": $device_role,
+  "tenant": $tenant,
   "serial": "$serial",
   "site": $site,
   "location": $location,
@@ -390,7 +401,6 @@ adding () {
 EOF
 )
     echo "Sending request to NetBox..."
-    # Send POST request to NetBox API
     response=$(curl -s -w "%{http_code}" -o /dev/null -X POST "https://$NETBOX_URL/api/dcim/devices/" \
   -H "Authorization: Token $NETBOX_TOKEN" \
   -H "Content-Type: application/json" \
@@ -411,7 +421,6 @@ update_device() {
     read -p "Platform ID (leave blank if none): " platform
     platform=${platform:-null}
     read -p "Serial Number: " serial
-    read -p "Asset Tag: " asset_tag
     read -p "Site ID: " site
     read -p "Location ID (leave blank if none): " location
     location=${location:-null}
@@ -419,48 +428,29 @@ update_device() {
     rack=${rack:-null}
     read -p "Position in Rack (leave blank if none): " position
     position=${position:-null}
-    read -p "Device Face (1=Front, 2=Rear, leave blank if none): " face
-    face=${face:-null}
     read -p "Device Status (active, planned, staged, failed, offline): " status
     read -p "Primary IPv4 ID (leave blank if none): " primary_ip4
-    primary_ip4=${primary_ip4:-null}
-
-    # Check IP format if primary_ip4 is provided
-    if [[ -n "$primary_ip4" ]]; then
-        check_ip "$primary_ip4"
+    if [[ -z "$primary_ip4" ]]; then
+        primary_ip4=null
+    else
+        check_ip $primary_ip4
     fi
-
-    # Prepare JSON payload
-    json_body=$(jq -n \
-        --arg name "$device_name" \
-        --arg type "$device_type" \
-        --arg role "$device_role" \
-        --arg serial "$serial" \
-        --arg asset_tag "$asset_tag" \
-        --arg site "$site" \
-        --arg location "$location" \
-        --arg rack "$rack" \
-        --arg position "$position" \
-        --arg face "$face" \
-        --arg status "$status" \
-        --arg primary_ip4 "$primary_ip4" \
-        '{
-            name: $name,
-            device_type: ($type | if . == "" then null else . end),
-            device_role: ($role | if . == "" then null else . end),
-            serial: ($serial | if . == "" then null else . end),
-            asset_tag: ($asset_tag | if . == "" then null else . end),
-            site: ($site | if . == "" then null else . end),
-            location: ($location | if . == "" then null else . end),
-            rack: ($rack | if . == "" then null else . end),
-            position: ($position | if . == "" then null else . end),
-            face: ($face | if . == "" then null else . end),
-            status: ($status | if . == "" then null else . end),
-            primary_ip4: ($primary_ip4 | if . == "" then null else . end)
-        }')
-
-    # Send PATCH request to update device
-    response=$(curl -s  -X PATCH "https://$NETBOX_URL/dcim/devices/$device_id/" \
+    json_body=$(cat <<EOF
+{
+  "name": "$device_name",
+  "device_type": $device_type,
+  "role": $device_role,
+  "serial": "$serial",
+  "site": $site,
+  "location": $location,
+  "rack": $rack,
+  "position": $position,
+  "status": "$status",
+  "primary_ip4": $primary_ip4
+}
+EOF
+)
+    response=$(curl -s -w "%{http_code}" -o /dev/null -X PATCH "https://$NETBOX_URL/dcim/devices/$device_id/" \
         -H "Authorization: Token $NETBOX_TOKEN" \
         -H "Content-Type: application/json" \
         -d "$json_body")
@@ -476,7 +466,6 @@ delete_device() {
     show_device
     read -p "Enter Device ID to delete: " device_id
     
-    # Confirm deletion
     read -p "Are you sure you want to delete device with ID $device_id? (y/n): " confirm
     if [[ "$confirm" == "y" ]]; then
         response=$(curl -s -w "%{http_code}" -X DELETE "https://$NETBOX_URL/api/dcim/devices/$device_id/" \
@@ -493,7 +482,6 @@ delete_device() {
     fi
 }
 
-# Gọi hàm Pre-Launch
 pre_launch_check
 main_menu
 
