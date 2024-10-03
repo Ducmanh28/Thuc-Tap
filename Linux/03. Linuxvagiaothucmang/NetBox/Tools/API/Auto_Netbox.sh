@@ -8,11 +8,8 @@ pre_launch_check() {
 
     echo "Before running, we need some informations about your NetBox Server"
     read -p "Input the NetBox URL [www.netboxlab.local]: " NETBOX_URL
-    NETBOX_URL=${NETBOX_URL:-www.netboxlab.local}
     #read -p "Input the NetBox Ip Address": NETBOX_IP
     read -p "Input the API Token of NetBox: " NETBOX_TOKEN
-    NETBOX_TOKEN=${NETBOX_TOKEN:-aa8f29998abd6a63f476a2328ce2a629a506b579}
-
     # Kiểm tra hệ điều hành
     if [[ "$(uname -s)" != "Linux" ]]; then
         echo "You must using Linux OS to run this scripts!"
