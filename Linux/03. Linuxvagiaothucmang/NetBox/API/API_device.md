@@ -56,7 +56,9 @@ if [[ "$(uname -s)" != "Linux" ]]; then
         echo "OS Checking complete!"
     fi
 ```
-
+Giải thích code: 
+- Câu lệnh `uname -s` sẽ hiển thị hệ điều hành của thiết bị
+- So sánh với Linux. Nếu không phải Linux thì hiện lỗi và thoát
 #### Kiểm tra quyền của người dùng
 Kiểm tra xem người dùng có đang chạy chương trình với quyền root hay không.
 ```
