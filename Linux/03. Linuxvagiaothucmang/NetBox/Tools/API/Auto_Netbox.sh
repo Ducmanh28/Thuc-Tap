@@ -493,7 +493,7 @@ adding () {
         *) status="active" ;; 
     esac
     show_ip_addr
-    read -p "Primary IPv4 ID (leave blank if none): " primary_ip4
+    read -p "Primary IPv4 ID (leave blank if none): " primary_ip
     # Tạo body json
     json_body=$(cat <<EOF
 {
@@ -507,7 +507,7 @@ adding () {
   "rack": $rack,
   "position": $position,
   "status": "$status",
-  "primary_ip4": $primary_ip4
+  "primary_ip": $primary_ip
 }
 EOF
 )
@@ -586,13 +586,13 @@ update_device() {
             10) read -p "Device Status (active, planned, staged, failed, offline): " status
                json_body+="\"status\": \"$status\", "
                ;;
-            11) read -p "Primary IPv4 ID (leave blank if none): " primary_ip4
-                if [[ -z "$primary_ip4" ]]; then
-                    primary_ip4=null
+            11) read -p "Primary IPv4 ID (leave blank if none): " primary_ip
+                if [[ -z "$primary_ip" ]]; then
+                    primary_ip=null
                 else
-                    check_ip $primary_ip4
+                    check_ip $primary_ip
                 fi
-                json_body+="\"primary_ip4\": $primary_ip4"
+                json_body+="\"primary_ip\": $primary_ip"
                 ;;
             *) echo "Invalid selection: $field"
                ;;
