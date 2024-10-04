@@ -444,6 +444,7 @@ adding () {
     read -p "Device Role ID: " device_role
     show_data_of_tenant
     read -p "Tenant ID: " tenant
+    tenant=${tenant:-null}
     read -p "Serial Number: " serial
     show_data_of_Sites
     read -p "Site ID: " site
