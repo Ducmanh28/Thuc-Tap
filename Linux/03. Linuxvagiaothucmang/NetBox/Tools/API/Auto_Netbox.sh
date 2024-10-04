@@ -138,6 +138,7 @@ show_data_of_Sites () {
 show_device() {
     echo "Taking data....."
     response=$(curl -k -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" $NETBOX_URL/api/dcim/devices/ )
+
     if [[ -n "$response" ]]; then
         local devices_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.name) - \(.device_type.model) - \(.role.name) (Site: \(.site.name))"')
         echo "List of Devices:"
@@ -219,10 +220,12 @@ show_data_of_tenant () {
     #show_data_Menu
 }
 create_site () {
+    show_data_of_Sites
     read -p "Enter Site Name: " site_name
     read -p "Enter Slug: " site_slug
     read -p "Enter Status(active): " site_status
     read -p "Enter Region ID: " region
+    show_data_of_tenant
     read -p "Enter Tenant ID: " site_tenant_id
     read -p "Enter Time Zone(Asia/Ho_Chi_Minh): " site_time_zone
     site_time_zone=${site_time_zone:-Asia/Ho_Chi_Minh}
@@ -259,15 +262,7 @@ EOF
     create_menu
 }
 create_location () {
-    list_of_locations=()
-    responselistloca=$(curl -k -s -X GET -H "Authorization: Token $NETBOX_TOKEN" "$NETBOX_URL/api/dcim/locations/")
-    mapfile -t list_of_locations < <(echo "$responselistmanu" | jq -r '.results[] | "\(.id):\(.name)"')
-
-    echo "Available locations:"
-    for location_info in "${list_of_locations[@]}"; do
-        echo "$location_info"
-    done
-
+    show_data_of_location
     read -p "Enter Site ID: " site_id
     read -p "Enter Location Name: " location_name
     read -p "Enter Slug: " location_slug
