@@ -428,8 +428,8 @@ add_device() {
     read -p "Your choice: " add_device_choice
     case $add_device_choice in
         1) adding ;;                  # Function to add device
-        2) show_device
-             add_device ;;             
+        2) show_device 
+            add_device ;;             
         3) add_menu ;;                # Back to add menu
         4) main_menu ;;               # Back to main menu
         *) echo "Invalid choice. Please select 1, 2, 3, or 4." ;;
