@@ -89,14 +89,12 @@ Add_data_menu() {
     echo "Welcome to the Add Data Menu - where you choose what do you want to do with the data that you can take from NetBox"
     echo "========== Add Data Menu =========="
     echo "1. Create new"
-    echo "2. View data from NetBox"
-    echo "3. Comback"
+    echo "2. Comback"
     echo "========================================"
     read -p "Your choice: " data_r_choice
     case $data_r_choice in
         1) create_menu ;;
-        2) show_data_Menu ;;
-        3) main_menu ;;
+        2) main_menu ;;
     esac
 }
 create_menu() {
@@ -115,26 +113,6 @@ create_menu() {
         3) create_device_role ;;
         4) create_device_type ;;
         5) Add_data_menu;;
-    esac
-}
-show_data_Menu () {
-    echo "Welcome to the Showing data menu, where we show you the data you need"
-    echo "========== Showing Data Menu =========="
-    echo "1. Showing data of Sites"
-    echo "2. Showing data of Locations"
-    echo "3. Showing data of Device Role"
-    echo "4. Showing data of Device Type"
-    echo "5. Showing data of Devices"
-    echo "6. Continue"
-    echo "======================================="
-    read -p "Your choice: " data_r_choice
-    case $data_r_choice in
-        1) show_data_of_Sites ;;
-        2) show_data_of_location ;;
-        3) show_data_of_Device_Roles ;;
-        4) show_data_of_Device_Types ;;
-        5) show_device ;;
-        6) main_menu ;;
     esac
 }
 show_data_of_Sites () {
@@ -393,7 +371,6 @@ add_device() {
 }
 adding () {
     echo "=== Add a New Device to NetBox ==="
-    
     read -p "Device Name: " device_name
     show_data_of_Device_Types
     read -p "Device Type ID: " device_type
@@ -411,7 +388,20 @@ adding () {
     rack=${rack:-null}
     read -p "Position in Rack (leave blank if none): " position
     position=${position:-null}
-    read -p "Device Status (active, planned, staged, failed, offline): " status
+    echo "1. Active"
+    echo "2. Planned"
+    echo "3. Staged"
+    echo "4. Failed"
+    echo "5. Offline"
+    read -p "Device Status: " status
+    case $status in 
+        1) status="active" ;;
+        2) status="planned" ;;
+        3) status="staged" ;;
+        4) status="failed" ;;
+        5) status="offline" ;;
+        *) status="active" ;; 
+    esac
     read -p "Primary IPv4 ID (leave blank if none): " primary_ip4
     # Gán null nếu primary_ip4 để trống
     if [[ -z "$primary_ip4" ]]; then
@@ -519,7 +509,7 @@ delete_device() {
             main_menu
         fi
     else    
-        main_menu
+        delete_device
     fi
 }
 
