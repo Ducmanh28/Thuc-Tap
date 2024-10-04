@@ -138,7 +138,6 @@ show_data_of_Sites () {
 show_device() {
     echo "Taking data....."
     response=$(curl -k -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" $NETBOX_URL/api/dcim/devices/ )
-
     if [[ -n "$response" ]]; then
         local devices_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.name) - \(.device_type.model) - \(.role.name) (Site: \(.site.name))"')
         echo "List of Devices:"
