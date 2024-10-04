@@ -123,7 +123,8 @@ show_data_Menu () {
     echo "4. Show data of Device Types"
     echo "5. Show data of Device Roles"
     echo "6. Show data of Devices"
-    echo "7. Comeback"
+    echo "7. Show data of IPv4"
+    echo "8. Comeback"
     echo "========================================"
     read -p "Your choice: " data_s_choice
     case $data_s_choice in
@@ -139,7 +140,9 @@ show_data_Menu () {
             show_data_Menu ;;
         6) show_device 
             show_data_Menu ;;
-        7) Add_data_menu ;;
+        7) show_ip_addr
+            show_data_Menu ;;
+        8) Add_data_menu ;;
     esac
 }
 create_menu() {
@@ -262,6 +265,26 @@ show_data_of_tenant () {
 
     #show_data_Menu
 }
+show_ip_addr() {
+    echo "Taking data....."
+
+    response=$(curl -k -s -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" $NETBOX_URL/api/ipam/ip-addresses/)
+
+    if [[ -n "$response" ]]; then
+        local ip_data=$(echo "$response" | jq -r '.results[] | "\(.id) - \(.address) - \(.status.label)"')
+        echo "List of IP Address:"
+        while IFS= read -r ip_info; do
+            echo "- $ip_info"
+        done <<< "$ip_data"
+    else
+        echo "No data received from NetBox."
+    fi
+
+    #show_data_Menu
+    
+}
+
+
 create_site () {
     show_data_of_Sites
     read -p "Enter Site Name: " site_name
@@ -469,13 +492,8 @@ adding () {
         5) status="offline" ;;
         *) status="active" ;; 
     esac
+    show_ip_addr
     read -p "Primary IPv4 ID (leave blank if none): " primary_ip4
-    # Gán null nếu primary_ip4 để trống
-    if [[ -z "$primary_ip4" ]]; then
-        primary_ip4=null
-    else
-        check_ip $primary_ip4
-    fi
     # Tạo body json
     json_body=$(cat <<EOF
 {
