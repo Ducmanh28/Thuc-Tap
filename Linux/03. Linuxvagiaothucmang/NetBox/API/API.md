@@ -1,4 +1,27 @@
 # Mục này tìm hiểu về API và API trong Netbox
+Mục lục
+- [Mục này tìm hiểu về API và API trong Netbox](#mục-này-tìm-hiểu-về-api-và-api-trong-netbox)
+  - [API là gì?](#api-là-gì)
+  - [Lịch sử hình thành và phát triển:](#lịch-sử-hình-thành-và-phát-triển)
+    - [Khái niệm ban đầu:](#khái-niệm-ban-đầu)
+    - [Phát triển trong các hệ điều hành](#phát-triển-trong-các-hệ-điều-hành)
+    - [Sự bùng nổ của dịch vụ Web và API Web](#sự-bùng-nổ-của-dịch-vụ-web-và-api-web)
+    - [API trong kỷ nguyên hiện đại](#api-trong-kỷ-nguyên-hiện-đại)
+  - [API dùng để làm gì?](#api-dùng-để-làm-gì)
+  - [Cấu tạo của API](#cấu-tạo-của-api)
+  - [Các loại API](#các-loại-api)
+    - [REST (Representational State Transfer):](#rest-representational-state-transfer)
+    - [SOAP (Simple Object Access Protocol)](#soap-simple-object-access-protocol)
+    - [GraphQL:](#graphql)
+    - [WebSocket](#websocket)
+  - [Cơ chế hoạt động của API](#cơ-chế-hoạt-động-của-api)
+  - [Khi nào sử dụng API trong thực tế?](#khi-nào-sử-dụng-api-trong-thực-tế)
+  - [Một số thuật ngữ trong API](#một-số-thuật-ngữ-trong-api)
+  - [Các ứng dụng giống API](#các-ứng-dụng-giống-api)
+  - [Tại sao sử dụng API mà không dùng cái khác?](#tại-sao-sử-dụng-api-mà-không-dùng-cái-khác)
+  - [Ưu nhược điểm của API](#ưu-nhược-điểm-của-api)
+  - [Sử dụng API](#sử-dụng-api)
+
 ## API là gì?
 API (Application Programming Interface) là một tập hợp các giao thức, công cụ, và định nghĩa cho việc xây dựng và tích hợp phần mềm ứng dụng. API cho phép các phần mềm giao tiếp với nhau, giúp ứng dụng này có thể sử dụng chức năng của ứng dụng khác một cách an toàn và có kiểm soát mà không cần phải hiểu chi tiết về cách hoạt động bên trong của nó.
 

@@ -494,6 +494,7 @@ adding () {
     esac
     show_ip_addr
     read -p "Primary IPv4 ID (leave blank if none): " primary_ip
+    primary_ip=${primary_ip:-null}
     # Tạo body json
     json_body=$(cat <<EOF
 {

@@ -639,3 +639,19 @@ Thực hành Lab phần Device:
 - Tạo Device Components
   - Tạo các thông cố của Device Components
 
+### Tổng hợp kiến thức tìm hiểu từ 23/08 - 7/10
+Tìm hiểu về API
+- Application Programming Interface - là một tập hợp các giao thức, công cụ, và định nghĩa cho việc xây dựng và tích hợp phần mềm ứng dụng. API cho phép các ứng dụng có thể giap tiếp với nhau.
+- Có nhiều cấu trúc API, trong đó nổi bật có thể kể đến cấu trúc REST - 1 cấu trúc cơ bản và được nhiều nơi sử dụng dành cho các trang web
+- Phương thức HTTP được sử dụng để thực hiện việc giao tiếp
+
+Tìm hiểu về PostMan
+- Là 1 ứng dụng để kiểm thử API. Cho phép sử dụng đầy đủ các method của API
+- Ngoài ra PostMan còn hỗ trợ người dùng có thể thêm các Scripts cho việc tự động hóa hoặc kiểm thử API
+
+Sử dụng API NetBox
+- NetBox sử dụng cấu trúc REST cho hệ thống API của mình.
+- Để có thể kết nối tới API của NetBox, chúng ta cần có API Token. Phần này có thể tìm thấy trong NetBox của bạn
+- Thực hiện thêm Device hoặc 1 số thông tin lên NetBox thông qua API thủ công
+- Thực hiện thêm Device lên NetBox bằng cách sử dụng tools 
+
