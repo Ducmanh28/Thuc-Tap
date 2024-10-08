@@ -112,3 +112,72 @@ options:
                         by this script. This is helpful if you want to start
                         fresh or stop using this script.
 ```
+Ở trên chính là hướng dẫn để khởi chạy netbox-sync. Để chạy được chương trình, chúng ta cần tạo 1 file cấu hình cho nó.
+```
+# Truy cập tới thư mục chứa netbox-sync, tạo file cấu hình
+vim /opt/netbox-sync/vcenter-addc-local.ini
+
+# Thêm vào nội dung sau:
+[common]
+log_level = DEBUG2
+[netbox]
+api_token = **********
+host_fqdn = 172.16.66.83        
+port = 443
+disable_tls = False
+validate_tls_certs = False
+prune_enabled = True
+prune_delay_in_days = 0
+[source/vcenter-name]
+type = vmware
+host_fqdn = 123.456.789.101
+username = username
+password = password
+permitted_subnets = 172.16.66.0/24
+[source/my-redfish-example]
+type = check_redfish
+inventory_file_path = /opt/netbox-sync/check_redfish
+permitted_subnets = 172.16.66.0/24
+```
+Giải thích:
+- api_token = là api token của netbox
+- host_fqdn = IP của Netbox Server
+- port = Ta có thể thay đổi port ứng với port mà Netbox sử dụng
+- disable_tls : Do netbox của mình dùng https nên ko cần tsl
+- validate_tls_certs: Nó tương tự option -k trong lệnh curl vậy
+- prune_enabled: Cho phép xóa máy ảo không tồn tại
+- prune_delay_in_days: Thời gian delay là 0 ngày, có thể thay đổi
+- type = vmware : phân biệt vmware
+- host_fqdn : tên miền hoặc IP kết nối đến vcenter
+- username = Khai báo username đăng nhập vcenter
+- password = Khai báo password đăng nhập vcenter
+- permitted_subnets = 172.16.66.0/24: Ta khai báo dòng này để khi sync các máy ảo sẽ hiển thị được các địa chỉ IP trùng với dải mạng này
+- Phần check_redfish cũng tương tự
+
+Sau khi tạo file cấu hình xong ta sẽ tiến hành chạy
+```
+cd /opt/netbox-sync
+./netbox-sync.py -c vcenter-addc-local.ini
+```
+Bây giờ chúng ta chờ NetBox đồng bộ
+
+![](/Anh/Screenshot_950.png)
+
+Kiểm tra kết quả:
+
+![](/Anh/Screenshot_951.png)
+
+### Thêm
+Như vậy là chúng ta đã hoàn tất đồng bộ dữ liệu vCenter vào NetBox bằng NetBox-sync
+
+Tuy nhiên để quá trình này có thể diễn ra tự động thì ta có thể lập lịch chạy chương trình bằng `crontab`
+```
+crontab -e
+
+1 * * * * /bin/bash -c 'source /opt/netbox-sync/.venv/bin/activate && /opt/netbox-sync/.venv/bin/python3 /opt/netbox-sync/netbox-sync.py -c /opt/netbox-sync/vcenter-addc-local.ini'
+```
+
+## Tài liệu tham khảo:
+[Anh Quang](https://github.com/thanhquang99/Netbox/blob/main/Netbox-sync/02.install-nb-sync.md#23-c%E1%BA%A5u-tr%C3%BAc-ch%E1%BA%A1y-script-trong-netbox-sync)
+
+[NetBox Sync](https://github.com/bb-Ricardo/netbox-sync/blob/main/README.md)
