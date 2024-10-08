@@ -77,7 +77,7 @@ pip install --upgrade git+https://github.com/vmware/vsphere-automation-sdk-pytho
 ```
 Cài đặt các gói mà môi trường Python cần để chạy NetBox-Sync
 ```
-pip install packaging urllib3==1.26.9 wheel requests==2.27.1 pyvmomi==7.0.3 aiodns==2.0.0 setuptools>=62.00.0 pyyaml==6.0
+pip install packaging urllib3==1.26.9 wheel requests==2.27.1 pyvmomi==8.0.3.0.1 aiodns==2.0.0 setuptools>=62.00.0 pyyaml==6.0
 
 pip install check_redfish>=1.2.0
 
