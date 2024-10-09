@@ -22,7 +22,7 @@ Phần mềm:
 - urllib3==1.26.9
 - wheel
 - requests==2.27.1
-- pyvmomi==7.0.3
+- pyvmomi==8.0.3.0.1
 - aiodns==2.0.0
 - setuptools>=62.00.0
 - pyyaml==6.0
@@ -37,7 +37,7 @@ Nguồn check_redfish(nếu sử dụng):
 - check_redfish >= 1.2.0
 
 ### Cài đặt 
-Trước tiên, hãy cập nhật hệ thống của bạn lên giao diện mới nhất. Để đảm bảo tool hoạt đon=ọng chính xác nhất
+Trước tiên, hãy cập nhật hệ thống của bạn lên giao diện mới nhất. Để đảm bảo tool hoạt động chính xác nhất
 ```
 sudo apt upgrade
 
