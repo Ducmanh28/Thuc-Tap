@@ -104,25 +104,25 @@ async def cmd_ip(update: Update, context: ContextTypes.DEFAULT_TYPE):       # As
 # Function to collect information of Device
 def device_information(device_name):
     try:
-        device_info = list(nb.dcim.devices.filter(name=device_name))
+        device_info = nb.dcim.devices.filter(name__ic=device_name)
                
         if device_info:
             msg = 'The Information of Device: \n'
             for device in device_info:
                 detail = (
-                    f"Device Name:          `{device.name}`\n"
-                    f"Device ID:            {device.id}\n"
-                    f"Device model type:    {device.device_type.model}\n"
-                    f"Device serial:        {device.serial}\n"
-                    f"Device asset:         {device.asset_tag}\n"
-                    f"Device site:          {device.site.name}\n"
-                    f"Device rack:          `{device.rack.name if device.rack else 'None'} - U: {device.position if device.rack else 'None'}`\n"
-                    f"Device IPv4:          `{device.primary_ip4}`\n"
-                    f"Device description:   {device.description}\n"
-                    f"Device comments:      {device.comments}\n"
-                    f"Device contact:       {device.custom_fields.get('contact', 'None')}\n"
-                    f"`=================================================`\n"
-                )
+                        f"*Device Name*:          `{device.name}`\n"
+                        f"Device ID:            {device.id}\n"
+                        f"Device model type:    {device.device_type.model}\n"
+                        f"Device serial:        {device.serial}\n"
+                        f"Device asset:         {device.asset_tag}\n"
+                        f"Device site:          {device.site.name}\n"
+                        f"Device rack:          `{device.rack.name if device.rack else 'None'} - U: {device.position if device.rack else 'None'}`\n"
+                        f"Device IPv4:          `{device.primary_ip4}`\n"
+                        f"Device description:   {device.description}\n"
+                        f"Device comments:      {device.comments}\n"
+                        f"Device contact:       {device.custom_fields.get('contact', 'None')}\n"
+                        f"`=================================================`\n"
+                    )
                 msg += detail
         else:
             msg = "Can't find any information about this device."
@@ -133,9 +133,15 @@ def device_information(device_name):
 
 # Defind the message when user enter /device
 async def cmd_device(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    device_name = context.args[0] if context.args else ""
+    device_name = ' '.join(context.args) if context.args else ""
     msg = device_information(device_name)
-    await update.message.reply_text(str(msg), parse_mode='Markdown')
+    max_length = 4096  # Độ dài tối đa cho một tin nhắn
+    if len(msg) > max_length:
+        # Chia tin nhắn thành các phần nhỏ hơn
+        for i in range(0, len(msg), max_length):
+            await update.message.reply_text(msg[i:i + max_length], parse_mode='Markdown')
+    else:
+        await update.message.reply_text(msg, parse_mode='Markdown')
     
 # Function to collect information of Virtual Machine
 def VM_information(VM_name):
