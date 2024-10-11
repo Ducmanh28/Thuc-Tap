@@ -1,4 +1,4 @@
-# Mục này tìm hiểu về API và API trong Netbox
+# Mục này tìm hiểu về API 
 Mục lục
 - [Mục này tìm hiểu về API và API trong Netbox](#mục-này-tìm-hiểu-về-api-và-api-trong-netbox)
   - [API là gì?](#api-là-gì)
