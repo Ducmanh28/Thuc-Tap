@@ -94,3 +94,5 @@ For a description of the Bot API, see this page: https://core.telegram.org/bots/
 ```
 
 ### Making tool
+#### Tổng quan về cách mà tool hoạt động.
+Để có thể nắm bắt được cách phát triên, cách mà tool thực sự hoạt động thì trước tiên chúng ta phải nắm rõ quy trình hoạt động của API. Để hiểu biết rõ hơn về API, các bạn có thể tham khảo tại [đây]()
