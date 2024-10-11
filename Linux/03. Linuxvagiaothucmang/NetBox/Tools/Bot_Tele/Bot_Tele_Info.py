@@ -5,7 +5,6 @@ import pynetbox
 import urllib3
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, Application, MessageHandler, filters
-from telegram.helpers import escape_markdown
 
 # Log config
 logging.basicConfig(
