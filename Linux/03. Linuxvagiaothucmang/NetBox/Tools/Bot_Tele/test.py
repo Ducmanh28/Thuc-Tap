@@ -5,6 +5,7 @@ import pynetbox
 import urllib3
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, Application, MessageHandler, filters
+from telegram.helpers import escape_markdown
 
 # Log config
 logging.basicConfig(
@@ -19,8 +20,8 @@ TOKENTELEGRAM = "7668680460:AAGEtAX8YBsQ8R6XrILwnoCRnfTFZmpFeNs"
 TOKENNETBOX = "aa8f29998abd6a63f476a2328ce2a629a506b579"
 
 input1 = input(f"Enter your Telegram username[@example]: ")         # Take information from user
-if input1:                                                          # If value
-    ADMIN_IDS = input1                                              # Default value = Input value
+if input1:                                                          # If it has value
+    ADMIN_IDS += input1                                             # ==> Default value += Input value
     
 input2 = input(f"Enter your Telegram-bot Token: ")
 if input2:
@@ -109,17 +110,17 @@ def device_information(device_name):
             msg = 'The Information of Device: \n'
             for device in device_info:
                 detail = (
-                    f"*Device name:* `{device.name}`\n"
-                    f"Device ID: {device.id}\n"
-                    f"Device model type: {device.device_type.model}\n"
-                    f"Device serial: {device.serial}\n"
-                    f"Device asset: {device.asset_tag}\n"
-                    f"Device site: {device.site.name}\n"
-                    f"Device rack: `{device.rack.name if device.rack else 'None'} - U: {device.position if device.rack else 'None'}`\n"
-                    f"Device IPv4: `{device.primary_ip4}`\n"
-                    f"Device description: {device.description}\n"
-                    f"Device comments: {device.comments}\n"
-                    f"Device contact: {device.custom_fields.get('contact', 'None')}\n"
+                    f"*Device name:* `{escape_markdown(device.name, version=2)}`\n"
+                    f"Device ID: {escape_markdown(str(device.id), version=2)}\n"
+                    f"Device model type: {escape_markdown(device.device_type.model, version=2)}\n"
+                    f"Device serial: {escape_markdown(device.serial, version=2)}\n"
+                    f"Device asset: {escape_markdown(device.asset_tag, version=2)}\n"
+                    f"Device site: {escape_markdown(device.site.name, version=2)}\n"
+                    f"Device rack: `{escape_markdown(device.rack.name if device.rack else 'None', version=2)} - U: {escape_markdown(str(device.position if device.rack else 'None'), version=2)}`\n"
+                    f"Device IPv4: `{escape_markdown(str(device.primary_ip4), version=2)}`\n"
+                    f"Device description: {escape_markdown(device.description, version=2)}\n"
+                    f"Device comments: {escape_markdown(device.comments, version=2)}\n"
+                    f"Device contact: {escape_markdown(device.custom_fields.get('contact', 'None'), version=2)}\n"
                     f"`=================================================`\n"
                 )
                 msg += detail

@@ -188,4 +188,4 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('vm', cmd_vm))
     application.add_handler(MessageHandler(filters.TEXT, handle_message))
 
-    application.run_polling()f
+    application.run_polling()
