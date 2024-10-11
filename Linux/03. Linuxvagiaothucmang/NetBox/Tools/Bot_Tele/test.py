@@ -104,40 +104,38 @@ async def cmd_ip(update: Update, context: ContextTypes.DEFAULT_TYPE):       # As
 # Function to collect information of Device
 def device_information(device_name):
     try:
-        device_info = nb.dcim.devices.filter(name__ic=device_name)
-        
+        device_info = list(nb.dcim.devices.filter(name=device_name))
+               
         if device_info:
             msg = 'The Information of Device: \n'
             for device in device_info:
                 detail = (
-                    f"*Device name:* `{escape_markdown(device.name, version=2)}`\n"
-                    f"Device ID: {escape_markdown(str(device.id), version=2)}\n"
-                    f"Device model type: {escape_markdown(device.device_type.model, version=2)}\n"
-                    f"Device serial: {escape_markdown(device.serial, version=2)}\n"
-                    f"Device asset: {escape_markdown(device.asset_tag, version=2)}\n"
-                    f"Device site: {escape_markdown(device.site.name, version=2)}\n"
-                    f"Device rack: `{escape_markdown(device.rack.name if device.rack else 'None', version=2)} - U: {escape_markdown(str(device.position if device.rack else 'None'), version=2)}`\n"
-                    f"Device IPv4: `{escape_markdown(str(device.primary_ip4), version=2)}`\n"
-                    f"Device description: {escape_markdown(device.description, version=2)}\n"
-                    f"Device comments: {escape_markdown(device.comments, version=2)}\n"
-                    f"Device contact: {escape_markdown(device.custom_fields.get('contact', 'None'), version=2)}\n"
+                    f"Device Name:          `{device.name}`\n"
+                    f"Device ID:            {device.id}\n"
+                    f"Device model type:    {device.device_type.model}\n"
+                    f"Device serial:        {device.serial}\n"
+                    f"Device asset:         {device.asset_tag}\n"
+                    f"Device site:          {device.site.name}\n"
+                    f"Device rack:          `{device.rack.name if device.rack else 'None'} - U: {device.position if device.rack else 'None'}`\n"
+                    f"Device IPv4:          `{device.primary_ip4}`\n"
+                    f"Device description:   {device.description}\n"
+                    f"Device comments:      {device.comments}\n"
+                    f"Device contact:       {device.custom_fields.get('contact', 'None')}\n"
                     f"`=================================================`\n"
                 )
                 msg += detail
-        else:   
+        else:
             msg = "Can't find any information about this device."
-        
         return msg
             
-    except Exception as e:  
+    except Exception as e:
         return f"Error: {str(e)}"
-
 
 # Defind the message when user enter /device
 async def cmd_device(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    device_name = context.args
-    msg = device_information(device_name[0])
-    await update.message.reply_text(str(msg),parse_mode='Markdown')
+    device_name = context.args[0] if context.args else ""
+    msg = device_information(device_name)
+    await update.message.reply_text(str(msg), parse_mode='Markdown')
     
 # Function to collect information of Virtual Machine
 def VM_information(VM_name):

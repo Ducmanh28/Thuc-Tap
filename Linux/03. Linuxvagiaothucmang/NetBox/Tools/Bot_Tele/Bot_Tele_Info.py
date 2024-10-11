@@ -85,7 +85,6 @@ def thong_tin_thiet_bi(devices_name):
         msg = "KHONG CO THONG TIN THIET BI NAY"     
     return msg
 
-
 # Dinh nghia ban tin tra ve khi go cau lenh /device
 async def cmd_device(update: Update, context: ContextTypes.DEFAULT_TYPE):
     device_name = context.args
