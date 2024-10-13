@@ -655,3 +655,19 @@ Sử dụng API NetBox
 - Thực hiện thêm Device hoặc 1 số thông tin lên NetBox thông qua API thủ công
 - Thực hiện thêm Device lên NetBox bằng cách sử dụng tools 
 
+### Tổng hợp kiến thức tìm hiểu từ 8/10 - 13/10
+Tìm hiểu NetBox:
+- Virtualization: Ảo hóa trong NetBox. Là nơi để làm việc với các máy ảo, cụm máy ảo,...
+  - Cluster: Là một hoặc nhiều thiết bị chủ vật lý mà các máy ảo có thể chạy trên đó
+  - Virtual Machine: Là máy ảo trông giống như một máy chủ vật lý. Tuy nhiên nó là ảo, nó dùng tài nguyên của máy chủ vật lý để hoạt động
+
+- NetBox sync: Là tool sử dụng để đồng bộ hóa dữ liệu giữa NetBox và nguồn dữ liệu khác. Qúa trình thực hành, đã có thể đồng bộ được dữ liệu giữa NetBox và Vcenter
+
+API:
+- Thực hành phát triển tool Python. Tool có các chức năng như sau:
+  - Tìm kiếm xem địa chỉ IP đang gắn với thiết bị(VM) nào. Có thêm chức năng kiểm tra xem địa chỉ IP nhập vào có chính xác không
+  - Hiển thị thông tin của 1 Device
+  - Hiển thị thông tin của 1 Virtual Machine
+- Kết quả:
+
+![](/Anh/Screenshot_953.png) 
