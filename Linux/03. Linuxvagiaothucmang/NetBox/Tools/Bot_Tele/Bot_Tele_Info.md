@@ -196,3 +196,138 @@ Sau đó, tôi sẽ tắt kiểm tra SSL
 
 Và tắt cảnh báo SSL sử dụng `urllib3`
 
+#### Hàm để lấy dữ liệu IP từ NetBox
+```
+# Function to collect information of IP
+def ip_information(ip_addr):
+    is_valid = check_ip(ip_addr)
+    if is_valid:
+        try:
+            ip_info = nb.ipam.ip_addresses.get(address=ip_addr)
+            if ip_info:
+                if ip_info.assigned_object_type == 'virtualization.vminterface':                # IF IP was assigned to an Virtual Machine
+                    msg = (                                                                     # Make the message form        
+                        f"The Information of IP: \n"
+                        f"IP Address:      `{ip_info.address}` \n"
+                        f"IP Status:       `{ip_info.status}` \n"
+                        f"IP Description:  `{ip_info.description}` \n"
+                        f"Assigned:        `{ip_info.assigned_object.virtual_machine.name}` \n"
+                        f"Assigned to an Virtual Machine"
+                    )   
+                    return msg
+            
+                elif ip_info.assigned_object_type == 'dcim.interface':                          # If IP was assigned to an Device
+                    msg = (                                                                     # Make the message form
+                        f"The Information of IP: \n"
+                        # f"```\n"
+                        f"IP Address:          `{ip_info.address}` \n"
+                        f"IP Status:           `{ip_info.status}` \n"
+                        f"IP Description:      `{ip_info.description}` \n"
+                        f"Assigned:            `{ip_info.assigned_object.device.name}` \n"
+                        f"Assigned to an Device"
+                        # f"```\n"
+                    )
+                    return msg
+                else: 
+                    return "Can't find any information of this IP"
+            else:
+                return "Can't find this IP in NetBox! Please check again!"   
+        except Exception as e:  
+            return f"Error: {str(e)}"
+```
+Trước tiên, tôi sẽ kiểm tra điều kiện IP nhập vào có thỏa mãn các định dạng của IP hay không, thông qua hàm check IP
+
+Sau đó, tôi sẽ thực hiện câu lệnh để tìm kiếm địa chỉ IP mà người dùng nhập vào và gửi lên trên netbox
+```
+ip_info = nb.ipam.ip_addresses.get(address=ip_addr)
+```
+Lúc này, sẽ có các trường hợp xảy ra:
+- Nếu địa chỉ IP được gán cho VM thì sẽ trả lời lại như sau:
+```
+msg = (                                                                     # Make the message form        
+                        f"The Information of IP: \n"
+                        f"IP Address:      `{ip_info.address}` \n"
+                        f"IP Status:       `{ip_info.status}` \n"
+                        f"IP Description:  `{ip_info.description}` \n"
+                        f"Assigned:        `{ip_info.assigned_object.virtual_machine.name}` \n"
+                        f"Assigned to an Virtual Machine"
+                    )   
+```
+- Nếu địa chỉ IP được gắn cho Device thì sẽ trả lời như sau:
+```
+elif ip_info.assigned_object_type == 'dcim.interface':                          # If IP was assigned to an Device
+                    msg = (                                                                     # Make the message form
+                        f"The Information of IP: \n"
+                        # f"```\n"
+                        f"IP Address:          `{ip_info.address}` \n"
+                        f"IP Status:           `{ip_info.status}` \n"
+                        f"IP Description:      `{ip_info.description}` \n"
+                        f"Assigned:            `{ip_info.assigned_object.device.name}` \n"
+                        f"Assigned to an Device"
+                        # f"```\n"
+                    )
+```
+- Nếu như không có thiết bị nào được gắn cho địa chỉ IP này:
+```
+return "Can't find any information of this IP"
+```
+- Nếu như không tìm thấy địa chỉ IP(IP không tồn tại):
+```
+return "Can't find this IP in NetBox! Please check again!" 
+```
+- Nếu như không thể kết nối đến NetBox:
+```
+return f"Error: {str(e)}"
+```
+
+#### Hàm để nhận và trả lời tin nhắn  
+```
+# Defind the message when user enter /ip
+async def cmd_ip(update: Update, context: ContextTypes.DEFAULT_TYPE):       # Asynchronous def mean It can run asynchronously with other tasks without waiting for it to complete before continuing.
+    ip_info = context.args                                                  # Set up value
+    msg = ip_information(ip_info[0])                                        # Send message
+    await update.message.reply_text(str(msg),parse_mode='Markdown')         # Form Markdown to message
+```
+Có một sự khác biệt ở đây là việc sử dụng hàm `async`. ***Hàm asyn***- hay tên gốc của nó là ***Asynchronous def***, là một hàm **bất đồng bộ**. 
+
+Nó cho phép thực hiện các tác vụ đồng thời mà không cần phải chờ hoàn tất từng tác vụ trước khi tiếp tục xử lý các tác vụ khác. Hàm này thường được sử dụng khi bạn làm việc với các thao tác mất thời gian, chẳng hạn như giao tiếp qua mạng, truy xuất cơ sở dữ liệu, đọc hoặc ghi vào file, v.v.  
+
+Ở đây, bot gửi tin nhắn và sử dụng `await` để đợi tin nhắn được gửi đi, nhưng trong thời gian đợi, nó vẫn có thể xử lý các yêu cầu khác.
+
+Nội dung trong hàm:
+- `context.args`: Truy xuất các đối số được gửi kèm theo lệnh /ip. Ví dụ: nếu người dùng gửi lệnh `/ip 192.168.1.1`, thì context.args sẽ chứa danh sách các giá trị mà người dùng nhập vào sau lệnh, trong trường hợp này là `["192.168.1.1"]`
+
+```
+await update.message.reply_text(str(msg),parse_mode='Markdown')
+```
+- `await`: Được sử dụng để đợi kết quả từ một thao tác bất đồng bộ, trong trường hợp này là gửi tin nhắn trả lời người dùng.
+- `update.message.reply_text`: Phương thức này sẽ gửi lại một tin nhắn trả lời tới người dùng trong cuộc trò chuyện hiện tại.
+- `str(msg)`: Tin nhắn trả về từ hàm ip_information sẽ được chuyển thành chuỗi để có thể gửi dưới dạng văn bản.
+- `parse_mode='Markdown'`: Định dạng tin nhắn dưới dạng Markdown, cho phép sử dụng các ký tự đặc biệt như `*` để in đậm,` _ `để in nghiêng, và các định dạng khác.
+
+#### Hàm main để chạy bot
+```
+# Main function to run Server
+if __name__ == '__main__':
+    application = ApplicationBuilder().token(TOKENTELEGRAM).build()
+
+    # Commands
+    application.add_handler(CommandHandler('start', start_command,filters.User(username=ADMIN_IDS)))
+    application.add_handler(CommandHandler('help', help_command,filters.User(username=ADMIN_IDS)))
+    application.add_handler(CommandHandler('device', cmd_device,filters.User(username=ADMIN_IDS)))
+    application.add_handler(CommandHandler('ip', cmd_ip,filters.User(username=ADMIN_IDS)))
+    application.add_handler(CommandHandler('vm', cmd_vm,filters.User(username=ADMIN_IDS)))
+    application.add_handler(MessageHandler(filters.TEXT, handle_message))
+
+    application.run_polling()
+```
+`if __name__ == '__main__'::` Đây là điều kiện để đảm bảo rằng phần mã bên dưới chỉ được thực thi khi file script này được chạy trực tiếp, chứ không phải khi nó được import như một module trong một file khác.
+
+`application = ApplicationBuilder().token(TOKENTELEGRAM).build():` Dòng này khởi tạo ứng dụng bot Telegram.
+- `ApplicationBuilder()`: Là một lớp được cung cấp bởi thư viện ***python-telegram-bot*** để xây dựng một đối tượng bot Telegram.
+- `.token(TOKENTELEGRAM)`: Xác định token của bot, được lấy từ biến TOKENTELEGRAM.
+- `.build()`: Xây dựng ứng dụng với các thiết lập đã cấu hình.
+
+`application.add_handler(CommandHandler('start', start_command,filters.User(username=ADMIN_IDS)))`: Xử lý lệnh `/start`, giới hạn quyền sử dụng
+
+`application.run_polling()`: Bắt đầu quá trình polling (lấy thông tin tin nhắn mới từ Telegram server). Phương pháp **polling** thường được sử dụng trong các bot Telegram để liên tục kiểm tra xem có tin nhắn mới không và sau đó xử lý chúng.
