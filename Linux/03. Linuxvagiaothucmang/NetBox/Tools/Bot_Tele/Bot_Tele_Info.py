@@ -14,26 +14,10 @@ logging.basicConfig(
 
 # Set up Variable
 ADMIN_IDS = ['@ducmanh2873','@kquang','@totuongcong','@huyts9']
-URLNETBOX = "https://172.16.66.82"                                  # Default Value
+URLNETBOX = "https://172.16.66.82"                                  
 TOKENTELEGRAM = "7668680460:AAGEtAX8YBsQ8R6XrILwnoCRnfTFZmpFeNs"
 TOKENNETBOX = "aa8f29998abd6a63f476a2328ce2a629a506b579"
 
-input1 = input(f"Enter your Telegram username[@example]: ")         # Take information from user
-if input1:                                                          # If it has value
-    ADMIN_IDS += input1                                             # ==> Default value += Input value
-    
-input2 = input(f"Enter your Telegram-bot Token: ")
-if input2:
-    TOKENTELEGRAM = input2
-
-input3 = input(f"Enter your URL NetBox[http://netbox.example.com]: ")
-if input3:
-    URLNETBOX = input3
-
-input4 = input(f"Enter your NetBox Token: ")
-if input4:
-    TOKENNETBOX = input4
-    
 # Set up connection to NetBox
 nb = pynetbox.api(URLNETBOX,token=TOKENNETBOX)                      # Connect to NetBox
 nb.http_session.verify = False                                      # Turnoff SSL cert
@@ -93,6 +77,8 @@ def ip_information(ip_addr):
                 return msg    
         except Exception as e:  
             return f"Error: {str(e)}"
+    else:
+        return "Wrong Ip, please check again!"
         
 # Defind the message when user enter /ip
 async def cmd_ip(update: Update, context: ContextTypes.DEFAULT_TYPE):       # Asynchronous def mean It can run asynchronously with other tasks without waiting for it to complete before continuing.
@@ -109,7 +95,7 @@ def device_information(device_name):
             msg = 'The Information of Device: \n'
             for device in device_info:
                 detail = (
-                        f"*Device Name*:          `{device.name}`\n"
+                        f"*Device Name*:         `{device.name}`\n"
                         f"Device ID:            {device.id}\n"
                         f"Device model type:    {device.device_type.model}\n"
                         f"Device serial:        {device.serial}\n"
@@ -119,7 +105,7 @@ def device_information(device_name):
                         f"Device IPv4:          `{device.primary_ip4}`\n"
                         f"Device description:   {device.description}\n"
                         f"Device comments:      {device.comments}\n"
-                        f"Device contact:       {device.custom_fields.get('contact', 'None')}\n"
+                        f"Device contact:       `{device.custom_fields.get('contact', 'None').get('name', 'No contact available')}`\n"
                         f"`=================================================`\n"
                     )
                 msg += detail
@@ -177,6 +163,39 @@ async def cmd_vm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     vm_name = context.args
     msg = VM_information(vm_name[0])
     await update.message.reply_text(str(msg), parse_mode='Markdown')
+
+# Function to collect infomation of Contact
+# Function to collect information of Contact
+def Contact_infomation(ct_name):
+    try:
+        ct_info = nb.tenancy.contacts.filter(name=ct_name)   
+        if ct_info:
+            msg = ""
+            for contact in ct_info:
+                detail = (
+                    f"*Contact Name*:       {contact.display}\n"  
+                    f"Contact Title:        {contact.title}\n"
+                    f"Contact Phone Number: {contact.phone}\n"
+                    f"Contact Email:        {contact.email}\n"
+                    f"Contact Address:      {contact.address}\n"
+                    f"`==============================================`\n"
+                )
+                msg += detail
+            return msg      
+        else:
+            return "Can't find any information about this contact!" 
+    except Exception as e:  
+        return f"Error: {str(e)}"
+
+
+
+        
+# Defind the messsage when user enter /contact
+async def cmd_contact(update:Update, context: ContextTypes.DEFAULT_TYPE ):
+    ct_name = ' '.join(context.args) if context.args else ""
+    print ("Nhận vào: ",ct_name)
+    msg = Contact_infomation(ct_name)
+    await update.message.reply_text(str(msg), parse_mode='Markdown')
     
 # Defind the message when user enter /start
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -187,7 +206,8 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     commands = [
         "1. Find IP information: `/ip ip_addr`",
         "2. Find Device by its name: `/device device_name`",
-        "3. Find Virtual Machine by its name: `/vm vm_name`"
+        "3. Find Virtual Machine by its name: `/vm vm_name`",
+        "4. Find Contact of Device by its name: `/contact contact_name`"
     ]
     await update.message.reply_text('Use the following commands:\n' + '\n'.join(commands), parse_mode='Markdown')
 
@@ -231,6 +251,7 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('device', cmd_device,filters.User(username=ADMIN_IDS)))
     application.add_handler(CommandHandler('ip', cmd_ip,filters.User(username=ADMIN_IDS)))
     application.add_handler(CommandHandler('vm', cmd_vm,filters.User(username=ADMIN_IDS)))
+    application.add_handler(CommandHandler('contact', cmd_contact,filters.User(username=ADMIN_IDS)))
     application.add_handler(MessageHandler(filters.TEXT, handle_message))
 
     application.run_polling()
