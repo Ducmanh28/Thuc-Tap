@@ -164,9 +164,8 @@ async def cmd_vm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = VM_information(vm_name[0])
     await update.message.reply_text(str(msg), parse_mode='Markdown')
 
-# Function to collect infomation of Contact
 # Function to collect information of Contact
-def Contact_infomation(ct_name):
+def Contact_information(ct_name):
     try:
         ct_info = nb.tenancy.contacts.filter(name=ct_name)   
         if ct_info:
@@ -186,28 +185,107 @@ def Contact_infomation(ct_name):
             return "Can't find any information about this contact!" 
     except Exception as e:  
         return f"Error: {str(e)}"
-
-
-
         
 # Defind the messsage when user enter /contact
 async def cmd_contact(update:Update, context: ContextTypes.DEFAULT_TYPE ):
     ct_name = ' '.join(context.args) if context.args else ""
-    print ("Nhận vào: ",ct_name)
-    msg = Contact_infomation(ct_name)
+    msg = Contact_information(ct_name)
+    await update.message.reply_text(str(msg), parse_mode='Markdown')
+
+# Function to collect report
+def report_information(rp_thing):
+    try:
+        if rp_thing == "device":
+            total_devices = nb.dcim.devices.count()
+            if total_devices:
+                device_list = nb.dcim.devices.all()
+                report = f"*Total Devices*: {total_devices}\n\n"
+                report += "No. Device Name - ID \n"
+                for index, device in enumerate(device_list, 1):
+                    report += f"{index}. {device.name} - {device.id} \n"
+                return report
+            else:
+                return "Can't take information of total device!"
+        elif rp_thing == "vm":
+            total_vms = nb.virtualization.virtual_machines.count()
+            if total_vms:
+                vm_list = nb.virtualization.virtual_machines.all()
+                report = f"*Total VM*: {total_vms}\n\n"
+                report += "No. VM Name - ID \n"
+                for index, vm in enumerate(vm_list, 1):
+                    report += f"{index}. {vm.name} - {vm.id} \n"
+                return report
+            else:
+                return "Can't take information of total virtual machine!"
+        elif rp_thing == "ip":
+            total_ips = nb.ipam.ip_addresses.count()
+            if total_ips:
+                ip_list = nb.ipam.ip_addresses.all()
+                report = f"*Total IPv4*: {total_ips}\n\n"
+                report += "No. IP Address - ID \n"
+                for index, ip in enumerate(ip_list, 1):
+                    report += f"{index}. {ip.address} - {ip.id}\n"
+                return report
+            else:
+                return "Can't take information of total IPv4!"
+        else:
+            return "Please Enter only `ip`, `device`, or `vm`"
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# Defind the message when user enter /report
+async def cmd_report(update:Update, context: ContextTypes.DEFAULT_TYPE ):
+    rp_thing = context.args[0]
+    msg = report_information(rp_thing)
+    await update.message.reply_text(str(msg), parse_mode='Markdown')
+
+# Function to show rack
+def rack_information(r_name):
+    try:
+        rack_info = nb.dcim.racks.get(name=r_name)
+
+        if rack_info and isinstance(rack_info, pynetbox.models.dcim.Racks):
+            msg = f"*Rack*: `{rack_info.name}` \n"
+            msg+="Device name - U Position \n"
+            msg+="------------------------------------ \n"
+            devices = nb.dcim.devices.filter(rack_id=rack_info.id)
+            
+            if devices:
+                devices_sorted = sorted(devices, key=lambda d: d.position if d.position else 0, reverse=True)
+
+                for device in devices_sorted:
+                    u_positions = f"U{device.position}" if device.position else "Unknown"
+                    msg += f"{device.name} - {u_positions} \n"
+            else:
+                msg += "No devices installed in this rack!"
+                
+            return msg
+        else:
+            return "Can't find rack in NetBox!"
+    
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# Defind the message when user enter /rack
+async def cmd_rack(update:Update, context: ContextTypes.DEFAULT_TYPE ):
+    r_name = ' '.join(context.args) if context.args else ""
+    msg = rack_information(r_name)
     await update.message.reply_text(str(msg), parse_mode='Markdown')
     
 # Defind the message when user enter /start
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(text='Type `/help` for instructions')
-    
+
+
 # Defind the message when user enter /help
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     commands = [
         "1. Find IP information: `/ip ip_addr`",
         "2. Find Device by its name: `/device device_name`",
         "3. Find Virtual Machine by its name: `/vm vm_name`",
-        "4. Find Contact of Device by its name: `/contact contact_name`"
+        "4. Find Contact of Device by its name: `/contact contact_name`",
+        "5. Show Rack list by its name: `/rack rack_name`",
+        "6. Report Total: `/report (vm/device/ip)`"
     ]
     await update.message.reply_text('Use the following commands:\n' + '\n'.join(commands), parse_mode='Markdown')
 
@@ -252,6 +330,8 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('ip', cmd_ip,filters.User(username=ADMIN_IDS)))
     application.add_handler(CommandHandler('vm', cmd_vm,filters.User(username=ADMIN_IDS)))
     application.add_handler(CommandHandler('contact', cmd_contact,filters.User(username=ADMIN_IDS)))
+    application.add_handler(CommandHandler('rack',cmd_rack,filters.User(username=ADMIN_IDS)))
+    application.add_handler(CommandHandler('report', cmd_report,filters.User(username=ADMIN_IDS)))
     application.add_handler(MessageHandler(filters.TEXT, handle_message))
 
     application.run_polling()
