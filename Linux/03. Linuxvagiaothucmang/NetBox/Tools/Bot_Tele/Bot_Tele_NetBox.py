@@ -98,7 +98,8 @@ def device_information(device_name):
                         f"*Device Name*:         `{device.name}`\n"
                         f"Device ID:            {device.id}\n"
                         f"Device model type:    {device.device_type.model}\n"
-                        f"Device serial:        {device.serial}\n"
+                        f"Device serial:        `{device.serial}`\n"
+                        f"Tenant of Device:     `{device.tenant.name}`\n"
                         f"Device asset:         {device.asset_tag}\n"
                         f"Device site:          {device.site.name}\n"
                         f"Device rack:          `{device.rack.name if device.rack else 'None'} - U: {device.position if device.rack else 'None'}`\n"
@@ -249,7 +250,7 @@ def rack_information(r_name):
             msg+="Device name - U Position \n"
             msg+="------------------------------------ \n"
             devices = nb.dcim.devices.filter(rack_id=rack_info.id)
-            
+                
             if devices:
                 devices_sorted = sorted(devices, key=lambda d: d.position if d.position else 0, reverse=True)
 
@@ -258,7 +259,7 @@ def rack_information(r_name):
                     msg += f"{device.name} - {u_positions} \n"
             else:
                 msg += "No devices installed in this rack!"
-                
+                    
             return msg
         else:
             return "Can't find rack in NetBox!"
@@ -271,11 +272,37 @@ async def cmd_rack(update:Update, context: ContextTypes.DEFAULT_TYPE ):
     r_name = ' '.join(context.args) if context.args else ""
     msg = rack_information(r_name)
     await update.message.reply_text(str(msg), parse_mode='Markdown')
+
+# Function to collect interface
+def interface_device_information(device_name):
+    try:
+        device = nb.dcim.devices.get(name=device_name)
+        if device:
+            msg = f"The interface of Device {device.name}"
+            interfaces = nb.dcim.interfaces.filter(device_id=device.id)
+            for interface in interfaces:
+                if interface.connected_endpoint:
+                    connected_device = nb.dcim.devices.get(interface.connected_endpoint.device.id)
+                    if connected_device:
+                        msg+= f"{interface.name}/{device.name} -- {interface.connected_endpoint.name}/{connected_device.name}"
+                    else:
+                        return "The interface doesn't connect to any device!"
+                else:
+                    return "The interface doesn't connect to any device!"
+            return msg
+        else:
+            return "Can't find that Device in NetBox!"
+    except Exception as e:
+        return f"Error: {str(e)}"
     
+# Defind the message when user enter /interface
+async def cmd_interface(update:Update, context: ContextTypes.DEFAULT_TYPE):
+    i_name = ' '.join(context.args) if context.args else ""
+    msg = interface_device_information(i_name)
+    await update.message.reply_text(msg)
 # Defind the message when user enter /start
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(text='Type `/help` for instructions')
-
 
 # Defind the message when user enter /help
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -285,7 +312,8 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "3. Find Virtual Machine by its name: `/vm vm_name`",
         "4. Find Contact of Device by its name: `/contact contact_name`",
         "5. Show Rack list by its name: `/rack rack_name`",
-        "6. Report Total: `/report (vm/device/ip)`"
+        "6. Show interface connect of Device by device name: `/interface device_name`",
+        "7. Report Total: `/report (vm/device/ip)`"
     ]
     await update.message.reply_text('Use the following commands:\n' + '\n'.join(commands), parse_mode='Markdown')
 
@@ -331,6 +359,7 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('vm', cmd_vm,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('contact', cmd_contact,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('rack',cmd_rack,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('interface',cmd_interface,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('report', cmd_report,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(MessageHandler(filters.TEXT, handle_message))
 
