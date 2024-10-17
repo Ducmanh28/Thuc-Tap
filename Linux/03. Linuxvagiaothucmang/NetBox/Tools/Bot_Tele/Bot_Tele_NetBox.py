@@ -3,6 +3,7 @@ import logging
 import re
 import pynetbox
 import urllib3
+import config
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, Application, MessageHandler, filters
 
@@ -12,14 +13,8 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-# Set up Variable
-ADMIN_IDS = ['@ducmanh2873','@kquang','@totuongcong','@huyts9']
-URLNETBOX = "https://172.16.66.82"                                  
-TOKENTELEGRAM = "7668680460:AAGEtAX8YBsQ8R6XrILwnoCRnfTFZmpFeNs"
-TOKENNETBOX = "aa8f29998abd6a63f476a2328ce2a629a506b579"
-
 # Set up connection to NetBox
-nb = pynetbox.api(URLNETBOX,token=TOKENNETBOX)                      # Connect to NetBox
+nb = pynetbox.api(config.URLNETBOX,token=config.TOKENNETBOX)        # Connect to NetBox
 nb.http_session.verify = False                                      # Turnoff SSL cert
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning) # Turnoff Warning SSL
 
@@ -321,17 +316,17 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
 # Main function to run Server
 if __name__ == '__main__':
-    application = ApplicationBuilder().token(TOKENTELEGRAM).build()
+    application = ApplicationBuilder().token(config.TOKENTELEGRAM).build()
 
     # Commands
-    application.add_handler(CommandHandler('start', start_command,filters.User(username=ADMIN_IDS)))
-    application.add_handler(CommandHandler('help', help_command,filters.User(username=ADMIN_IDS)))
-    application.add_handler(CommandHandler('device', cmd_device,filters.User(username=ADMIN_IDS)))
-    application.add_handler(CommandHandler('ip', cmd_ip,filters.User(username=ADMIN_IDS)))
-    application.add_handler(CommandHandler('vm', cmd_vm,filters.User(username=ADMIN_IDS)))
-    application.add_handler(CommandHandler('contact', cmd_contact,filters.User(username=ADMIN_IDS)))
-    application.add_handler(CommandHandler('rack',cmd_rack,filters.User(username=ADMIN_IDS)))
-    application.add_handler(CommandHandler('report', cmd_report,filters.User(username=ADMIN_IDS)))
+    application.add_handler(CommandHandler('start', start_command,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('help', help_command,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('device', cmd_device,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('ip', cmd_ip,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('vm', cmd_vm,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('contact', cmd_contact,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('rack',cmd_rack,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('report', cmd_report,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(MessageHandler(filters.TEXT, handle_message))
 
     application.run_polling()
