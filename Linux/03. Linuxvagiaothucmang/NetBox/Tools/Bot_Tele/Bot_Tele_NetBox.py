@@ -89,6 +89,11 @@ def device_information(device_name):
         if device_info:
             msg = 'The Information of Device: \n'
             for device in device_info:
+                contact = device.custom_fields.get('contact')
+                if contact:
+                    contact_name = contact.get('name', 'No contact available')
+                else:
+                    contact_name = 'No contact available'
                 detail = (
                         f"*Device Name*:         `{device.name}`\n"
                         f"Device ID:            {device.id}\n"
@@ -100,7 +105,7 @@ def device_information(device_name):
                         f"Device IPv4:          `{device.primary_ip4}`\n"
                         f"Device description:   {device.description}\n"
                         f"Device comments:      {device.comments}\n"
-                        f"Device contact:       `{device.custom_fields.get('contact', 'None').get('name', 'No contact available')}`\n"
+                        f"Device contact:       `{contact_name}`\n"
                         f"`=================================================`\n"
                     )
                 msg += detail
