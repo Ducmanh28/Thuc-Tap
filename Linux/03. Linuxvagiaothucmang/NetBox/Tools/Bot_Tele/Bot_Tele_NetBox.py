@@ -210,10 +210,10 @@ def report_information(rp_thing):
             total_vms = nb.virtualization.virtual_machines.count()
             if total_vms:
                 vm_list = nb.virtualization.virtual_machines.all()
-                report = f"*Total VM*: {total_vms}\n\n"
-                report += "No. VM Name - ID \n"
+                report = f"Total VM: {total_vms}\n\n"
+                report += "No. VM Name -- ID \n"
                 for index, vm in enumerate(vm_list, 1):
-                    report += f"{index}. {vm.name} - {vm.id} \n"
+                    report += f"{index}. {vm.name} -- {vm.id} \n"
                 return report
             else:
                 return "Can't take information of total virtual machine!"
@@ -235,9 +235,9 @@ def report_information(rp_thing):
 
 # Defind the message when user enter /report
 async def cmd_report(update:Update, context: ContextTypes.DEFAULT_TYPE ):
-    rp_thing = context.args[0]
+    rp_thing = context.args[0]  
     msg = report_information(rp_thing)
-    await update.message.reply_text(str(msg), parse_mode='Markdown')
+    await update.message.reply_text(msg)
 
 # Function to show rack
 def rack_information(r_name):
