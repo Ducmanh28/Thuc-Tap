@@ -5,7 +5,7 @@ import pynetbox
 import urllib3
 import config
 from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, Application, MessageHandler, filters
+from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
 
 # Log config
 logging.basicConfig(
@@ -45,24 +45,24 @@ def ip_information(ip_addr):
                 if ip_info.assigned_object_type == 'virtualization.vminterface':                # IF IP was assigned to an Virtual Machine
                     msg = (                                                                     # Make the message form        
                         f"The Information of IP: \n"
+                        f"`-------------------------------------------`\n"
                         f"IP Address:      `{ip_info.address}` \n"
                         f"IP Status:       `{ip_info.status}` \n"
                         f"IP Description:  `{ip_info.description}` \n"
-                        f"Assigned:        `{ip_info.assigned_object.virtual_machine.name}` \n"
-                        f"Assigned to an Virtual Machine"
+                        f"Assigned to *Interface*: `{ip_info.assigned_object.name}` of *Virtual Machine*: `{ip_info.assigned_object.virtual_machine.name}`\n"
+                        f"`-------------------------------------------`\n"
                     )   
                     return msg
             
                 elif ip_info.assigned_object_type == 'dcim.interface':                          # If IP was assigned to an Device
                     msg = (                                                                     # Make the message form
                         f"The Information of IP: \n"
-                        # f"```\n"
+                        f"`-------------------------------------------`\n"
                         f"IP Address:          `{ip_info.address}` \n"
                         f"IP Status:           `{ip_info.status}` \n"
                         f"IP Description:      `{ip_info.description}` \n"
-                        f"Assigned:            `{ip_info.assigned_object.device.name}` \n"
-                        f"Assigned to an Device"
-                        # f"```\n"
+                        f"Assigned to *Interface*: `{ip_info.assigned_object.name}` of *Device*: `{ip_info.assigned_object.device.name}` \n"
+                        f"`-------------------------------------------`\n"
                     )
                     return msg
                 else: 
@@ -79,13 +79,13 @@ def ip_information(ip_addr):
 async def cmd_ip(update: Update, context: ContextTypes.DEFAULT_TYPE):       # Asynchronous def mean It can run asynchronously with other tasks without waiting for it to complete before continuing.
     ip_info = context.args                                                  # Set up value
     msg = ip_information(ip_info[0])                                        # Send message
+    msg = msg.replace("_", "-")
     await update.message.reply_text(str(msg),parse_mode='Markdown')         # Form Markdown to message
 
 # Function to collect information of Device
 def device_information(device_name):
     try:
         device_info = nb.dcim.devices.filter(name__ic=device_name)
-               
         if device_info:
             msg = 'The Information of Device: \n'
             for device in device_info:
@@ -95,6 +95,7 @@ def device_information(device_name):
                 else:
                     contact_name = 'No contact available'
                 detail = (
+                        f"`----------------------------------------`\n"
                         f"*Device Name*:         `{device.name}`\n"
                         f"Device ID:            {device.id}\n"
                         f"Device model type:    {device.device_type.model}\n"
@@ -103,13 +104,29 @@ def device_information(device_name):
                         f"Device asset:         {device.asset_tag}\n"
                         f"Device site:          {device.site.name}\n"
                         f"Device rack:          `{device.rack.name if device.rack else 'None'} - U: {device.position if device.rack else 'None'}`\n"
-                        f"Device IPv4:          `{device.primary_ip4}`\n"
+                        f"Device IP:          `{device.primary_ip}`\n"
                         f"Device description:   {device.description}\n"
                         f"Device comments:      {device.comments}\n"
                         f"Device contact:       `{contact_name}`\n"
                         f"`=================================================`\n"
                     )
                 msg += detail
+                interfaces = nb.dcim.interfaces.filter(device_id=device.id)
+                if interfaces:
+                    msg += f"Interfaces of `{device_name}`\n"
+                    index = 0
+                    for interface in interfaces:
+                        if index >= 10: 
+                            msg+= "......"
+                            break
+                        index += 1
+                        #if interface.connected_endpoints:
+                            #for interface.connected_endpoint in interface.connected_endpoints:
+                                #msg += f"Interface {index}: `{interface.name}` has connected to {interface.connected_endpoint.name} of {interface.connected_endpoint.device.name}\n"
+                        #else:
+                            #msg += f"Interface {index}: `{interface.name}` is currently not connected to any other interface\n"
+                        msg += f"Interface {index}: *{interface.name}*\n"
+                    msg += f"Too see detail of connected interfaces of {device_name} please enter `/interfaceof {device_name}`\n"
         else:
             msg = "Can't find any information about this device."
         return msg
@@ -121,6 +138,7 @@ def device_information(device_name):
 async def cmd_device(update: Update, context: ContextTypes.DEFAULT_TYPE):
     device_name = ' '.join(context.args) if context.args else ""
     msg = device_information(device_name)
+    msg = msg.replace("_", "-")
     max_length = 4096  # Độ dài tối đa cho một tin nhắn
     if len(msg) > max_length:
         # Chia tin nhắn thành các phần nhỏ hơn
@@ -139,13 +157,14 @@ def VM_information(VM_name):
             for vm in vm_info:  
                 detail = (
                     f"The Information of Virtual Machine: \n"
+                    f"`------------------------------------------`\n"
                     f"VM Name:          `{vm.name}` \n"
                     f"VM ID:             {vm.id} \n"
                     f"VM Status:         {vm.status} \n"
                     f"VM Cluster:       `{vm.cluster.name if vm.cluster else 'None'}` \n"
-                    f"VM Device:       `{vm.device if vm.device else 'None'}` \n"
-                    f"VM IPv4:         `{vm.primary_ip if vm.primary_ip else 'None'}` \n"
-                    f"VM Description:   {vm.description if vm.description else 'None'} \n"
+                    f"VM Device:        `{vm.device if vm.device else 'None'}` \n"
+                    f"VM IP:            `{vm.primary_ip if vm.primary_ip else 'None'}` \n"
+                    f"VM Description:    {vm.description if vm.description else 'None'} \n"
                     f"VM OS:            {vm.platform.name if vm.platform else 'None'} \n"          
                     f"VM Size:          CPU - {vm.vcpus if vm.vcpus else 'None'}, RAM - {vm.memory if vm.memory else 'None'} MB, DISK {vm.disk if vm.disk else 'None'} GB \n"
                     f"VM Comments:      {vm.comments if vm.comments else 'None'} \n"
@@ -173,6 +192,8 @@ def Contact_information(ct_name):
             msg = ""
             for contact in ct_info:
                 detail = (
+                    f"The Contact information:\n"
+                    f"`----------------------------------------------`\n"
                     f"*Contact Name*:       {contact.display}\n"  
                     f"Contact Title:        {contact.title}\n"
                     f"Contact Phone Number: {contact.phone}\n"
@@ -191,6 +212,7 @@ def Contact_information(ct_name):
 async def cmd_contact(update:Update, context: ContextTypes.DEFAULT_TYPE ):
     ct_name = ' '.join(context.args) if context.args else ""
     msg = Contact_information(ct_name)
+    msg = msg.replace("_", "-")
     await update.message.reply_text(str(msg), parse_mode='Markdown')
 
 # Function to collect report
@@ -238,6 +260,7 @@ def report_information(rp_thing):
 async def cmd_report(update:Update, context: ContextTypes.DEFAULT_TYPE ):
     rp_thing = context.args[0]  
     msg = report_information(rp_thing)
+    msg = msg.replace("_", "-")
     await update.message.reply_text(msg)
 
 # Function to show rack
@@ -271,24 +294,30 @@ def rack_information(r_name):
 async def cmd_rack(update:Update, context: ContextTypes.DEFAULT_TYPE ):
     r_name = ' '.join(context.args) if context.args else ""
     msg = rack_information(r_name)
+    msg = msg.replace("_", "-")
     await update.message.reply_text(str(msg), parse_mode='Markdown')
 
 # Function to collect interface
 def interface_device_information(device_name):
     try:
-        device = nb.dcim.devices.get(name=device_name)
-        if device:
-            msg = f"The interface of Device {device.name}"
-            interfaces = nb.dcim.interfaces.filter(device_id=device.id)
-            for interface in interfaces:
-                if interface.connected_endpoint:
-                    connected_device = nb.dcim.devices.get(interface.connected_endpoint.device.id)
-                    if connected_device:
-                        msg+= f"{interface.name}/{device.name} -- {interface.connected_endpoint.name}/{connected_device.name}"
-                    else:
-                        return "The interface doesn't connect to any device!"
+        devices = nb.dcim.devices.filter(name__ic=device_name)
+        if devices:
+            msg = f"*Interface that has been connected of Device*: `{device_name}`\n"
+            msg += f"`---------------------------`\n"
+            for device in devices:
+                interfaces = nb.dcim.interfaces.filter(device_id=device.id)
+                if interfaces:
+                    for interface in interfaces:
+                        if interface.connected_endpoints:
+                            msg += f"Interface name: `{interface.name}`\n"
+                            msg += f"Interface type: {interface.type.label}\n"
+                            msg += f"Interface description: {interface.description}\n"
+                            for interface_connected_endpont in interface.connected_endpoints:
+                                msg += f"Connected to Interface: `{interface_connected_endpont.name}` of Device: `{interface_connected_endpont.device.name}`\n"
+                            msg += f"`--------------------------------------------------`\n"
+                    return msg
                 else:
-                    return "The interface doesn't connect to any device!"
+                    msg = f"Can't find interface of this Device: {device_name}"
             return msg
         else:
             return "Can't find that Device in NetBox!"
@@ -296,10 +325,16 @@ def interface_device_information(device_name):
         return f"Error: {str(e)}"
     
 # Defind the message when user enter /interface
-async def cmd_interface(update:Update, context: ContextTypes.DEFAULT_TYPE):
-    i_name = ' '.join(context.args) if context.args else ""
-    msg = interface_device_information(i_name)
-    await update.message.reply_text(msg)
+async def cmd_interfaceof(update:Update, context: ContextTypes.DEFAULT_TYPE):
+    device_name = ' '.join(context.args) if context.args else ""
+    msg = interface_device_information(device_name)
+    msg = msg.replace("_", "-")
+    max_length = 4096  
+    if len(msg) > max_length:
+        for i in range(0, len(msg), max_length):
+            await update.message.reply_text(msg[i:i + max_length], parse_mode='Markdown')
+    else:
+        await update.message.reply_text(msg, parse_mode='Markdown')
 # Defind the message when user enter /start
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(text='Type `/help` for instructions')
@@ -359,7 +394,7 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('vm', cmd_vm,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('contact', cmd_contact,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('rack',cmd_rack,filters.User(username=config.ADMIN_IDS)))
-    application.add_handler(CommandHandler('interface',cmd_interface,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('interfaceof',cmd_interfaceof,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('report', cmd_report,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(MessageHandler(filters.TEXT, handle_message))
 
