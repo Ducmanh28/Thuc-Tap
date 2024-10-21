@@ -146,7 +146,71 @@ async def cmd_device(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text(msg[i:i + max_length], parse_mode='Markdown')
     else:
         await update.message.reply_text(msg, parse_mode='Markdown')
+
+# Function to collect information of Device
+def devicesn_information(device_serial_number):
+    try:
+        device_info = nb.dcim.devices.filter(serial=device_serial_number)
+        if device_info:
+            msg = 'The Information of Device: \n'
+            for device in device_info:
+                contact = device.custom_fields.get('contact')
+                if contact:
+                    contact_name = contact.get('name', 'No contact available')
+                else:
+                    contact_name = 'No contact available'
+                detail = (
+                        f"`----------------------------------------`\n"
+                        f"*Device Name*:         `{device.name}`\n"
+                        f"Device ID:            {device.id}\n"
+                        f"Device model type:    {device.device_type.model}\n"
+                        f"Device serial:        `{device.serial}`\n"
+                        f"Tenant of Device:     `{device.tenant.name}`\n"
+                        f"Device asset:         {device.asset_tag}\n"
+                        f"Device site:          {device.site.name}\n"
+                        f"Device rack:          `{device.rack.name if device.rack else 'None'} - U: {device.position if device.rack else 'None'}`\n"
+                        f"Device IP:          `{device.primary_ip}`\n"
+                        f"Device description:   {device.description}\n"
+                        f"Device comments:      {device.comments}\n"
+                        f"Device contact:       `{contact_name}`\n"
+                        f"`=================================================`\n"
+                    )
+                msg += detail
+                interfaces = nb.dcim.interfaces.filter(device_id=device.id)
+                if interfaces:
+                    msg += f"Interfaces of `{device.name}`\n"
+                    index = 0
+                    for interface in interfaces:
+                        if index >= 10: 
+                            msg+= "......"
+                            break
+                        index += 1
+                        #if interface.connected_endpoints:
+                            #for interface.connected_endpoint in interface.connected_endpoints:
+                                #msg += f"Interface {index}: `{interface.name}` has connected to {interface.connected_endpoint.name} of {interface.connected_endpoint.device.name}\n"
+                        #else:
+                            #msg += f"Interface {index}: `{interface.name}` is currently not connected to any other interface\n"
+                        msg += f"Interface {index}: *{interface.name}*\n"
+                    msg += f"Too see detail of connected interfaces of {device.name} please enter `/interfaceof {device.name}`\n"
+        else:
+            msg = "Can't find any information about this device."
+        return msg
+            
+    except Exception as e:
+        return f"Error: {str(e)}"
     
+# Defind the message when user enter /devicesn
+async def cmd_dvsn(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    device_serial_number = context.args[0]
+    msg = devicesn_information(device_serial_number)
+    msg = msg.replace("_", "-")
+    max_length = 4096  # Độ dài tối đa cho một tin nhắn
+    if len(msg) > max_length:
+        # Chia tin nhắn thành các phần nhỏ hơn
+        for i in range(0, len(msg), max_length):
+            await update.message.reply_text(msg[i:i + max_length], parse_mode='Markdown')
+    else:
+        await update.message.reply_text(msg, parse_mode='Markdown')
 # Function to collect information of Virtual Machine
 def VM_information(VM_name):
     try:
@@ -344,11 +408,12 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     commands = [
         "1. Find IP information: `/ip ip_addr`",
         "2. Find Device by its name: `/device device_name`",
-        "3. Find Virtual Machine by its name: `/vm vm_name`",
-        "4. Find Contact of Device by its name: `/contact contact_name`",
-        "5. Show Rack list by its name: `/rack rack_name`",
-        "6. Show interface connect of Device by device name: `/interface device_name`",
-        "7. Report Total: `/report (vm/device/ip)`"
+        "3. Find Device by its serial number: `/devicesn device_serial_number`",
+        "4. Find Virtual Machine by its name: `/vm vm_name`",
+        "5. Find Contact of Device by its name: `/contact contact_name`",
+        "6. Show Rack list by its name: `/rack rack_name`",
+        "7. Show interface connect of Device by device name: `/interface device_name`",
+        "8. Report Total: `/report (vm/device/ip)`"
     ]
     await update.message.reply_text('Use the following commands:\n' + '\n'.join(commands), parse_mode='Markdown')
 
@@ -390,6 +455,7 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('start', start_command,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('help', help_command,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('device', cmd_device,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('devicesn', cmd_dvsn,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('ip', cmd_ip,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('vm', cmd_vm,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('contact', cmd_contact,filters.User(username=config.ADMIN_IDS)))
