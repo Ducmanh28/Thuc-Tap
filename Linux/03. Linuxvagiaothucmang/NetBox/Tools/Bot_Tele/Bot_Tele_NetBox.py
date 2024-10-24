@@ -89,6 +89,7 @@ def device_information(device_name):
         if device_info:
             msg = 'The Information of Device: \n'
             for device in device_info:
+                print(device)
                 contact = device.custom_fields.get('contact')
                 if contact:
                     contact_name = contact.get('name', 'No contact available')
@@ -100,10 +101,10 @@ def device_information(device_name):
                         f"Device ID:            {device.id}\n"
                         f"Device model type:    {device.device_type.model}\n"
                         f"Device serial:        `{device.serial}`\n"
-                        f"Tenant of Device:     `{device.tenant.name}`\n"
+                        f"Tenant of Device:     `{device.tenant.name if device.tenant else 'None'}`\n"
                         f"Device asset:         {device.asset_tag}\n"
                         f"Device site:          {device.site.name}\n"
-                        f"Device rack:          `{device.rack.name if device.rack else 'None'} - U: {device.position if device.rack else 'None'}`\n"
+                        f"Device rack:          `{device.rack.name if device.rack else 'None'}` - U: `{device.position if device.rack else 'None'}`\n"
                         f"Device IP:          `{device.primary_ip}`\n"
                         f"Device description:   {device.description}\n"
                         f"Device comments:      {device.comments}\n"
@@ -168,7 +169,7 @@ def devicesn_information(device_serial_number):
                         f"Tenant of Device:     `{device.tenant.name}`\n"
                         f"Device asset:         {device.asset_tag}\n"
                         f"Device site:          {device.site.name}\n"
-                        f"Device rack:          `{device.rack.name if device.rack else 'None'} - U: {device.position if device.rack else 'None'}`\n"
+                        f"Device rack:          `{device.rack.name if device.rack else 'None'}` - U: `{device.position if device.rack else 'None'}`\n"
                         f"Device IP:          `{device.primary_ip}`\n"
                         f"Device description:   {device.description}\n"
                         f"Device comments:      {device.comments}\n"
@@ -289,7 +290,7 @@ def report_information(rp_thing):
                 report = f"*Total Devices*: {total_devices}\n\n"
                 report += "No. Device Name - ID \n"
                 for index, device in enumerate(device_list, 1):
-                    report += f"{index}. {device.name} - {device.id} \n"
+                    report += f"{index}. `{device.name}` - {device.id} \n"
                 return report
             else:
                 return "Can't take information of total device!"
@@ -300,7 +301,7 @@ def report_information(rp_thing):
                 report = f"Total VM: {total_vms}\n\n"
                 report += "No. VM Name -- ID \n"
                 for index, vm in enumerate(vm_list, 1):
-                    report += f"{index}. {vm.name} -- {vm.id} \n"
+                    report += f"{index}. `{vm.name}` -- {vm.id} \n"
                 return report
             else:
                 return "Can't take information of total virtual machine!"
@@ -311,21 +312,81 @@ def report_information(rp_thing):
                 report = f"*Total IPv4*: {total_ips}\n\n"
                 report += "No. IP Address - ID \n"
                 for index, ip in enumerate(ip_list, 1):
-                    report += f"{index}. {ip.address} - {ip.id}\n"
+                    report += f"{index}. `{ip.address}` - {ip.id}\n"
                 return report
             else:
                 return "Can't take information of total IPv4!"
+        elif rp_thing == "rack":
+            total_racks = nb.dcim.racks.count()
+            if total_racks > 0:
+                rack_list = nb.dcim.racks.all()
+                report = f"*Total Rack*: {total_racks}\n\n"
+                report += "No. Rack Name - ID\n"
+                for index, rack in enumerate(rack_list, 1):
+                    report += f"{index}. `{rack.name}` - {rack.id}\n"
+                return report
+            else:
+                return "No racks found!"
+        elif rp_thing == "all":
+            report = "*Total Report:*\n"
+            report += f"``-------------------------\n"
+            report += "*Organization*\n"
+            report += f"Total Site: *{nb.dcim.sites.count()}*\n"
+            report += f"Total Tenant: *{nb.tenancy.tenants.count()}*\n"
+            report += f"Total Contact: *{nb.tenancy.contacts.count()}*\n"
+            report += "*DCIM*\n"
+            report += f"Total Rack: *{nb.dcim.racks.count()}*\n"
+            report += f"Total Device Types: *{nb.dcim.device_types.count()}*\n"
+            report += f"Total Devices: *{nb.dcim.devices.count()}*\n"
+            report += f"Total Cables: *{nb.dcim.cables.count()}*\n"
+            report += "*IPAM*\n"
+            report += f"Total Aggregates: *{nb.ipam.aggregates.count()}*\n"
+            report += f"Total Prefixes: *{nb.ipam.prefixes.count()}*\n"
+            report += f"Total IP Ranges: *{nb.ipam.ip_ranges.count()}*\n"
+            report += f"Total IP Addresses: *{nb.ipam.ip_addresses.count()}*\n"
+            report += f"Total VLANS: *{nb.ipam.vlans.count()}*\n"
+            report += "*Virtualization*\n"
+            report += f"Total Clusters: *{nb.virtualization.clusters.count()}*\n"
+            report += f"Total Interfaces: *{nb.virtualization.interfaces.count()}*"
+            report += f"Total Virtual Machine: *{nb.virtualization.virtual_machines.count()}*\n"
+            report += f"Total Virtual Disks: *{nb.virtualization.virtual_disks.count()}*\n"  
+            return report          
         else:
-            return "Please Enter only `ip`, `device`, or `vm`"
+            return "Please Enter only `ip`, `device`, `vm`, `rack`, or `all`"
     except Exception as e:
         return f"Error: {str(e)}"
-
 # Defind the message when user enter /report
 async def cmd_report(update:Update, context: ContextTypes.DEFAULT_TYPE ):
     rp_thing = context.args[0]  
     msg = report_information(rp_thing)
     msg = msg.replace("_", "-")
-    await update.message.reply_text(msg)
+    await update.message.reply_text(str(msg),parse_mode='Markdown')
+# Function to collect free IP
+def freeip_information(number):
+    try:
+        prefixes = nb.ipam.prefixes.all()
+        report = " "
+        unused_ips = []
+        for prefix in prefixes:
+            available_ips = nb.ipam.prefixes.get(prefix.id).available_ips.list()
+            for ip in available_ips:
+                unused_ips.append({
+                "address": ip['address'],
+                "prefix": prefix.prefix
+                })
+        report = f"*Total IPs Free*: {len(unused_ips)}\n"   
+        for i in range(min(number, len(unused_ips))):
+            report += f"IP: `{unused_ips[i]['address']}`, Prefix: {unused_ips[i]['prefix']}\n"
+        return report
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# Defind the message when user enter /freeip
+async def cmd_ipfree(update:Update, context: ContextTypes.DEFAULT_TYPE):
+    number = int(context.args[0])
+    msg = freeip_information(number)
+    msg = msg.replace("_", "-")
+    await update.message.reply_text(str(msg), parse_mode='Markdown')
 
 # Function to show rack
 def rack_information(r_name):
@@ -353,14 +414,12 @@ def rack_information(r_name):
     
     except Exception as e:
         return f"Error: {str(e)}"
-
 # Defind the message when user enter /rack
 async def cmd_rack(update:Update, context: ContextTypes.DEFAULT_TYPE ):
     r_name = ' '.join(context.args) if context.args else ""
     msg = rack_information(r_name)
     msg = msg.replace("_", "-")
     await update.message.reply_text(str(msg), parse_mode='Markdown')
-
 # Function to collect interface
 def interface_device_information(device_name):
     try:
@@ -386,8 +445,7 @@ def interface_device_information(device_name):
         else:
             return "Can't find that Device in NetBox!"
     except Exception as e:
-        return f"Error: {str(e)}"
-    
+        return f"Error: {str(e)}"    
 # Defind the message when user enter /interface
 async def cmd_interfaceof(update:Update, context: ContextTypes.DEFAULT_TYPE):
     device_name = ' '.join(context.args) if context.args else ""
@@ -399,21 +457,63 @@ async def cmd_interfaceof(update:Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text(msg[i:i + max_length], parse_mode='Markdown')
     else:
         await update.message.reply_text(msg, parse_mode='Markdown')
+# Function to collect tenant information
+def tenant_information(tenant_name):
+    try:
+        tenant = nb.tenancy.tenants.get(name=tenant_name)
+        msg = f"The Information of `{tenant_name}`:\n"
+        if tenant:
+            msg += f"Tenant name: `{tenant.name}`\n"
+            msg += f"`--------------------------------------------`\n"
+            devices = nb.dcim.devices.filter(tenant_id=tenant.id)
+            ips = nb.ipam.ip_addresses.filter(tenant_id=tenant.id)
+            if devices:
+                msg += "List Device of this Tenant:\n"
+                index = 0
+                for device in devices:
+                    index += 1
+                    msg += f"Device {index}: `{device.name}`\n" 
+                msg+= "`-------------------------------------------`\n"
+            if ips:
+                msg += "List IP of this Tenant:\n"
+                index = 0
+                for ip in ips:
+                    print(ip)
+                    index += 1
+                    msg += f"IP number {index}: `{ip.address}`\n" 
+                msg+= "`-------------------------------------------`\n"
+            return msg      
+        else:
+            return f"Can't find any Tenant with name = {tenant_name}, please try again!"
+    except Exception as e:
+        return f"Error: {str(e)}"
+# Defind the message when user enter /tenant
+async def cmd_tenant(update:Update, context: ContextTypes.DEFAULT_TYPE):
+    t_name = ' '.join(context.args) if context.args else ""
+    msg = tenant_information(t_name)
+    msg = msg.replace("_", "-")
+    await update.message.reply_text(str(msg), parse_mode='Markdown')
 # Defind the message when user enter /start
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(text='Type `/help` for instructions')
+    msg = f"Welcome to *Bot_Tele_NetBox* - where you can search information at your NetBox easily!\n"
+    msg += f"Before using this BOT, please make sure that you have read _README_ file.\n"
+    msg += "Thanks for using it!\n\n"
+    msg +=  f"Type `/help` for instructions"
+    await update.message.reply_text(str(msg),parse_mode='Markdown')
 
 # Defind the message when user enter /help
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     commands = [
         "1. Find IP information: `/ip ip_addr`",
-        "2. Find Device by its name: `/device device_name`",
-        "3. Find Device by its serial number: `/devicesn device_serial_number`",
-        "4. Find Virtual Machine by its name: `/vm vm_name`",
-        "5. Find Contact of Device by its name: `/contact contact_name`",
-        "6. Show Rack list by its name: `/rack rack_name`",
-        "7. Show interface connect of Device by device name: `/interface device_name`",
-        "8. Report Total: `/report (vm/device/ip)`"
+        "2. Find Free IP: `/ipfree number`",
+        "3. Find Device by its name: `/device device_name`",
+        "4. Find Device by its serial number: `/devicesn device_serial_number`",
+        "5. Find Virtual Machine by its name: `/vm vm_name`",
+        "6. Find Contact of Device by its name: `/contact contact_name`",
+        "7. Show Rack list by its name: `/rack rack_name`",
+        "8. Show interface connect of Device by device name: `/interface device_name`",
+        "9. Show List Device or Ip of Tenant: `/tenant tenant_name`",
+        "10. Report Total: `/report (vm/device/ip/rack)`"
     ]
     await update.message.reply_text('Use the following commands:\n' + '\n'.join(commands), parse_mode='Markdown')
 
@@ -461,7 +561,9 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('contact', cmd_contact,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('rack',cmd_rack,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('interfaceof',cmd_interfaceof,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('tenant',cmd_tenant,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(CommandHandler('report', cmd_report,filters.User(username=config.ADMIN_IDS)))
+    application.add_handler(CommandHandler('ipfree', cmd_ipfree,filters.User(username=config.ADMIN_IDS)))
     application.add_handler(MessageHandler(filters.TEXT, handle_message))
 
     application.run_polling()
