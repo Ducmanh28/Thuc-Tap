@@ -513,7 +513,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "7. Show Rack list by its name: `/rack rack_name`",
         "8. Show interface connect of Device by device name: `/interface device_name`",
         "9. Show List Device or Ip of Tenant: `/tenant tenant_name`",
-        "10. Report Total: `/report (vm/device/ip/rack)`"
+        "10. Report Total: `/report (vm/device/ip/rack/all)`"
     ]
     await update.message.reply_text('Use the following commands:\n' + '\n'.join(commands), parse_mode='Markdown')
 
