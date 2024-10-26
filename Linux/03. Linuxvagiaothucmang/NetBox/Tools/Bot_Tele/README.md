@@ -12,6 +12,7 @@ Bot_Tele_NetBox là một con Bot Telegram. Con Bot có chức năng nhận tin 
 - [x] Hiển thị thông tin tủ rack
 - [x] Hiển thị thông tin các kết nối của một thiết bị
 - [x] Báo cáo tổng số lượng và hiển thị danh sách của vm,ip, device, rack hoặc tổng thể
+
 Tuy chỉ là một số chức năng cơ bản, nhưng Bot sẽ giúp chúng ta tiết kiệm thời gian rất nhiều và tìm chính xác thông tin một cách nhanh chóng. 
 
 Thay vì phải truy cập vào dải mạng riêng tư và tìm kiếm thông tin thủ công thông qua giao diện NetBox, thì thay vào đó, chỉ với kết nối Internet, tại bất cứ nơi đâu bạn cũng có thể truy xuất thông tin dữ liệu trên hệ thống NetBox của mình thông qua Bot_Tele_NetBox.
