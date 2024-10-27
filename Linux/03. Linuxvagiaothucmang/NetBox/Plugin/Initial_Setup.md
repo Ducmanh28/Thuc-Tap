@@ -37,5 +37,81 @@ drwxr-xr-x 10 root root 4096 Oct 21 14:52 netbox-sync/
 drwxr-xr-x  4 root root 4096 Oct 21 16:58 netbox-telegram/
 root@MANHNetBoxLab:/opt#
 ```
-## Thiết lập Plugin
+## Cấu hình Plugin
 ### Tạo file `__init__.py`
+Lớp chứa tất cả thông tin cần biết về plugin của chúng ta để cài đặt nó. Đầu tiên, chúng ta sẽ tạo một thư mục con để giữ mã Python của plugin của chúng ta, cũng như một tệp để giữ định nghĩa
+```
+$ mkdir netbox_access_lists
+$ touch netbox_access_lists/__init__.py
+```
+
+Mở file init trong trình soạn thảo, thêm thư viện của NetBox vào
+```
+from netbox.plugins import PluginConfig
+```
+### Tạo lớp PluginConfig 
+Chúng ta sẽ tạo một lớp mới được đặt tên bằng subclassing . Điều này sẽ xác định tất cả các tham số cần thiết kiểm soát cấu hình plugin của chúng tôi sau khi cài đặt. Có rất nhiều thuộc tính tùy chọn có thể được đặt ở đây, nhưng bây giờ chúng ta chỉ cần xác định một vài thuộc tính thôi
+```
+class NetBoxAccessListsConfig(PluginConfig):
+    name = 'netbox_access_lists'
+    verbose_name = ' NetBox Access Lists'
+    description = 'Manage simple ACLs in NetBox'
+    version = '0.1'
+    base_url = 'access-lists'
+```
+Điều này sẽ đủ để cài đặt plugin của chúng tôi trong NetBox sau này. Cuối cùng, chúng ta cần phơi bày lớp này để đảm bảo rằng NetBox phát hiện ra nó. Thêm dòng này vào cuối tệp:`config`
+```
+config = NetBoxAccessListsConfig
+```
+### Tạo File readme
+Quay lại thư mục gốc của dự án và tạo file README
+
+Sử dụng định dạng file `.md` để biểu thị đang sử dụng markdown
+
+Thêm nội dung sau vào file:
+```
+## netbox-access-lists
+
+Manage simple access control lists in NetBox
+```
+### Cài đặt Plugin
+#### Tạo `setup.py`
+Để cho phép cài đặt plugin của chúng tôi vào môi trường ảo mà chúng tôi đã tạo ở trên, chúng tôi sẽ tạo một tập lệnh thiết lập Python đơn giản. Trong thư mục gốc của dự án, tạo một tệp có tên `setup.py` và nhập mã bên dưới 
+```
+from setuptools import find_packages, setup
+
+setup(
+    name='netbox-access-lists',
+    version='0.1',
+    description='An example NetBox plugin',
+    install_requires=[],
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+)
+```
+#### Thiết lập môi trường ả
+Sử dụng môi trường ảo của NetBox:
+```
+source /opt/netbox/venv/bin/activate
+```
+#### Chạy setup.py
+```
+pip install -e .
+```
+### Cấu hình NetBox
+Chỉnh sửa nội dung file `/opt/netbox/netbox/netbox/configuration.py`
+
+Thêm vào nội dung sau:
+```
+PLUGINS = ['netbox_access_lists',]
+```
+### Khởi động lại dịch vụ
+Khởi động lại dịch vụ Netbox:
+```
+systemctl restart netbox
+```
+### Thực hiện kiểm tra:
+Kiểm tra trong mục **Admin-->System-->System**
+
+![](/Anh/Screenshot_970.png)
