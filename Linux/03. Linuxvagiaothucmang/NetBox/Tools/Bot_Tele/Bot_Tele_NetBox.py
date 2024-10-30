@@ -230,7 +230,7 @@ def VM_information(VM_name):
                     f"VM Device:        `{vm.device if vm.device else 'None'}` \n"
                     f"VM IP:            `{vm.primary_ip if vm.primary_ip else 'None'}` \n"
                     f"VM Description:    {vm.description if vm.description else 'None'} \n"
-                    f"VM OS:             {vm.platform.name if vm.platform else 'None'} \n"          
+                    f"VM OS:             `{vm.platform.name if vm.platform else 'None'}` \n"          
                     f"VM Size:          CPU - {vm.vcpus if vm.vcpus else 'None'}, RAM - {vm.memory if vm.memory else 'None'} MB, DISK {vm.disk if vm.disk else 'None'} GB \n"
                     f"VM Comments:      {vm.comments if vm.comments else 'None'} \n"
                     f"`=================================================`\n"
@@ -396,9 +396,11 @@ def freeip_information(number):
 # Defind the message when user enter /freeip
 async def cmd_ipfree(update:Update, context: ContextTypes.DEFAULT_TYPE):
     number = int(context.args[0])
-    msg = freeip_information(number)
-    msg = msg.replace("_", "-")
-    await update.message.reply_text(str(msg), parse_mode='Markdown')
+    if number <= 10:
+        msg = freeip_information(number)
+        await update.message.reply_text(str(msg), parse_mode='Markdown')
+    else: 
+        await update.message.reply_text("Please insert number < 10")
 
 # Function to show rack
 def rack_information(r_name):
