@@ -300,10 +300,10 @@ $ python netbox/manage.py nbshell
 ```
 Kết quả:
 ```
-from netbox### NetBox interactive shell
-### Python 3.8.12 | Django 4.0.3 | NetBox 3.2.0
-### lsmodels() sẽ hiển thị các mô hình có sẵn. Sử dụng help(<model>) để biết thêm chi tiết.
->>>
+### NetBox interactive shell (MANHNetBoxLab)
+### Python 3.10.12 | Django 5.0.6 | NetBox 4.0.5
+### lsmodels() will show available models. Use help(<model>) for more info.
+>>> 
 ```
 Hãy tạo và lưu một danh sách truy cập:
 ```
