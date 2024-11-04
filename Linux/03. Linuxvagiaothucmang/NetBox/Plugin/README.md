@@ -75,13 +75,13 @@ Sau khi cài đặt, người dùng có thể truy cập giao diện quản tr�
 
 `README.md` và `setup.py`: File `README` cung cấp tài liệu hướng dẫn cài đặt và sử dụng plugin, còn `setup.py` là file cấu hình giúp cài đặt plugin như một package Python.
 ### Các bước:
-Bước 1: Thiết lập 
+[Bước 1: Thiết lập](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/03.%20Linuxvagiaothucmang/NetBox/Plugin/1_Initial_Setup.md)
 
-Bước 2: Mô hình
+[Bước 2: Mô hình](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/03.%20Linuxvagiaothucmang/NetBox/Plugin/2_Models.md)
 
-Bước 3: Bảng
+[Bước 3: Bảng](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/03.%20Linuxvagiaothucmang/NetBox/Plugin/3_Tables.md)
 
-Bước 4: Biểu mẫu
+[Bước 4: Biểu mẫu](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/03.%20Linuxvagiaothucmang/NetBox/Plugin/4_Forms.md)
 
 Bước 5: Lượt xem
 
