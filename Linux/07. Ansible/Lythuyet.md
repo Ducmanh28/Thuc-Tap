@@ -47,3 +47,110 @@ Là thành phần đóng vai trò như Client
 Là các máy đích mà Ansible quản lý và thực thi tác vụ.
 
 Không cần cài đặt Ansible trên các Managed Nodes, chỉ cần có SSH và quyền truy cập từ Control Node.
+
+### Inventory
+Inventory là tệp danh sách các Managed Nodes, giúp Ansible biết sẽ kết nối và quản lý những máy nào.
+
+Inventory có thể được định nghĩa dưới dạng file văn bản (thường là hosts hoặc inventory), với định dạng phổ biến là INI hoặc YAML, ví dụ:
+```
+[webservers]
+server1 ansible_host=192.168.1.10 ansible_user=root
+server2 ansible_host=192.168.1.11 ansible_user=root
+```
+### Playbook
+Là trái tim của Ansible, nơi định nghĩa các tác vụ cần thực hiện, được viết bằng YAML.
+
+Một Playbook có thể chứa nhiều "play" (chạy trên các nhóm máy khác nhau) và mỗi "play" chứa nhiều "task" mô tả từng tác vụ cụ thể.
+Ví dụ đơn giản về Playbook:
+```
+- name: Cài đặt Apache và khởi động dịch vụ
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Cài đặt Apache
+      apt:
+        name: apache2
+        state: present
+    - name: Khởi động dịch vụ Apache
+      service:
+        name: apache2
+        state: started
+```
+### Modules
+Modules là các đoạn mã thực thi tác vụ cụ thể trên các máy đích, như quản lý gói, tạo thư mục, hoặc thiết lập cấu hình.
+
+Ansible có hàng trăm module tích hợp sẵn (ví dụ: apt, yum, service, file, copy), đồng thời người dùng cũng có thể viết module tùy chỉnh.
+
+### Plugins
+Plugins mở rộng tính năng của Ansible, hỗ trợ nhiều nhiệm vụ khác nhau như xử lý kết nối, tìm kiếm dữ liệu, hoặc in ra kết quả tùy biến.
+
+Các loại plugin thông dụng:
+- **Connection Plugins**: Xử lý cách Ansible kết nối tới máy đích (ví dụ: SSH, local).
+- **Lookup Plugins**: Tìm kiếm dữ liệu bên ngoài như file, database, hoặc các dịch vụ đám mây.
+- **Callback Plugins**: Tùy chỉnh cách Ansible hiển thị thông tin phản hồi sau khi thực thi tác vụ.
+
+### Roles
+Roles giúp tổ chức Playbook và các thành phần liên quan (task, variables, handler, template, file) theo một cấu trúc thư mục chuẩn.
+
+Khi sử dụng roles, Ansible có thể dễ dàng tái sử dụng cấu hình, phù hợp cho các dự án phức tạp.
+
+### Variables
+Variables là các biến lưu trữ giá trị động, cho phép người dùng tái sử dụng và tùy chỉnh các Playbook mà không cần thay đổi mã nguồn.
+
+Biến có thể được định nghĩa trong Playbook, Inventory, hoặc các file biến riêng biệt, và được gọi dễ dàng trong Playbook.
+
+### Handlers
+Handlers là các task đặc biệt chỉ được thực thi khi có thay đổi trạng thái trong các task khác (ví dụ: chỉ restart dịch vụ khi có thay đổi cấu hình).
+
+Các handler thường được dùng để tối ưu hóa tác vụ, giúp đảm bảo dịch vụ chỉ được khởi động lại khi cần.
+
+### Templates
+Ansible sử dụng Jinja2 làm công cụ template, cho phép tạo ra file cấu hình động với nội dung thay đổi theo biến trong Playbook.
+Ví dụ template file nginx.conf.j2:
+```
+server {
+  listen {{ nginx_port }};
+  server_name {{ server_name }};
+}
+```
+
+### Ansible Galaxy
+Ansible Galaxy là thư viện cộng đồng, nơi người dùng có thể tải và chia sẻ roles với cộng đồng.
+
+Thông qua Galaxy, người dùng có thể nhanh chóng tích hợp các roles đã có sẵn vào dự án của mình.
+
+## 5. Cách mà Ansible hoạt động
+### Xác định các máy đích trong Inventory
+Ansible sử dụng file Inventory để xác định các máy đích (Managed Nodes) cần quản lý.
+
+Inventory chứa thông tin địa chỉ IP hoặc hostname của các máy, kèm theo các thông tin như user, mật khẩu, và có thể phân chia các máy thành nhóm (ví dụ: webservers, databases).
+### Kết nối đến Managed Nodes qua SSH
+Ansible sử dụng SSH để kết nối từ Control Node (máy chạy Ansible) đến Managed Nodes.
+
+Do không cần agent trên các máy đích, Ansible chỉ yêu cầu SSH và Python trên máy đích để có thể thực hiện các tác vụ.
+
+Các thông tin kết nối như user, cổng SSH, mật khẩu hoặc key SSH có thể được định nghĩa trong file Inventory hoặc khai báo trực tiếp khi chạy lệnh.
+### Sử dụng Playbook để định nghĩa các tác vụ
+Ansible thực thi các tác vụ thông qua Playbook, một tệp YAML chứa các “plays” và “tasks” mô tả công việc cần thực hiện trên các nhóm máy.
+
+Mỗi play trong Playbook xác định một nhóm máy và các tác vụ cần thực hiện, mỗi task đại diện cho một hành động cụ thể.
+### Thực thi các task với các Module
+Các task trong Playbook thường sử dụng Module để thực thi các hành động, như cài đặt phần mềm, tạo file, hoặc quản lý dịch vụ.
+
+Module được gửi đến máy đích qua SSH và thực thi trực tiếp trên máy đích. Kết quả trả về được Ansible thu thập và hiển thị cho người dùng.
+### Kiểm tra idempotency để tránh thực thi lặp
+Ansible tuân theo nguyên tắc "idempotent" (bất biến), nghĩa là mỗi task chỉ thay đổi trạng thái hệ thống khi cần thiết.
+
+Ví dụ, nếu một gói phần mềm đã được cài đặt, Ansible sẽ không cài lại, điều này giúp tránh lỗi lặp và duy trì hệ thống ổn định.
+### Sử dụng Handlers để tối ưu hóa task
+Nếu cần thực hiện một hành động khi có thay đổi (như restart dịch vụ sau khi thay đổi cấu hình), Ansible sử dụng Handler.
+
+Handlers chỉ được kích hoạt nếu có sự thay đổi ở một task nào đó, giúp tối ưu hóa quá trình thực thi và đảm bảo các dịch vụ chỉ được khởi động lại khi cần thiết.
+### Quản lý cấu hình động với Templates và Variables
+Ansible hỗ trợ Jinja2 templates để tạo ra file cấu hình động, với nội dung được điều chỉnh theo biến và điều kiện.
+
+Templates và Variables giúp các Playbook linh hoạt, dễ dàng áp dụng trên nhiều hệ thống khác nhau mà không cần thay đổi mã nguồn.
+### Thu thập và hiển thị kết quả
+Ansible thu thập kết quả sau mỗi task và hiển thị lại cho người dùng, bao gồm trạng thái thành công, thất bại hoặc đã được bỏ qua.
+
+Thông tin này giúp người dùng nắm rõ tình trạng của từng task trên mỗi máy đích, giúp phát hiện lỗi và xử lý nhanh chóng.
