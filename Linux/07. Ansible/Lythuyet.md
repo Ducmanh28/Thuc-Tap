@@ -154,3 +154,10 @@ Templates và Variables giúp các Playbook linh hoạt, dễ dàng áp dụng t
 Ansible thu thập kết quả sau mỗi task và hiển thị lại cho người dùng, bao gồm trạng thái thành công, thất bại hoặc đã được bỏ qua.
 
 Thông tin này giúp người dùng nắm rõ tình trạng của từng task trên mỗi máy đích, giúp phát hiện lỗi và xử lý nhanh chóng.
+
+## 6. Một số ứng dụng của Ansible
+**Quản lý cấu hình**: Ansible có thể tự động hóa việc cấu hình hệ thống, bao gồm các cài đặt hệ điều hành, ứng dụng và dịch vụ. Nó giúp đảm bảo rằng các hệ thống được cấu hình theo các tiêu chuẩn và yêu cầu bảo mật thống nhất.
+
+**Triển khai phần mềm**: Ansible có thể tự động hóa quá trình triển khai phần mềm trên nhiều máy khách. Nó giúp đơn giản hóa việc cài đặt, cập nhật và gỡ bỏ phần mềm, đồng thời đảm bảo rằng tất cả các máy khách đều có phiên bản phần mềm mới nhất.
+
+**Quản lý cơ sở hạ tầng đám mây**: Ansible có thể tự động hóa các tác vụ quản lý cơ sở hạ tầng đám mây, chẳng hạn như tạo và quản lý máy ảo, lưu trữ dữ liệu và mạng. Điều này giúp các tổ chức quản lý cơ sở hạ tầng đám mây của mình một cách hiệu quả và tiết kiệm chi phí.

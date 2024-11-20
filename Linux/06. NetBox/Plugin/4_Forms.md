@@ -26,3 +26,28 @@ class AccessListForm(NetBoxModelForm):
         model = AccessList
         fields = ('name', 'default_action', 'comments', 'tags')
 ```
+Theo mặc định, **Django** sẽ tạo một trường khóa ngoại "tĩnh" cho các đối tượng liên quan. Thao tác này hiển thị dưới dạng danh sách thả xuống được điền sẵn tất cả các đối tượng có sẵn. Như bạn có thể tưởng tượng, trong một phiên bản NetBox với hàng ngàn đối tượng, điều này có thể trở nên khá khó sử dụng.
+
+Để tránh điều này, NetBox cung cấp lớp. Điều này hiển thị các trường khóa ngoại bằng cách sử dụng một tiện ích động đặc biệt được hỗ trợ bởi API REST của NetBox. Điều này tránh chi phí áp đặt bởi trường tĩnh và cho phép người dùng thuận tiện tìm kiếm đối tượng mong muốn.`DynamicModelChoiceField`
+
+Chúng ta sẽ sử dụng cho ba trường khóa ngoại trong biểu mẫu của chúng ta: , và . Đầu tiên, chúng ta phải import class field, cũng như các model của các đối tượng liên quan. đã được nhập, vì vậy chúng ta chỉ cần nhập từ ứng dụng của NetBox. Phần đầu của bây giờ sẽ trông như thế này:`DynamicModelChoiceField` `access_list` `source_prefix` `destination_prefix` `AccessListPrefix``ipam` `forms.py`
+
+```
+from ipam.models import Prefix
+from netbox.forms import NetBoxModelForm
+from utilities.forms.fields import CommentField, DynamicModelChoiceField
+from .models import AccessList, AccessListRule
+```
+Sau đó, chúng tôi ghi đè lên ba trường có liên quan trên lớp biểu mẫu, khởi tạo với giá trị thích hợp cho mỗi trường. (Hãy chắc chắn giữ nguyên vị trí của lớp mà chúng ta đã xác định.)
+```
+class AccessListRuleForm(NetBoxModelForm):
+    access_list = DynamicModelChoiceField(
+        queryset=AccessList.objects.all()
+    )
+    source_prefix = DynamicModelChoiceField(
+        queryset=Prefix.objects.all()
+    )
+    destination_prefix = DynamicModelChoiceField(
+        queryset=Prefix.objects.all()
+    )
+```
