@@ -6,31 +6,28 @@ import urllib3
 
 # Đọc dữ liệu file xlsx để tìm ra list các device types
 file_path = 'test.xlsx'
-df = pd.read_excel(file_path, sheet_name='Input')
+df = pd.read_excel(file_path, sheet_name='New form')
 
 # Lấy ra danh sách các device types từ file xlsx
 device_types_in_file = df['Device Types'].dropna().drop_duplicates().tolist() 
 
-# Set up thông tin kết nối tới NetBox
+# Thiết lập thông tin kết nối tới NetBox
 NETBOX_URL = 'https://www.netboxlab.local'
 NETBOX_TOKEN = '94c41d00fafaaf2132ab3abe97d03e57e5183168'
+# Kết nối tới NetBox
+nb = pynetbox.api(NETBOX_URL, token=NETBOX_TOKEN)
+nb.http_session.verify = False                                      
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# Tắt xác minh SSL
-session = requests.Session()
-session.verify = False
-# Connect to NetBox
-nb = pynetbox.api(NETBOX_URL, token=NETBOX_TOKEN)
-nb.http_session = session
-
-# Kiểm tra trên NetBox
+# Kiểm tra DeviceTypes trên NetBox
 device_types_not_in_netbox = []
 for device_type in device_types_in_file:
     search_result = nb.dcim.device_types.filter(model=device_type)
     if not search_result:
         device_types_not_in_netbox.append(device_type)
+        
 # In ra danh sách
-print("Danh sách device types có trong file nhưng chưa có trên NetBox:")
+print("DeviceTypes not in NetBox:")
 print(device_types_not_in_netbox)
 
 # Chọn cách mà bạn muốn làm với các device types chưa có trong NetBox
@@ -39,7 +36,7 @@ print("1. Add manual and quit")
 print("2. Add easy with sample information")
 print("3. Automatic add")
 
-choice = input("Enter your choice? (1 or 2): ")
+choice = input("Enter your choice? (1, 2 or 3): ")
 
 if choice == '1':
     print("\n Please Add Device Types manually!")
@@ -94,21 +91,40 @@ elif choice == '2':
 elif choice == "3":
     print("You choose to Add Device Automatic with sample information")
     print("Trying to Add Automatic...")
+    
     for device_type in device_types_not_in_netbox:
         try:
             # Lấy thông tin từ file xlsx
-            row = df[df['DeviceType'] == device_type].iloc[0]
-            manufacturer_name = row['Manufacturer']
+            matching_rows = df[df['Device Types'] == device_type]
+            if matching_rows.empty:
+                print(f"Device type {device_type} not found in Excel. Skipping...")
+                continue
+
+            row = matching_rows.iloc[0]
+            manufacturer_name = row['Manufacturer'].strip()
             u_height = int(row['U'])
-            is_full_depth = row.get('Full Depth', 'no').lower() == 'yes'
+            is_full_depth = row['Full-Dept'].strip().lower() == 'yes'
 
             # Kiểm tra manufacturer tồn tại hoặc tạo mới
-            manufacturer = nb.dcim.manufacturers.get(name=manufacturer_name)
-            if not manufacturer:
+            # Kiểm tra xem manufacturer đã tồn tại trên NetBox chưa
+            manufacturer_records = nb.dcim.manufacturers.filter(name=manufacturer_name)
+            
+            # Duyệt qua tất cả manufacturers trả về
+            manufacturer = None
+            for record in manufacturer_records:
+                manufacturer = record
+                break  # Lấy manufacturer đầu tiên tìm thấy
+
+            if manufacturer:
+                print(f"Using existing manufacturer: {manufacturer.name} (ID: {manufacturer.id})")
+            else:
+                # Tạo slug hợp lệ từ manufacturer_name
                 manufacturer_slug = re.sub(r'[^a-z0-9-]', '-', manufacturer_name.lower()).strip('-')
+                
+                # Nếu không có manufacturer, tạo mới
                 manufacturer = nb.dcim.manufacturers.create(
                     name=manufacturer_name,
-                    slug=manufacturer_slug
+                    slug=manufacturer_slug  
                 )
                 print(f"Created new manufacturer: {manufacturer.name} (ID: {manufacturer.id})")
 
@@ -126,5 +142,7 @@ elif choice == "3":
             print(f"Automatically added: {device_type}")
 
         except Exception as e:
-            print(f"Error while adding {device_type}: {e}")
-            break        
+            print(f"Error while adding {device_type}: {e}, Data: {row.to_dict()}")
+            break
+
+
