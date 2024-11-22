@@ -1,49 +1,60 @@
 import pandas as pd
 
-# Đọc toàn bộ dữ liệu từ sheet
-file_path = 'D:/test.xlsx'
-data = pd.read_excel(file_path, sheet_name='AI61')  # Thay 'AI61' bằng tên sheet thực tế của bạn nếu khác
+# Đường dẫn tới file Excel
+file_path = 'test.xlsx'
 
-# Định nghĩa các cột cho file CSV đầu ra
-columns = ['role', 'manufacturer', 'device_type', 'status', 'site', 'name', 'tenant', 'platform', 'serial', 'rack', 'position', 'face']
+# Đọc dữ liệu từ sheet "Input"
+df = pd.read_excel(file_path, sheet_name='Input')
+df.columns = df.columns.str.strip()  # Xóa khoảng trắng ở tên cột
 
-# Chuẩn bị DataFrame đầu ra
-output_data = pd.DataFrame(columns=columns)
+# Kiểm tra xem cột Rack có giá trị hay không
+if df['Rack'].dropna().empty:
+    print("Cột 'Rack' không có giá trị. Dừng xử lý.")
+else:
+    # Hàm xác định vai trò dựa trên giá trị cột Rack
+    def get_role(rack_value):
+        if isinstance(rack_value, str):  # Kiểm tra giá trị không phải NaN và là chuỗi
+            if rack_value.startswith('FW'):
+                return 'Firewall'
+            elif rack_value.startswith('SW'):
+                return 'Switch'
+            elif rack_value.startswith('SRV'):
+                return 'Server'
+            elif rack_value.startswith('R'):
+                return 'Router'
+            else:
+                return 'Unknown'
+        return None  # Trả về None nếu giá trị trống
 
-# Xử lý từng dòng trong dữ liệu thiết bị
-for index, row in data.iterrows():
-    # Lấy tên thiết bị từ cột có chứa tên (thay thế 'Tên thiết bị' bằng tên thực của cột)
-    device_name = row.get('Name')  # Đổi 'name_column' sang tên cột chứa tên thiết bị
+    # Thêm cột `role` vào DataFrame
+    df['role'] = df['Rack'].apply(get_role)
 
-    if pd.notna(device_name):  # Kiểm tra nếu có tên thiết bị
-        # Tìm vị trí của thiết bị trong phần bản vẽ rack
-        rack_row = data.loc[data['Rack 01'] == device_name]  # Đổi 'device_name_column' thành cột chứa tên trong bản vẽ rack
+    # Lọc bỏ các dòng có giá trị trống ở cột `rack` và `role`
+    df = df.dropna(subset=['Rack', 'role'])
 
-        # Nếu tìm thấy thiết bị trong bản vẽ rack
-        if not rack_row.empty:
-            position = rack_row.iloc[0]['Position']  # Đổi 'position_column' thành tên cột chứa vị trí trong bản vẽ rack
-        else:
-            position = ''
+    # Định nghĩa các cột đầu ra cần có
+    output_columns = ['role', 'manufacturer', 'device_type', 'status', 'site', 'name', 'tenant', 'serial', 'rack', 'position', 'face']
 
-        # Ánh xạ các cột đầu vào sang cột đầu ra
-        new_row = {
-            'role': row.get('Device Roles', ''),          
-            'manufacturer': row.get('Manufacturers', ''),  
-            'device_type': row.get('Device Types', ''),   
-            'status': row.get('Status', ''),        
-            'site': row.get('Site', ''),          
-            'name': device_name,
-            'tenant': row.get('Tenant', ''),       
-            'platform': row.get('Platform', ''),      
-            'serial': row.get('Serial', ''),        
-            'rack': 'Rack 01',                 
-            'position': position,
-            'face': row.get('Face', '')           
-        }
-        output_data = output_data.append(new_row, ignore_index=True)
+    # Chuẩn bị DataFrame đầu ra
+    df_csv = pd.DataFrame(columns=output_columns)
 
-# Lưu dữ liệu vào file CSV
-output_file = 'D:/test.csv'
-output_data.to_csv(output_file, index=False, encoding='utf-8-sig')
+    # Lấp dữ liệu từ DataFrame gốc vào các cột tương ứng
+    df_csv['role'] = df['role']
+    df_csv['manufacturer'] = df['Manufacturer']
+    df_csv['device_type'] = df['Device Types']
+    df_csv['serial'] = df['Serial Number']
+    df_csv['rack'] = df['Rack']
+    df_csv['position'] = df['Position']
 
-print(f"File CSV đã được tạo tại {output_file}")
+    # Gán giá trị mặc định cho các cột còn lại
+    df_csv['status'] = 'active'      # Trạng thái mặc định
+    df_csv['site'] = 'VNPT NTL'      # Site mặc định
+    df_csv['name'] = 'Rack 01'       # Tên mặc định
+    df_csv['tenant'] = 'HTV'         # Tenant mặc định
+    df_csv['face'] = 'front'         # Face mặc định
+
+    # Lưu dữ liệu ra file CSV
+    output_file_path = 'output_file1.csv'
+    df_csv.to_csv(output_file_path, index=False)
+
+    print(f"File CSV đã được lưu thành công tại: {output_file_path}")
