@@ -1,0 +1,170 @@
+manufacturer,model,CO SAN HAYCHUA,slug,u_height
+Cisco,N9K-C9336C-FX2,C,N9K-C9336C-FX2,1
+Cisco,UCS-FI-6454,C,UCS-FI-6454,1
+APC,AP6032A,K,AP6032A,1
+NetApp,NAJ-1801,K,NAJ-1801,2
+NetApp,A800A,K,A800A,4
+IBM,Blade B200 M5,K,Blade-B200-M5,1
+IBM,Chassis UCS 5108 ,K,Chassis-UCS-5108 ,1
+Netapp,FAS2750,K,FAS2750,2
+Netapp,AFF A400,K,AFF-A400,2
+AVAYA,G450,K,G450,3
+Dell,DellEMC SC460,K,DellEMC-SC460,2
+Dell,DellEMC SC7020,K,DellEMC-SC7020,2
+Dell,PowerEdge R610,C,Dell R610,1
+Dell,PowerSwitch Z9100-ON,C,dell-powerswitch-z9100-on,1
+Dell,PowerSwitch S5248F-ON,C,dell-powerswitch-s5248f-on,1
+Dell,PowerEdge R640,C,dell-poweredge-r640,1
+Dell,PowerEdge R740xd,C,dell-poweredge-r740xd,2
+Dell,Isilon-H5600,K,Isilon-H5600,4
+Dell,PowerScale-F600,K,PowerScale-F600,1
+Dell,PowerSwitch S4128F-ON,C,dell-powerswitch-s4128f-on,1
+Cisco,Catalyst 9300-48P,C,cisco-c9300-48p,1
+NetApp,SG6060,K,SG6060,5
+HPE,ProLiant DL360 Gen10,C,hpe-proliant-dl360-gen10,1
+NetApp,AF-A400,K,Netapp-AF-A400,6
+NetApp,SG1000,K,netapp-SG1000,1
+Netbot,Netbotz570,K,Netbotz570,1
+Cisco,Nexus 93180YC-FX,C,cisco-n9k-c93180yc-fx,1
+Cisco,MDS-9148S,K,cisco-MDS-9148S,1
+Broadcom,Broacad,K,Broacad,1
+Cisco,Cisco-MDS-9148T,K,Cisco-MDS-9148T,1
+Cisco,Nexus 9336C-FX2,C,cisco-n9k-c9336c-fx2,1
+Cisco,Cisco-NCS-2006,K,Cisco-NCS-2006,6
+Juniper,Juniper-MUX-DEMUX-40,K,Juniper-MUX-DEMUX-40,2
+Cisco,Cisco-MDS-9706,K,Cisco-MDS-9706,9
+Cisco,Nexus 3232C,C,cisco-n3k-c3232c,1
+Dell,PowerEdge R730,C,dell-poweredge-r730,2
+Cisco,Catalyst 2960-24PC-L,C,cisco-ws-c2960-24pc-l,1
+HPE,ProLiant DL360 Gen10,C,hpe-proliant-dl360-gen10,1
+Netapp,NetApp-A800,K,NetApp-A800,8
+Dell,PowerEdge R440,C,dell-poweredge-r440,1
+Cisco,N9K-C9336C-FX2,C,N9K-C9336C-FX2,1
+IBM,IBM E950,KHONGXACDINH,IBM E950,
+Hitachi,VSP F1500,KHONGXACDINH,VSP F1500,
+Dell,PowerEdge R750,C,dell-poweredge-r750,2
+Palo Ato,PAN-PA-5450-AC-SYS,K,PAN-PA-5450-AC-SYS,5
+Checkpoint,Checkpoint 140,K,checkpoint-140,1
+Checkpoint,Check Point SG 7000 Plus,K,checkpoint-SG-7000-Plus,1
+Checkpoint,Check Point 6600,K,cCheckpoint-6600,1
+Checkpoint,Check Point 6700,K,checkpoint-6700,1
+Checkpoint,Check Point 26000,K,checkpoint-26000,3
+Checkpoint,check point 4600,K,checkpoint-4600,1
+McAfee,McAfee AATD-3200,K,McAfee-ATD-3200,1
+McAfee,McAfee NS7500,K,McAfee-NS7500,1
+Lenovo,System x3550 M5,C,lenovo-system-x3550-m5,1
+Palo Alto,PA-3430,C,palo-alto-pa-3430,1
+F5,F5-BIG-SSLO-I10800-01,K,F5-BIG-SSLO-I10800,1
+FORCEPOINT,FORCEPOINT V20000 G1,K,FORCEPOINT-V20000-G1,1
+Palo Alto,PA5260,C,palo-alto-pa-5260,3
+Palo Alto,PA-5220,C,palo-alto-pa-5220,3
+Cisco,Catalyst 9200L-24P-4G,C,cisco-c9200l-24p-4g,1
+KeySight,KeySight bypass,K,KeySight bypass,1
+KeySight,KeySight Vision 400,K,KeySight Vision 400,1
+,ESAC690,KHONGXACDINH,ESAC690,
+,PSA5000,KHONGXACDINH,PSA5000,
+Cisco,Nexus 93180LC-EX,K,cisco-n9k-c93180lc-ex,1
+Cisco,Nexus 93180YC-EX,C,cisco-n9k-c93180yc-ex,1
+Cisco,N3K-C3048TP-1GE,C,cisco-n3k-c3048tp-1ge,1
+Hitachi ,Hitachi DS120,K,Hitachi-DS120,1
+Hitachi ,Hitachi DS225,K,Hitachi-DS225,1
+Cisco,UCS-FI-6332-16UP,C,cisco-ucs-fi-6332-16up,1
+HPE,ProLiant DL360 Gen10,C,hpe-proliant-dl360-gen10,1
+F5,F5-i7000,K,F5-i7000,1
+Cisco,Cisco HX 220C-M5,K,Cisco-HX220C-M5,1
+F5,F5 i7600,K,F5 i7600,1
+IBM,IBM-X3850-X5,C,IBM-X3850-X5,4
+Hitachi,Hitachi-N800,KHONGXACDINH,Hitachi-N800,
+Hitachi,Hitachi F900,KHONGXACDINH,Hitachi F900,
+Cisco,UCS-C220-M4,K,cisco-ucs-c220-m4,1
+Cisco,UCSB-5108-AC2,C,cisco-ucsb-5108-ac2,6
+Cisco,Catalyst 3850-12XS,C,cisco-ws-c3850-12xs,1
+Cisco,N2K-C2248TP-E-1GE,C,cisco-n2k-c2248tp-e-1ge,1
+,SRX5400,KHONGXACDINH,SRX5400,
+Cisco,Catalyst 2960X-24TS-L,C,cisco-ws-c2960x-24ts-l,1
+,X6520,KHONGXACDINH,X6520,
+F5,BIG-IP 2000,K,F5-BIG-IP-2000,1
+,SSG320M,KHONGXACDINH,SSG320M,
+,CN2610-16,KHONGXACDINH,CN2610-16,
+SRX1500,SRX1500,C,juniper-srx1500,
+Cisco,Catalyst 8500L-8S4X,C,cisco-c8500l-8s4x,1
+,HWIC-2FE,KHONGXACDINH,HWIC-2FE,
+Cisco,Nexus 93180YC-FX,C,cisco-n9k-c93180yc-fx,1
+Cisco,Nexus 93180YC-FX3,C,cisco-n9k-c93180yc-fx3,1
+,Catalyst6500-E,KHONGXACDINH,Catalyst6500-E,
+Cisco,ISR4451-X,C,cisco-isr4451-x,2
+,IBM E980,KHONGXACDINH,IBM E980,
+,IBM LC922,KHONGXACDINH,IBM LC922,
+,IBM FS9200,KHONGXACDINH,IBM FS9200,
+,HMC,KHONGXACDINH,HMC,
+,MTM3453-C2E,KHONGXACDINH,MTM3453-C2E,
+,Sw HP,KHONGXACDINH,Sw HP,
+Netbozt,Netbozt570,K,Netbozt570,1
+Dell,PowerEdge R720xd,C,dell-poweredge-r720xd,2
+,Polycom RMX2000,KHONGXACDINH,Polycom RMX2000,
+,Polycom RMX 2000,KHONGXACDINH,Polycom RMX 2000,
+,AP4432,KHONGXACDINH,AP4432,
+IBM,System x3650,C,ibm-system-x3650,2
+Dell,PowerEdge R740xd,C,dell-poweredge-r740xd,2
+,AP9465,KHONGXACDINH,AP9465,
+,Quatum,KHONGXACDINH,Quatum,
+,C9200-NM-4X,KHONGXACDINH,C9200-NM-4X,
+Juniper,SRX345,C,juniper-srx345,1
+Cisco, Cisco-4300 ,K, Cisc-4300 ,1
+Cisco,ASR1002-X,C,cisco-asr1002-x,2
+Cisco,ASR1001-X,C,cisco-asr1001-x,1
+Palo Alto,PA-3420,C,palo-alto-pa-3420,1
+Cisco,Nexus 93180YC-EX,C,cisco-n9k-c93180yc-ex,1
+Cisco,Nexus 9336C-FX2,C,cisco-n9k-c9336c-fx2,1
+,APIC-L3,KHONGXACDINH,APIC-L3,
+Cisco,Nexus 9504,C,cisco-n9k-c9504,7
+Cisco,Nexus 93180YC-EX,C,cisco-n9k-c93180yc-ex,1
+Cisco,Catalyst 2960G-24TC-L,C,cisco-ws-c2960g-24tc-l,1
+Cisco,Nexus 93180YC-EX,C,cisco-n9k-c93180yc-ex,1
+Dell,PowerEdge R760,C,dell-poweredge-r760,2
+IBM,System x3650,C,ibm-system-x3650,2
+Dell,PowerEdge R740,C,dell-poweredge-r740,2
+Dell,PowerEdge R740xd,C,dell-poweredge-r740xd,2
+,DGX A100,KHONGXACDINH,DGX A100,
+Dell,DELL S5148F-ON,K,DELL-S5148F-ON,1
+Dell,PowerEdge R740xd2,C,dell-poweredge-r740xd2,2
+Dell,PowerEdge R740xd3,K,dell-poweredge-r740xd3,2
+Dell,PowerEdge R740xd4,K,dell-poweredge-r740xd4,2
+,QM8700,KHONGXACDINH,QM8700,
+Dell,PowerEdge R740xd5,C,dell-poweredge-r740xd5,2
+Dell,PowerEdge R740xd6,C,dell-poweredge-r740xd6,2
+Dell,PowerSwitch S5248F-ON,C,dell-powerswitch-s5248f-on,1
+Cisco,Nexus 93240YC-FX2,C,cisco-n9k-c93240yc-fx2,1.5
+Dell,Dell R570F,KHONGXACDINH,Dell R570F,
+F5,F5-2000S,K,F5-2000S,1
+F5,BIG-BP-i700,K,BIG-BP-i700,1
+Cisco,Catalyst 3850-48P,C,cisco-ws-c3850-48p,1
+,VSP-G350,KHONGXACDINH,VSP-G350,
+,CW4R0V2,KHONGXACDINH,CW4R0V2,
+Dell,PowerEdge R540,C,dell-poweredge-r540,2
+,IBM X3850-X5,KHONGXACDINH,IBM X3850-X5,
+Fortinet,FortiGate 501E,C,fortinet-fg-501e,1
+Cisco,Catalyst 9500-12Q,C,cisco-c9500-12q,1
+Checkpoint,SG6400,C,check-point-sg6400,1
+Fortinet,FORTINET-200G,K,FORTINET-200G,1
+F5,F5-BIG-IPR5600,K,F5-BIG-IPR5600,1
+F5,F5-BIG-IPR10900,K,F5-BIG-IPR10900,1
+Dell,VxRail VP-760,K,VxRail VP-760,2
+Cisco,UCS-C240-M5SX,C,cisco-ucs-c240-m5sx,2
+Cisco,ISR4431,C,cisco-isr4431,1
+Cisco,Catalyst 9300-24T,C,cisco-c9300-24t,1
+Cisco,Catalyst 8300-1N1S-6T,C,cisco-c8300-1n1s-6t,1
+Palo Alto,PA-3410,C,palo-alto-pa-3410,1
+Checkpoint,Checkpoint 7000,K,Checkpoint-7000,1
+F5,F5-BIG-LTM-R280,K,F5-BIG-LTM-R280,1
+Cisco,C3524P,K,C3524P,1
+Juniper,EX3400-24P,C,juniper-ex3400-24p,1
+Brocade,G610,C,brocade-g610,1
+,F350,KHONGXACDINH,F350,
+Cisco,Cisco UCS -Fi-6454,C,cisco-ucs-fi-6454,1
+Cisco,UCS B200 M5,KHONGXACDINH,UCS B200 M5,1
+Cisco,Cisco nexus 2348 UPQ,K,Cisco nexus-2348-UPQ,1
+Cisco,DS-C9148T-K9,K,DS-C9148T-K9,1
+,NAJ-1501,KHONGXACDINH,NAJ-1501,
+,Imperva X4520,KHONGXACDINH,Imperva X4520,
+,Modular PDU,KHONGXACDINH,Modular PDU,

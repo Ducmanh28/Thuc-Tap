@@ -1,18 +1,20 @@
 import pandas as pd
+#import requests
 import re
 import pynetbox
 import urllib3
+import config
 
 # Đọc dữ liệu file xlsx để tìm ra list các device types
-file_path = 'newform.xlsx'
-df = pd.read_excel(file_path, sheet_name='New form')
+file_path = config.file_path
+df = pd.read_excel(file_path, sheet_name=config.sheet_name)
 
 # Lấy ra danh sách các device types từ file xlsx
 device_types_in_file = df['Device Types'].dropna().drop_duplicates().tolist() 
 
 # Thiết lập thông tin kết nối tới NetBox
-NETBOX_URL = 'https://www.netboxlab.local'
-NETBOX_TOKEN = '94c41d00fafaaf2132ab3abe97d03e57e5183168'
+NETBOX_URL = config.NETBOX_URL
+NETBOX_TOKEN = config.NETBOX_TOKEN
 # Kết nối tới NetBox
 nb = pynetbox.api(NETBOX_URL, token=NETBOX_TOKEN)
 nb.http_session.verify = False                                      
@@ -102,7 +104,6 @@ elif choice == "3":
             row = matching_rows.iloc[0]
             manufacturer_name = row['Manufacturer'].strip()
             u_height = int(row['U'])
-            is_full_depth = row['Full-Dept'].strip().lower() == 'yes'
 
             # Kiểm tra manufacturer tồn tại hoặc tạo mới
             # Kiểm tra xem manufacturer đã tồn tại trên NetBox chưa
@@ -136,7 +137,7 @@ elif choice == "3":
                 'slug': device_type_slug,
                 'manufacturer': manufacturer.id,
                 'u_height': u_height,
-                'is_full_depth': is_full_depth,
+                'is_full_depth': 'yes',
             })
             print(f"Automatically added: {device_type}")
 
