@@ -43,13 +43,13 @@ else:
     df_csv['manufacturer'] = df['Manufacturer']
     df_csv['device_type'] = df['Device Types']
     df_csv['serial'] = df['Serial Number']
-    df_csv['rack'] = df['Rack']
+    df_csv['name'] = df['Rack']
     df_csv['position'] = df['Position']
 
     # Gán giá trị mặc định cho các cột còn lại
     df_csv['status'] = 'active'      # Trạng thái mặc định
     df_csv['site'] = 'VNPT NTL'      # Site mặc định
-    df_csv['name'] = 'Rack 01'       # Tên mặc định
+    df_csv['rack'] = 'Rack 01'       # Tên mặc định
     df_csv['tenant'] = 'HTV'         # Tenant mặc định
     df_csv['face'] = 'front'         # Face mặc định
 
