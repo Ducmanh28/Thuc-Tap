@@ -143,7 +143,7 @@ ansible 172.16.66.83 -m copy -a "src=test.txt dest=/ducmanh28/file.txt"
 ```
 - Kiểm tra phiên bản hệ điều hành:
 ```
-ansible 172.16.66.83 -m shell -a "cat /etc/os-release"
+ansible 172.16.66.83 -m shell -a "cat /etc/os-release" -i inventory
 ```
 - Tạo 1 thư mục mới:
 ```
