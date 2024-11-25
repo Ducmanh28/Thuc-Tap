@@ -126,11 +126,37 @@ Note: Tìm hiểu cách dùng các module shell, apt, copy, (các lệnh Linux).
 Tìm hiểu cơ chế ad-hoc(dùng các lệnh đơn lẻ trên Control để tương tác với Target Node)
 
 #### Khởi chạy lệnh cơ bản 
-Ví dụ: khởi chạy lệnh cập nhật hệ thống
+Ansible ad-hoc là một cách sử dụng Ansible để thực hiện các tác vụ nhanh chóng mà không cần phải viết một playbook phức tạp. Ad-hoc commands giúp bạn chạy các lệnh một lần trên các máy chủ (hosts) mà không cần phải lưu trữ lại các tác vụ này.
 
-
+Ansible ad-hoc command có cấu trúc cơ bản sau:
 ```
-ansible -i inventory remote -m apt -a "update_cache=yes upgrade=dist" --become
+ansible <host_pattern> -m <module> -a "<module_arguments>"
+```
+- `<host_pattern>`: Chỉ định các máy chủ để thực thi lệnh, có thể là nhóm máy trong file inventory, hoặc một địa chỉ IP cụ thể.
+- `-m <module>`: Module Ansible cần sử dụng (ví dụ: ping, file, yum, copy, ...).
+- `-a "<module_arguments>"`: Các tham số cần truyền cho module được chọn
+
+Một số ví dụ sử dụng:
+- Sao chép tệp:
+```
+ansible 172.16.66.83 -m copy -a "src=test.txt dest=/ducmanh28/file.txt"
+```
+- Kiểm tra phiên bản hệ điều hành:
+```
+ansible 172.16.66.83 -m shell -a "cat /etc/os-release"
+```
+- Tạo 1 thư mục mới:
+```
+ansible 172.16.66.83 -m file -a "path=/home/ducmanh287/testdir state=directory"
+```
+
+- Xem trạng thái tường lửa:
+```
+ansible 172.16.66.83 -m command -a "firewall-cmd --state"
+```
+- Tạo user mới:
+```
+ansible 172.16.66.83 -m user -a "name=ansibleuser state=present"
 ```
 #### Khởi chạy với Playbook
 Trong thư mục dự án, khởi tạo file `create_file.yml` và thêm vào nội dung như sau:
