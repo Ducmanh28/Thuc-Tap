@@ -121,11 +121,6 @@ def device_information(device_name):
                             msg+= "......"
                             break
                         index += 1
-                        #if interface.connected_endpoints:
-                            #for interface.connected_endpoint in interface.connected_endpoints:
-                                #msg += f"Interface {index}: `{interface.name}` has connected to {interface.connected_endpoint.name} of {interface.connected_endpoint.device.name}\n"
-                        #else:
-                            #msg += f"Interface {index}: `{interface.name}` is currently not connected to any other interface\n"
                         msg += f"Interface {index}: *{interface.name}*\n"
                     msg += f"Too see detail of connected interfaces of {device_name} please enter `/interfaceof {device_name}`\n"
         else:

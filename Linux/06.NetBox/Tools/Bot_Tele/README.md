@@ -99,7 +99,6 @@ curl -O raw.githubusercontent.com/Ducmanh28/Thuc-Tap/refs/heads/main/Linux/03. L
 - Thiết lập môi trường ảo với python3:
     - `cd /opt/netbox-telegram`
     - `python3 -m venv venv`
-    - `python3 -m venv venv`
 - Cài đặt các mục cần thiết sử dụng `pip install`
     - `pip install pynetbox`
     - `pip install python-telegram-bot`
@@ -107,7 +106,7 @@ curl -O raw.githubusercontent.com/Ducmanh28/Thuc-Tap/refs/heads/main/Linux/03. L
 
 ### 4. Cấu hình trước khi sử dụng
 
-Cấu hình file [**config.py](http://config.py)** như sau:
+Cấu hình file [**config.py**](http://config.py) như sau:
 
 Đối với các hệ điều hành Ubuntu, các bạn có thể sử dụng vim để chính sửa file:  `vim /opt/netbox-telegram/config.py` 
 
@@ -141,7 +140,6 @@ WorkingDirectory=/opt/netbox-telegram
 
 [Install]
 WantedBy=multi-user.target
-~
 ```
 - Lưu file vào bắt đầu kiểm tra service:
 ```
