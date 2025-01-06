@@ -12,18 +12,19 @@ from datetime import datetime
 import random
 import config
 
-# Thêm các biến mặc định
-WIDTH = config.WIDTH
-U_HEIGHT = config.U_HEIGHT
-STATUS = config.status
+WIDTH=19
+U_HEIGHT=42
+STATUS = 'active'
 TAG_NAME_AUTO_IMPORT = ["AutoImportExcel", "Tag1"]
+
 FILE_PATH = config.filepath
+# FILE_PATH = '/opt/netbox/netbox/plugin/netbox-import-tool/Auto_Import_Device/Version_4/DC3_check_23122024_test5.xlsx'
 NetBox_URL = config.NetBox_URL
 NetBox_Token = config.NetBox_Token
-SITE_NAME = config.sitename
-SHEET_NAME = config.sheetname
 
-# Khai báo các biến Global
+SITE_NAME = 'VNPT NTL' # Site của  netbox
+SHEET_NAME = 'Input' # Tên của sheet muốn import
+# Khai báo biến global
 TAG_ID_AUTO_IMPORT = []
 DEVICE_HEIGHTS =  []
 LIST_ADD_DEVICE_ROLE_ERROR = []
@@ -39,8 +40,7 @@ class DeviceHight:
     
     def __repr__(self):
         return f"DeviceHight(name='{self.name}', height={self.height})"
-
-# Một số hàm kiểm tra thông tin 
+    
 def file_check(input_file):
     if os.path.exists(input_file):
         # read file excel
@@ -48,6 +48,7 @@ def file_check(input_file):
         global sheet
         sheet = workbook.active
         global df
+        columns = [cell.value for cell in sheet[1]]  
         # new code
         df = pd.read_excel(input_file, sheet_name=SHEET_NAME)
     else:
@@ -64,6 +65,7 @@ def netbox_connection_check(netboxurl, netboxtoken):
             timeout=20,
             verify=False  
         )
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         if response.status_code == 200:
             global nb
             nb = pynetbox.api(netboxurl, token=netboxtoken)
@@ -101,6 +103,7 @@ def site_check(site_name):
             print(f"Successfully created Site: {site_name}")
         else:
             print("Please check the Site again before using this Tool!")
+
 
 # Hàm check xem có tag AutoImportExcel chưa
 def tag_check():
@@ -196,6 +199,9 @@ def rack_check():
             for rack in missing_racks:
                 try:
                     site = nb.dcim.sites.get(name=SITE_NAME)
+                    if not site:
+                        print(f"Site '{SITE_NAME}' does not exist in NetBox. Please create it first.")
+                        break
                     new_rack = nb.dcim.racks.create(
                         site=site.id,
                         name=rack,
@@ -320,7 +326,7 @@ def device_types_check():
     
     device_type_not_in_netbox = []
 
-    # Tìm phần tử chưa có trong netboxy
+    # Tìm phần tử chưa có trong netbox
     for device_type in device_types_in_file:
         search_result = nb.dcim.device_types.filter(model=device_type)
         if not search_result:
@@ -542,32 +548,6 @@ def import_device_to_NetBox():
     if number_of_device_has_been_added > 0:
         print(f"{number_of_device_has_been_added}/{number_of_device_in_file} device has been added to NetBox!" )
 
-# Hàm convert từ file excel sang định dạng csv 
-def convert_to_csv():
-    output_columns = ['role', 'manufacturer', 'device_type', 'status', 'site', 'name', 'serial', 'rack', 'position', 'face','description','cf_contract_number','cf_year_of_investment']
-    df_csv = pd.DataFrame(columns=output_columns)
-    
-    # Lấp dữ liệu từ DataFrame gốc vào các cột tương ứng
-    df_csv['role'] = df['Role']
-    df_csv['manufacturer'] = df['Manufacturer']
-    df_csv['device_type'] = df['Type']
-    df_csv['serial'] = df['Serial Number']
-    df_csv['name'] = df['Name']
-    df_csv['position'] = df['Position']
-    df_csv['cf_year_of_investment'] = df['Year of Investment']
-    df_csv['description'] = df['Description']
-    df_csv['cf_contract_number'] = df['Contract Number']
-    df_csv['rack'] = df['Rack']
-
-    # Gán giá trị mặc định cho các cột còn lại
-    df_csv['status'] = config.status      # Trạng thái mặc định
-    df_csv['site'] = config.sitename      # Site mặc định
-    df_csv['face'] = config.face         # Face mặc định
-
-    # Lưu dữ liệu ra file CSV
-    output_file_path = 'output_file2.csv'
-    df_csv.to_csv(output_file_path, index=False)
-    
 def main():
     try:
         start_time = time.time()  # Thời gian bắt đầu
@@ -577,52 +557,40 @@ def main():
         print("Step 2: Checking NetBox connection...")
         netbox_connection_check(NetBox_URL, NetBox_Token)
 
-        print(f"Step 3: Checking tag exist...")
+        print(f"Step 3: Check tag exist")
         tag_check()
 
-        print("Step 4: Checking site name...")
+        print("Step 4: check site name")
         site_check(site_name=SITE_NAME)
 
-        print("Step 5: Checking rack....")
+        print("Step 5: check rack")
         rack_check()
 
-        print("Step 6: Checking device role...")
+        print("Step 6: check device role")
         device_role_check()
         
-        print("Step 7: Checking manufacturer...")
+        print("Step 7: check manufacturer")
         manufacturer_check()
 
-        print("Step 8: Checking custom field...")
+        print("Step 8: check custom feild")
         custom_feild_check()
         
-        print("Step 9: Checking height device type")
+        print("Step 9: Check height device type")
         device_type_height()
 
-        print("Step 10: Checking device type...")
+        print("Step 10: check device type")
         device_types_check()
 
-        print("Check complete! Now choose what you want to do with the data?")
-        choice = int(input("Choose 1 to auto import device, 2 to making csv file!"))
-        if choice == 1:
-            print("Step 11: Importing Devices into NetBox...")
-            import_device_to_NetBox()
+        print("Step 11: Importing Devices into NetBox...")
+        import_device_to_NetBox()
 
-            print(f"List Manufacture error while create new record:\n {LIST_ADD_MANUFACTURES_ERROR}")
+        print(f"List Manufacture error while create new record:\n {LIST_ADD_MANUFACTURES_ERROR}")
 
-            print(f"List Device Type error while create new record:\n {LIST_ADD_DEVICE_TYPE_ERROR}")
+        print(f"List Device Type error while create new record:\n {LIST_ADD_DEVICE_TYPE_ERROR}")
 
-            print(f"List Device Role error while create new record:\n {LIST_ADD_DEVICE_ROLE_ERROR}")
+        print(f"List Device Role error while create new record:\n {LIST_ADD_DEVICE_ROLE_ERROR}")
 
-            print(f"List Device error while create new record:\n {LIST_ADD_DEVICE_ERROR}")
-        elif choice == 2:
-            try:
-                convert_to_csv()
-            except Exception as e:
-                print(f"Error during making csv file: {e}")
-        else:
-            print("Please choose between 1 or 2!")
-            exit()
-            
+        print(f"List Device error while create new record:\n {LIST_ADD_DEVICE_ERROR}")
 
         end_time = time.time()  # Thời gian kết thúc
         duration = end_time - start_time  # Thời gian xử lý
