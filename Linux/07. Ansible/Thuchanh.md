@@ -1,16 +1,17 @@
 # Thực hành Ansible cơ bản
 Mục này ghi lại quá trình thực hiện thực hành Ansible cơ bản
 ## Chuẩn bị
-Cần ít nhất 2 máy ảo:
-- VM: `172.16.66.82` đóng vai trò làm Control Node
-- VM: `172.16.66.83` đóng vai trò làm Managed Node(Targer Node)
+Thực hành trên 3 máy ảo:
+- VM: `192.168.217.138` đóng vai trò làm Control Node
+- VM: `192.168.217.139` đóng vai trò làm Managed Node(Target Node)
+- VM: `192.168.217.132` đóng vai trò làm Managed Node(Target Node)
 - Thêm 1 con ubuntu 22, centos
 
 Máy đóng vai trò làm Control Node cần cài đặt Ansible
 
 Cả 2 thiết bị đều cần cài đặt SSH
 
-Cấu hình 2 thiết bị chỉ cần các cấu hình cơ bản vì đây chỉ là bài test sử dụng đơn giản
+Cấu hình 2 thiết bị chỉ cần các cấu hình cơ bản vì đây chỉ là bài test sử dụng các lệnh đơn giản
 
 ## Thực hành
 ### Thiết lập trên Control Node
@@ -20,8 +21,14 @@ Sử dụng câu lệnh sau:
 sudo apt update
 
 sudo apt install ansible -y
+
+# Hoặc để cài đặt các phiên bản mới hơn, bạn có thể dùng:
+sudo apt-add-repository ppa:ansible/ansible -y
+sudo apt update
+sudo apt install ansible -y
 ```
 Tìm cách cài Ansible bằng pip, chỉ định phiên bản `2.14.x`(2.12)
+- Sử dụng câu lệnh `pip3 install "ansible==2.14.*"`
 
 Kiểm tra phiên bản:
 
@@ -81,16 +88,44 @@ root@MANHNetBoxLab:~/.ssh# ssh root@172.16.66.83
 /etc/ssh/ssh_config line 53: Unsupported option "gssapiauthentication"
 Welcome to Ubuntu 22.04.4 LTS (GNU/Linux 5.15.0-125-generic x86_64)
 ```
-#### Tạo file `inventory`
-File `inventory` sẽ là file được sử dụng để quản lý các Managed Node
+#### Cấu hình Ansible
+Mặc định ban đầu khi khởi tạo, ansible sẽ không có file config và file host. Vì vậy mà trước tiên, chúng ta cần phải khởi tạo 2 file cấu hình này
 ```
-vim inventory
+sudo mkdir /etc/ansible
+sudo touch /etc/ansible/ansible.cfg
+sudo touch /etc/ansible/hosts
 ```
-Sau đó thêm vào nội dung sau:
+- Đối với file cấu hình, thêm vào nội dung sau:
+```
+[defaults]
+inventory = /etc/ansible/hosts
+remote_user = ubuntu
+host_key_checking = False
+timeout = 30
+
+[privilege_escalation]
+become = True
+become_method = sudo
+become_user = root
+```
+- Đối với file hosts, thêm vào nội dung sau:
 ```
 [remote]
-172.16.66.83 ansible_user=root
+192.168.217.139 ansible_user=ducmanh2873
+192.168.217.132 ansible_user=ducmanh287
 ```
+File hosts này chính là file inventory được sử dụng để quản lý các Target Node
+
+Kiểm tra kết quả:
+```
+root@ubuntunetbox:/etc# ansible-config dump | grep CONFIG_FILE
+CONFIG_FILE() = /etc/ansible/ansible.cfg
+root@ubuntunetbox:/etc# ansible all --list-hosts
+  hosts (2):
+    192.168.217.139
+    192.168.217.132
+```
+Kết quả báo như trên nghĩa là bạn đã thành công trong việc cấu hình ansible
 ### Thiết lập trên Managed Node
 Trên mỗi Managed Node thực hiện như sau:
 #### Kiểm tra cài đặt Open SSH
@@ -122,6 +157,10 @@ root@MANHNetBoxLab:/home/ducmanh/ansible-project# ansible -i inventory remote -m
     "ping": "pong"
 }
 ```
+Hình ảnh kết quả:
+
+![](/Anh/Screenshot_1004.png)
+
 Note: Tìm hiểu cách dùng các module shell, apt, copy, (các lệnh Linux). Ví dụ kiểm tra version OS.
 Tìm hiểu cơ chế ad-hoc(dùng các lệnh đơn lẻ trên Control để tương tác với Target Node)
 

@@ -55,7 +55,27 @@ def netbox_connection_check(netboxurl, netboxtoken):
     except requests.exceptions.RequestException as e:
         print(f"General Error: An unexpected error occurred. Details: {e}")
         exit(1)
-        
+
+def manufacturer_check():
+    manufacturer_name = df['Manufacturer'].strip()
+    manufacturer_records = nb.dcim.manufacturers.filter(name=manufacturer_name)
+    manufacturer = None
+    for record in manufacturer_records:
+        manufacturer = record
+        break  # Lấy manufacturer đầu tiên tìm thấy
+
+    if manufacturer:
+        print(f"Using existing manufacturer: {manufacturer.name} (ID: {manufacturer.id})")
+    else:
+        # Tạo slug hợp lệ từ manufacturer_name
+        manufacturer_slug = re.sub(r'[^a-z0-9-]', '-', manufacturer_name.lower()).strip('-')
+
+        # Nếu không có manufacturer, tạo mới
+        manufacturer = nb.dcim.manufacturers.create(
+            name=manufacturer_name,
+            slug=manufacturer_slug  
+        )
+        print(f"Created new manufacturer: {manufacturer.name} (ID: {manufacturer.id})")
 def device_types_check():
     # Lấy ra danh sách các device types từ file xlsx
     device_types_in_file = df['Device Type'].dropna().drop_duplicates().tolist() 
