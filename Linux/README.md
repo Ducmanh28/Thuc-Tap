@@ -14,6 +14,10 @@
 
 ## Linux Và các giao thức mạng
 
-## CentOS 
+## Red Hat Enterprise 
 
 ## Tìm hiểu thêm
+
+## NetBox
+
+## Ansible

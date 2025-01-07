@@ -8,6 +8,8 @@ Mục Lục
 
 [Hệ thống Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/README.md)
 
+[Python](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Python)
+
 [Tìm hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Timhieuthem)
 
   
