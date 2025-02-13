@@ -74,4 +74,11 @@ Truy cập vào nơi lưu file code
 ```
 python3 warning.py
 ```
+Mẫu khởi chạy thành công:
+
+![](/Anh/Screenshot_1009.png)
+
+Hình ảnh mẫu kết quả trên Telegram:
+
+![](/Anh/Screenshot_1010.png)
 
