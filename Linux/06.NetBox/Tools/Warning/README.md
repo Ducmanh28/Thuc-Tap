@@ -17,7 +17,7 @@ curl -O https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/refs/heads/main/Lin
 ```
 - File `config.py`
 ```
-https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/refs/heads/main/Linux/06.NetBox/Tools/Warning/config.py
+curl -O https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/refs/heads/main/Linux/06.NetBox/Tools/Warning/config.py
 ```
 
 ## Cấu hình
