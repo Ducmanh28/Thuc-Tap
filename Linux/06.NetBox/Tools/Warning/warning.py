@@ -4,15 +4,11 @@ import logging
 import config
 from flask import Flask, request, jsonify
 from telegram import Bot
-
-# Log config
+# Log Config
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
-# Bot config
-TELEGRAM_BOT_TOKEN = config.TELEGRAM_BOT_TOKEN
-TELEGRAM_CHAT_ID = config.TELEGRAM_CHAT_ID
 app = Flask(__name__)
 # Data Config
 def process_data(webhook_data):
@@ -58,26 +54,26 @@ def process_data(webhook_data):
     return msg
 # Send messenger
 async def send_telegram_alert(message):
-    bot = Bot(token=TELEGRAM_BOT_TOKEN)
+    bot = Bot(token=config.TELEGRAM_BOT_TOKEN)
     try:
         message = message.replace("_", "-")
-        await bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message, parse_mode="Markdown")
-        logging.info("Tin nhắn đã gửi thành công!")
+        await bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text=message, parse_mode="Markdown")
+        logging.info("Send successed!")
     except Exception as e:
-        logging.error(f"Lỗi khi gửi tin nhắn Telegram: {e}")
-
+        logging.error(f"Error while trying to send messenger: {e}")
+# Config webhooks
 @app.route('/webhooks', methods=['POST'])
 def webhook():
-    # Lấy data
+    # Get data
     data = request.get_json()
     
-    # Xử lý data
+    # Process data
     messenger = process_data(data)
     
-    # Gửi tin nhắn
+    # Send messenger
     asyncio.run(send_telegram_alert(messenger))
     
     return jsonify({"status": "success"}), 200
-
+# Main
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=config.WEBHOOKS_PORTS, debug=True)
