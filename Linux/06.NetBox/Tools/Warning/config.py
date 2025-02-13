@@ -1,5 +1,2 @@
-TELEGRAM_BOT_TOKEN = ""
-TELEGRAM_CHAT_ID = ""  
-
-NETBOX_URL = "https://www.netboxlab.local"  
-NETBOX_API_TOKEN = "a7fya78sf8asg6g68asdf7a8gdjgas76fss"
+TELEGRAM_BOT_TOKEN = "8132391475:AAHpdLS6HQ7m2LJ5t8_NYptdhiapQXHmiqY"
+TELEGRAM_CHAT_ID = "6012746677"  
