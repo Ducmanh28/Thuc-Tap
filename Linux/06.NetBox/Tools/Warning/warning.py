@@ -4,6 +4,7 @@ import logging
 import config
 import datetime
 import requests
+import urllib3
 from flask import Flask, request, jsonify
 from telegram import Bot
 # Log Config
@@ -11,6 +12,7 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 app = Flask(__name__)
 # Create journal
 def create_journal(webhook_data):
@@ -33,7 +35,7 @@ def create_journal(webhook_data):
         "comments": f"{event}-{device_name}"
     }
 
-    response = requests.post(f"{config.URL_NETBOX}/api/extras/journal-entries/", json=body, headers=headers)
+    response = requests.post(f"{config.URL_NETBOX}/api/extras/journal-entries/", json=body, headers=headers,verify=False)
 
     if response.status_code == 201:
         return True, "Journal entry created successfully!"
@@ -42,8 +44,11 @@ def create_journal(webhook_data):
 # Format Time
 def format_timestamp(ts):
     try:
-        ts = float(ts)
-        dt = datetime.datetime.fromtimestamp(ts)
+        try:
+            ts_float = float(ts)
+            dt = datetime.datetime.fromtimestamp(ts_float)
+        except ValueError:
+            dt = datetime.datetime.fromisoformat(ts)
         return dt.strftime("%d-%m-%Y %H:%M:%S")
     except Exception as e:
         logging.error(f"Error while formating timestamp: {e}")
@@ -67,11 +72,11 @@ def process_data(webhook_data):
         f"*Event:* {event}\n"
         f"*Time:* {time}\n"
         f"*By User:* {username}\n"
-        f"*Object Info* \n"
-        f"*Device Name:* {device_name}\n"
+        f"*Object Name:* {device_name}\n"
         f"*Detail* \n"
-        f"*Before:* {prechange}"
-        f"*After Change:* {postchange}"
+        f"*Before:* {prechange} \n"
+        f"   \n"
+        f"*After Change:* {postchange} \n"
     )
     msg += info
     return msg
