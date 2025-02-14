@@ -3,6 +3,7 @@ import asyncio
 import logging
 import config
 import datetime
+import requests
 from flask import Flask, request, jsonify
 from telegram import Bot
 # Log Config
@@ -11,6 +12,34 @@ logging.basicConfig(
     level=logging.INFO
 )
 app = Flask(__name__)
+# Create journal
+def create_journal(webhook_data):
+    event = webhook_data.get("event")
+    device_data = webhook_data.get("data", {})
+    device_id = device_data.get("id")
+    device_name = device_data.get("name", "Unknown Device")
+
+    if not device_id:
+        return False, "Error: device_id is missing!"
+
+    headers = {
+        "Authorization": f"Token {config.TOKEN_NETBOX}",
+        "Content-Type": "application/json"
+    }
+    body = {
+        "assigned_object_type": "dcim.device",
+        "assigned_object_id": device_id,
+        "kind": "info",
+        "comments": f"{event}-{device_name}"
+    }
+
+    response = requests.post(f"{config.URL_NETBOX}/api/extras/journal-entries/", json=body, headers=headers)
+
+    if response.status_code == 201:
+        return True, "Journal entry created successfully!"
+    else:
+        return False, f"Error {response.status_code}: {response.text}"
+# Format Time
 def format_timestamp(ts):
     try:
         ts = float(ts)
@@ -23,6 +52,7 @@ def format_timestamp(ts):
 def process_data(webhook_data):
     event = webhook_data.get("event")
     timestamp = webhook_data.get("timestamp")
+    time = format_timestamp(timestamp)
     username = webhook_data.get("username")
     
     device_data = webhook_data.get("data", {})
@@ -31,17 +61,18 @@ def process_data(webhook_data):
     snapshots = webhook_data.get("snapshots", {})
     prechange = snapshots.get("prechange", {})
     postchange = snapshots.get("postchange", {})
-    msg = "*Thông báo!* \n"
+    msg = "*Warning!* \n"
     info = (
         f"*Alert Info* \n"
         f"*Event:* {event}\n"
-        f"*Timestamp:* {timestamp}\n"
+        f"*Time:* {time}\n"
         f"*By User:* {username}\n"
         f"*Object Info* \n"
         f"*Device Name:* {device_name}\n"
         f"*Detail* \n"
+        f"*Before:* {prechange}"
+        f"*After Change:* {postchange}"
     )
-    
     msg += info
     return msg
 # Send messenger
@@ -64,6 +95,9 @@ def webhook():
     
     # Send messenger
     asyncio.run(send_telegram_alert(messenger))
+    
+    # Create journal
+    create_journal(data)
     
     return jsonify({"status": "success"}), 200
 # Main
