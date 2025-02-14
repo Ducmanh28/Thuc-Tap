@@ -1,5 +1,9 @@
 # Hướng dẫn sử dụng Warning Tools
 Cách cài đặt và sử dụng Warning Tools
+## Giới thiệu
+`Warning Tools` là một chương trình được viết bằng ngôn ngữ Python. Nó sẽ kết hợp với Telegram, NetBox để gửi cảnh báo khi có sự thay đổi ở trên NetBox
+
+Chương trình hoạt động thông qua cấu hình Event Rules và WebHooks của NetBox, để gửi cảnh báo về Telegram. Đồng thời cũng sẽ ghi lại vào Journal của đối tượng bị thay đổi
 ## Yêu cầu cần có
 - NetBox phiên bản `3.7` trở lên
   - Có cấu hình ***Event Rules***
@@ -59,6 +63,8 @@ pip install asyncio
 pip install logging
 pip install flask
 pip install telegram
+pip install requests
+pip install urlib3
 ```
 - Mở cổng webhooks(ví dụ cổng 5000)
 ```

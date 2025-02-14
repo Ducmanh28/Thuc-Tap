@@ -67,6 +67,10 @@ def process_data(webhook_data):
     snapshots = webhook_data.get("snapshots", {})
     prechange = snapshots.get("prechange", {})
     postchange = snapshots.get("postchange", {})
+    exclude_fields = ["-name", "created", "last-updated", "latitude", "longitude"]
+    prechange_data = {key: value for key, value in prechange.items() if key not in exclude_fields}
+    postchange_data = {key: value for key, value in postchange.items() if key not in exclude_fields}
+    
     msg = "*Warning!* \n"
     info = (
         f"*Alert Info* \n"
@@ -79,8 +83,8 @@ def process_data(webhook_data):
         f"*Object Name:* {device_name}\n"
         f"   \n"
         f"*Detail* \n"
-        f"*Before:* {prechange} \n"
-        f"*After Change:* {postchange} \n"
+        f"*Before:* {prechange_data} \n"
+        f"*After Change:* {postchange_data} \n"
     )
     msg += info
     return msg
