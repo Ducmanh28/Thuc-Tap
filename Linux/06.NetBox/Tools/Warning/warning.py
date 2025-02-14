@@ -78,7 +78,7 @@ def process_data(webhook_data):
         f"*Time:* {time}\n"
         f"*By User:* {username}\n"
         f"   \n"
-        f"*Object Info*"
+        f"*Object Info*\n"
         f"*Object Type:* {object}\n"
         f"*Object Name:* {device_name}\n"
         f"   \n"

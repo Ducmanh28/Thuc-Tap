@@ -88,5 +88,9 @@ Mẫu khởi chạy thành công:
 
 Hình ảnh mẫu kết quả trên Telegram:
 
-![](/Anh/Screenshot_1010.png)
+![](/Anh/Screenshot_1011.png)
+
+Hình ảnh mẫu journal được tạo:
+
+![](/Anh/Screenshot_1012.png)
 
