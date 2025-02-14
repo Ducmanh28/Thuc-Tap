@@ -59,6 +59,7 @@ def process_data(webhook_data):
     timestamp = webhook_data.get("timestamp")
     time = format_timestamp(timestamp)
     username = webhook_data.get("username")
+    object = webhook_data.get("model")
     
     device_data = webhook_data.get("data", {})
     device_name = device_data.get("name")
@@ -72,10 +73,13 @@ def process_data(webhook_data):
         f"*Event:* {event}\n"
         f"*Time:* {time}\n"
         f"*By User:* {username}\n"
+        f"   \n"
+        f"*Object Info*"
+        f"*Object Type:* {object}\n"
         f"*Object Name:* {device_name}\n"
+        f"   \n"
         f"*Detail* \n"
         f"*Before:* {prechange} \n"
-        f"   \n"
         f"*After Change:* {postchange} \n"
     )
     msg += info
