@@ -23,10 +23,12 @@ curl -O https://raw.githubusercontent.com/Ducmanh28/Thuc-Tap/refs/heads/main/Lin
 ## Cấu hình
 ### Cấu hình file `config`
 
-Sẽ có 3 thông tin cần nhập vào:
+Sẽ có 5 thông tin cần nhập vào:
 - **Bot Token** - Mã Token bot Telegram của bạn
 - **Chat ID** - Chat ID Telegram của bạn
 - **Webhooks Port** - Cổng Port mà Webhooks của bạn đang lắng nghe
+- **URL NetBox** - Địa chỉ NetBox
+- **Token NetBox** - Token của NetBox
 
 ### Cấu hình WebHooks
 Để cấu hình **WebHooks Local** trên NetBox, vui lòng tham khảo bài viết [này]() nếu bạn chưa biết!
@@ -64,7 +66,7 @@ pip install telegram
 sudo ufw allow 5000/tcp
 
 # Hoặc iptables
-sudo iptables -A INPUT -p tcp --dport 5000 -j ACCEP
+sudo iptables -A INPUT -p tcp --dport 5000 -j ACCEPT
 
 # Hay firewalld
 sudo firewall-cmd --zone=public --add-port=5000/tcp --permanent
