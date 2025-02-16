@@ -70,23 +70,20 @@ def process_data(webhook_data):
     snapshots = webhook_data.get("snapshots", {})
     prechange = snapshots.get("prechange", {})
     postchange = snapshots.get("postchange", {})
-    exclude_fields = ["-name", "created", "last-updated", "latitude", "longitude"]
-    prechange_data = {key: value for key, value in prechange.items() if key not in exclude_fields}
-    postchange_data = {key: value for key, value in postchange.items() if key not in exclude_fields}
     
     differences = {}
-    all_keys = set(prechange_data.keys()).union(postchange_data.keys())
+    all_keys = set(prechange.keys()).union(postchange.keys())
     for key in all_keys:
-        pre_value = prechange_data.get(key)
-        post_value = postchange_data.get(key)
+        pre_value = prechange.get(key)
+        post_value = postchange.get(key)
         if pre_value != post_value:
-            differences[key] = {"prechange_new": pre_value, "postchange_new": post_value}
+            differences[key] = {"prechange": pre_value, "postchange": post_value}
 
     msg = (
-        f"*Warning!!!*"
+        f"*Warning!!!*\n"
         f"*Event:* {event}\n"
+        f"*Edit By:* {username}\n"
         f"*Time:* {time}\n"
-        f"*By User:* {username}\n"
         f"*Object Type:* {object}\n"
     )
     if object == "device":
@@ -102,7 +99,7 @@ def process_data(webhook_data):
     else:
         return "Wrong object!!!"
     for key, diff in differences.items():
-        msg += f"- {key}: Change from *{diff['prechange_new']}* to *{diff['postchange_new']}* \n"
+        msg += f"- {key}: Change from *{diff['prechange']}* to *{diff['postchange']}* \n"
     return msg
 # Send messenger
 async def send_telegram_alert(message):
