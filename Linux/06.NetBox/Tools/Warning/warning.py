@@ -55,16 +55,16 @@ def format_timestamp(ts):
         return ts
 # Data Config
 def process_data(webhook_data):
-    event = webhook_data.get("event")
-    timestamp = webhook_data.get("timestamp")
+    event = webhook_data.get("event", {})
+    timestamp = webhook_data.get("timestamp", {})
     time = format_timestamp(timestamp)
-    username = webhook_data.get("username")
-    object = webhook_data.get("model")
+    username = webhook_data.get("username", {})
+    object = webhook_data.get("model", {})
     
     device_data = webhook_data.get("data", {})
-    device_name = device_data.get("name")
-    device_site = device_data.get("site")
-    device_rack = device_data.get("rack")
+    device_name = device_data.get("name", {})
+    device_site = device_data.get("site", {}).get("name", {})
+    device_rack = device_data.get("rack", {}).get("name", {})
     device_positon = device_data.get("position")
     
     snapshots = webhook_data.get("snapshots", {})
@@ -80,7 +80,7 @@ def process_data(webhook_data):
         pre_value = prechange_data.get(key)
         post_value = postchange_data.get(key)
         if pre_value != post_value:
-            differences[key] = {"prechange": pre_value, "postchange": post_value}
+            differences[key] = {"prechange_new": pre_value, "postchange_new": post_value}
 
     msg = (
         f"*Warning!!!*"
@@ -102,7 +102,7 @@ def process_data(webhook_data):
     else:
         return "Wrong object!!!"
     for key, diff in differences.items():
-        msg += f"- {key}: Change from *{diff['prechange']}* to *{diff['postchange']}* \n"
+        msg += f"- {key}: Change from *{diff['prechange_new']}* to *{diff['postchange_new']}* \n"
     return msg
 # Send messenger
 async def send_telegram_alert(message):
