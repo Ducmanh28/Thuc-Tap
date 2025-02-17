@@ -102,7 +102,11 @@ def updated_event(webhook_data):
     device_data = webhook_data.get("data", {})
     device_name = device_data.get("name", {})
     device_site = device_data.get("site", {}).get("name", {})
-    device_rack = device_data.get("rack", {}).get("name", {})
+    device_rack = device_data.get("rack", {})
+    if device_rack:
+        device_rack_new = device_rack.get("name",{})
+    else:
+        device_rack_new = "Not in any rack"
     device_positon = device_data.get("position")
     
     snapshots = webhook_data.get("snapshots", {})
@@ -110,8 +114,11 @@ def updated_event(webhook_data):
     postchange = snapshots.get("postchange", {})
     
     differences = {}
+    excluded_fields = ['-name', 'last-updated']
     all_keys = set(prechange.keys()).union(postchange.keys())
     for key in all_keys:
+        if key in excluded_fields:
+            continue
         pre_value = prechange.get(key)
         post_value = postchange.get(key)
         if pre_value != post_value:
@@ -122,7 +129,7 @@ def updated_event(webhook_data):
         f"*Object Type:* {object}\n"
         f"*Object Name:* {device_name}\n"
         f"*Site:* {device_site}\n"
-        f"*Rack:* {device_rack}\n"
+        f"*Rack:* {device_rack_new}\n"
         f"*Position:* {device_positon}\n"
         f"*Edit By:* {username}\n"
         f"*Time:* {time}\n"
@@ -131,6 +138,35 @@ def updated_event(webhook_data):
     )
     for key, diff in differences.items():
         msg += f"- {key}: Change from *{diff['prechange']}* to *{diff['postchange']}* \n"
+    return msg
+
+def deleted_event(webhook_data):
+    event = webhook_data.get("event", {})
+    timestamp = webhook_data.get("timestamp", {})
+    time = format_timestamp(timestamp)
+    username = webhook_data.get("username", {})
+    object = webhook_data.get("model", {})
+
+    device_data = webhook_data.get("data", {})
+    device_name = device_data.get("name", {})
+    device_site = device_data.get("site", {}).get("name", {})
+    device_rack = device_data.get("rack", {})
+    if device_rack:
+        device_rack_new = device_rack.get("name",{})
+    else:
+        device_rack_new = "Not in any rack"
+    device_positon = device_data.get("position")
+    
+    msg = (
+        f"*Event:* {event}\n"
+        f"*Object Type:* {object}\n"
+        f"*Object Name:* {device_name}\n"
+        f"*Site:* {device_site}\n"
+        f"*Rack:* {device_rack_new}\n"
+        f"*Position:* {device_positon}\n"
+        f"*Removed By:* {username}\n"
+        f"*Time:* {time}\n"
+    )
     return msg
 # Send messenger
 async def send_telegram_alert(message):
@@ -151,16 +187,18 @@ def webhook():
     messenger = f"*Warning!!!* \n"
     if event == "updated":
         info = updated_event(data)
+        create_journal(data)
         messenger+=info
     elif event == "created":
         info = created_event(data)
+        create_journal(data)
+        messenger+=info
+    elif event == "deleted":
+        info = deleted_event(data)
         messenger+=info
     
     # Send messenger
     asyncio.run(send_telegram_alert(messenger))
-    
-    # Create journal
-    create_journal(data)
     
     return jsonify({"status": "success"}), 200
 # Main
