@@ -4,6 +4,12 @@ Cách cài đặt và sử dụng Warning Tools
 `Warning Tools` là một chương trình được viết bằng ngôn ngữ Python. Nó sẽ kết hợp với Telegram, NetBox để gửi cảnh báo khi có sự thay đổi ở trên NetBox
 
 Chương trình hoạt động thông qua cấu hình Event Rules và WebHooks của NetBox, để gửi cảnh báo về Telegram. Đồng thời cũng sẽ ghi lại vào Journal của đối tượng bị thay đổi
+
+**Chức năng**:
+- Gửi cảnh báo khi Thêm thiết bị (Ghi journal) 
+- Gửi cảnh báo khi Cập nhật thiết bị (Ghi journal)
+- Gửi cảnh báo khi Xóa thiết bị
+
 ## Yêu cầu cần có
 - NetBox phiên bản `3.7` trở lên
   - Có cấu hình ***Event Rules***
