@@ -5,6 +5,7 @@ import config
 import datetime
 import requests
 import urllib3
+import pynetbox
 from flask import Flask, request, jsonify
 from telegram import Bot
 # Log Config
@@ -12,6 +13,8 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
+nb = pynetbox.api(config.URL_NETBOX,token=config.TOKEN_NETBOX)        # Connect to NetBox
+nb.http_session.verify = False   
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 app = Flask(__name__)
 # Create journal
@@ -54,7 +57,42 @@ def format_timestamp(ts):
         logging.error(f"Error while formating timestamp: {e}")
         return ts
 # Data Config
-def process_data(webhook_data):
+
+def created_event(webhook_data):
+    event = webhook_data.get("event", {})
+    timestamp = webhook_data.get("timestamp", {})
+    time = format_timestamp(timestamp)
+    username = webhook_data.get("username", {})
+    model = webhook_data.get("model", {})
+    
+    device_data = webhook_data.get("data", {})
+    device_id = device_data.get("id", {})
+    device_name = device_data.get("name", {})
+    device_site = device_data.get("site", {}).get("name", {})
+    device_rack = device_data.get("rack", "Unknow Rack").get("name", "Unknow name")
+    device_positon = device_data.get("position")
+    
+    device_info = nb.dcim.devices.get(id=device_id)
+
+    device_role = device_info.role.name
+    device_type = device_info.device_type.model
+    msg = (
+        f"*Event: *{event} \n"
+        f"*Object Type:* {model}\n"
+        f"*Created by:* {username}\n"
+        f"*At: *{time}\n"
+        f" \n"
+        f"*Detail*\n"
+        f"*Device Name:* {device_name}\n"
+        f"*Device Role*: {device_role}\n"
+        f"*Device Type*: {device_type}\n"
+        f"*Site:* {device_site}\n"
+        f"*Rack:* {device_rack}\n"
+        f"*Position:* {device_positon}\n"
+    )
+    return msg
+
+def updated_event(webhook_data):
     event = webhook_data.get("event", {})
     timestamp = webhook_data.get("timestamp", {})
     time = format_timestamp(timestamp)
@@ -80,24 +118,17 @@ def process_data(webhook_data):
             differences[key] = {"prechange": pre_value, "postchange": post_value}
 
     msg = (
-        f"*Warning!!!*\n"
         f"*Event:* {event}\n"
+        f"*Object Type:* {object}\n"
+        f"*Object Name:* {device_name}\n"
+        f"*Site:* {device_site}\n"
+        f"*Rack:* {device_rack}\n"
+        f"*Position:* {device_positon}\n"
         f"*Edit By:* {username}\n"
         f"*Time:* {time}\n"
-        f"*Object Type:* {object}\n"
+        f" \n"
+        f"*Detail* \n"
     )
-    if object == "device":
-        device_info = (
-            f"*Device Name:* {device_name}\n"
-            f"*Site:* {device_site}\n"
-            f"*Rack:* {device_rack}\n"
-            f"*Position:* {device_positon}\n"
-            f" \n"
-            f"*Detail* \n"
-        )
-        msg+=device_info
-    else:
-        return "Wrong object!!!"
     for key, diff in differences.items():
         msg += f"- {key}: Change from *{diff['prechange']}* to *{diff['postchange']}* \n"
     return msg
@@ -115,9 +146,15 @@ async def send_telegram_alert(message):
 def webhook():
     # Get data
     data = request.get_json()
-    
+    event = data.get("event", {})
     # Process data
-    messenger = process_data(data)
+    messenger = f"*Warning!!!* \n"
+    if event == "updated":
+        info = updated_event(data)
+        messenger+=info
+    elif event == "created":
+        info = created_event(data)
+        messenger+=info
     
     # Send messenger
     asyncio.run(send_telegram_alert(messenger))
