@@ -1,14 +1,13 @@
-# Importing
-import asyncio
 import logging
-import config
-import datetime
-import requests
-import urllib3
-import pynetbox
 from flask import Flask, request, jsonify
+import config
+import pynetbox
+import urllib3
+import requests
+import datetime
+import asyncio
 from telegram import Bot
-# Log Config
+
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -17,7 +16,18 @@ nb = pynetbox.api(config.URL_NETBOX,token=config.TOKEN_NETBOX)        # Connect 
 nb.http_session.verify = False   
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 app = Flask(__name__)
-# Create journal
+
+def format_timestamp(ts):
+    try:
+        try:
+            ts_float = float(ts)
+            dt = datetime.datetime.fromtimestamp(ts_float)
+        except ValueError:
+            dt = datetime.datetime.fromisoformat(ts)
+        return dt.strftime("%d-%m-%Y %H:%M:%S")
+    except Exception as e:
+        logging.error(f"Error while formating timestamp: {e}")
+        return ts
 def create_journal(webhook_data):
     event = webhook_data.get("event")
     device_data = webhook_data.get("data", {})
@@ -44,20 +54,139 @@ def create_journal(webhook_data):
         return True, "Journal entry created successfully!"
     else:
         return False, f"Error {response.status_code}: {response.text}"
-# Format Time
-def format_timestamp(ts):
-    try:
-        try:
-            ts_float = float(ts)
-            dt = datetime.datetime.fromtimestamp(ts_float)
-        except ValueError:
-            dt = datetime.datetime.fromisoformat(ts)
-        return dt.strftime("%d-%m-%Y %H:%M:%S")
-    except Exception as e:
-        logging.error(f"Error while formating timestamp: {e}")
-        return ts
-# Data Config
-
+def prechange_config(prechange_data):
+    description = prechange_data.get('description', {})
+    comments = prechange_data.get('comments', {})
+    site_id = prechange_data.get("site", {})
+    site = nb.dcim.sites.get(site_id)
+    site_name = site.name
+    device_type_id = prechange_data.get('device_type', {})
+    device_type = nb.dcim.device_types.get(device_type_id)
+    device_type_name = device_type.model
+    device_role_id = prechange_data.get('role', {})
+    device_role_name = nb.dcim.device_roles.get(device_role_id)
+    device_name = prechange_data.get("name", {})
+    rack_id = prechange_data.get("rack", {})
+    
+    if not rack_id:
+        rack_name = "Unknow rack"
+        position = "Unknow position"
+    else:
+        rack = nb.dcim.racks.get(rack_id)
+        rack_name = rack.name
+        position = prechange_data.get("position")
+    primary_ip4_id = prechange_data.get("primary_ip4")
+    if not primary_ip4_id:
+        primary_ip4_name = "No Ip yet!"
+    else:
+        primary_ip4 = nb.ipam.ip_addresses.get(primary_ip4_id)
+        primary_ip4_name = primary_ip4.address
+    customfields = prechange_data.get("custom_fields")
+    data = {
+        "Description": description,
+        "Comments": comments,
+        "Site": site_name,
+        "Device Type": device_type_name,
+        "Device Role": device_role_name,
+        "Device Name": device_name,
+        "Rack": rack_name,
+        "Position": position,
+        "Ipv4": primary_ip4_name,
+        #"Contact": contact_name
+    }
+    
+    return data
+def postchange_config(postchange_data):
+    description = postchange_data.get('description', {})
+    comments = postchange_data.get('comments', {})
+    site_id = postchange_data.get("site", {})
+    site = nb.dcim.sites.get(site_id)
+    site_name = site.name
+    device_type_id = postchange_data.get('device_type', {})
+    device_type = nb.dcim.device_types.get(device_type_id)
+    device_type_name = device_type.model
+    device_role_id = postchange_data.get('role', {})
+    device_role = nb.dcim.device_roles.get(device_role_id)
+    device_role_name = device_role
+    device_name = postchange_data.get("name", {})
+    rack_id = postchange_data.get("rack", {})
+    if not rack_id:
+        rack_name = "Unknow rack"
+        position = "Unknow position"
+    else:
+        rack = nb.dcim.racks.get(rack_id)
+        rack_name = rack.name
+        position = postchange_data.get("position")
+    primary_ip4_id = postchange_data.get("primary_ip4")
+    if not primary_ip4_id:
+        primary_ip4_name = "No Ip yet!"
+    else:
+        primary_ip4 = nb.ipam.ip_addresses.get(primary_ip4_id)
+        primary_ip4_name = primary_ip4.address
+    customfields = postchange_data.get("custom_fields")
+    contact_id = customfields.get("contact")
+    data = {
+        "Description": description,
+        "Comments": comments,
+        "Site": site_name,
+        "Device Type": device_type_name,
+        "Device Role": device_role_name,
+        "Device Name": device_name,
+        "Rack": rack_name,
+        "Position": position,
+        "Ipv4": primary_ip4_name,
+        #"Contact": contact_name
+    }
+    
+    return data
+def detail_config(prechange_data, postchange_data):
+    msg = f"*Detail!* \n"
+    pre_data = prechange_config(prechange_data)
+    post_data = postchange_config(postchange_data)
+    differences = {}
+    all_keys = set(pre_data.keys()).union(post_data.keys())
+    for key in all_keys:
+        pre_value = pre_data.get(key)
+        post_value = post_data.get(key)
+        if pre_value != post_value:
+            differences[key] = {"prechange": pre_value, "postchange": post_value}
+    for key, diff in differences.items():
+        msg += f"- *{key}*: Change from *{diff['prechange']}* to *{diff['postchange']}* \n"
+    return msg   
+def updated_event(webhook_data):
+    event = webhook_data.get("event", {})
+    timestamp = webhook_data.get("timestamp", {})
+    time = format_timestamp(timestamp)
+    username = webhook_data.get("username", {})
+    object = webhook_data.get("model", {})
+    
+    device_data = webhook_data.get("data", {})
+    device_name = device_data.get("name", {})
+    device_site = device_data.get("site", {}).get("name", {})
+    device_rack = device_data.get("rack", {})
+    if device_rack:
+        device_rack_name = device_rack.get("name", {})
+    else:
+        device_rack_name = "Not in any Rack"
+    device_positon = device_data.get("position")
+    
+    snapshots = webhook_data.get("snapshots", {})
+    prechange = snapshots.get("prechange", {})
+    postchange = snapshots.get("postchange", {})
+    detail = detail_config(prechange,postchange)
+    msg = (
+        f"*Event:* {event}\n"
+        f"*Object Type:* {object}\n"
+        f"*Object Name:* {device_name}\n"
+        f"*Site:* {device_site}\n"
+        f"*Rack:* {device_rack_name}\n"
+        f"*Position:* {device_positon}\n"
+        f"*Edit By:* {username}\n"
+        f"*Time:* {time}UTC\n"
+        f" \n"
+    )
+    msg += detail
+    return msg
 def created_event(webhook_data):
     event = webhook_data.get("event", {})
     timestamp = webhook_data.get("timestamp", {})
@@ -91,55 +220,6 @@ def created_event(webhook_data):
         f"*Position:* {device_positon}\n"
     )
     return msg
-
-def updated_event(webhook_data):
-    event = webhook_data.get("event", {})
-    timestamp = webhook_data.get("timestamp", {})
-    time = format_timestamp(timestamp)
-    username = webhook_data.get("username", {})
-    object = webhook_data.get("model", {})
-    
-    device_data = webhook_data.get("data", {})
-    device_name = device_data.get("name", {})
-    device_site = device_data.get("site", {}).get("name", {})
-    device_rack = device_data.get("rack", {})
-    if device_rack:
-        device_rack_new = device_rack.get("name",{})
-    else:
-        device_rack_new = "Not in any rack"
-    device_positon = device_data.get("position")
-    
-    snapshots = webhook_data.get("snapshots", {})
-    prechange = snapshots.get("prechange", {})
-    postchange = snapshots.get("postchange", {})
-    
-    differences = {}
-    excluded_fields = ['-name', 'last-updated']
-    all_keys = set(prechange.keys()).union(postchange.keys())
-    for key in all_keys:
-        if key in excluded_fields:
-            continue
-        pre_value = prechange.get(key)
-        post_value = postchange.get(key)
-        if pre_value != post_value:
-            differences[key] = {"prechange": pre_value, "postchange": post_value}
-
-    msg = (
-        f"*Event:* {event}\n"
-        f"*Object Type:* {object}\n"
-        f"*Object Name:* {device_name}\n"
-        f"*Site:* {device_site}\n"
-        f"*Rack:* {device_rack_new}\n"
-        f"*Position:* {device_positon}\n"
-        f"*Edit By:* {username}\n"
-        f"*Time:* {time}\n"
-        f" \n"
-        f"*Detail* \n"
-    )
-    for key, diff in differences.items():
-        msg += f"- {key}: Change from *{diff['prechange']}* to *{diff['postchange']}* \n"
-    return msg
-
 def deleted_event(webhook_data):
     event = webhook_data.get("event", {})
     timestamp = webhook_data.get("timestamp", {})
@@ -169,6 +249,7 @@ def deleted_event(webhook_data):
     )
     return msg
 # Send messenger
+
 async def send_telegram_alert(message):
     bot = Bot(token=config.TELEGRAM_BOT_TOKEN)
     try:
@@ -177,7 +258,7 @@ async def send_telegram_alert(message):
         logging.info("Send successed!")
     except Exception as e:
         logging.error(f"Error while trying to send messenger: {e}")
-# Config webhooks
+
 @app.route('/webhooks', methods=['POST'])
 def webhook():
     # Get data
@@ -187,19 +268,19 @@ def webhook():
     messenger = f"*Warning!!!* \n"
     if event == "updated":
         info = updated_event(data)
-        create_journal(data)
         messenger+=info
+        create_journal(data)
     elif event == "created":
         info = created_event(data)
-        create_journal(data)
         messenger+=info
+        create_journal(data)
     elif event == "deleted":
         info = deleted_event(data)
         messenger+=info
-    
+    else:
+        messenger+="No Info! Error while get data from NetBox!"
     # Send messenger
     asyncio.run(send_telegram_alert(messenger))
-    
     return jsonify({"status": "success"}), 200
 # Main
 if __name__ == '__main__':

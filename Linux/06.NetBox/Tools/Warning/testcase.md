@@ -18,12 +18,4 @@
 ![#Add_IP](/Anh/Screenshot_1018.png)
 
 ## Case 7: Add Contact
-![#Add_Contact](/Anh/Screenshot_1019.png)
 
-Phần này đang gặp lỗi như sau:
-- Contact là 1 custom field gắn với Device.
-- Tool hoạt động là lấy dữ liệu ***sau khi có sự thay đổi*** trên NetBox
-- Mà muốn lấy được Contact thì phải lấy dữ liệu thông qua Device
-- Vì vậy khi Tool lấy Contact ID ở prechange và tìm kiếm trên Device thì lúc này Contact ID ở Device đã là Contact ID của Postchange rồi ==> hiển thị không có dữ liệu ở prechange data
-
-![#Contact_Error](/Anh/Screenshot_1020.png)
