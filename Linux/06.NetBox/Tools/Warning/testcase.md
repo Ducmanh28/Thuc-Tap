@@ -18,4 +18,4 @@
 ![#Add_IP](/Anh/Screenshot_1018.png)
 
 ## Case 7: Add Contact
-
+Không có sự thay đổi khi thay đổi contact. Do mục contact nằm ở phần tenacy!
