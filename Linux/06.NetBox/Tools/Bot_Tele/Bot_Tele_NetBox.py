@@ -89,7 +89,6 @@ def device_information(device_name):
         if device_info:
             msg = 'The Information of Device: \n'
             for device in device_info:
-                print(device)
                 contact = device.custom_fields.get('contact')
                 if contact:
                     contact_name = contact.get('name', 'No contact available')
