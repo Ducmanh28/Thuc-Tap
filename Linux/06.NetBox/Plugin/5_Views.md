@@ -7,11 +7,11 @@ Django cung cấp một bộ lớp view chung để xử lý phần lớn mã l�
 
 Trong bước này, chúng ta sẽ tạo một bộ views cho mỗi model của plugin.
 
-**:blue_square**: **Lưu ý:** Nếu bạn đã bỏ qua bước trước, chạy lệnh `git checkout step04-forms`.
+**:blue_square**: **Lưu ý:** Nếu bạn đã bỏ qua bước trước, chạy lệnh `git checkout step04-forms`
 
 Tạo Views
 
-Bắt đầu bằng cách tạo tệp `views.py` trong thư mục `netbox_access_lists/`.
+Bắt đầu bằng cách tạo tệp `views.py` trong thư mục `netbox_access_lists/`
 
 ```
 $ cd netbox_access_lists/
