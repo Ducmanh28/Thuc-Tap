@@ -1,3 +1,5 @@
+from utils import format_timestamp
+from config import nb
 def created_event(webhook_data):
     event = webhook_data.get("event", {})
     timestamp = webhook_data.get("timestamp", {})

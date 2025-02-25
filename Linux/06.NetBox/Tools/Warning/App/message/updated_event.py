@@ -1,5 +1,5 @@
 from utils import format_timestamp
-from detail import detail_config
+from message.detail import detail_config
 
 def updated_event(webhook_data):
     event = webhook_data.get("event", {})

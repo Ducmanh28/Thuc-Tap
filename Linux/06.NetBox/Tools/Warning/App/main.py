@@ -2,9 +2,9 @@ import config
 import asyncio
 from telegrams import send_telegram_alert
 from journal import create_journal
-from message.Created_Event import created_event
-from message.Updated_Event import updated_event
-from message.Deleted_Event import deleted_event
+from message.created_event import created_event
+from message.updated_event import updated_event
+from message.deleted_event import deleted_event
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)

@@ -1,5 +1,5 @@
-from postchange_config import postchange_config
-from prechange_config import prechange_config
+from message.postchange_config import postchange_config
+from message.prechange_config import prechange_config
 
 def detail_config(prechange_data, postchange_data):
     msg = f"*Detail!* \n"
