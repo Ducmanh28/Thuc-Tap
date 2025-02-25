@@ -12,7 +12,7 @@ def updated_event_vm(webhook_data):
     vm_name = vm_data.get("name", {})
     vm_site = vm_data.get("site", {})
     if vm_site:
-        vm_site_name = vm_site.get("name",{})
+        vm_site_name = vm_site.get("name")
     else:
         vm_site_name = "No site yet!"
     vm_ip = vm_data.get("primary_ip4",{})
