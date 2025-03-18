@@ -2,6 +2,7 @@ import logging
 import pynetbox
 import urllib3
 
+# Data config
 TELEGRAM_BOT_TOKEN = "8132391475:AAHpdLS6HQ7m2LJ5t8_NYptdhiapQXHmiqY"
 TELEGRAM_CHAT_ID = "6012746677"  
 WEBHOOKS_PORTS = "5000"
