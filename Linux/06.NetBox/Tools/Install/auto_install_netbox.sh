@@ -110,17 +110,9 @@ function download_netbox {
         echo "Netbox version $netbox_version has been successfully installed."
     fi
 }
-#!/bin/bash
-
-#!/bin/bash
-
 # Đường dẫn tới tệp lưu trạng thái
 INSTALL_STATUS_FILE="/opt/netbox/.netbox_installed"
 
-#!/bin/bash
-
-# Đường dẫn tới tệp lưu trạng thái
-INSTALL_STATUS_FILE="/opt/netbox/.netbox_installed"
 
 # Hàm cấu hình NetBox để cài đặt
 function configure_netbox_to_install {
