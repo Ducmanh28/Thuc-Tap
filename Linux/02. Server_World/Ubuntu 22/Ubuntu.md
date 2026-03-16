@@ -221,6 +221,5 @@ MỤC LỤC:
   - Qúa trình ping thành công nghĩa là việc set IP tĩnh đã hoàn thành.
 
 ## Link tham khảo:
-- [Anh Quang](https://github.com/thanhquang99/thuctap2023/blob/main/thuctap/linux/iptinh.md)
 - [Ubuntu Network Manager](https://www.configserverfirewall.com/ubuntu-linux/ubuntu-network-manager/)
 - [Ubuntu Server](https://linuxize.com/post/how-to-configure-static-ip-address-on-ubuntu-20-04/)

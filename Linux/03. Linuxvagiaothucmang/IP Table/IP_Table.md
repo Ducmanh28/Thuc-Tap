@@ -366,4 +366,3 @@ Trong một số trường hợp, việc xác định rõ ràng các quy tắc v
 ## Tài liệu tham khảo:
 [FPT Cloud](https://fptcloud.com/iptables/)
 
-[Chat GPT](https://chat.openai.com)
