@@ -2,15 +2,13 @@
 
 Mục Lục
 
-[Tổng kết nội dung quá trình thực tập](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Tongket.md)
+[Các ngôn ngữ đã học và đã sử dụng](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Language)
 
-[Mô hình OSI, TCP-IP và các ứng dụng mạng](https://github.com/Ducmanh28/Thuc-Tap/blob/main/OSIvaTCP-IP/README.md)
+[Mô hình OSI, TCP-IP và các ứng dụng mạng](https://github.com/Ducmanh28/Thuc-Tap/tree/main/OSIvaTCP-IP)
 
-[Hệ thống Linux](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Linux/README.md)
+[Hệ thống Linux](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux)
 
-[Python](https://github.com/Ducmanh28/Thuc-Tap/blob/main/Python)
-
-[Tìm hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Timhieuthem)
+[Tìm hiểu thêm](https://github.com/Ducmanh28/Thuc-Tap/tree/main/Linux)
 
   
 
