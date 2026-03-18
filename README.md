@@ -1,4 +1,4 @@
-# Ghi chép thực tập 2023
+# Ghi chép kiến thức
 
 Mục Lục
 
