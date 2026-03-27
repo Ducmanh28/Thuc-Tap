@@ -1,7 +1,7 @@
 import google.generativeai as genai
 import os
 
-API_KEY = "AIzaSyBxVlg6oodd97RAtXjWfpfSlmItxGjgz4I" 
+API_KEY = "AIza......"  # Thay thế bằng API key của bạn
 
 genai.configure(api_key=API_KEY)
 
