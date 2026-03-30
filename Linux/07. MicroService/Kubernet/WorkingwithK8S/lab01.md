@@ -143,3 +143,6 @@ root@k8s-master:~# kubectl get svc -n nginx-ns
 NAME        TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
 nginx-pod   NodePort   10.109.215.139   <none>        80:32323/TCP   34s
 ```
+Kiểm tra trên trang web: truy cập `http://172.16.66.84:32323`
+
+![](/Anh/Screenshot_1062.png)
