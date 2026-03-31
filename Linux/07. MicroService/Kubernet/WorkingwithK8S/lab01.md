@@ -125,7 +125,9 @@ cat <<EOF > /usr/share/nginx/html/index.html
   <div class="container">
     <h1>Welcome to Nginx</h1>
     <p>Complete config Nginx using K8S</p>
-EOFtml>>
+</body>
+</html>
+EOF
 ```
 Thoát
 ```
