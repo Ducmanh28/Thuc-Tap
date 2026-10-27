@@ -126,4 +126,111 @@ Kiểm thử: Truy cập: *`http://172.16.66.82:30080`*
 
 ![](/Anh/Screenshot_1073.png)
 
-## 
+## MySQL
+Sau khi cài đặt thành công NetBox, chúng ta sẽ thực hiện cài đặt MySQL
+
+Chúng ta sẽ sử dụng StatefulSet thay vì Deployment. Khác với Deployment (vốn dành cho các ứng dụng không trạng thái - stateless), StatefulSet cung cấp các tính năng quan trọng cho Database:
+
+- Định danh mạng cố định: Pod sẽ có tên không đổi (ví dụ mysql-0), giúp các ứng dụng khác kết nối ổn định.
+
+- Gắn kết dữ liệu bền vững: Mỗi Pod được gắn chặt với một Volume (PVC) cụ thể. Khi Pod bị xóa và tạo lại, nó sẽ tự động kết nối lại đúng ổ đĩa cũ, đảm bảo dữ liệu không bị mất hoặc xáo trộn.
+
+Sử dụng file YAML sau:
+```YAML
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  namespace: default
+spec:
+  ports:
+  - port: 3306
+    name: mysql
+  selector:
+    app: mysql
+  clusterIP: None # Headless Service giúp định danh Pod cố định
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: default
+spec:
+  serviceName: "mysql-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "RootPassword@2026"
+        - name: MYSQL_DATABASE
+          value: "app_database"
+        - name: MYSQL_USER
+          value: "app_user"
+        - name: MYSQL_PASSWORD
+          value: "AppPassword@2026"
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "local-path" # Sử dụng StorageClass hiện có của bạn
+      resources:
+        requests:
+          storage: 2Gi # Dung lượng đã được hạ xuống mức tối thiểu để test
+```
+Thực thi cài đặt:
+```bash
+kubectl apply -f mysql-statefulset.yaml
+```
+Kiểm tra:
+```bash
+(myenv) root@MANH-U82:/home/ducmanh/cloud_portal# kubectl get pods -l app=mysql
+NAME      READY   STATUS    RESTARTS   AGE
+mysql-0   1/1     Running   0          1d
+```
+Kiểm tra pvc:
+```bash
+(myenv) root@MANH-U82:/home/ducmanh/cloud_portal# kubectl get pvc
+NAME                 STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+mysql-data-mysql-0   Bound    pvc-763eb196-f876-40b4-bd04-3360ef1137cc   3Gi        RWO            local-path     <unset>                 1d
+```
+Sau đó, nếu bạn muốn truy cập vào My_SQL để cấu hình, sửa chữa dữ liệu thì bạn có thể dùng:
+```bash
+kubectl exec -it mysql-0 -- mysql -u app_user -pAppPassword@2026 app_database
+```
+Sample data sẽ trông như sau:
+```bash
+mysql> show tables; 
++------------------------+ 
+| Tables_in_app_database | 
++------------------------+ 
+| audit_logs | 
+| contracts | 
+| customers | 
+| invoices | 
+| pricing_plans | 
+| provision_requests | 
+| roles | 
+| task_execution_steps | 
+| users | 
++------------------------+
+```
+
+Vậy là chúng ta đã hoàn tất Setup
