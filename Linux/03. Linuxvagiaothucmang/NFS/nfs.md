@@ -51,7 +51,7 @@ NFS được sử dụng chủ yếu để chia sẻ tệp và thư mục giữa
 - **2010** - nay: Phát triển NFSv4.1 và NFSv4.2 cải thiện các tính năng mở rộng và hiệu suất
 
 ## Hệ thống NFS bao gồm những gì?
-Một hệ thống DNS sẽ bao gồm các thành phần chính như sau:
+Một hệ thống NFS sẽ bao gồm các thành phần chính như sau:
   - Server NFS: Đây chính là máy chủ cung cấp các tệp tin và thư mục để chia sẻ qua mạng
   - Client NFS: Đây chính là máy tính kết nối đến Server NFS để truy cập và thao tác với các tệp tin và thư mục
   - Giao thức RPC: Được sử dụng để liên lạc giữa máy khách và máy chủ
